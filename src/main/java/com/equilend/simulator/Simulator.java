@@ -51,6 +51,13 @@ public class Simulator
             System.out.println(todayStr);
             System.out.println(tPlus2Str);
 
+            List<Party> parties = getAllParties(getBearerToken());
+            parties.forEach(System.out::println); 
+            System.out.println(getPartyById(getBearerToken(), parties.get(0).getPartyId()));
+
+            List<Event> events = getAllEvents(getBearerToken());
+            events.forEach(System.out::println);
+
 
             throw new IllegalArgumentException("Correct format: ./simulate [borrow | lend] [# of proposals] [milliseconds between proposa]");
         }
@@ -70,8 +77,8 @@ public class Simulator
     private static void simulateLendRequests (int numProposals, Long intervalInMillisecs) throws URISyntaxException, IOException, InterruptedException
     {
         System.out.println("Start simulation");
-        Map<String, String> formData = readFormData("src/main/java/com/personal/token/config.txt");
-        Token token = getBearerToken(formData);
+  
+        Token token = getBearerToken();
         for (int i = 0; i < numProposals; i++){
             ContractProposal contract = createContractProposal();
             postContractProposal(token, contract);
@@ -106,8 +113,10 @@ public class Simulator
         return formData;
     }
 
-    private static Token getBearerToken(Map<String, String> formData) throws URISyntaxException, IOException, InterruptedException
+    private static Token getBearerToken() throws URISyntaxException, IOException, InterruptedException
     {
+        Map<String, String> formData = readFormData("src/main/java/com/personal/token/config.txt");
+
         HttpRequest postRequest = HttpRequest
             .newBuilder()
             .uri(new URI("https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token"))
