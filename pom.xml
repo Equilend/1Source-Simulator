@@ -4,11 +4,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.personal.token</groupId>
-  <artifactId>my-token</artifactId>
+  <groupId>com.equilend.simulator</groupId>
+  <artifactId>simulator</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>my-token</name>
+  <name>simulator</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -29,7 +29,7 @@
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.10.1</version>
-    </dependency>
+    </dependency>    
   </dependencies>
 
   <build>
