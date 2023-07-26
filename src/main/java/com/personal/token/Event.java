@@ -1,0 +1,39 @@
+package com.personal.token;
+
+public class Event {
+    private int eventId;
+    private String eventType;
+    private String eventDateTime;
+    private String resourceUri;
+    
+    public int getEventId() {
+        return eventId;
+    }
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
+    public String getEventType() {
+        return eventType;
+    }
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+    public String getEventDateTime() {
+        return eventDateTime;
+    }
+    public void setEventDateTime(String eventDateTime) {
+        this.eventDateTime = eventDateTime;
+    }
+    public String getResourceUri() {
+        return resourceUri;
+    }
+    public void setResourceUri(String resourceUri) {
+        this.resourceUri = resourceUri;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("[%s] %s @%s (%s)", getEventType(), getEventId(), getEventDateTime(), getResourceUri());
+    }
+
+}
