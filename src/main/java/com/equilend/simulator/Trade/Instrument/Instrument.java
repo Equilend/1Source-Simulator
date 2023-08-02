@@ -1,4 +1,6 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Trade.Instrument;
+
+import com.equilend.simulator.Trade.Instrument.Price.Price;
 
 public class Instrument {
     private String ticker;

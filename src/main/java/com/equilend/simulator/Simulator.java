@@ -26,6 +26,25 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import com.equilend.simulator.Agreement.Agreement;
+import com.equilend.simulator.Settlement.Settlement;
+import com.equilend.simulator.Settlement.Instruction.Instruction;
+import com.equilend.simulator.Settlement.Instruction.LocalMarketFields;
+import com.equilend.simulator.Trade.Currency;
+import com.equilend.simulator.Trade.SettlementType;
+import com.equilend.simulator.Trade.Trade;
+import com.equilend.simulator.Trade.Collateral.Collateral;
+import com.equilend.simulator.Trade.Collateral.CollateralType;
+import com.equilend.simulator.Trade.Collateral.RoundingMode;
+import com.equilend.simulator.Trade.ExecutionVenue.ExecutionVenue;
+import com.equilend.simulator.Trade.ExecutionVenue.Platform;
+import com.equilend.simulator.Trade.ExecutionVenue.VenueType;
+import com.equilend.simulator.Trade.ExecutionVenue.VenueParty.VenueParty;
+import com.equilend.simulator.Trade.Instrument.Instrument;
+import com.equilend.simulator.Trade.Rate.Rate;
+import com.equilend.simulator.Trade.TransactingParty.Party;
+import com.equilend.simulator.Trade.TransactingParty.PartyRole;
+import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -41,8 +60,8 @@ public class Simulator
     private static Gson gson = new Gson();
     private static LocalDate today = LocalDate.now();
     private static String todayStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(today);
-    private LocalDate tPlus2 = today.plusDays(2);
-    private String tPlus2Str = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(tPlus2);
+    private static LocalDate tPlus2 = today.plusDays(2);
+    private static String tPlus2Str = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(tPlus2);
 
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException
     {
@@ -131,14 +150,14 @@ public class Simulator
         return formBodyBuilder.toString();
     }
 
-    public static void proposeContractsForAgreementsBetween(String lenderPartyId, String borrowerPartyId) throws URISyntaxException, IOException, InterruptedException{
+    public static void proposeContractsFromAgreementsBetween(String lenderPartyId, String borrowerPartyId) throws URISyntaxException, IOException, InterruptedException{
         List<Agreement> agreements = getAllAgreements();
         for (Agreement agreement : agreements){
             Boolean betweenTlenAndTborr = true;
             Trade t = agreement.getTrade();
             Set<String> set = new HashSet<>();
-            set.add("TLEN-US");
-            set.add("TBORR-US");
+            set.add(lenderPartyId);
+            set.add(borrowerPartyId);
             for (TransactingParty p : t.getTransactingParties()){
                 if (!set.contains(p.getParty().getPartyId())){
                     betweenTlenAndTborr = false;
@@ -146,7 +165,7 @@ public class Simulator
             }
             if (betweenTlenAndTborr){
                 System.out.println("proposing contract... " + t.getInstrument().getTicker());
-                postContractProposal(getBearerToken(), createContractProposal(t));
+                postContractProposal(getBearerToken(), createContractProposalFromAgreement(t));
             }
         }
     }
@@ -166,14 +185,7 @@ public class Simulator
         System.out.println(postResponse);
     }
 
-
-    /*
-     * ADD: Get current date for trade date & settlement date
-     * ADD: Randomize selection of defined financial instruments w info hard coded.. (MFST, AMZN, F, AAPL, etc)
-     * ADD: define differences for borrower and lender... (can borrower propose contract?..)
-     * ADD: Potentially accept a contract id to model the simulated contract proposals after...
-     */
-    public static ContractProposal createContractProposal(){
+    public static Trade createGenericTrade(){
         Platform platform = new Platform("X", "Phone Brokered", "EXTERNAL", "0");
         List<VenueParty> venueParties = new ArrayList<>();
         VenueParty lenderVenueParty = new VenueParty(PartyRole.LENDER);
@@ -186,8 +198,8 @@ public class Simulator
         Long quantity = Long.valueOf(25025);
         Currency billingCurrency = Currency.USD;
         BigDecimal dividendRatePct = BigDecimal.valueOf(100);
-        String tradeDate = "2023-07-25";
-        String settlementDate = "2023-07-27";
+        String tradeDate = todayStr;
+        String settlementDate = tPlus2Str;
         SettlementType settlementType = SettlementType.DVP;
         Collateral collateral = new Collateral(BigDecimal.valueOf(8758750), BigDecimal.valueOf(8933925), Currency.USD,
         CollateralType.CASH, 10, RoundingMode.ALWAYSUP, BigDecimal.valueOf(102));
@@ -202,42 +214,41 @@ public class Simulator
         Party borrowerParty = new Party("TBORR-US", "Test Borrower US", "KTB500SKZSDI75VSFU40");
         borrowingTransactingParty.setParty(borrowerParty);
         transactingParties.add(borrowingTransactingParty);
-        
-        Trade trade = new Trade(executionVenue, instrument, rate, quantity, billingCurrency, dividendRatePct, tradeDate, settlementDate, settlementType, collateral, transactingParties);
+
+        return new Trade(executionVenue, instrument, rate, quantity, billingCurrency, dividendRatePct, tradeDate, settlementDate, settlementType, collateral, transactingParties);
+    }
+
+    public static Settlement createGenericSettlement(PartyRole role){
+        List<LocalMarketFields> localMarketFieldsList = new ArrayList<LocalMarketFields>();
+        LocalMarketFields localMarketFields = new LocalMarketFields("DTCYUS00", "00001");
+        localMarketFieldsList.add(localMarketFields);
+        Instruction instruction = new Instruction("XXXXXXXX", "YYYYYYYY", "ZZZ Clearing", "2468999", localMarketFieldsList);
+        return new Settlement(role, instruction);          
+    }
+
+    /*
+     * ADD: Get current date for trade date & settlement date
+     * ADD: Randomize selection of defined financial instruments w info hard coded.. (MFST, AMZN, F, AAPL, etc)
+     * ADD: define differences for borrower and lender... (can borrower propose contract?..)
+     * ADD: Potentially accept a contract id to model the simulated contract proposals after...
+     */
+    public static ContractProposal createContractProposal(){
+        Trade trade = createGenericTrade();
 
         List<Settlement> settlements = new ArrayList<Settlement>();
-        
-        List<LocalMarketFields> lenderLocalMarketFieldsList = new ArrayList<LocalMarketFields>();
-        LocalMarketFields lenderLocalMarketFields = new LocalMarketFields("DTCYUS00", "00001");
-        lenderLocalMarketFieldsList.add(lenderLocalMarketFields);
-        Instruction lenderInstruction = new Instruction("XXXXXXXX", "YYYYYYYY", "ZZZ Clearing", "2468999", lenderLocalMarketFieldsList);
-        Settlement lenderSettlement = new Settlement(PartyRole.LENDER, lenderInstruction);
-        settlements.add(lenderSettlement);
-        
-        // List<LocalMarketFields> borrowerLocalMarketFieldsList = new ArrayList<LocalMarketFields>();
-        // LocalMarketFields borrowerLocalMarketFields = new LocalMarketFields("DTCYUS00", "00001");
-        // borrowerLocalMarketFieldsList.add(borrowerLocalMarketFields);
-        // Instruction borrowerInstruction = new Instruction("XXXXXXXX", "YYYYYYYY", "ZZZ Clearing", "2468999", borrowerLocalMarketFieldsList);
-        // Settlement borrowerSettlement = new Settlement(PartyRole.BORROWER, borrowerInstruction);
-        // settlements.add(borrowerSettlement);       
+        settlements.add(createGenericSettlement(PartyRole.LENDER));
 
         ContractProposal contractProposal = new ContractProposal(trade, settlements);
         return contractProposal;
     }
 
-    public static ContractProposal createContractProposal(Trade trade){
+    public static ContractProposal createContractProposalFromAgreement(Trade trade){
         trade.getCollateral().setRoundingRule(10);
         trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
         trade.getCollateral().setMargin(BigDecimal.valueOf(102));
         
         List<Settlement> settlements = new ArrayList<Settlement>();
-        
-        List<LocalMarketFields> lenderLocalMarketFieldsList = new ArrayList<LocalMarketFields>();
-        LocalMarketFields lenderLocalMarketFields = new LocalMarketFields("DTCYUS00", "00001");
-        lenderLocalMarketFieldsList.add(lenderLocalMarketFields);
-        Instruction lenderInstruction = new Instruction("XXXXXXXX", "YYYYYYYY", "ZZZ Clearing", "2468999", lenderLocalMarketFieldsList);
-        Settlement lenderSettlement = new Settlement(PartyRole.LENDER, lenderInstruction);
-        settlements.add(lenderSettlement);
+        settlements.add(createGenericSettlement(PartyRole.LENDER));
         
         ContractProposal contractProposal = new ContractProposal(trade, settlements);
         return contractProposal;        

@@ -1,7 +1,13 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Trade;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.equilend.simulator.Trade.Collateral.Collateral;
+import com.equilend.simulator.Trade.ExecutionVenue.ExecutionVenue;
+import com.equilend.simulator.Trade.Instrument.Instrument;
+import com.equilend.simulator.Trade.Rate.Rate;
+import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 
 public class Trade {
     private ExecutionVenue executionVenue;

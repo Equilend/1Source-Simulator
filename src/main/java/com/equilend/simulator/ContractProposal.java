@@ -2,6 +2,9 @@ package com.equilend.simulator;
 
 import java.util.List;
 
+import com.equilend.simulator.Settlement.Settlement;
+import com.equilend.simulator.Trade.Trade;
+
 public class ContractProposal {
     private Trade trade;
     private List<Settlement> settlement;

@@ -1,4 +1,7 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Settlement;
+
+import com.equilend.simulator.Settlement.Instruction.Instruction;
+import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
 public class Settlement {
     private PartyRole partyRole;

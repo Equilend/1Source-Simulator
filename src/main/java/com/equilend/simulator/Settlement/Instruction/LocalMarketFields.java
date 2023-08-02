@@ -1,4 +1,4 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Settlement.Instruction;
 
 public class LocalMarketFields {
     private String localFieldName;

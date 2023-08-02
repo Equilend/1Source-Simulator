@@ -1,4 +1,6 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Trade.ExecutionVenue.VenueParty;
+
+import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
 public class VenueParty {
     private PartyRole partyRole;

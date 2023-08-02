@@ -1,6 +1,8 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Trade.Collateral;
 
 import java.math.BigDecimal;
+
+import com.equilend.simulator.Trade.Currency;
 
 public class Collateral {
     private BigDecimal contractValue;

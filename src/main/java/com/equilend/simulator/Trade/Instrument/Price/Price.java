@@ -1,4 +1,6 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Trade.Instrument.Price;
+
+import com.equilend.simulator.Trade.Currency;
 
 public class Price {
     private Float value;

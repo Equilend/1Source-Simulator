@@ -1,4 +1,6 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Agreement;
+
+import com.equilend.simulator.Trade.Trade;
 
 public class Agreement {
     private String agreementId;

@@ -1,6 +1,8 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Trade.ExecutionVenue;
 
 import java.util.List;
+
+import com.equilend.simulator.Trade.ExecutionVenue.VenueParty.VenueParty;
 
 public class ExecutionVenue {
     private VenueType type;

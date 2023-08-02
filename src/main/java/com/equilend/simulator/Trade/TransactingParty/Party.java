@@ -1,4 +1,4 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Trade.TransactingParty;
 
 public class Party {
     private String partyId;
