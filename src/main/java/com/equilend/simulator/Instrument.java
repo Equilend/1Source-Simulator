@@ -10,8 +10,6 @@ public class Instrument {
     private String description;
     private Price price;
     
-
-    
     public Instrument(String ticker, String cusip, String isin, String sedol, String figi, String description) {
         this.ticker = ticker;
         this.cusip = cusip;
@@ -67,7 +65,6 @@ public class Instrument {
     }
     public void setPrice(Price price) {
         this.price = price;
-    }
-    
+    }  
     
 }
