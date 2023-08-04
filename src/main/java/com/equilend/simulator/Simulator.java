@@ -16,7 +16,13 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers; 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -48,12 +54,6 @@ import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
-
-/**
- * Hello world!
- *
- */
 public class Simulator 
 {
     private static HttpClient httpClient = HttpClient.newHttpClient();
@@ -65,22 +65,7 @@ public class Simulator
 
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException
     {
-        //Parse command line arguments 
-        //Add more argument checking...
-        if (args.length != 3){
-            throw new IllegalArgumentException("Correct format: ./simulate [borrow | lend] [# of proposals] [milliseconds between proposa]");
-        }
-
-        Boolean simulateLend = args[0].toLowerCase().equals("lend");
-        int numProposals = Integer.parseInt(args[1]);
-        Long intervalInMillisecs = Long.parseLong(args[2]);
-
-        if (simulateLend){
-            simulateLendRequests(numProposals, intervalInMillisecs);
-        }
-        else{
-            System.out.println("We only simulate contract proposals from lenders for now...");
-        }
+        System.out.println(APIConnector.formatTime(APIConnector.getCurrentTime()));
     }
 
     public static void simulateLendRequests (int numProposals, Long intervalInMillisecs) throws URISyntaxException, IOException, InterruptedException
@@ -104,7 +89,7 @@ public class Simulator
             e.printStackTrace();
         }
     }
-    
+
     public static Map<String, String> readFormData (String filename) throws FileNotFoundException{
         Map<String, String> formData = new HashMap<>();
         try{
@@ -121,22 +106,6 @@ public class Simulator
         return formData;
     }
 
-    public static Token getBearerToken() throws URISyntaxException, IOException, InterruptedException
-    {
-        Map<String, String> formData = readFormData("src/main/java/com/equilend/simulator/config.txt");
-
-        HttpRequest postRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token"))
-            .header("Content-Type", "application/x-www-form-urlencoded")
-            .POST(BodyPublishers.ofString(getFormDataAsString(formData)))
-            .build();
-
-        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
-
-        return gson.fromJson(postResponse.body(), Token.class);
-    }
-    
     public static String getFormDataAsString(Map<String, String> formData) {
         StringBuilder formBodyBuilder = new StringBuilder();
         for (Map.Entry<String, String> singleEntry : formData.entrySet()) {
@@ -150,6 +119,22 @@ public class Simulator
         return formBodyBuilder.toString();
     }
 
+    public static Token getBearerToken() throws URISyntaxException, IOException, InterruptedException
+    {
+        Map<String, String> formData = readFormData("src/main/java/com/equilend/simulator/lender_config.txt");
+
+        HttpRequest postRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token"))
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .POST(BodyPublishers.ofString(getFormDataAsString(formData)))
+            .build();
+
+        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+
+        return gson.fromJson(postResponse.body(), Token.class);
+    }
+    
     public static void proposeContractsFromAgreementsBetween(String lenderPartyId, String borrowerPartyId) throws URISyntaxException, IOException, InterruptedException{
         List<Agreement> agreements = getAllAgreements();
         for (Agreement agreement : agreements){
@@ -165,12 +150,12 @@ public class Simulator
             }
             if (betweenTlenAndTborr){
                 System.out.println("proposing contract... " + t.getInstrument().getTicker());
-                postContractProposal(getBearerToken(), createContractProposalFromAgreement(t));
+                postContractProposal(getBearerToken(), createContractProposal(t));
             }
         }
     }
 
-    public static void postContractProposal(Token token, ContractProposal contract) throws URISyntaxException, IOException, InterruptedException
+    public static ContractProposalResponse postContractProposal(Token token, ContractProposal contract) throws URISyntaxException, IOException, InterruptedException
     {
         String contractJson = gson.toJson(contract);
 
@@ -182,7 +167,7 @@ public class Simulator
             .build();
 
         HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
-        System.out.println(postResponse);
+        return gson.fromJson(postResponse.body(), ContractProposalResponse.class);
     }
 
     public static Trade createGenericTrade(){
@@ -242,7 +227,7 @@ public class Simulator
         return contractProposal;
     }
 
-    public static ContractProposal createContractProposalFromAgreement(Trade trade){
+    public static ContractProposal createContractProposal(Trade trade){
         trade.getCollateral().setRoundingRule(10);
         trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
         trade.getCollateral().setMargin(BigDecimal.valueOf(102));

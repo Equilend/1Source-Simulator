@@ -1,0 +1,5 @@
+client_id=canton-participant1-client
+client_secret=c0a05c2d-ac70-472a-ac4f-38b80dba28d8
+grant_type=password
+username=TestBorrower1User
+password=FqnNQyUwaenQ8K3h
