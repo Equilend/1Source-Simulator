@@ -31,6 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.equilend.simulator.Agreement.Agreement;
 import com.equilend.simulator.Settlement.Settlement;
@@ -65,7 +66,15 @@ public class Simulator
 
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException
     {
-        System.out.println(APIConnector.formatTime(APIConnector.getCurrentTime()));
+        String lenderFilename = "src/main/java/com/equilend/simulator/lender_config.txt";
+        String borrowerFilename = "src/main/java/com/equilend/simulator/borrower_config.txt";
+        User lender = new User(lenderFilename, PartyRole.LENDER);
+        List<ContractProposalResponse> responses = lender.proposeContractsFromAgreements(null,"TBORR-US");
+        List<String> contractIds = responses.stream()
+                                            .map(response -> response.getContractId())
+                                            .collect(Collectors.toList());
+        contractIds.forEach(System.out::println);
+        User borrower = new User(borrowerFilename, PartyRole.BORROWER);
     }
 
     public static void simulateLendRequests (int numProposals, Long intervalInMillisecs) throws URISyntaxException, IOException, InterruptedException

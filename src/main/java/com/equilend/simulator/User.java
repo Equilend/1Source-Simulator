@@ -4,11 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.equilend.simulator.Agreement.Agreement;
+import com.equilend.simulator.Trade.Trade;
 import com.equilend.simulator.Trade.TransactingParty.PartyRole;
+import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 
 public class User {
     protected Map<String, String> loginInfo;
@@ -45,23 +50,48 @@ public class User {
         return loginInfo;
     }
 
-    // TODO: Propose Contract From Trade
-    
-    // TODO: Get All Agreements Since X
-    
-    // TODO: Propose Contracts From All Agreements Since X
-    
-    // TODO: Propose Contracts From All Agreements Since X From
+    public ContractProposalResponse proposeContract(Trade trade) throws URISyntaxException, IOException, InterruptedException{
+        ContractProposal contractProposal = ContractProposal.createContractProposal(trade);
 
-    // TODO: Get All Agreements Today
+        ContractProposalResponse response = APIConnector.postContractProposal(token, contractProposal);
+        return response;
+    }
+    
+    private String getCounterPartyId(Agreement agreement){
+        Trade trade = agreement.getTrade();
+        List<TransactingParty> transactingParties = trade.getTransactingParties();
+        for (TransactingParty tp : transactingParties){
+            if (tp.getPartyRole() == this.counterRole){
+                return tp.getParty().getPartyId();
+            }
+        }
+        return "";
+    }
 
-    // TODO: Propose Contracts From All Agreements Today
+    /*
+     * sinceTime: If null, gets all agreements from today
+     * partyId: If null, accept agreements from any party
+     */
+    public List<ContractProposalResponse> proposeContractsFromAgreements(String sinceTime, String partyId) throws URISyntaxException, IOException, InterruptedException{
+        List<Agreement> agreements = (sinceTime == null) ?
+        APIConnector.getAllAgreementsToday(token) : APIConnector.getAllAgreements(token, sinceTime);
 
-    // TODO: Propose Contracts From All Agreements Today From
+        List<ContractProposalResponse> responses = new ArrayList<>();
+        for (Agreement agreement : agreements){
+            if (partyId == null){
+                responses.add(proposeContract(agreement.getTrade()));
+            }
+            else if (partyId != null && getCounterPartyId(agreement).equals(partyId)){
+                responses.add(proposeContract(agreement.getTrade()));
+            }
+        }
+        return responses;
+    }
+
 
     // TODO: Cancel Contract
 
-    // TODO: Accept Contract
+    // TODO: Accept Contract (must add settlement)
 
     // TODO: Decline Contract
 
