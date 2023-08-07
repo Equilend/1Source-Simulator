@@ -19,10 +19,10 @@ import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 
 public class User 
 {
-    protected Map<String, String> loginInfo;
-    protected String configFileName;
-    PartyRole role;
-    PartyRole counterRole;
+    private Map<String, String> loginInfo;
+    private String configFileName;
+    private PartyRole role;
+    private PartyRole counterRole;
     Token token;
 
     public User(String fn, PartyRole r) throws URISyntaxException, IOException, InterruptedException
@@ -102,7 +102,6 @@ public class User
         return APIConnector.getContractById(token, contractId);
     }
 
-    // TODO: Accept Contract (must add settlement)
     public ContractProposalResponse acceptContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException
     {
         Settlement settlement = ContractProposal.createSettlement(this.role);
@@ -110,7 +109,10 @@ public class User
     	return APIConnector.acceptContractProposal(token, contractId, acceptSettlement);
     }
 
-    // TODO: Cancel Contract
+    public ContractProposalResponse cancelContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException 
+    {
+        return APIConnector.cancelContractProposal(token, contractId);
+    }
 
     // TODO: Decline Contract
 

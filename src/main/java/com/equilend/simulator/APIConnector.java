@@ -99,7 +99,6 @@ public class APIConnector
             .build();
 
         HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
-        System.out.println(getResponse.body());
 
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
         List<Contract> list = gson.fromJson(getResponse.body(), contractListType);
@@ -124,7 +123,7 @@ public class APIConnector
     public static ContractProposalResponse acceptContractProposal(Token token, String contractId, AcceptSettlement settlement) throws URISyntaxException, IOException, InterruptedException
     {
         String settlementJson = gson.toJson(settlement);
-        System.out.println(settlementJson);
+        // System.out.println(settlementJson);
         HttpRequest postRequest = HttpRequest
             .newBuilder()
             .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/approve"))
@@ -134,12 +133,26 @@ public class APIConnector
 
         HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
 
-        System.out.println(postResponse.body());
-        System.out.println();
+        // System.out.println(postResponse.body());
+        // System.out.println();
         return gson.fromJson(postResponse.body(), ContractProposalResponse.class);
     }
     
-    // TODO: Cancel Contract Proposal
+    public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws URISyntaxException, IOException, InterruptedException
+    {
+        HttpRequest postRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/cancel"))
+            .header("Authorization", "Bearer " + token.getAccess_token())
+            .POST(HttpRequest.BodyPublishers.noBody())
+            .build();
+            
+        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+
+        System.out.println(postResponse.body());
+        System.out.println();            
+        return gson.fromJson(postResponse.body(), ContractProposalResponse.class);        
+    }
 
     // TODO: Decline Contract Proposal
 }

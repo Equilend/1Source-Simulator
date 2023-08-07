@@ -16,13 +16,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers; 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
@@ -74,10 +68,12 @@ public class Simulator
                                             .map(response -> response.getContractId())
                                             .collect(Collectors.toList());
         contractIds.forEach(System.out::println);
-        User borrower = new User(borrowerFilename, PartyRole.BORROWER);
+        // User borrower = new User(borrowerFilename, PartyRole.BORROWER);
+
+        // TODO: Handle Errors for API methods
         contractIds.forEach(id -> {
             try {
-                borrower.acceptContractProposal(id);
+                lender.cancelContractProposal(id);
             } catch (Exception e) {
                 e.printStackTrace();
             } 
