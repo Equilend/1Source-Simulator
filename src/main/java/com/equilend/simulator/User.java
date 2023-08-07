@@ -11,18 +11,22 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.equilend.simulator.Agreement.Agreement;
+import com.equilend.simulator.Settlement.AcceptSettlement;
+import com.equilend.simulator.Settlement.Settlement;
 import com.equilend.simulator.Trade.Trade;
 import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 
-public class User {
+public class User 
+{
     protected Map<String, String> loginInfo;
     protected String configFileName;
     PartyRole role;
     PartyRole counterRole;
     Token token;
 
-    public User(String fn, PartyRole r) throws URISyntaxException, IOException, InterruptedException{
+    public User(String fn, PartyRole r) throws URISyntaxException, IOException, InterruptedException
+    {
         this.configFileName = fn;
         this.loginInfo = readFormData(configFileName);
         this.role = r;
@@ -30,11 +34,13 @@ public class User {
         this.token = APIConnector.getBearerToken(loginInfo);
     }
     
-    void refreshToken() throws URISyntaxException, IOException, InterruptedException{
+    void refreshToken() throws URISyntaxException, IOException, InterruptedException
+    {
         this.token = APIConnector.getBearerToken(loginInfo);
     }
 
-    public Map<String, String> readFormData (String filename){
+    public Map<String, String> readFormData (String filename)
+    {
         loginInfo = new HashMap<>();
         try{
                 Scanner scanner = new Scanner(new File(filename));
@@ -50,14 +56,16 @@ public class User {
         return loginInfo;
     }
 
-    public ContractProposalResponse proposeContract(Trade trade) throws URISyntaxException, IOException, InterruptedException{
+    public ContractProposalResponse proposeContract(Trade trade) throws URISyntaxException, IOException, InterruptedException
+    {
         ContractProposal contractProposal = ContractProposal.createContractProposal(trade);
 
         ContractProposalResponse response = APIConnector.postContractProposal(token, contractProposal);
         return response;
     }
     
-    private String getCounterPartyId(Agreement agreement){
+    private String getCounterPartyId(Agreement agreement)
+    {
         Trade trade = agreement.getTrade();
         List<TransactingParty> transactingParties = trade.getTransactingParties();
         for (TransactingParty tp : transactingParties){
@@ -72,7 +80,8 @@ public class User {
      * sinceTime: If null, gets all agreements from today
      * partyId: If null, accept agreements from any party
      */
-    public List<ContractProposalResponse> proposeContractsFromAgreements(String sinceTime, String partyId) throws URISyntaxException, IOException, InterruptedException{
+    public List<ContractProposalResponse> proposeContractsFromAgreements(String sinceTime, String partyId) throws URISyntaxException, IOException, InterruptedException
+    {
         List<Agreement> agreements = (sinceTime == null) ?
         APIConnector.getAllAgreementsToday(token) : APIConnector.getAllAgreements(token, sinceTime);
 
@@ -88,10 +97,20 @@ public class User {
         return responses;
     }
 
-
-    // TODO: Cancel Contract
+    public Contract getContractById(String contractId) throws URISyntaxException, IOException, InterruptedException
+    {
+        return APIConnector.getContractById(token, contractId);
+    }
 
     // TODO: Accept Contract (must add settlement)
+    public ContractProposalResponse acceptContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException
+    {
+        Settlement settlement = ContractProposal.createSettlement(this.role);
+        AcceptSettlement acceptSettlement = new AcceptSettlement(settlement);
+    	return APIConnector.acceptContractProposal(token, contractId, acceptSettlement);
+    }
+
+    // TODO: Cancel Contract
 
     // TODO: Decline Contract
 

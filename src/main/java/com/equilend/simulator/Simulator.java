@@ -75,6 +75,13 @@ public class Simulator
                                             .collect(Collectors.toList());
         contractIds.forEach(System.out::println);
         User borrower = new User(borrowerFilename, PartyRole.BORROWER);
+        contractIds.forEach(id -> {
+            try {
+                borrower.acceptContractProposal(id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } 
+        });
     }
 
     public static void simulateLendRequests (int numProposals, Long intervalInMillisecs) throws URISyntaxException, IOException, InterruptedException

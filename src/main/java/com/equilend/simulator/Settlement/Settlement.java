@@ -25,5 +25,8 @@ public class Settlement {
         this.instruction = instruction;
     }
 
-    
+    @Override
+    public String toString(){
+        return partyRole.name();
+    }
 }

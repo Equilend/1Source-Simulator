@@ -20,22 +20,27 @@ import java.util.List;
 import java.util.Map;
 
 import com.equilend.simulator.Agreement.Agreement;
+import com.equilend.simulator.Settlement.AcceptSettlement;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class APIConnector {
+public class APIConnector 
+{
     private static HttpClient httpClient = HttpClient.newHttpClient();
     private static Gson gson = new Gson();
     private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
 
-    public static OffsetDateTime getCurrentTime(){
+    public static OffsetDateTime getCurrentTime()
+    {
         return OffsetDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS);
     }
-    public static String formatTime(OffsetDateTime time){
+    public static String formatTime(OffsetDateTime time)
+    {
         return time.format(formatter);
     }
 
-    public static String encodeMapAsString(Map<String, String> formData) {
+    public static String encodeMapAsString(Map<String, String> formData) 
+    {
         StringBuilder formBodyBuilder = new StringBuilder();
         for (Map.Entry<String, String> singleEntry : formData.entrySet()) {
             if (formBodyBuilder.length() > 0) {
@@ -78,10 +83,27 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), agreementListType);
     }   
 
-    public static List<Agreement> getAllAgreementsToday(Token token) throws URISyntaxException, IOException, InterruptedException{
+    public static List<Agreement> getAllAgreementsToday(Token token) throws URISyntaxException, IOException, InterruptedException
+    {
         OffsetDateTime currentDay = getCurrentTime().withHour(0).withMinute(0).withSecond(0);
         String currentDayTimeStr = formatTime(currentDay);
         return getAllAgreements(token, currentDayTimeStr);
+    }
+
+    public static Contract getContractById(Token token, String contractId) throws URISyntaxException, IOException, InterruptedException
+    {
+        HttpRequest getRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId))
+            .header("Authorization", "Bearer " + token.getAccess_token())
+            .build();
+
+        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        System.out.println(getResponse.body());
+
+        Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
+        List<Contract> list = gson.fromJson(getResponse.body(), contractListType);
+        return list.get(0);
     }
 
     public static ContractProposalResponse postContractProposal(Token token, ContractProposal contract) throws URISyntaxException, IOException, InterruptedException
@@ -99,9 +121,25 @@ public class APIConnector {
         return gson.fromJson(postResponse.body(), ContractProposalResponse.class);
     }
 
-    // TODO: Cancel Contract Proposal
+    public static ContractProposalResponse acceptContractProposal(Token token, String contractId, AcceptSettlement settlement) throws URISyntaxException, IOException, InterruptedException
+    {
+        String settlementJson = gson.toJson(settlement);
+        System.out.println(settlementJson);
+        HttpRequest postRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/approve"))
+            .header("Authorization", "Bearer " + token.getAccess_token())
+            .POST(BodyPublishers.ofString(settlementJson))
+            .build();
 
-    // TODO: Accept Contract Proposal
+        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+
+        System.out.println(postResponse.body());
+        System.out.println();
+        return gson.fromJson(postResponse.body(), ContractProposalResponse.class);
+    }
+    
+    // TODO: Cancel Contract Proposal
 
     // TODO: Decline Contract Proposal
 }
