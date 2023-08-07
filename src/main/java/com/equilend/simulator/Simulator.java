@@ -68,12 +68,12 @@ public class Simulator
                                             .map(response -> response.getContractId())
                                             .collect(Collectors.toList());
         contractIds.forEach(System.out::println);
-        // User borrower = new User(borrowerFilename, PartyRole.BORROWER);
+        User borrower = new User(borrowerFilename, PartyRole.BORROWER);
 
         // TODO: Handle Errors for API methods
         contractIds.forEach(id -> {
             try {
-                lender.cancelContractProposal(id);
+                borrower.declineContractProposal(id);
             } catch (Exception e) {
                 e.printStackTrace();
             } 

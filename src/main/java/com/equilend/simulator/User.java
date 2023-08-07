@@ -102,6 +102,11 @@ public class User
         return APIConnector.getContractById(token, contractId);
     }
 
+    public ContractProposalResponse cancelContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException 
+    {
+        return APIConnector.cancelContractProposal(token, contractId);
+    }
+
     public ContractProposalResponse acceptContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException
     {
         Settlement settlement = ContractProposal.createSettlement(this.role);
@@ -109,11 +114,9 @@ public class User
     	return APIConnector.acceptContractProposal(token, contractId, acceptSettlement);
     }
 
-    public ContractProposalResponse cancelContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException 
+    public ContractProposalResponse declineContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException 
     {
-        return APIConnector.cancelContractProposal(token, contractId);
-    }
-
-    // TODO: Decline Contract
+        return APIConnector.declineContractProposal(token, contractId);
+    }    
 
 }

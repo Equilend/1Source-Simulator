@@ -120,6 +120,22 @@ public class APIConnector
         return gson.fromJson(postResponse.body(), ContractProposalResponse.class);
     }
 
+    public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws URISyntaxException, IOException, InterruptedException
+    {
+        HttpRequest postRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/cancel"))
+            .header("Authorization", "Bearer " + token.getAccess_token())
+            .POST(HttpRequest.BodyPublishers.noBody())
+            .build();
+            
+        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+
+        System.out.println(postResponse.body());
+        System.out.println();            
+        return gson.fromJson(postResponse.body(), ContractProposalResponse.class);        
+    }
+
     public static ContractProposalResponse acceptContractProposal(Token token, String contractId, AcceptSettlement settlement) throws URISyntaxException, IOException, InterruptedException
     {
         String settlementJson = gson.toJson(settlement);
@@ -137,12 +153,12 @@ public class APIConnector
         // System.out.println();
         return gson.fromJson(postResponse.body(), ContractProposalResponse.class);
     }
-    
-    public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws URISyntaxException, IOException, InterruptedException
+
+    public static ContractProposalResponse declineContractProposal(Token token, String contractId) throws URISyntaxException, IOException, InterruptedException
     {
         HttpRequest postRequest = HttpRequest
             .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/cancel"))
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/decline"))
             .header("Authorization", "Bearer " + token.getAccess_token())
             .POST(HttpRequest.BodyPublishers.noBody())
             .build();
@@ -152,7 +168,5 @@ public class APIConnector
         System.out.println(postResponse.body());
         System.out.println();            
         return gson.fromJson(postResponse.body(), ContractProposalResponse.class);        
-    }
-
-    // TODO: Decline Contract Proposal
+    }    
 }
