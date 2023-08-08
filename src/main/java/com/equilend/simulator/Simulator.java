@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.lang.Thread;
 import java.net.URISyntaxException;
 import java.time.OffsetDateTime;
+import java.util.Map;
 
 import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
@@ -12,27 +13,17 @@ public class Simulator
 {
     private static String allParties = "*";
 
-    public static void main(String[] args) 
+    public static void main(String[] args) throws FileNotFoundException, TokenException 
     {
         OffsetDateTime since = APIConnector.getCurrentTime();
 
         String lenderFilename = "src/main/java/com/equilend/simulator/lender_config.txt";
-        User lender;
-        try {
-            lender = new User(lenderFilename, PartyRole.LENDER);
-        } catch (FileNotFoundException | TokenException e) {
-            e.printStackTrace();
-            return;
-        }
+        Map<String, String> lenderLoginInfo = Configurator.readLoginConfig(lenderFilename);
+        User lender = new User(lenderLoginInfo, PartyRole.LENDER);
 
         String borrowerFilename = "src/main/java/com/equilend/simulator/borrower_config.txt";
-        User borrower;
-        try {
-            borrower = new User(borrowerFilename, PartyRole.BORROWER);
-        } catch (FileNotFoundException | TokenException e) {
-            e.printStackTrace();
-            return;
-        }
+        Map<String, String> borrowerLoginInfo = Configurator.readLoginConfig(borrowerFilename);
+        User borrower = new User(borrowerLoginInfo, PartyRole.BORROWER);
 
         while (true){
             waitMillisecs(5000L);
