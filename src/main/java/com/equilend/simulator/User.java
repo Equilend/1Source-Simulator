@@ -26,7 +26,7 @@ public class User
     private PartyRole role;
     private PartyRole counterRole;
 
-    public User(String fn, PartyRole r) throws URISyntaxException, IOException, InterruptedException
+    public User(String fn, PartyRole r) throws TokenException, FileNotFoundException
     {
         this.configFileName = fn;
         this.loginInfo = readFormData(configFileName);
@@ -35,25 +35,28 @@ public class User
         this.counterRole = (r == PartyRole.LENDER) ? PartyRole.BORROWER : PartyRole.LENDER;
     }
     
-    void refreshToken() throws URISyntaxException, IOException, InterruptedException
+    void refreshToken() throws TokenException
     {
-        this.token = APIConnector.getBearerToken(loginInfo);
+        try {
+            this.token = APIConnector.getBearerToken(loginInfo);
+        } catch (URISyntaxException | IOException | InterruptedException e){
+            throw new TokenException("Error getting bearer token", e);
+        }
     }
 
-    public Map<String, String> readFormData (String filename)
+    public Map<String, String> readFormData (String filename) throws FileNotFoundException
     {
         loginInfo = new HashMap<>();
-        try{
-                Scanner scanner = new Scanner(new File(filename));
-                while (scanner.hasNextLine()){
-                    String line = scanner.nextLine();
-                    String[] keyValuePair = line.split("=");
-                    loginInfo.put(keyValuePair[0], keyValuePair[1]);
-                }
-                scanner.close();
+        try (Scanner scanner = new Scanner(new File(filename))){
+            while (scanner.hasNextLine()){
+                String line = scanner.nextLine();
+                String[] keyValuePair = line.split("=");
+                loginInfo.put(keyValuePair[0], keyValuePair[1]);
+            }
         } catch (FileNotFoundException e){
-            System.out.println(filename + " not found");
+            throw new FileNotFoundException(filename + " not found");
         }
+        
         return loginInfo;
     }
 
@@ -77,41 +80,34 @@ public class User
         return "";
     }
 
-
-    /*
-     * sinceTime: If null, gets all agreements from today
-     * partyId: If null, accept agreements from any party
-     */
-    public List<ContractProposalResponse> proposeContractsFromAgreements(OffsetDateTime sinceTime, String partyId) throws URISyntaxException, IOException, InterruptedException
+    public List<ContractProposalResponse> proposeContractsFromAgreements(OffsetDateTime since, OffsetDateTime before, String partyId) throws URISyntaxException, IOException, InterruptedException
     {
-        List<Agreement> agreements = (sinceTime == null) ?
-        APIConnector.getAllAgreementsToday(token) : APIConnector.getAllAgreements(token, sinceTime);
+        List<Agreement> agreements = APIConnector.getAllAgreements(token, since, before);
+        if (agreements.size() == 0) System.out.println("No new agreements");
 
         List<ContractProposalResponse> responses = new ArrayList<>();
         for (Agreement agreement : agreements){
-            if (partyId == null){
+            if (partyId.equals("*")){
                 responses.add(proposeContract(agreement.getTrade()));
             }
-            else if (partyId != null && getCounterPartyId(agreement).equals(partyId)){
-                responses.add(proposeContract(agreement.getTrade()));
+            else{
+                if (getCounterPartyId(agreement).equals(partyId)){
+                    responses.add(proposeContract(agreement.getTrade()));
+                }
             }
         }
         return responses;
     }
 
-    /*
-     * Accept contract proposals since
-     */
-    public List<ContractProposalResponse> acceptContractProposals(OffsetDateTime since) throws URISyntaxException, IOException, InterruptedException
+    public List<ContractProposalResponse> acceptContractProposals(OffsetDateTime since, OffsetDateTime before) throws URISyntaxException, IOException, InterruptedException
     {
-        List<Contract> contracts = APIConnector.getAllContracts(token, since);
+        List<Contract> contracts = APIConnector.getAllContracts(token, since, before);
         if (contracts.size() == 0) System.out.println("No new contracts");
 
         List<ContractProposalResponse> responses = new ArrayList<>();
         for (Contract contract : contracts){
             if (contract.getContractStatus().equals("PROPOSED")){
                 responses.add(acceptContractProposal(contract.getContractId()));
-                System.out.println("proposed contract found!");
             }
         }
         

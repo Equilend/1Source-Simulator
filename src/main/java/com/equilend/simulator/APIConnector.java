@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.equilend.simulator.Agreement.Agreement;
 import com.equilend.simulator.Settlement.AcceptSettlement;
+import com.equilend.simulator.Trade.TransactingParty.Party;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -67,44 +68,38 @@ public class APIConnector
         return gson.fromJson(postResponse.body(), Token.class);
     }
 
-    public static List<Agreement> getAllAgreements(Token token, OffsetDateTime since ) throws URISyntaxException, IOException, InterruptedException
-    {
-        String timeStr = formatTime(since);
-        String encodedTime = URLEncoder.encode(timeStr, java.nio.charset.StandardCharsets.UTF_8.toString());
-        
-        HttpRequest getRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "?" + "since=" + encodedTime))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .build();
-        
-        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
-        
-        Type agreementListType = new TypeToken<ArrayList<Agreement>>(){}.getType();
-        return gson.fromJson(getResponse.body(), agreementListType);
-    }   
-
-    public static List<Agreement> getAllAgreementsToday(Token token) throws URISyntaxException, IOException, InterruptedException
-    {
-        OffsetDateTime currentDay = getCurrentTime().withHour(0).withMinute(0).withSecond(0);
-        return getAllAgreements(token, currentDay);
-    }
-
-    public static List<Contract> getAllContracts(Token token, OffsetDateTime since) throws URISyntaxException, IOException, InterruptedException
+    public static List<Agreement> getAllAgreements(Token token, OffsetDateTime since, OffsetDateTime before) throws URISyntaxException, IOException, InterruptedException
     {
         String sinceStr = formatTime(since);
-        String encodedTime = URLEncoder.encode(sinceStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        String encodedSince = URLEncoder.encode(sinceStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        String beforeStr = formatTime(before);
+        String encodedBefore = URLEncoder.encode(beforeStr, java.nio.charset.StandardCharsets.UTF_8.toString());
         
         HttpRequest getRequest = HttpRequest
             .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "?" + "since=" + encodedTime))
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
+            .header("Authorization", "Bearer " + token.getAccess_token())
+            .build();
+        
+        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());    
+        Type agreementListType = new TypeToken<ArrayList<Agreement>>(){}.getType();
+        return gson.fromJson(getResponse.body(), agreementListType);
+    }
+
+    public static List<Contract> getAllContracts(Token token, OffsetDateTime since, OffsetDateTime before) throws URISyntaxException, IOException, InterruptedException
+    {
+        String sinceStr = formatTime(since);
+        String encodedSince = URLEncoder.encode(sinceStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        String beforeStr = formatTime(before);
+        String encodedBefore = URLEncoder.encode(beforeStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        
+        HttpRequest getRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
             .header("Authorization", "Bearer " + token.getAccess_token())
             .build();
         
         HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
-        System.out.println();
-        System.out.println(getResponse.body());
-        System.out.println();
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
         return gson.fromJson(getResponse.body(), contractListType);
     }    
@@ -123,6 +118,35 @@ public class APIConnector
         List<Contract> list = gson.fromJson(getResponse.body(), contractListType);
         return list.get(0);
     }
+
+    public static List<Party> getAllParties (Token token) throws URISyntaxException, IOException, InterruptedException
+    {
+        HttpRequest getRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties"))
+            .header("Authorization", "Bearer " + token.getAccess_token())
+            .build();
+        
+        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+
+        Type partyListType = new TypeToken<ArrayList<Party>>(){}.getType();
+        return gson.fromJson(getResponse.body(), partyListType);
+    }
+
+    public static Party getPartyById (Token token, String id) throws URISyntaxException, IOException, InterruptedException
+    {
+        HttpRequest getRequest = HttpRequest
+            .newBuilder()
+            .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties" + "/" + id))
+            .header("Authorization", "Bearer " + token.getAccess_token())
+            .build();
+        
+        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        
+        Type partyListType = new TypeToken<ArrayList<Party>>(){}.getType();
+        ArrayList<Party> partyList = gson.fromJson(getResponse.body(), partyListType);
+        return partyList.get(0);
+    }    
 
     public static ContractProposalResponse postContractProposal(Token token, ContractProposal contract) throws URISyntaxException, IOException, InterruptedException
     {
@@ -172,7 +196,6 @@ public class APIConnector
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         System.out.println("Accepting contract: " + response.getContractId());
-        System.out.println(postResponse.body());
         return response;
     }
 
