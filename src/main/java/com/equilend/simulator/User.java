@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,17 +22,17 @@ public class User
 {
     private Map<String, String> loginInfo;
     private String configFileName;
+    Token token;
     private PartyRole role;
     private PartyRole counterRole;
-    Token token;
 
     public User(String fn, PartyRole r) throws URISyntaxException, IOException, InterruptedException
     {
         this.configFileName = fn;
         this.loginInfo = readFormData(configFileName);
+        refreshToken();
         this.role = r;
         this.counterRole = (r == PartyRole.LENDER) ? PartyRole.BORROWER : PartyRole.LENDER;
-        this.token = APIConnector.getBearerToken(loginInfo);
     }
     
     void refreshToken() throws URISyntaxException, IOException, InterruptedException
@@ -76,11 +77,12 @@ public class User
         return "";
     }
 
+
     /*
      * sinceTime: If null, gets all agreements from today
      * partyId: If null, accept agreements from any party
      */
-    public List<ContractProposalResponse> proposeContractsFromAgreements(String sinceTime, String partyId) throws URISyntaxException, IOException, InterruptedException
+    public List<ContractProposalResponse> proposeContractsFromAgreements(OffsetDateTime sinceTime, String partyId) throws URISyntaxException, IOException, InterruptedException
     {
         List<Agreement> agreements = (sinceTime == null) ?
         APIConnector.getAllAgreementsToday(token) : APIConnector.getAllAgreements(token, sinceTime);
@@ -94,6 +96,25 @@ public class User
                 responses.add(proposeContract(agreement.getTrade()));
             }
         }
+        return responses;
+    }
+
+    /*
+     * Accept contract proposals since
+     */
+    public List<ContractProposalResponse> acceptContractProposals(OffsetDateTime since) throws URISyntaxException, IOException, InterruptedException
+    {
+        List<Contract> contracts = APIConnector.getAllContracts(token, since);
+        if (contracts.size() == 0) System.out.println("No new contracts");
+
+        List<ContractProposalResponse> responses = new ArrayList<>();
+        for (Contract contract : contracts){
+            if (contract.getContractStatus().equals("PROPOSED")){
+                responses.add(acceptContractProposal(contract.getContractId()));
+                System.out.println("proposed contract found!");
+            }
+        }
+        
         return responses;
     }
 

@@ -16,6 +16,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers; 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +26,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.equilend.simulator.Agreement.Agreement;
 import com.equilend.simulator.Settlement.Settlement;
@@ -60,24 +60,21 @@ public class Simulator
 
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException
     {
-        String lenderFilename = "src/main/java/com/equilend/simulator/lender_config.txt";
+        OffsetDateTime since = APIConnector.getCurrentTime();
+        // String lenderFilename = "src/main/java/com/equilend/simulator/lender_config.txt";
+        // User lender = new User(lenderFilename, PartyRole.LENDER);
         String borrowerFilename = "src/main/java/com/equilend/simulator/borrower_config.txt";
-        User lender = new User(lenderFilename, PartyRole.LENDER);
-        List<ContractProposalResponse> responses = lender.proposeContractsFromAgreements(null,"TBORR-US");
-        List<String> contractIds = responses.stream()
-                                            .map(response -> response.getContractId())
-                                            .collect(Collectors.toList());
-        contractIds.forEach(System.out::println);
         User borrower = new User(borrowerFilename, PartyRole.BORROWER);
+        while (true){
+            OffsetDateTime oldSince = since;
+            since = APIConnector.getCurrentTime(); //can i use async/promise to make this run immediately after acceptContract() call?
+            System.out.println(oldSince);
+            borrower.acceptContractProposals(oldSince); //what if this returned the latest event's last update time?
+            waitMillisecs(1000L);
+            System.out.println("=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=$=");
+        }
 
-        // TODO: Handle Errors for API methods
-        contractIds.forEach(id -> {
-            try {
-                borrower.declineContractProposal(id);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } 
-        });
+
     }
 
     public static void simulateLendRequests (int numProposals, Long intervalInMillisecs) throws URISyntaxException, IOException, InterruptedException
@@ -88,13 +85,13 @@ public class Simulator
         for (int i = 0; i < numProposals; i++){
             ContractProposal contract = createContractProposal();
             postContractProposal(token, contract);
-            wait(intervalInMillisecs);
+            waitMillisecs(intervalInMillisecs);
         }
         System.out.println("Done");
 
     }
     
-    public static void wait(Long interval) throws InterruptedException{
+    public static void waitMillisecs(Long interval) throws InterruptedException{
         try {
             Thread.sleep(interval);
         } catch (InterruptedException e ){
