@@ -6,8 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.equilend.simulator.Trade.TransactingParty.PartyRole;
+
 public class Configurator {
-    public static Map<String, String> readLoginConfig (String filename) throws FileNotFoundException
+    //Configurator should probably look for config file itself..
+    private static String lenderFilename = "src/main/java/com/equilend/simulator/config/lender_config.txt";
+    private static String borrowerFilename = "src/main/java/com/equilend/simulator/config/borrower_config.txt";
+
+    // TODO: Validate the login info file instead of blindly creating hash map
+    public static Map<String, String> readLoginConfig (String filename) 
     {
         Map<String, String> loginInfo = new HashMap<>();
         try (Scanner scanner = new Scanner(new File(filename))){
@@ -17,9 +24,19 @@ public class Configurator {
                 loginInfo.put(keyValuePair[0], keyValuePair[1]);
             }
         } catch (FileNotFoundException e){
-            throw new FileNotFoundException(filename + " not found");
+            System.out.println("File not found: " + filename);
         }
         
         return loginInfo;
     }   
+
+    public static User createLender(){
+        User lender = new User(readLoginConfig(lenderFilename), PartyRole.LENDER);
+        return lender;
+    }
+
+    public static User createBorrower(){
+        User borrower = new User(readLoginConfig(borrowerFilename), PartyRole.BORROWER);
+        return borrower;
+    }
 }

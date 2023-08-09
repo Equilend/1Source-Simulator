@@ -1,46 +1,46 @@
 package com.equilend.simulator;
 
-import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.lang.Thread;
-import java.net.URISyntaxException;
 import java.time.OffsetDateTime;
-import java.util.Map;
 
-import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
 public class Simulator 
-{
+{   
     private static String allParties = "*";
-
-    public static void main(String[] args) throws FileNotFoundException, TokenException 
+    private static final int MAX_ATTEMPTS = 3;
+    public static void main(String[] args)  
     {
+        
+        User lender = Configurator.createLender();
+        assert(lender.isValid()); 
+        User borrower = Configurator.createBorrower();
+        assert(borrower.isValid());
+        
         OffsetDateTime since = APIConnector.getCurrentTime();
-
-        String lenderFilename = "src/main/java/com/equilend/simulator/lender_config.txt";
-        Map<String, String> lenderLoginInfo = Configurator.readLoginConfig(lenderFilename);
-        User lender = new User(lenderLoginInfo, PartyRole.LENDER);
-
-        String borrowerFilename = "src/main/java/com/equilend/simulator/borrower_config.txt";
-        Map<String, String> borrowerLoginInfo = Configurator.readLoginConfig(borrowerFilename);
-        User borrower = new User(borrowerLoginInfo, PartyRole.BORROWER);
-
+        OffsetDateTime before;
+        int attempts = 0;
         while (true){
             waitMillisecs(5000L);
-            OffsetDateTime before = APIConnector.getCurrentTime();
-            try {
-                lender.proposeContractsFromAgreements(since, before, allParties);
-            } catch (URISyntaxException | IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                borrower.acceptContractProposals(since, before);
-            } catch (URISyntaxException | IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-            since = before;
-        }
+            before = APIConnector.getCurrentTime();
 
+            while (attempts < MAX_ATTEMPTS && (!lender.proposeContractsFromAgreements(since, before, allParties) || !borrower.acceptContractProposals(since, before))){
+                //what if some contracts were proposed and some contract proposals were accepted?
+                //well, aCP() checks for contracts in the proposed state before sending approve request.
+                //what about pCFA() tho? 
+                //WELL... trade agreements are supposed to eventually be consumed once a contract is proposed from it. this doesn't happen w my generated shtts tho..
+
+                attempts++;
+                lender.refreshToken();
+                borrower.refreshToken();
+            }
+            if (attempts == MAX_ATTEMPTS){
+                System.out.println("Not working mate. Something must be up");
+                return;
+            }
+            attempts = 0;
+            since = before;
+
+        }
     }
     
     public static void waitMillisecs(Long interval){

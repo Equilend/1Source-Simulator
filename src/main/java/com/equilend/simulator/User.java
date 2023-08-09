@@ -1,10 +1,6 @@
 package com.equilend.simulator;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,46 +18,71 @@ public class User
     private PartyRole role;
     private PartyRole counterRole;
 
-    public User(Map<String, String> loginInfo, PartyRole role) throws TokenException, FileNotFoundException
+    //Should assert isValid before use..
+    public User(Map<String, String> loginInfo, PartyRole role) 
     {
         this.loginInfo = loginInfo;
-        refreshToken();
         this.role = role;
         this.counterRole = (role == PartyRole.LENDER) ? PartyRole.BORROWER : PartyRole.LENDER;
     }
 
-    public void refreshToken() throws TokenException
+    public boolean isValid (){
+        return refreshToken();
+    }
+
+    public boolean refreshToken()
     {
         try {
             this.token = APIConnector.getBearerToken(loginInfo);
-        } catch (URISyntaxException | IOException | InterruptedException e){
-            throw new TokenException("Error getting bearer token", e);
+        } catch (APIException e){
+            return false;
         }
+        return true;
     }
 
-    public ContractProposalResponse proposeContract(Trade trade) throws URISyntaxException, IOException, InterruptedException
+    public boolean proposeContract(Trade trade)
     {
         ContractProposal contractProposal = ContractProposal.createContractProposal(trade);
     
-        ContractProposalResponse response = APIConnector.postContractProposal(token, contractProposal);
-        return response;
+        try {
+            APIConnector.postContractProposal(token, contractProposal);
+        } catch (APIException e) {
+            return false;
+        }
+        return true;
+        
     }
 
-    public ContractProposalResponse cancelContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException 
+    public boolean cancelContractProposal(String contractId) 
     {
-        return APIConnector.cancelContractProposal(token, contractId);
+        try {
+            APIConnector.cancelContractProposal(token, contractId);
+        } catch (APIException e) {
+            return false;
+        }
+        return true;
     }
 
-    public ContractProposalResponse acceptContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException
+    public boolean acceptContractProposal(String contractId) 
     {
         Settlement settlement = ContractProposal.createSettlement(this.role);
         AcceptSettlement acceptSettlement = new AcceptSettlement(settlement);
-        return APIConnector.acceptContractProposal(token, contractId, acceptSettlement);
+        try {
+            APIConnector.acceptContractProposal(token, contractId, acceptSettlement);
+        } catch (APIException e) {
+            return false;
+        }
+        return true;
     }
 
-    public ContractProposalResponse declineContractProposal(String contractId) throws URISyntaxException, IOException, InterruptedException 
+    public boolean declineContractProposal(String contractId) 
     {
-        return APIConnector.declineContractProposal(token, contractId);
+        try {
+            APIConnector.declineContractProposal(token, contractId);
+        } catch (APIException e) {
+            return false;
+        }
+        return true;
     }    
 
     private String getCounterPartyId(Agreement agreement)
@@ -76,38 +97,52 @@ public class User
         return "";
     }
 
-    public List<ContractProposalResponse> proposeContractsFromAgreements(OffsetDateTime since, OffsetDateTime before, String partyId) throws URISyntaxException, IOException, InterruptedException
+    public boolean proposeContractsFromAgreements(OffsetDateTime since, OffsetDateTime before, String partyId) 
     {
-        List<Agreement> agreements = APIConnector.getAllAgreements(token, since, before);
+        List<Agreement> agreements;
+        try {
+            agreements = APIConnector.getAllAgreements(token, since, before);
+        } catch (APIException e) {
+            return false;
+        }
         if (agreements.size() == 0) System.out.println("No new agreements");
         
-        List<ContractProposalResponse> responses = new ArrayList<>();
         for (Agreement agreement : agreements){
             if (partyId.equals("*")){
-                responses.add(proposeContract(agreement.getTrade()));
+                if (!proposeContract(agreement.getTrade())){
+                    return false;
+                }
             }
             else{
                 if (getCounterPartyId(agreement).equals(partyId)){
-                    responses.add(proposeContract(agreement.getTrade()));
+                    if (!proposeContract(agreement.getTrade())){
+                        return false;
+                    }
                 }
             }
         }
-        return responses;
+        return true;
     }
 
-    public List<ContractProposalResponse> acceptContractProposals(OffsetDateTime since, OffsetDateTime before) throws URISyntaxException, IOException, InterruptedException
+    public boolean acceptContractProposals(OffsetDateTime since, OffsetDateTime before)
     {
-        List<Contract> contracts = APIConnector.getAllContracts(token, since, before);
+        List<Contract> contracts;
+        try {
+            contracts = APIConnector.getAllContracts(token, since, before);
+        } catch (APIException e) {
+            return false;
+        }
         if (contracts.size() == 0) System.out.println("No new contracts");
 
-        List<ContractProposalResponse> responses = new ArrayList<>();
         for (Contract contract : contracts){
             if (contract.getContractStatus().equals("PROPOSED")){
-                responses.add(acceptContractProposal(contract.getContractId()));
+                if(!acceptContractProposal(contract.getContractId())){
+                    return false;
+                }
             }
         }
         
-        return responses;
+        return true;
     }
 
 }

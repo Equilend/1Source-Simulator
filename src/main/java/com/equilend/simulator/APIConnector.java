@@ -1,6 +1,7 @@
 package com.equilend.simulator;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,141 +54,246 @@ public class APIConnector
         }
         return formBodyBuilder.toString();
     }
-    public static Token getBearerToken(Map<String, String> loginInfo) throws URISyntaxException, IOException, InterruptedException
+    public static Token getBearerToken(Map<String, String> loginInfo) throws APIException
     {
-        HttpRequest postRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token"))
-            .header("Content-Type", "application/x-www-form-urlencoded")
-            .POST(BodyPublishers.ofString(encodeMapAsString(loginInfo)))
-            .build();
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token"))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(BodyPublishers.ofString(encodeMapAsString(loginInfo)))
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error with creating token post request", e);
+        }
 
-        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error with sending token post request", e);
+        }
 
-        return gson.fromJson(postResponse.body(), Token.class);
+        Token token = gson.fromJson(postResponse.body(), Token.class);
+        if (token.getError() != null){
+            throw new APIException("Error authorizing bearer token: " + token.getError_description());
+        }
+        return token;
     }
 
-    public static ContractProposalResponse postContractProposal(Token token, ContractProposal contract) throws URISyntaxException, IOException, InterruptedException
+    public static ContractProposalResponse postContractProposal(Token token, ContractProposal contract) throws APIException
     {
         String contractJson = gson.toJson(contract);
 
-        HttpRequest postRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts"))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .POST(BodyPublishers.ofString(contractJson))
-            .build();
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts"))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .POST(BodyPublishers.ofString(contractJson))
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error with creating contract proposal post request", e);
+        }
 
-        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error with sending contract proposal post request", e);
+        }
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         System.out.println("Proposing contract: " + response.getContractId());
         return response;
     }
-    public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws URISyntaxException, IOException, InterruptedException
+    public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws APIException
     {
-        HttpRequest postRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/cancel"))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .POST(HttpRequest.BodyPublishers.noBody())
-            .build();
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/cancel"))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error with sending cancel contract proposal post request", e);
+        }
             
-        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error with sending cancel contract proposal post request", e);
+        }
         
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         System.out.println("Cancelling contract: " + response.getContractId());
         return response;       
     }
-    public static ContractProposalResponse acceptContractProposal(Token token, String contractId, AcceptSettlement settlement) throws URISyntaxException, IOException, InterruptedException
+    public static ContractProposalResponse acceptContractProposal(Token token, String contractId, AcceptSettlement settlement) throws APIException
     {
         String settlementJson = gson.toJson(settlement);
 
-        HttpRequest postRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/approve"))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .POST(BodyPublishers.ofString(settlementJson))
-            .build();
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/approve"))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .POST(BodyPublishers.ofString(settlementJson))
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error with creating accept contract proposal post request", e);
+        }
 
-        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error with sending accept contract proposal post request", e);
+        }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         System.out.println("Accepting contract: " + response.getContractId());
         return response;
     }
-    public static ContractProposalResponse declineContractProposal(Token token, String contractId) throws URISyntaxException, IOException, InterruptedException
+    public static ContractProposalResponse declineContractProposal(Token token, String contractId) throws APIException
     {
-        HttpRequest postRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/decline"))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .POST(HttpRequest.BodyPublishers.noBody())
-            .build();
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/decline"))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error with creating decline contract proposal post request", e);
+        }
             
-        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error with sending decline contract proposal post request", e);
+        }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         System.out.println("Declining contract: " + response.getContractId());
         return response;
     }  
 
-    public static List<Agreement> getAllAgreements(Token token, OffsetDateTime since, OffsetDateTime before) throws URISyntaxException, IOException, InterruptedException
+    private static String encode(String str){
+        String encoded = "";
+        try {
+            encoded = URLEncoder.encode(str, java.nio.charset.StandardCharsets.UTF_8.toString());
+        }
+        catch (UnsupportedEncodingException e){
+            throw new AssertionError(e);
+        }
+        return encoded;
+    }
+
+    public static List<Agreement> getAllAgreements(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
-        String encodedSince = URLEncoder.encode(sinceStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        String encodedSince = encode(sinceStr);
         String beforeStr = formatTime(before);
-        String encodedBefore = URLEncoder.encode(beforeStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        String encodedBefore = encode(beforeStr);
         
-        HttpRequest getRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .build();
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error with creating agreements get request", e);
+        }
         
-        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());    
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error with sending agreements get request", e);
+        }    
         Type agreementListType = new TypeToken<ArrayList<Agreement>>(){}.getType();
         return gson.fromJson(getResponse.body(), agreementListType);
     }
-    public static List<Contract> getAllContracts(Token token, OffsetDateTime since, OffsetDateTime before) throws URISyntaxException, IOException, InterruptedException
+    public static List<Contract> getAllContracts(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
-        String encodedSince = URLEncoder.encode(sinceStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        String encodedSince = encode (sinceStr);
         String beforeStr = formatTime(before);
-        String encodedBefore = URLEncoder.encode(beforeStr, java.nio.charset.StandardCharsets.UTF_8.toString());
+        String encodedBefore = encode(beforeStr);
         
-        HttpRequest getRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .build();
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error with creating contracts get request", e);
+        }
         
-        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error with sending contracts get request", e);
+        }
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
         return gson.fromJson(getResponse.body(), contractListType);
     }    
-    public static List<Party> getAllParties (Token token) throws URISyntaxException, IOException, InterruptedException
+    public static List<Party> getAllParties (Token token) throws APIException
     {
-        HttpRequest getRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties"))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .build();
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties"))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error creating parties get request", e);
+        }
         
-        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error sending parties get request", e);
+        }
 
         Type partyListType = new TypeToken<ArrayList<Party>>(){}.getType();
         return gson.fromJson(getResponse.body(), partyListType);
     }
 
-    public static Party getPartyById (Token token, String id) throws URISyntaxException, IOException, InterruptedException
+    public static Party getPartyById (Token token, String id) throws APIException
     {
-        HttpRequest getRequest = HttpRequest
-            .newBuilder()
-            .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties" + "/" + id))
-            .header("Authorization", "Bearer " + token.getAccess_token())
-            .build();
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties" + "/" + id))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            throw new APIException("Error creating party by id get request", e);
+        }
         
-        HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new APIException("Error sending party by id get request", e);
+        }
         
         Type partyListType = new TypeToken<ArrayList<Party>>(){}.getType();
         ArrayList<Party> partyList = gson.fromJson(getResponse.body(), partyListType);
