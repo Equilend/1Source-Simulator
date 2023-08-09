@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.Agreement.Agreement;
 import com.equilend.simulator.Settlement.AcceptSettlement;
 import com.equilend.simulator.Trade.TransactingParty.Party;
@@ -31,6 +34,7 @@ public class APIConnector
     private static HttpClient httpClient = HttpClient.newHttpClient();
     private static Gson gson = new Gson();
     private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
+    private static final Logger logger = LogManager.getLogger();
 
     public static OffsetDateTime getCurrentTime()
     {
@@ -65,19 +69,25 @@ public class APIConnector
                 .POST(BodyPublishers.ofString(encodeMapAsString(loginInfo)))
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error with creating token post request", e);
+            String message = "Error with creating token post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
 
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error with sending token post request", e);
+            String message = "Error with sending token post request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
         }
 
         Token token = gson.fromJson(postResponse.body(), Token.class);
-        if (token.getError() != null){
-            throw new APIException("Error authorizing bearer token: " + token.getError_description());
+        if (token.getError() != null){ 
+            String message = "Error authorizing bearer token: " + token.getError_description();
+            logger.debug(message);
+            throw new APIException(message);
         }
         return token;
     }
@@ -199,6 +209,7 @@ public class APIConnector
 
     public static List<Agreement> getAllAgreements(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
+        if (token == null) logger.info("huh");
         String sinceStr = formatTime(since);
         String encodedSince = encode(sinceStr);
         String beforeStr = formatTime(before);

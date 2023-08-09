@@ -3,17 +3,28 @@ package com.equilend.simulator;
 import java.lang.Thread;
 import java.time.OffsetDateTime;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class Simulator 
 {   
     private static String allParties = "*";
+    private static final Logger logger = LogManager.getLogger();
+    
     public static void main(String[] args)  
     {
         User lender = Configurator.createLender();
-        assert(lender.isValid()); 
+        if (!lender.isValid()){
+            logger.fatal("womp womp. Couldn't validate lender user");
+            return;
+        } 
         User borrower = Configurator.createBorrower();
-        assert(borrower.isValid());
-        
+        if (!borrower.isValid()){
+            logger.fatal("womp womp. Couldn't validate borrower user");
+        }
+
+        logger.info("Lender and borrower both valid!");
         int attempts = 0;
         final int MAX_ATTEMPTS = Configurator.getMaxAttempts();
         OffsetDateTime since = APIConnector.getCurrentTime();
@@ -32,7 +43,7 @@ public class Simulator
                 borrower.refreshToken();
             }
             if (attempts == MAX_ATTEMPTS){
-                System.out.println(String.format("We've tried %d times mate its JUST NOT WORKING", MAX_ATTEMPTS));
+                logger.fatal("We've tried %d times mate its JUST NOT WORKING", MAX_ATTEMPTS);
                 return;
             }
             attempts = 0;

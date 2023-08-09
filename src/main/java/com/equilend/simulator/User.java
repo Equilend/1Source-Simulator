@@ -4,6 +4,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.Agreement.Agreement;
 import com.equilend.simulator.Settlement.AcceptSettlement;
 import com.equilend.simulator.Settlement.Settlement;
@@ -14,9 +17,10 @@ import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 public class User 
 {
     private Map<String, String> loginInfo;
-    Token token;
+    private Token token;
     private PartyRole role;
     private PartyRole counterRole;
+    private static final Logger logger = LogManager.getLogger();
 
     //Should assert isValid before use..
     public User(Map<String, String> loginInfo, PartyRole role) 
@@ -105,7 +109,9 @@ public class User
         } catch (APIException e) {
             return false;
         }
-        if (agreements.size() == 0) System.out.println("No new agreements");
+        if (agreements.size() == 0){
+            logger.info("No new trade agreements to create contracts from");
+        } 
         
         for (Agreement agreement : agreements){
             if (partyId.equals("*")){
@@ -132,7 +138,9 @@ public class User
         } catch (APIException e) {
             return false;
         }
-        if (contracts.size() == 0) System.out.println("No new contracts");
+        if (contracts.size() == 0){
+            logger.info("No new contract proposals");
+        } 
 
         for (Contract contract : contracts){
             if (contract.getContractStatus().equals("PROPOSED")){
