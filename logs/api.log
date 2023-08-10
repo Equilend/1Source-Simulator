@@ -90,3 +90,43 @@
 2023-59-09 17:59:50.251 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
 2023-59-09 17:59:55.369 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
 2023-59-09 17:59:55.531 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:04.480 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
+2023-14-09 18:14:10.119 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:15.254 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:31.236 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:36.314 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:41.467 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:46.589 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:51.676 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-14-09 18:14:56.802 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-15-09 18:15:12.837 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-15-09 18:15:17.972 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-15-09 18:15:23.105 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-15-09 18:15:28.224 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-15-09 18:15:33.383 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-15-09 18:15:38.610 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:11.401 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
+2023-24-09 20:24:17.016 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:17.295 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:22.430 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:22.539 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:27.679 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:27.823 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:33.014 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:33.085 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:38.252 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:38.364 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:43.543 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:43.663 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:48.767 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:48.935 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:54.061 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:54.171 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-24-09 20:24:59.293 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-24-09 20:24:59.433 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-25-09 20:25:04.523 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-25-09 20:25:04.652 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-25-09 20:25:09.754 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-25-09 20:25:09.823 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-25-09 20:25:14.935 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
+2023-25-09 20:25:15.032 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals

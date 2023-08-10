@@ -6,9 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
 public class Configurator {
+    private static final Logger logger = LogManager.getLogger();
+    
     //Configurator should probably look for config file itself..
     private static String lenderFilename = "src/main/java/com/equilend/simulator/config/lender_config.txt";
     private static String borrowerFilename = "src/main/java/com/equilend/simulator/config/borrower_config.txt";
@@ -26,7 +31,8 @@ public class Configurator {
                 loginInfo.put(keyValuePair[0], keyValuePair[1]);
             }
         } catch (FileNotFoundException e){
-            System.out.println("File not found: " + filename);
+            String message = "File not found: " + filename;
+            logger.error(message, e);
         }
         
         return loginInfo;

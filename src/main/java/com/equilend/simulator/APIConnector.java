@@ -79,14 +79,14 @@ public class APIConnector
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error with sending token post request";
-            logger.debug(message, e);
+            logger.error(message, e);
             throw new APIException(message, e);
         }
 
         Token token = gson.fromJson(postResponse.body(), Token.class);
         if (token.getError() != null){ 
             String message = "Error authorizing bearer token: " + token.getError_description();
-            logger.debug(message);
+            logger.error(message);
             throw new APIException(message);
         }
         return token;
@@ -105,17 +105,21 @@ public class APIConnector
                 .POST(BodyPublishers.ofString(contractJson))
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error with creating contract proposal post request", e);
+            String message = "Error with creating contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
 
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error with sending contract proposal post request", e);
+            String message = "Error with sending contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        System.out.println("Proposing contract: " + response.getContractId());
+        logger.info("Proposing contract {}", response.getContractId());
         return response;
     }
     public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws APIException
@@ -129,14 +133,18 @@ public class APIConnector
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error with sending cancel contract proposal post request", e);
+            String message = "Error with sending cancel contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
             
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error with sending cancel contract proposal post request", e);
+            String message = "Error with sending cancel contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
@@ -156,14 +164,18 @@ public class APIConnector
                 .POST(BodyPublishers.ofString(settlementJson))
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error with creating accept contract proposal post request", e);
+            String message = "Error with creating accept contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
 
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error with sending accept contract proposal post request", e);
+            String message = "Error with sending accept contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
@@ -181,14 +193,18 @@ public class APIConnector
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error with creating decline contract proposal post request", e);
+            String message = "Error with creating decline contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
             
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error with sending decline contract proposal post request", e);
+            String message = "Error with sending decline contract proposal post request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
@@ -202,7 +218,9 @@ public class APIConnector
             encoded = URLEncoder.encode(str, java.nio.charset.StandardCharsets.UTF_8.toString());
         }
         catch (UnsupportedEncodingException e){
-            throw new AssertionError(e);
+            String message = "Error encoding time zone for URL params";
+            logger.error(message, e);
+            throw new AssertionError(message, e);
         }
         return encoded;
     }
@@ -223,14 +241,18 @@ public class APIConnector
                 .header("Authorization", "Bearer " + token.getAccess_token())
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error with creating agreements get request", e);
+            String message = "Error with creating agreements get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error with sending agreements get request", e);
+            String message = "Error with sending agreements get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }    
         Type agreementListType = new TypeToken<ArrayList<Agreement>>(){}.getType();
         return gson.fromJson(getResponse.body(), agreementListType);
@@ -250,14 +272,18 @@ public class APIConnector
                 .header("Authorization", "Bearer " + token.getAccess_token())
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error with creating contracts get request", e);
+            String message = "Error with creating contracts get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error with sending contracts get request", e);
+            String message = "Error with sending contracts get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
         return gson.fromJson(getResponse.body(), contractListType);
@@ -272,14 +298,18 @@ public class APIConnector
                 .header("Authorization", "Bearer " + token.getAccess_token())
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error creating parties get request", e);
+            String message = "Error creating parties get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error sending parties get request", e);
+            String message = "Error sending parties get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
 
         Type partyListType = new TypeToken<ArrayList<Party>>(){}.getType();
@@ -296,14 +326,18 @@ public class APIConnector
                 .header("Authorization", "Bearer " + token.getAccess_token())
                 .build();
         } catch (URISyntaxException e) {
-            throw new APIException("Error creating party by id get request", e);
+            String message = "Error creating party by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new APIException("Error sending party by id get request", e);
+            String message = "Error sending party by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
         }
         
         Type partyListType = new TypeToken<ArrayList<Party>>(){}.getType();

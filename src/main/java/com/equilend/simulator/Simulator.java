@@ -32,7 +32,6 @@ public class Simulator
         while (true){
             waitMillisecs(5000L);
             before = APIConnector.getCurrentTime();
-
             while (attempts < MAX_ATTEMPTS && (!lender.proposeContractsFromAgreements(since, before, allParties) || !borrower.acceptContractProposals(since, before))){
                 //what if some contracts were proposed and some contract proposals were accepted?
                 //well, aCP() checks for contracts in the proposed state before sending approve request.
