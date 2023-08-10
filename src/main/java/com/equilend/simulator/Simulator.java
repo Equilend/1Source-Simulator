@@ -27,16 +27,18 @@ public class Simulator
         logger.info("Lender and borrower both valid!");
         int attempts = 0;
         final int MAX_ATTEMPTS = Configurator.getMaxAttempts();
+        long intervalInMs = Configurator.getWaitInterval();
         OffsetDateTime since = APIConnector.getCurrentTime();
         OffsetDateTime before;
         while (true){
-            waitMillisecs(5000L);
+            waitMillisecs(intervalInMs);
             before = APIConnector.getCurrentTime();
             while (attempts < MAX_ATTEMPTS && (!lender.proposeContractsFromAgreements(since, before, allParties) || !borrower.acceptContractProposals(since, before))){
                 //what if some contracts were proposed and some contract proposals were accepted?
                 //well, aCP() checks for contracts in the proposed state before sending approve request.
                 //what about pCFA() tho? 
                 //WELL... trade agreements are supposed to eventually be consumed once a contract is proposed from it. this doesn't happen w my generated shtts tho..
+                logger.info("Something didn't work, attempting to propose/accept again");
                 attempts++;
                 lender.refreshToken();
                 borrower.refreshToken();

@@ -39,6 +39,8 @@ public class User
         try {
             this.token = APIConnector.getBearerToken(loginInfo);
         } catch (APIException e){
+            String message = "Error refreshing token";
+            logger.error(message, e);
             return false;
         }
         return true;

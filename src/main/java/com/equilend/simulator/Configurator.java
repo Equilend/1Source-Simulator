@@ -19,6 +19,7 @@ public class Configurator {
     private static String borrowerFilename = "src/main/java/com/equilend/simulator/config/borrower_config.txt";
     //max attempts should be read from config file
     private static int maxAttempts = 3;
+    private static long waitIntervalInMs = 5000;
 
     // TODO: Validate the login info file instead of blindly creating hash map
     private static Map<String, String> readLoginConfig (String filename) 
@@ -51,4 +52,10 @@ public class Configurator {
     public static int getMaxAttempts(){
         return maxAttempts;
     }
+
+    public static long getWaitInterval(){
+        return waitIntervalInMs;
+    }
 }
+
+
