@@ -40,6 +40,7 @@ public class APIConnector
     {
         return OffsetDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS);
     }
+    
     public static String formatTime(OffsetDateTime time)
     {
         return time.format(formatter);
@@ -58,6 +59,7 @@ public class APIConnector
         }
         return formBodyBuilder.toString();
     }
+    
     public static Token getBearerToken(Map<String, String> loginInfo) throws APIException
     {
         HttpRequest postRequest;
@@ -122,6 +124,7 @@ public class APIConnector
         logger.info("Proposing contract {}", response.getContractId());
         return response;
     }
+    
     public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws APIException
     {
         HttpRequest postRequest;
@@ -148,9 +151,10 @@ public class APIConnector
         }
         
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        System.out.println("Cancelling contract: " + response.getContractId());
+        logger.info("Cancelling contract {}", response.getContractId());
         return response;       
     }
+    
     public static ContractProposalResponse acceptContractProposal(Token token, String contractId, AcceptSettlement settlement) throws APIException
     {
         String settlementJson = gson.toJson(settlement);
@@ -179,9 +183,10 @@ public class APIConnector
         }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        System.out.println("Accepting contract: " + response.getContractId());
+        logger.info("Accepting contract {}", response.getContractId());
         return response;
     }
+
     public static ContractProposalResponse declineContractProposal(Token token, String contractId) throws APIException
     {
         HttpRequest postRequest;
@@ -208,7 +213,7 @@ public class APIConnector
         }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        System.out.println("Declining contract: " + response.getContractId());
+        logger.info("Declining contract {}", response.getContractId());
         return response;
     }  
 
@@ -257,6 +262,7 @@ public class APIConnector
         Type agreementListType = new TypeToken<ArrayList<Agreement>>(){}.getType();
         return gson.fromJson(getResponse.body(), agreementListType);
     }
+    
     public static List<Contract> getAllContracts(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
@@ -288,6 +294,7 @@ public class APIConnector
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
         return gson.fromJson(getResponse.body(), contractListType);
     }    
+    
     public static List<Party> getAllParties (Token token) throws APIException
     {
         HttpRequest getRequest;
