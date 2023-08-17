@@ -1,0 +1,70 @@
+[bot]
+mode = "LENDER"
+
+[borrower]
+client_id = "canton-participant1-client"
+client_secret="c0a05c2d-ac70-472a-ac4f-38b80dba28d8"
+grant_type="password"
+username="TestBorrower1User"
+password="FqnNQyUwaenQ8K3h"
+
+[lender]
+client_id="canton-participant2-client"
+client_secret="9fa094bf-9e39-4271-aa63-c6a641730423"
+grant_type="password"
+username="TestLender1User"
+password="fjmxVeKzpzUDg3YJ"
+
+# [trade.executionVenue]
+# type = "OFFPLATFORM"
+
+# [trade.executionVenue.platform]
+# gleifLei = "X"
+# legalName = "Phone Brokered"
+# venueName = "EXTERNAL"
+# venueRefId = "0"
+
+# [[trade.executionVenue.venueParties]]
+# partyRole = "BORROWER"
+# [[trade.executionVenue.venueParties]]
+# partyRole = "LENDER"
+
+# [trade.instrument]
+# ticker = "WMT"
+# cusip = "931142103"
+# isin = "US9311421039"
+# sedol = "2936921"
+# figi = "BBG001S5XH92"
+# description = "WALMART INC COM"
+
+# [trade.rate]
+# rebateBps = 0.15
+
+# [trade.collateral]
+# contractValue = 252500.0
+# collateralValue = 257550.0
+# currency = "USD"
+# type = "CASH"
+# roundingRule = 10
+# roundingMode = "ALWAYSUP"
+# margin = 102.0
+
+# [[trade.transactingParties]]
+# partyRole = "BORROWER"
+# party.partyId = "MSCO LLC"
+# party.partyName = "MSCO LLC"
+# party.gleifLei = "9R7GPTSO7KV3UQJZQ078"
+
+# [[trade.transactingParties]]
+# partyRole = "LENDER"
+# party.partyId = "NBF Inc."
+# party.partyName = "National Bank of Canada"
+# party.gleifLei = "254900F2ES7T4LUTQL51"
+
+# [trade]
+# quantity = 5000
+# billingCurrency = "USD"
+# dividendRatePct = 100.0 
+# tradeDate = "2023-08-04"
+# settlementDate = "2023-08-26"
+# settlementType = "DVP"

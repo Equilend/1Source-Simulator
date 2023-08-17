@@ -50,7 +50,7 @@ public class EventsProcessor {
     private void processContractCancelEvent(Event event){
         logger.info("Processing Contract Cancel Event");
         /*
-         * a borrower bot is sad, or relieved
+         * a borrower bot is sad, or possibly slightly relieved
          */
     }
 

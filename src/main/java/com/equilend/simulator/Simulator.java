@@ -1,7 +1,6 @@
 package com.equilend.simulator;
 
 import java.lang.Thread;
-import java.time.OffsetDateTime;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,22 +8,25 @@ import org.apache.logging.log4j.Logger;
 
 public class Simulator 
 {   
-    private static String allParties = "*";
     private static final Logger logger = LogManager.getLogger();
     
     public static void main(String[] args)  
     {
-        User lender = Configurator.createLender();
+        Configurator configurator = new Configurator();
+        User lender = configurator.createLender();
         if (!lender.isValid()){
             logger.fatal("womp womp. Couldn't validate lender user");
             return;
         } 
-        User borrower = Configurator.createBorrower();
+        User borrower = configurator.createBorrower();
         if (!borrower.isValid()){
             logger.fatal("womp womp. Couldn't validate borrower user");
         }
-
         logger.info("Lender and borrower both valid!");
+
+        logger.info("DONE :)");
+
+        /*
         int attempts = 0;
         final int MAX_ATTEMPTS = Configurator.getMaxAttempts();
         long intervalInMs = Configurator.getWaitInterval();
@@ -50,6 +52,7 @@ public class Simulator
             attempts = 0;
             since = before;
         }
+        */
     }
     
     public static void waitMillisecs(Long interval){

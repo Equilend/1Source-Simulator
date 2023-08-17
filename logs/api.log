@@ -186,3 +186,9 @@
 2023-08-15 18:41:08.241 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
 2023-08-15 18:41:13.411 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new trade agreements to create contracts from
 2023-08-15 18:41:13.452 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.User - No new contract proposals
+2023-08-17 18:23:11.478 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
+2023-08-17 18:27:17.371 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
+2023-08-17 18:29:43.972 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
+2023-08-17 19:16:35.181 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
+2023-08-17 19:39:50.782 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
+2023-08-17 19:39:50.789 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
