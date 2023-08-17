@@ -294,7 +294,94 @@ public class APIConnector
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
         return gson.fromJson(getResponse.body(), contractListType);
     }    
-    
+
+    public static List<Event> getAllEvents(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
+    {
+        String sinceStr = formatTime(since);
+        String encodedSince = encode (sinceStr);
+        String beforeStr = formatTime(before);
+        String encodedBefore = encode(beforeStr);
+        
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/events" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with creating events get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending events get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        Type eventListType = new TypeToken<ArrayList<Contract>>(){}.getType();
+        return gson.fromJson(getResponse.body(), eventListType);
+    }    
+
+    public static List<Event> getAllEvents(Token token) throws APIException{
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/events"))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with creating events get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending events get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        Type eventListType = new TypeToken<ArrayList<Contract>>(){}.getType();
+        return gson.fromJson(getResponse.body(), eventListType);        
+    }
+
+    public static Event getEventById (Token token, String id) throws APIException
+    {
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/events" + "/" + id))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error creating event by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error sending event by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
+        ArrayList<Event> eventList = gson.fromJson(getResponse.body(), eventListType);
+        return eventList.get(0);
+    } 
+
     public static List<Party> getAllParties (Token token) throws APIException
     {
         HttpRequest getRequest;
@@ -351,5 +438,5 @@ public class APIConnector
         ArrayList<Party> partyList = gson.fromJson(getResponse.body(), partyListType);
         return partyList.get(0);
     }    
-
+    
 }

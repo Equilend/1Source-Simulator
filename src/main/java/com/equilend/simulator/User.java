@@ -18,10 +18,11 @@ public class User
 {
     private Map<String, String> loginInfo;
     private Token token;
+    
     private PartyRole role;
     private PartyRole counterRole;
     private static final Logger logger = LogManager.getLogger();
-
+    
     //Should assert isValid before use..
     public User(Map<String, String> loginInfo, PartyRole role) 
     {
@@ -29,11 +30,11 @@ public class User
         this.role = role;
         this.counterRole = (role == PartyRole.LENDER) ? PartyRole.BORROWER : PartyRole.LENDER;
     }
-
+    
     public boolean isValid (){
         return refreshToken();
     }
-
+    
     public boolean refreshToken()
     {
         try {
@@ -44,6 +45,10 @@ public class User
             return false;
         }
         return true;
+    }
+
+    public Token getToken() {
+        return token;
     }
 
     public boolean proposeContract(Trade trade)
