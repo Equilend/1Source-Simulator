@@ -36,7 +36,7 @@ public class Configurator {
         try {
             data = tomlMapper.readValue(new File(this.configFilename), new TypeReference<Map<String, Map<String, String>>>() {});
         } catch (IOException e) {
-            logger.error("Error reading config toml file", e);
+            logger.error("Error reading config TOML file", e);
             return;
         }
 

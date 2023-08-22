@@ -64,6 +64,26 @@ public class User
         
     }
 
+    public boolean proposeContract(String agreementId){
+        Agreement agreement;
+        try {
+            agreement = APIConnector.getAgreementById(token, agreementId);
+        } catch (APIException e) {
+            return false;
+        }
+
+        if (agreement == null){
+            return false;
+        } 
+
+        return proposeContract(agreement.getTrade());
+    }
+
+    public boolean considerProposingContract(String agreementId){
+        //TODO: Consider whether to propose contract based on config specifications
+        return proposeContract(agreementId);
+    }
+
     public boolean cancelContractProposal(String contractId) 
     {
         try {
@@ -95,6 +115,11 @@ public class User
         }
         return true;
     }    
+
+    public boolean considerContractProposal(String contractId){
+        // TODO: Accept or decline based on config specifications
+        return acceptContractProposal(contractId);
+    }
 
     private String getCounterPartyId(Agreement agreement)
     {

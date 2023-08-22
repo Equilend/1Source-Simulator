@@ -7,30 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class EventsProcessor {
-    //maybe just have one user that is either a lender or borrower
-    private User lender;
-    private User borrower;
+    private User user;
+    private Mode mode;
+    private Long waitInterval;
     private static final Logger logger = LogManager.getLogger();
 
-    public EventsProcessor(){
-        this.lender = null;
-        this.borrower = null;
-    }
-
-    public User getLender() {
-        return lender;
-    } 
-
-    public void setLender(User lender) {
-        this.lender = lender;
-    }
-
-    public User getBorrower() {
-        return borrower;
-    }
-
-    public void setBorrower(User borrower) {
-        this.borrower = borrower;
+    public EventsProcessor(User user, Configurator configurator){
+        this.user = user;
+        this.mode = configurator.getMode();
+        this.waitInterval = configurator.getWaitInterval();
     }
 
     private void processTradeEvent(Event event){
@@ -38,6 +23,13 @@ public class EventsProcessor {
         /*
          * a lender bot considers whether to propose a contract 
          */
+        if (mode == Mode.LENDER){
+            System.out.println("Lender bot proposes contract from trade");
+            String uri = event.getResourceUri();
+            String[] arr = uri.split("/");
+            String agreementId = arr[arr.length-1];
+            user.considerProposingContract(agreementId);
+        }
     }
 
     private void processContractEvent(Event event){
@@ -45,6 +37,13 @@ public class EventsProcessor {
         /*
          *  a borrower bot considers whether to accept or decline
          */
+        if (mode == Mode.BORROWER){
+            System.out.println("Borrower bot considers whether to approve or decline contract proposal");
+            String uri = event.getResourceUri();
+            String[] arr = uri.split("/");
+            String contractId = arr[arr.length-1];
+            user.considerContractProposal(contractId);
+        }
     }
     
     private void processContractCancelEvent(Event event){
@@ -88,15 +87,15 @@ public class EventsProcessor {
     }
     
     public void listen(){
-        if (lender == null){
+        if (user == null){
             logger.error("Unable to listen");
             return;
         }
-        Token token = lender.getToken();
+        Token token = user.getToken();
         OffsetDateTime since = APIConnector.getCurrentTime();
         OffsetDateTime before;
         while (true){
-            waitMillisecs(5000L);
+            waitMillisecs(waitInterval);
             before = APIConnector.getCurrentTime();
             List<Event> events;
             try{
@@ -106,6 +105,9 @@ public class EventsProcessor {
             } catch(APIException e){
                 logger.error("Error getting events", e);
                 return;
+            }
+            if (events.size() == 0){
+                logger.info("No new events");
             }
         }
     }

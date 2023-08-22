@@ -232,7 +232,6 @@ public class APIConnector
 
     public static List<Agreement> getAllAgreements(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
-        if (token == null) logger.info("huh");
         String sinceStr = formatTime(since);
         String encodedSince = encode(sinceStr);
         String beforeStr = formatTime(before);
@@ -262,7 +261,35 @@ public class APIConnector
         Type agreementListType = new TypeToken<ArrayList<Agreement>>(){}.getType();
         return gson.fromJson(getResponse.body(), agreementListType);
     }
-    
+
+    public static Agreement getAgreementById(Token token, String id) throws APIException
+    {
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "/" + id))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error creating agreement by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error sending agreement by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
+        return agreement;
+    }
+
     public static List<Contract> getAllContracts(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
@@ -295,6 +322,34 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), contractListType);
     }    
 
+    public static Contract getContractById(Token token, String id) throws APIException
+    {
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "/" + id))
+                .header("Authorization", "Bearer " + token.getAccess_token())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error creating contract by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error sending contract by id get request";
+            logger.error(message, e);
+            throw new APIException(message, e);
+        }
+        
+        Contract contract = gson.fromJson(getResponse.body(), Contract.class);
+        return contract;
+    }
+
     public static List<Event> getAllEvents(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
@@ -323,7 +378,12 @@ public class APIConnector
             logger.error(message, e);
             throw new APIException(message, e);
         }
-        Type eventListType = new TypeToken<ArrayList<Contract>>(){}.getType();
+
+        if (getResponse.body().charAt(0) == '{'){
+            //Then no events
+            return new ArrayList<Event>();
+        }
+        Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
         return gson.fromJson(getResponse.body(), eventListType);
     }    
 

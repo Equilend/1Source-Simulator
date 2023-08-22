@@ -192,3 +192,135 @@
 2023-08-17 19:16:35.181 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
 2023-08-17 19:39:50.782 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - Lender and borrower both valid!
 2023-08-17 19:39:50.789 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-17 20:44:36.058 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-17 20:46:05.596 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-17 20:54:21.437 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-17 20:55:23.752 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-17 21:00:17.401 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-17 21:00:22.731 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-17 21:00:27.846 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-17 21:00:32.925 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:38:31.159 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-18 12:38:36.495 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:38:41.832 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:38:46.968 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:38:52.518 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:38:57.629 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:02.773 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:07.873 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:13.007 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:18.107 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:23.189 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:28.284 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:33.370 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:39:38.464 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:44:20.126 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-18 12:44:25.434 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:44:30.549 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:44:35.643 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:44:40.749 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:44:45.850 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 12:44:46.308 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Accepting contract 76b07ad8-d296-431c-b9c6-6370dcd2ad6c
+2023-08-18 12:44:51.437 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Contract Approve Event
+2023-08-18 12:44:56.537 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:45:01.629 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:45:06.724 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:45:11.828 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:45:16.917 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:54:29.220 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-18 12:54:34.527 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:54:39.629 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:54:44.726 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:54:49.835 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:54:54.894 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:54:59.973 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:55:05.097 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:55:10.198 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:55:15.299 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 12:55:15.758 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Accepting contract f4465c93-e0fb-4bba-8c77-a8cad18ca9b9
+2023-08-18 12:55:20.842 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Contract Approve Event
+2023-08-18 12:55:25.922 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:55:31.040 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:55:36.149 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:55:41.230 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 12:55:41.575 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Accepting contract db27ebf9-d3a6-4e58-90c8-89d3cc2e3f31
+2023-08-18 12:55:46.651 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Contract Approve Event
+2023-08-18 12:55:51.728 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 12:55:56.813 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:31:52.454 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-18 13:32:17.310 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-18 13:32:22.557 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:32:27.660 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:32:32.774 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:32:37.850 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:49:13.332 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - User is valid!
+2023-08-18 13:49:18.632 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:23.704 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:28.783 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:33.870 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:38.940 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:44.028 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:49.130 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:54.206 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:49:59.310 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:04.387 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:09.462 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:50:10.471 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Proposing contract f5565404-f0c6-49f0-8e62-dbfa515339ec
+2023-08-18 13:50:10.475 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:50:11.019 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Proposing contract 01bd7489-d32d-45a1-92d2-76cc1f582ba5
+2023-08-18 13:50:16.087 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 13:50:16.087 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 13:50:21.174 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:26.227 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:31.289 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:36.341 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:41.396 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:46.471 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:51.539 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:50:56.619 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:01.693 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:06.760 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:11.822 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:16.879 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:21.955 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:27.093 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:51:27.624 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Proposing contract 64717454-a0e1-44be-91d0-292eb65a5bb3
+2023-08-18 13:51:32.688 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 13:51:37.772 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:42.872 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:47.948 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:53.021 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:51:58.093 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:03.172 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:08.252 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:13.345 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:18.407 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:23.484 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:28.647 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:33.713 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:38.788 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:43.855 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:48.923 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:54.000 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:52:59.046 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:04.121 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:09.177 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:53:09.674 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Proposing contract c561d561-a456-4671-96a5-65cf660f000b
+2023-08-18 13:53:09.678 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:53:10.226 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Proposing contract 69fb23e2-1b83-4e1e-95ea-83574bc88985
+2023-08-18 13:53:10.234 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:53:10.716 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Proposing contract 72945d54-3cea-4291-9a75-572a22053588
+2023-08-18 13:53:10.718 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Trade Event
+2023-08-18 13:53:11.185 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.APIConnector - Proposing contract 9ca7c514-4d6d-4a8d-86dc-797ba38a53c2
+2023-08-18 13:53:16.247 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 13:53:16.250 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 13:53:16.251 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 13:53:16.253 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - Processing Propose Contract Event
+2023-08-18 13:53:21.347 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:26.402 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:31.644 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:36.689 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:41.747 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:46.800 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:51.874 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-18 13:53:56.947 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.EventsProcessor - No new events

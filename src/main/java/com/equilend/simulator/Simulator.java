@@ -13,19 +13,17 @@ public class Simulator
     public static void main(String[] args)  
     {
         Configurator configurator = new Configurator();
-        User lender = configurator.createLender();
-        if (!lender.isValid()){
-            logger.fatal("womp womp. Couldn't validate lender user");
+        User bot = (configurator.getMode() == Mode.LENDER) ? configurator.createLender() : configurator.createBorrower();
+        if (!bot.isValid()){
+            logger.fatal("womp womp. Couldn't validate user");
             return;
         } 
-        User borrower = configurator.createBorrower();
-        if (!borrower.isValid()){
-            logger.fatal("womp womp. Couldn't validate borrower user");
-        }
-        logger.info("Lender and borrower both valid!");
+        logger.info("User is valid!");
+
+        EventsProcessor eventsProcessor = new EventsProcessor(bot, configurator);
+        eventsProcessor.listen();
 
         logger.info("DONE :)");
-
         /*
         int attempts = 0;
         final int MAX_ATTEMPTS = Configurator.getMaxAttempts();
