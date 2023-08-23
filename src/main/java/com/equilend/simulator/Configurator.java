@@ -17,13 +17,14 @@ public class Configurator {
     //Configurator should probably look for config file itself..
     private String configFilename = "src/main/java/com/equilend/simulator/config/config.toml";
     
+    private Map<String, String> loginMap;
     private Map<String, String> lenderLoginMap;
     private Map<String, String> borrowerLoginMap;
     private Mode mode;
 
     //max attempts should be read from config file
     private int maxAttempts = 3;
-    private long waitIntervalInMs = 5000;
+    private long waitIntervalInMs = 10 * 1000;
     
     public Configurator(){
         readLoginConfig();
@@ -45,19 +46,18 @@ public class Configurator {
         } 
 
         this.mode = Mode.valueOf(data.get("bot").get("mode"));
-        this.borrowerLoginMap = data.get("borrower");
-        this.lenderLoginMap = data.get("lender");
+        this.loginMap = data.get("login");
     }
 
-    public User createLender(){
-        User lender = new User(lenderLoginMap, PartyRole.LENDER);
-        return lender;
-    }
+    // public User createLender(){
+    //     User lender = new User(lenderLoginMap, PartyRole.LENDER);
+    //     return lender;
+    // }
 
-    public User createBorrower(){
-        User borrower = new User(borrowerLoginMap, PartyRole.BORROWER);
-        return borrower;
-    }
+    // public User createBorrower(){
+    //     User borrower = new User(borrowerLoginMap, PartyRole.BORROWER);
+    //     return borrower;
+    // }
 
     public Mode getMode() {
         return mode;
@@ -65,6 +65,10 @@ public class Configurator {
 
     public void setMode(Mode mode) {
         this.mode = mode;
+    }
+
+    public Map<String, String> getLoginMap(){
+        return loginMap;
     }
 
     public int getMaxAttempts(){

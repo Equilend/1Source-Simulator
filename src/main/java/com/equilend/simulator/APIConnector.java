@@ -94,7 +94,7 @@ public class APIConnector
         return token;
     }
 
-    public static ContractProposalResponse postContractProposal(Token token, ContractProposal contract) throws APIException
+    public static ContractProposalResponse postContractProposal(BearerToken token, ContractProposal contract) throws APIException
     {
         String contractJson = gson.toJson(contract);
 
@@ -103,7 +103,7 @@ public class APIConnector
             postRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts"))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(BodyPublishers.ofString(contractJson))
                 .build();
         } catch (URISyntaxException e) {
@@ -125,14 +125,14 @@ public class APIConnector
         return response;
     }
     
-    public static ContractProposalResponse cancelContractProposal(Token token, String contractId) throws APIException
+    public static ContractProposalResponse cancelContractProposal(BearerToken token, String contractId) throws APIException
     {
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/cancel"))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
@@ -155,7 +155,7 @@ public class APIConnector
         return response;       
     }
     
-    public static ContractProposalResponse acceptContractProposal(Token token, String contractId, AcceptSettlement settlement) throws APIException
+    public static ContractProposalResponse acceptContractProposal(BearerToken token, String contractId, AcceptSettlement settlement) throws APIException
     {
         String settlementJson = gson.toJson(settlement);
 
@@ -164,7 +164,7 @@ public class APIConnector
             postRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/approve"))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(BodyPublishers.ofString(settlementJson))
                 .build();
         } catch (URISyntaxException e) {
@@ -187,14 +187,14 @@ public class APIConnector
         return response;
     }
 
-    public static ContractProposalResponse declineContractProposal(Token token, String contractId) throws APIException
+    public static ContractProposalResponse declineContractProposal(BearerToken token, String contractId) throws APIException
     {
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/decline"))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
@@ -230,7 +230,7 @@ public class APIConnector
         return encoded;
     }
 
-    public static List<Agreement> getAllAgreements(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
+    public static List<Agreement> getAllAgreements(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
         String encodedSince = encode(sinceStr);
@@ -242,7 +242,7 @@ public class APIConnector
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating agreements get request";
@@ -262,14 +262,14 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), agreementListType);
     }
 
-    public static Agreement getAgreementById(Token token, String id) throws APIException
+    public static Agreement getAgreementById(BearerToken token, String id) throws APIException
     {
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "/" + id))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error creating agreement by id get request";
@@ -290,7 +290,7 @@ public class APIConnector
         return agreement;
     }
 
-    public static List<Contract> getAllContracts(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
+    public static List<Contract> getAllContracts(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
         String encodedSince = encode (sinceStr);
@@ -302,7 +302,7 @@ public class APIConnector
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating contracts get request";
@@ -322,14 +322,14 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), contractListType);
     }    
 
-    public static Contract getContractById(Token token, String id) throws APIException
+    public static Contract getContractById(BearerToken token, String id) throws APIException
     {
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "/" + id))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error creating contract by id get request";
@@ -350,7 +350,7 @@ public class APIConnector
         return contract;
     }
 
-    public static List<Event> getAllEvents(Token token, OffsetDateTime since, OffsetDateTime before) throws APIException
+    public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException
     {
         String sinceStr = formatTime(since);
         String encodedSince = encode (sinceStr);
@@ -362,7 +362,7 @@ public class APIConnector
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/events" + "?" + "since=" + encodedSince + "&" + "before=" + encodedBefore))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating events get request";
@@ -387,13 +387,13 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), eventListType);
     }    
 
-    public static List<Event> getAllEvents(Token token) throws APIException{
+    public static List<Event> getAllEvents(BearerToken token) throws APIException{
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/events"))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating events get request";
@@ -413,14 +413,14 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), eventListType);        
     }
 
-    public static Event getEventById (Token token, String id) throws APIException
+    public static Event getEventById (BearerToken token, String id) throws APIException
     {
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/events" + "/" + id))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error creating event by id get request";
@@ -442,14 +442,14 @@ public class APIConnector
         return eventList.get(0);
     } 
 
-    public static List<Party> getAllParties (Token token) throws APIException
+    public static List<Party> getAllParties (BearerToken token) throws APIException
     {
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties"))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error creating parties get request";
@@ -470,14 +470,14 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), partyListType);
     }
 
-    public static Party getPartyById (Token token, String id) throws APIException
+    public static Party getPartyById (BearerToken token, String id) throws APIException
     {
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI("https://stageapi.equilend.com/v1/ledger/parties" + "/" + id))
-                .header("Authorization", "Bearer " + token.getAccess_token())
+                .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error creating party by id get request";

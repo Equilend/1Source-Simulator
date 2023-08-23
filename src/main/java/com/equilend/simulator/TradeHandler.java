@@ -1,22 +1,50 @@
 package com.equilend.simulator;
 
+import com.equilend.simulator.Agreement.Agreement;
+
 public class TradeHandler implements EventHandler{
     private Event event;
     private Configurator rules;
     
-    public Token getToken(){
-        return new Token();
+    public BearerToken getToken(){
+        BearerToken token = null;
+        try {
+            token = BearerToken.getToken();
+        } catch (APIException e) {
+            e.printStackTrace();
+        }
+        return token;
     }
+
     public TradeHandler(Event e, Configurator rules){
         this.event = e;
         this.rules = rules;
     }
 
     public void run(){
-        System.out.println(Thread.currentThread().getName() + ": get token");
-        System.out.println(Thread.currentThread().getName() + ": propose contract from trade");
         String uri = event.getResourceUri();
         String[] arr = uri.split("/");
         String agreementId = arr[arr.length-1];
+
+        Agreement agreement;
+        try {
+            agreement = APIConnector.getAgreementById(getToken(), agreementId);
+        } catch (APIException e) {
+            return;
+        }
+        if (agreement == null){
+            return;
+        }    
+
+        // Analyze trade before continuing to propose contract based on rules
+        
+        ContractProposal contractProposal = ContractProposal.createContractProposal(agreement.getTrade());
+    
+        try {
+            APIConnector.postContractProposal(getToken(), contractProposal);
+        } catch (APIException e) {
+            return;
+        }
+
     }    
 }

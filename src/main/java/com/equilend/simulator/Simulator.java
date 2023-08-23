@@ -15,10 +15,12 @@ public class Simulator
     {
         Configurator configurator = new Configurator();
         //use configurator to set up Token class..
+        BearerToken.configureToken(configurator.getLoginMap());
 
         ExecutorService exec = Executors.newSingleThreadExecutor();
         exec.execute(new EventsProcessor(configurator));
 
+        exec.shutdown();
         logger.info("DONE :)");
  
     }

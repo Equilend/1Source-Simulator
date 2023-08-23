@@ -23,13 +23,19 @@ public class EventsProcessor implements Runnable{
     public void run(){
         ExecutorService exec = Executors.newCachedThreadPool();
 
-        Token token = Token.getToken();
+        BearerToken token;
+        try {
+            token = BearerToken.getToken();
+        } catch (APIException e) {
+            logger.error("Unable to listen for new events");
+            return;
+        }
 
         OffsetDateTime since = APIConnector.getCurrentTime();
         OffsetDateTime before;
         while (true){
             try {
-                Thread.sleep(10000L);
+                Thread.sleep(waitInterval);
             } catch (InterruptedException e) {
                 logger.error("Interrupt during sleep", e);
                 return;

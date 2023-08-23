@@ -1,21 +1,22 @@
 package com.equilend.simulator;
 
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Map;
+// import java.time.OffsetDateTime;
+// import java.util.List;
+// import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+// import org.apache.logging.log4j.LogManager;
+// import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.Agreement.Agreement;
-import com.equilend.simulator.Settlement.AcceptSettlement;
-import com.equilend.simulator.Settlement.Settlement;
-import com.equilend.simulator.Trade.Trade;
-import com.equilend.simulator.Trade.TransactingParty.PartyRole;
-import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
+// import com.equilend.simulator.Agreement.Agreement;
+// import com.equilend.simulator.Settlement.AcceptSettlement;
+// import com.equilend.simulator.Settlement.Settlement;
+// import com.equilend.simulator.Trade.Trade;
+// import com.equilend.simulator.Trade.TransactingParty.PartyRole;
+// import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 
 public class User 
 {
+/*
     private Map<String, String> loginInfo;
     private Token token;
     
@@ -184,5 +185,5 @@ public class User
         
         return true;
     }
-
+*/
 }
