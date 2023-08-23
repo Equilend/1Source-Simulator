@@ -8,6 +8,13 @@ import java.util.concurrent.Executors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.equilend.simulator.Configurator.Configurator;
+import com.equilend.simulator.Configurator.Mode;
+import com.equilend.simulator.EventHandler.ContractHandler;
+import com.equilend.simulator.EventHandler.EventHandler;
+import com.equilend.simulator.EventHandler.TradeHandler;
+import com.equilend.simulator.Token.BearerToken;
+
 public class EventsProcessor implements Runnable{
     private Configurator configurator;
     private Mode mode;

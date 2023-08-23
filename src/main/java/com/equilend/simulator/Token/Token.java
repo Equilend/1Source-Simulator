@@ -1,4 +1,4 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Token;
 
 public class Token { 
     private String access_token;

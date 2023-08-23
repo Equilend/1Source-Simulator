@@ -81,7 +81,6 @@ public class User
     }
 
     public boolean considerProposingContract(String agreementId){
-        //TODO: Consider whether to propose contract based on config specifications
         return proposeContract(agreementId);
     }
 
@@ -118,7 +117,6 @@ public class User
     }    
 
     public boolean considerContractProposal(String contractId){
-        // TODO: Accept or decline based on config specifications
         return acceptContractProposal(contractId);
     }
 

@@ -25,6 +25,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.Agreement.Agreement;
 import com.equilend.simulator.Settlement.AcceptSettlement;
+import com.equilend.simulator.Token.BearerToken;
+import com.equilend.simulator.Token.Token;
 import com.equilend.simulator.Trade.TransactingParty.Party;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

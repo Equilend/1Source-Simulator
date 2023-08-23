@@ -1,7 +1,14 @@
-package com.equilend.simulator;
+package com.equilend.simulator.EventHandler;
 
+import com.equilend.simulator.APIConnector;
+import com.equilend.simulator.APIException;
+import com.equilend.simulator.Contract;
+import com.equilend.simulator.ContractProposal;
+import com.equilend.simulator.Event;
+import com.equilend.simulator.Configurator.Configurator;
 import com.equilend.simulator.Settlement.AcceptSettlement;
 import com.equilend.simulator.Settlement.Settlement;
+import com.equilend.simulator.Token.BearerToken;
 import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
 public class ContractHandler implements EventHandler {

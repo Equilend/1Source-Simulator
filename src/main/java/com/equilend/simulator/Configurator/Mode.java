@@ -1,4 +1,4 @@
-package com.equilend.simulator;
+package com.equilend.simulator.Configurator;
 
 public enum Mode {
     LENDER,
