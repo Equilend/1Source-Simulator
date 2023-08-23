@@ -5,6 +5,10 @@ public class Token {
     private String error;
     private String error_description;
     
+    public static Token getToken(){
+        return new Token();
+    }
+
     public String getError() {
         return error;
     }
