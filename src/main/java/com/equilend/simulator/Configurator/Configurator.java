@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.Contract;
+import com.equilend.simulator.Contract.Contract;
 import com.equilend.simulator.Trade.Trade;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
@@ -16,7 +16,7 @@ public class Configurator {
     private static final Logger logger = LogManager.getLogger();
     
     //Configurator should probably look for config file itself..
-    private String configFilename = "src/main/java/com/equilend/simulator/config/config.toml";
+    private String configFilename = "config/config.toml";
     
     private Map<String, String> loginMap;
 
