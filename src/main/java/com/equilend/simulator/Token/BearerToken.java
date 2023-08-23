@@ -2,8 +2,8 @@ package com.equilend.simulator.Token;
 
 import java.util.Map;
 
-import com.equilend.simulator.APIConnector;
-import com.equilend.simulator.APIException;
+import com.equilend.simulator.API.APIConnector;
+import com.equilend.simulator.API.APIException;
 
 public class BearerToken {
     private String accessToken;
