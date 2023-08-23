@@ -36,15 +36,16 @@ public class TradeHandler implements EventHandler{
             return;
         }    
 
-        // Analyze trade before continuing to propose contract based on rules
+        if (rules.actOnTrade(agreement.getTrade())){
+            ContractProposal contractProposal = ContractProposal.createContractProposal(agreement.getTrade());
         
-        ContractProposal contractProposal = ContractProposal.createContractProposal(agreement.getTrade());
-    
-        try {
-            APIConnector.postContractProposal(getToken(), contractProposal);
-        } catch (APIException e) {
-            return;
+            try {
+                APIConnector.postContractProposal(getToken(), contractProposal);
+            } catch (APIException e) {
+                return;
+            }
         }
+        
 
     }    
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.Trade.TransactingParty.PartyRole;
+import com.equilend.simulator.Trade.Trade;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 
@@ -18,8 +18,7 @@ public class Configurator {
     private String configFilename = "src/main/java/com/equilend/simulator/config/config.toml";
     
     private Map<String, String> loginMap;
-    private Map<String, String> lenderLoginMap;
-    private Map<String, String> borrowerLoginMap;
+
     private Mode mode;
 
     //max attempts should be read from config file
@@ -49,16 +48,6 @@ public class Configurator {
         this.loginMap = data.get("login");
     }
 
-    // public User createLender(){
-    //     User lender = new User(lenderLoginMap, PartyRole.LENDER);
-    //     return lender;
-    // }
-
-    // public User createBorrower(){
-    //     User borrower = new User(borrowerLoginMap, PartyRole.BORROWER);
-    //     return borrower;
-    // }
-
     public Mode getMode() {
         return mode;
     }
@@ -78,6 +67,23 @@ public class Configurator {
     public long getWaitInterval(){
         return waitIntervalInMs;
     }
+
+    public boolean actOnTrade(Trade trade){
+        //Determine whether you should propose a contract from the trade or not
+        return true;
+    }
+
+    public boolean ignoreProposal(Contract contract){
+        //Either ignore contract proposal
+        //Or Accept/Decline it
+        return false;
+    }
+
+    public boolean shouldAcceptProposal(Contract contract){
+        //Determine whether you should accept or decline contract proposal
+        return true;
+    }
+
 }
 
 

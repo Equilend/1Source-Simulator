@@ -51,14 +51,23 @@ public class ContractHandler implements EventHandler {
         String contractId = arr[arr.length-1];
 
         //Get contract by Id
+        Contract contract;
+        try {
+            contract = APIConnector.getContractById(getToken(), contractId);
+        } catch (APIException e) {
+            e.printStackTrace();
+            return;
+        }
 
         //Analyze contract to decide whether to accept or decline based on rules
 
-        if (contractId.length() > 0){
-            acceptContractProposal(contractId);
-        }
-        else{
-            declineContractProposal(contractId);
+        if (!rules.ignoreProposal(contract)){
+            if (rules.shouldAcceptProposal(contract)){
+                acceptContractProposal(contractId);
+            }
+            else{
+                declineContractProposal(contractId);
+            }
         }
     }    
 }
