@@ -361,3 +361,47 @@
 2023-08-23 17:50:59.112 [pool-3-thread-2] INFO  com.equilend.simulator.APIConnector - Accepting contract de1ddcfa-e5b0-4c0e-84aa-bcbb3f9e6288
 2023-08-23 17:51:08.789 [pool-2-thread-1] WARN  com.equilend.simulator.EventsProcessor - Functionality not yet supported.
 2023-08-23 17:51:18.899 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor - No new events
+2023-08-23 19:05:00.966 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:05:11.204 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:05:21.324 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:05:24.726 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-23 19:05:31.439 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:05:42.031 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:05:52.159 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:06:02.276 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:06:19.684 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-23 19:06:32.575 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:06:43.184 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:06:53.384 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:07:03.511 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:07:13.596 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 19:07:23.683 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:02:26.194 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-23 20:02:26.375 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:03:37.744 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:03:48.200 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:03:54.282 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-23 20:03:58.321 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:04:08.464 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:04:18.943 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:04:29.138 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:04:39.407 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:07:02.252 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-23 20:12:39.418 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-23 20:13:41.821 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:14:18.994 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:14:29.134 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:14:39.229 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:14:49.337 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:14:59.447 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:15:09.587 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:15:19.715 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:15:29.863 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-23 20:15:31.184 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-23 20:15:31.184 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Interrupt during sleep
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:48) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
