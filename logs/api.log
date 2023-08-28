@@ -564,3 +564,1380 @@ java.lang.InterruptedException: sleep interrupted
 2023-08-25 15:08:04.625 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
 2023-08-25 15:08:07.638 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - [2023-08-25T15:08:04Z, 2023-08-25T15:08:07Z]
 2023-08-25 15:08:07.739 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:03.578 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01Z, 2023-08-28T15:01:03Z]
+2023-08-28 15:01:06.857 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:09.867 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:03Z, 2023-08-28T15:01:09Z]
+2023-08-28 15:01:10.209 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:13.218 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:09Z, 2023-08-28T15:01:13Z]
+2023-08-28 15:01:13.425 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:16.433 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:13Z, 2023-08-28T15:01:16Z]
+2023-08-28 15:01:16.577 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:19.590 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:16Z, 2023-08-28T15:01:19Z]
+2023-08-28 15:01:19.779 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:22.793 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:19Z, 2023-08-28T15:01:22Z]
+2023-08-28 15:01:22.922 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:25.940 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:22Z, 2023-08-28T15:01:25Z]
+2023-08-28 15:01:26.018 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:29.039 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:25Z, 2023-08-28T15:01:29Z]
+2023-08-28 15:01:29.208 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:32.220 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:29Z, 2023-08-28T15:01:32Z]
+2023-08-28 15:01:32.360 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:35.378 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:32Z, 2023-08-28T15:01:35Z]
+2023-08-28 15:01:35.528 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:38.550 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:35Z, 2023-08-28T15:01:38Z]
+2023-08-28 15:01:38.721 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:41.737 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:38Z, 2023-08-28T15:01:41Z]
+2023-08-28 15:01:41.859 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:44.868 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:41Z, 2023-08-28T15:01:44Z]
+2023-08-28 15:01:45.024 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:48.042 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:44Z, 2023-08-28T15:01:48Z]
+2023-08-28 15:01:48.206 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:51.233 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:48Z, 2023-08-28T15:01:51Z]
+2023-08-28 15:01:51.573 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:54.768 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:51Z, 2023-08-28T15:01:54Z]
+2023-08-28 15:01:55.441 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:01:58.479 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:54Z, 2023-08-28T15:01:58Z]
+2023-08-28 15:01:59.139 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:02.166 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:01:58Z, 2023-08-28T15:02:02Z]
+2023-08-28 15:02:03.208 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #0
+2023-08-28 15:02:04.908 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 15:02:06.390 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:02Z, 2023-08-28T15:02:06Z]
+2023-08-28 15:02:07.111 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 15:02:07.164 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 15:02:07.201 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 15:02:07.242 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 15:02:07.522 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 15:02:07.612 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 15:02:07.650 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 15:02:07.722 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 15:02:07.883 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 15:02:08.355 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 15:02:08.886 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 15:02:08.911 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 15:02:10.635 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:06Z, 2023-08-28T15:02:10Z]
+2023-08-28 15:02:11.770 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:14.773 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:10Z, 2023-08-28T15:02:14Z]
+2023-08-28 15:02:15.005 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 15:02:15.005 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 15:02:15.005 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 15:02:15.006 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 15:02:15.006 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 15:02:15.006 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 15:02:15.134 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 15:02:15.318 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 15:02:15.327 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 15:02:15.400 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 15:02:15.371 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 15:02:15.457 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 15:02:18.010 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:14Z, 2023-08-28T15:02:18Z]
+2023-08-28 15:02:18.631 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 15:02:18.989 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 15:02:19.245 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 15:02:19.464 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 15:02:22.131 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:18Z, 2023-08-28T15:02:22Z]
+2023-08-28 15:02:22.332 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 15:02:22.495 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 15:02:25.347 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:22Z, 2023-08-28T15:02:25Z]
+2023-08-28 15:02:25.528 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 15:02:25.550 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 15:02:25.558 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 15:02:25.558 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 15:02:25.565 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 15:02:25.706 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 15:02:25.739 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 15:02:25.739 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 15:02:25.809 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 15:02:25.857 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 15:02:28.581 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:25Z, 2023-08-28T15:02:28Z]
+2023-08-28 15:02:28.760 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 15:02:29.071 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 15:02:31.772 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:28Z, 2023-08-28T15:02:31Z]
+2023-08-28 15:02:31.972 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:34.986 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:31Z, 2023-08-28T15:02:34Z]
+2023-08-28 15:02:35.086 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:38.103 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:34Z, 2023-08-28T15:02:38Z]
+2023-08-28 15:02:38.189 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:41.231 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:38Z, 2023-08-28T15:02:41Z]
+2023-08-28 15:02:41.414 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:44.433 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:41Z, 2023-08-28T15:02:44Z]
+2023-08-28 15:02:44.559 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:47.574 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:44Z, 2023-08-28T15:02:47Z]
+2023-08-28 15:02:47.661 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:50.674 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:47Z, 2023-08-28T15:02:50Z]
+2023-08-28 15:02:50.755 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:53.767 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:50Z, 2023-08-28T15:02:53Z]
+2023-08-28 15:02:53.856 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:56.869 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:53Z, 2023-08-28T15:02:56Z]
+2023-08-28 15:02:56.951 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:02:59.972 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:56Z, 2023-08-28T15:02:59Z]
+2023-08-28 15:03:00.101 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:03:03.109 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:02:59Z, 2023-08-28T15:03:03Z]
+2023-08-28 15:03:03.195 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:03:06.209 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:03:03Z, 2023-08-28T15:03:06Z]
+2023-08-28 15:03:06.341 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:03:06.494 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 15:03:06.495 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 15:11:31.605 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:28.449923Z, 2023-08-28T15:11:31.455122Z]
+2023-08-28 15:11:31.972 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:11:34.984 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:31.455122Z, 2023-08-28T15:11:34.983232Z]
+2023-08-28 15:11:35.128 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:11:38.140 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:34.983232Z, 2023-08-28T15:11:38.137813Z]
+2023-08-28 15:11:38.205 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:11:41.214 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:38.137813Z, 2023-08-28T15:11:41.213613Z]
+2023-08-28 15:11:41.315 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:11:44.326 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:41.213613Z, 2023-08-28T15:11:44.321162Z]
+2023-08-28 15:11:44.460 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:11:47.544 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:44.321162Z, 2023-08-28T15:11:47.502594Z]
+2023-08-28 15:11:48.155 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:11:51.243 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:47.502594Z, 2023-08-28T15:11:51.170676Z]
+2023-08-28 15:11:51.915 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:11:54.935 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:51.170676Z, 2023-08-28T15:11:54.932162Z]
+2023-08-28 15:11:55.269 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #0
+2023-08-28 15:11:55.465 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 15:11:55.512 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 15:11:55.542 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 15:11:55.588 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 15:11:55.650 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 15:11:56.063 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 15:11:56.062 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 15:11:56.124 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 15:11:56.125 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 15:11:56.426 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 15:11:56.837 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 15:11:58.718 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:54.932162Z, 2023-08-28T15:11:58.717014Z]
+2023-08-28 15:11:59.368 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:02.382 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:11:58.717014Z, 2023-08-28T15:12:02.381437Z]
+2023-08-28 15:12:02.619 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 15:12:02.619 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 15:12:02.619 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 15:12:02.620 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 15:12:02.620 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 15:12:02.864 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 15:12:02.924 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 15:12:02.990 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 15:12:03.003 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 15:12:03.143 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 15:12:05.629 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:02.381437Z, 2023-08-28T15:12:05.622426Z]
+2023-08-28 15:12:05.881 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 15:12:06.332 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 15:12:08.887 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:05.622426Z, 2023-08-28T15:12:08.885765Z]
+2023-08-28 15:12:09.254 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:12.257 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:08.885765Z, 2023-08-28T15:12:12.255759Z]
+2023-08-28 15:12:12.387 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 15:12:12.396 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 15:12:12.403 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 15:12:12.404 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 15:12:12.404 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 15:12:12.405 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 15:12:12.578 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 15:12:12.615 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 15:12:12.660 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 15:12:12.666 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 15:12:12.751 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 15:12:12.770 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 15:12:15.422 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:12.255759Z, 2023-08-28T15:12:15.415859Z]
+2023-08-28 15:12:15.564 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 15:12:15.729 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 15:12:18.579 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:15.415859Z, 2023-08-28T15:12:18.576059Z]
+2023-08-28 15:12:18.774 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:21.797 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:18.576059Z, 2023-08-28T15:12:21.793167Z]
+2023-08-28 15:12:21.899 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:24.918 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:21.793167Z, 2023-08-28T15:12:24.916440Z]
+2023-08-28 15:12:25.053 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:28.067 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:24.916440Z, 2023-08-28T15:12:28.065117Z]
+2023-08-28 15:12:28.176 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:31.196 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:28.065117Z, 2023-08-28T15:12:31.193145Z]
+2023-08-28 15:12:31.369 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:34.388 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:31.193145Z, 2023-08-28T15:12:34.385270Z]
+2023-08-28 15:12:34.534 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:37.541 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:34.385270Z, 2023-08-28T15:12:37.540519Z]
+2023-08-28 15:12:37.615 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:40.620 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:37.540519Z, 2023-08-28T15:12:40.618814Z]
+2023-08-28 15:12:40.780 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:43.785 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:40.618814Z, 2023-08-28T15:12:43.783380Z]
+2023-08-28 15:12:43.946 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:46.971 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:43.783380Z, 2023-08-28T15:12:46.969633Z]
+2023-08-28 15:12:47.145 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:50.162 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:46.969633Z, 2023-08-28T15:12:50.152154Z]
+2023-08-28 15:12:50.367 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:53.377 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:50.152154Z, 2023-08-28T15:12:53.372793Z]
+2023-08-28 15:12:53.522 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:56.554 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:53.372793Z, 2023-08-28T15:12:56.553576Z]
+2023-08-28 15:12:56.667 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:12:59.687 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:56.553576Z, 2023-08-28T15:12:59.676094Z]
+2023-08-28 15:12:59.802 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:13:02.816 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:12:59.676094Z, 2023-08-28T15:13:02.806356Z]
+2023-08-28 15:13:02.878 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - No new events
+2023-08-28 15:13:04.290 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 15:13:04.290 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 15:36:48.617 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:36:45.446505Z, 2023-08-28T15:36:48.450821Z]
+2023-08-28 15:36:52.119 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:36:48.450821Z, 2023-08-28T15:36:52.117724Z]
+2023-08-28 15:36:55.266 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:36:52.117724Z, 2023-08-28T15:36:55.263481Z]
+2023-08-28 15:36:58.363 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:36:55.263481Z, 2023-08-28T15:36:58.360016Z]
+2023-08-28 15:37:01.565 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:36:58.360016Z, 2023-08-28T15:37:01.563249Z]
+2023-08-28 15:37:04.773 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:01.563249Z, 2023-08-28T15:37:04.737075Z]
+2023-08-28 15:37:09.227 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:04.737075Z, 2023-08-28T15:37:09.091256Z]
+2023-08-28 15:37:12.618 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:09.091256Z, 2023-08-28T15:37:12.616388Z]
+2023-08-28 15:37:13.271 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #0
+2023-08-28 15:37:13.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 15:37:13.410 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 15:37:13.489 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 15:37:13.506 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 15:37:14.135 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 15:37:14.247 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 15:37:14.147 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 15:37:14.147 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 15:37:14.398 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 15:37:16.710 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:12.616388Z, 2023-08-28T15:37:16.651633Z]
+2023-08-28 15:37:17.358 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 15:37:17.639 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 15:37:20.398 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:16.651633Z, 2023-08-28T15:37:20.392366Z]
+2023-08-28 15:37:21.028 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 15:37:21.028 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 15:37:21.028 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 15:37:21.028 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 15:37:21.285 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 15:37:21.299 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 15:37:21.380 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 15:37:21.410 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 15:37:24.038 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:20.392366Z, 2023-08-28T15:37:24.036097Z]
+2023-08-28 15:37:24.429 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 15:37:24.443 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 15:37:24.608 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 15:37:24.521 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 15:37:24.707 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 15:37:24.810 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 15:37:27.633 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:24.036097Z, 2023-08-28T15:37:27.629639Z]
+2023-08-28 15:37:30.763 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:27.629639Z, 2023-08-28T15:37:30.760786Z]
+2023-08-28 15:37:30.901 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 15:37:30.901 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 15:37:31.076 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 15:37:31.121 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 15:37:33.908 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:30.760786Z, 2023-08-28T15:37:33.905633Z]
+2023-08-28 15:37:37.067 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:33.905633Z, 2023-08-28T15:37:37.066515Z]
+2023-08-28 15:37:40.203 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:37.066515Z, 2023-08-28T15:37:40.202097Z]
+2023-08-28 15:37:43.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:40.202097Z, 2023-08-28T15:37:43.361134Z]
+2023-08-28 15:37:46.497 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:37:43.361134Z, 2023-08-28T15:37:46.493774Z]
+2023-08-28 15:37:47.272 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 15:37:47.272 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 15:39:33.243 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:30.118344Z, 2023-08-28T15:39:33.125548Z]
+2023-08-28 15:39:36.710 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:33.125548Z, 2023-08-28T15:39:36.705376Z]
+2023-08-28 15:39:39.918 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:36.705376Z, 2023-08-28T15:39:39.917173Z]
+2023-08-28 15:39:43.077 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:39.917173Z, 2023-08-28T15:39:43.054829Z]
+2023-08-28 15:39:46.287 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:43.054829Z, 2023-08-28T15:39:46.269211Z]
+2023-08-28 15:39:49.461 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:46.269211Z, 2023-08-28T15:39:49.457120Z]
+2023-08-28 15:39:52.614 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:49.457120Z, 2023-08-28T15:39:52.598880Z]
+2023-08-28 15:39:55.907 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:52.598880Z, 2023-08-28T15:39:55.843590Z]
+2023-08-28 15:39:59.382 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:55.843590Z, 2023-08-28T15:39:59.372243Z]
+2023-08-28 15:39:59.559 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #0
+2023-08-28 15:39:59.574 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 15:39:59.584 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 15:39:59.601 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 15:39:59.739 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 15:39:59.775 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 15:40:00.120 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 15:40:00.247 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 15:40:02.671 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:39:59.372243Z, 2023-08-28T15:40:02.669845Z]
+2023-08-28 15:40:02.817 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 15:40:02.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 15:40:02.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 15:40:03.071 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 15:40:03.106 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 15:40:03.122 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 15:40:05.834 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:02.669845Z, 2023-08-28T15:40:05.823948Z]
+2023-08-28 15:40:06.025 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 15:40:06.275 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 15:40:09.047 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:05.823948Z, 2023-08-28T15:40:09.042240Z]
+2023-08-28 15:40:12.144 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:09.042240Z, 2023-08-28T15:40:12.140898Z]
+2023-08-28 15:40:15.363 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:12.140898Z, 2023-08-28T15:40:15.357796Z]
+2023-08-28 15:40:18.510 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:15.357796Z, 2023-08-28T15:40:18.508274Z]
+2023-08-28 15:40:21.681 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:18.508274Z, 2023-08-28T15:40:21.674843Z]
+2023-08-28 15:40:24.831 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:21.674843Z, 2023-08-28T15:40:24.829501Z]
+2023-08-28 15:40:27.927 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:24.829501Z, 2023-08-28T15:40:27.921410Z]
+2023-08-28 15:40:31.055 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T15:40:27.921410Z, 2023-08-28T15:40:31.050833Z]
+2023-08-28 15:40:31.368 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 15:40:31.368 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 16:11:45.962 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:11:42.824146Z, 2023-08-28T16:11:45.826576Z]
+2023-08-28 16:11:49.455 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:11:45.826576Z, 2023-08-28T16:11:49.453653Z]
+2023-08-28 16:11:52.669 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:11:49.453653Z, 2023-08-28T16:11:52.665113Z]
+2023-08-28 16:11:55.871 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:11:52.665113Z, 2023-08-28T16:11:55.868843Z]
+2023-08-28 16:11:58.981 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:11:55.868843Z, 2023-08-28T16:11:58.981029Z]
+2023-08-28 16:12:02.052 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:11:58.981029Z, 2023-08-28T16:12:02.050863Z]
+2023-08-28 16:12:05.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:02.050863Z, 2023-08-28T16:12:05.491135Z]
+2023-08-28 16:12:10.651 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:05.491135Z, 2023-08-28T16:12:10.648763Z]
+2023-08-28 16:12:14.088 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:10.648763Z, 2023-08-28T16:12:14.086045Z]
+2023-08-28 16:12:14.285 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 16:12:14.542 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 16:12:14.569 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 16:12:14.612 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 16:12:14.646 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 16:12:15.185 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 16:12:15.199 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 16:12:15.199 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 16:12:15.183 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 16:12:17.709 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:14.086045Z, 2023-08-28T16:12:17.705982Z]
+2023-08-28 16:12:18.091 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 16:12:18.091 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 16:12:18.091 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 16:12:18.091 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 16:12:18.121 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 16:12:18.421 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 16:12:18.443 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 16:12:18.456 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 16:12:18.591 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 16:12:21.183 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:17.705982Z, 2023-08-28T16:12:21.180325Z]
+2023-08-28 16:12:21.274 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 1
+2023-08-28 16:12:21.274 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 16:12:21.510 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 16:12:24.301 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:21.180325Z, 2023-08-28T16:12:24.299291Z]
+2023-08-28 16:12:27.391 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:24.299291Z, 2023-08-28T16:12:27.390627Z]
+2023-08-28 16:12:30.501 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:27.390627Z, 2023-08-28T16:12:30.499543Z]
+2023-08-28 16:12:33.656 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:30.499543Z, 2023-08-28T16:12:33.653241Z]
+2023-08-28 16:12:36.991 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:33.653241Z, 2023-08-28T16:12:36.988931Z]
+2023-08-28 16:12:40.090 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:36.988931Z, 2023-08-28T16:12:40.088956Z]
+2023-08-28 16:12:43.252 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:40.088956Z, 2023-08-28T16:12:43.244369Z]
+2023-08-28 16:12:46.467 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:12:43.244369Z, 2023-08-28T16:12:46.464241Z]
+2023-08-28 16:12:46.947 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 16:12:46.947 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 16:19:43.479 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:19:40.244277Z, 2023-08-28T16:19:43.249651Z]
+2023-08-28 16:19:47.088 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:19:43.249651Z, 2023-08-28T16:19:47.082285Z]
+2023-08-28 16:19:50.601 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:19:47.082285Z, 2023-08-28T16:19:50.588601Z]
+2023-08-28 16:19:53.840 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:19:50.588601Z, 2023-08-28T16:19:53.839427Z]
+2023-08-28 16:19:56.993 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:19:53.839427Z, 2023-08-28T16:19:56.988972Z]
+2023-08-28 16:20:00.288 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:19:56.988972Z, 2023-08-28T16:20:00.274337Z]
+2023-08-28 16:20:03.746 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:00.274337Z, 2023-08-28T16:20:03.641591Z]
+2023-08-28 16:20:07.406 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:03.641591Z, 2023-08-28T16:20:07.353333Z]
+2023-08-28 16:20:10.784 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:07.353333Z, 2023-08-28T16:20:10.782774Z]
+2023-08-28 16:20:11.095 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 3
+2023-08-28 16:20:11.097 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 16:20:11.113 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 16:20:11.241 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 16:20:12.051 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 16:20:12.049 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 16:20:12.049 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 16:20:14.275 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:10.782774Z, 2023-08-28T16:20:14.268991Z]
+2023-08-28 16:20:14.622 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 16:20:14.622 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 16:20:14.622 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 16:20:14.622 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 16:20:14.623 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 16:20:14.991 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 16:20:15.379 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 16:20:15.403 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 16:20:15.546 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 16:20:17.643 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:14.268991Z, 2023-08-28T16:20:17.641595Z]
+2023-08-28 16:20:20.794 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:17.641595Z, 2023-08-28T16:20:20.788323Z]
+2023-08-28 16:20:21.235 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 3
+2023-08-28 16:20:21.255 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 16:20:21.260 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 16:20:21.264 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 16:20:21.640 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 16:20:21.649 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 16:20:21.744 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 16:20:24.272 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:20.788323Z, 2023-08-28T16:20:24.265860Z]
+2023-08-28 16:20:24.677 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 16:20:24.678 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 16:20:24.678 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 16:20:24.678 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 16:20:24.678 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 16:20:25.233 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 16:20:25.519 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 16:20:25.684 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 16:20:25.877 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 16:20:27.681 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:24.265860Z, 2023-08-28T16:20:27.680429Z]
+2023-08-28 16:20:30.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:27.680429Z, 2023-08-28T16:20:30.813765Z]
+2023-08-28 16:20:31.129 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 3
+2023-08-28 16:20:31.131 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 16:20:31.181 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 16:20:31.199 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 16:20:31.451 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 16:20:31.584 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 16:20:31.600 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 16:20:34.247 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:30.813765Z, 2023-08-28T16:20:34.236103Z]
+2023-08-28 16:20:37.513 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:34.236103Z, 2023-08-28T16:20:37.510789Z]
+2023-08-28 16:20:40.755 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:37.510789Z, 2023-08-28T16:20:40.729855Z]
+2023-08-28 16:20:43.835 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:40.729855Z, 2023-08-28T16:20:43.832344Z]
+2023-08-28 16:20:47.029 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:43.832344Z, 2023-08-28T16:20:47.026923Z]
+2023-08-28 16:20:50.190 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:47.026923Z, 2023-08-28T16:20:50.186636Z]
+2023-08-28 16:20:53.419 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:50.186636Z, 2023-08-28T16:20:53.415301Z]
+2023-08-28 16:20:56.614 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:20:53.415301Z, 2023-08-28T16:20:56.612504Z]
+2023-08-28 16:20:58.236 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 16:20:58.235 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 16:23:14.647 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:23:04.474715Z, 2023-08-28T16:23:14.477530Z]
+2023-08-28 16:23:25.251 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:23:14.477530Z, 2023-08-28T16:23:25.242937Z]
+2023-08-28 16:23:35.487 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:23:25.242937Z, 2023-08-28T16:23:35.485141Z]
+2023-08-28 16:23:35.680 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 16:23:35.825 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 16:23:35.950 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 16:23:36.247 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 16:23:36.368 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 16:23:37.093 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 16:23:37.095 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 16:23:37.092 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 16:23:37.096 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 16:23:46.429 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:23:35.485141Z, 2023-08-28T16:23:46.427979Z]
+2023-08-28 16:23:46.702 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 16:23:46.703 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 16:23:46.703 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 16:23:46.728 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 16:23:46.862 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 16:23:46.930 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 16:23:47.013 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 16:23:47.063 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 16:23:47.082 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 16:23:47.113 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 16:23:47.148 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 16:23:47.291 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 16:23:47.409 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 16:23:47.446 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 16:23:47.546 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 16:23:47.661 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 16:23:47.702 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 16:23:57.183 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:23:46.427979Z, 2023-08-28T16:23:57.180859Z]
+2023-08-28 16:23:57.332 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 5
+2023-08-28 16:23:57.345 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 16:23:57.353 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 16:23:57.370 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 16:23:57.388 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 16:23:57.399 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 16:23:57.597 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 16:23:57.852 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 16:23:57.933 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 16:23:58.056 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 16:23:58.056 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 16:24:07.441 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:23:57.180859Z, 2023-08-28T16:24:07.433525Z]
+2023-08-28 16:24:17.596 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:24:07.433525Z, 2023-08-28T16:24:17.591004Z]
+2023-08-28 16:24:27.793 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:24:17.591004Z, 2023-08-28T16:24:27.789503Z]
+2023-08-28 16:24:37.927 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T16:24:27.789503Z, 2023-08-28T16:24:37.922886Z]
+2023-08-28 16:24:42.513 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 16:24:42.512 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 18:22:28.776 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:22:18.595866Z, 2023-08-28T18:22:28.601957Z]
+2023-08-28 18:22:39.465 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:22:28.601957Z, 2023-08-28T18:22:39.459727Z]
+2023-08-28 18:22:49.666 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:22:39.459727Z, 2023-08-28T18:22:49.648487Z]
+2023-08-28 18:22:59.824 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:22:49.648487Z, 2023-08-28T18:22:59.823505Z]
+2023-08-28 18:23:00.304 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 18:23:00.394 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 18:23:00.416 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 18:23:00.432 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 18:23:00.541 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 18:23:00.570 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 18:23:00.590 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 18:23:00.621 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 18:23:00.758 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 18:23:01.681 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 18:23:01.695 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 18:23:01.704 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 18:23:01.694 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 18:23:01.694 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 18:23:01.668 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 18:23:01.679 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 18:23:01.692 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 18:23:10.775 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:22:59.823505Z, 2023-08-28T18:23:10.774284Z]
+2023-08-28 18:23:11.061 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 7
+2023-08-28 18:23:11.076 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 18:23:11.083 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 18:23:11.108 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 18:23:11.128 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 18:23:11.196 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 18:23:11.229 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 18:23:11.275 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 18:23:11.327 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 18:23:11.361 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 18:23:11.361 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 18:23:11.446 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 18:23:11.565 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 18:23:11.709 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 18:23:12.021 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 18:23:21.323 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:23:10.774284Z, 2023-08-28T18:23:21.322119Z]
+2023-08-28 18:23:21.481 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 18:23:21.481 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 18:23:21.482 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 18:23:21.482 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 18:23:21.482 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 18:23:21.646 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 18:23:21.654 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 18:23:21.803 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 18:23:21.805 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 18:23:31.489 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:23:21.322119Z, 2023-08-28T18:23:31.486988Z]
+2023-08-28 18:23:31.657 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 2
+2023-08-28 18:23:31.664 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 18:23:31.672 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 18:23:31.823 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 18:23:31.837 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 18:23:41.693 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:23:31.486988Z, 2023-08-28T18:23:41.690569Z]
+2023-08-28 18:23:51.805 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:23:41.690569Z, 2023-08-28T18:23:51.804982Z]
+2023-08-28 18:24:01.859 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:23:51.804982Z, 2023-08-28T18:24:01.858139Z]
+2023-08-28 18:24:11.965 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Listening between [2023-08-28T18:24:01.858139Z, 2023-08-28T18:24:11.959056Z]
+2023-08-28 18:24:12.715 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 18:24:12.713 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:49) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 19:28:31.634 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:28:42.845 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:28:53.047 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:29:03.195 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:29:13.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:29:13.836 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 19:29:14.039 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 19:29:14.068 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 19:29:14.209 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 19:29:14.300 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 19:29:14.439 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 19:29:14.480 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 19:29:14.816 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 19:29:14.872 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 19:29:15.716 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:29:15.774 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:29:15.776 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:29:15.716 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:29:15.714 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:29:15.716 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:29:15.716 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:29:15.920 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:29:24.994 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10007984
+2023-08-28 19:29:25.473 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 16
+2023-08-28 19:29:25.488 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 19:29:25.491 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 19:29:25.491 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 19:29:25.491 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 19:29:25.491 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 19:29:25.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 19:29:25.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 19:29:25.554 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 19:29:25.693 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 19:29:25.833 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 19:29:25.981 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 19:29:25.983 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 19:29:26.004 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 19:29:26.006 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 19:29:26.062 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 19:29:26.093 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 19:29:26.187 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:29:26.597 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:29:26.707 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:29:26.743 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:29:26.895 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:29:27.053 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:29:27.170 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:29:27.296 [pool-3-thread-13] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:29:27.277 [pool-3-thread-9] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:29:27.391 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:29:27.296 [pool-3-thread-12] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:29:27.454 [pool-3-thread-14] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:29:27.475 [pool-3-thread-16] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:29:27.491 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:29:27.478 [pool-3-thread-10] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:29:27.552 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:29:36.170 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10007984
+2023-08-28 19:29:36.393 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 24
+2023-08-28 19:29:36.393 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 19:29:36.394 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #26
+2023-08-28 19:29:36.394 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #27
+2023-08-28 19:29:36.394 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #28
+2023-08-28 19:29:36.394 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #29
+2023-08-28 19:29:36.394 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #30
+2023-08-28 19:29:36.394 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #31
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #32
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #33
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #34
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #35
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #36
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #37
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #38
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #39
+2023-08-28 19:29:36.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #40
+2023-08-28 19:29:36.396 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #41
+2023-08-28 19:29:36.424 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #42
+2023-08-28 19:29:36.450 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #43
+2023-08-28 19:29:36.462 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #44
+2023-08-28 19:29:36.604 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #45
+2023-08-28 19:29:36.661 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #46
+2023-08-28 19:29:36.716 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:29:36.824 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:29:36.835 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 19:29:36.816 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #47
+2023-08-28 19:29:36.874 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #48
+2023-08-28 19:29:37.053 [pool-3-thread-14] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 19:29:37.052 [pool-3-thread-12] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 19:29:37.185 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:29:37.204 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:29:37.221 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:29:37.230 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:29:37.362 [pool-3-thread-16] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 19:29:37.400 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 19:29:37.406 [pool-3-thread-13] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:29:37.529 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 19:29:37.635 [pool-3-thread-17] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:29:37.671 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:29:37.758 [pool-3-thread-9] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:29:38.004 [pool-3-thread-18] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:29:38.045 [pool-3-thread-10] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:29:38.144 [pool-3-thread-19] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:29:38.146 [pool-3-thread-22] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:29:38.148 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:29:38.148 [pool-3-thread-21] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:29:38.149 [pool-3-thread-20] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:29:38.150 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:29:46.893 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10007984
+2023-08-28 19:29:47.017 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 25
+2023-08-28 19:29:47.018 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #49
+2023-08-28 19:29:47.040 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #50
+2023-08-28 19:29:47.153 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #51
+2023-08-28 19:29:47.225 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #52
+2023-08-28 19:29:47.262 [pool-3-thread-20] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:29:47.262 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #53
+2023-08-28 19:29:47.322 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #54
+2023-08-28 19:29:47.323 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #55
+2023-08-28 19:29:47.323 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #56
+2023-08-28 19:29:47.323 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #57
+2023-08-28 19:29:47.324 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #58
+2023-08-28 19:29:47.331 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #59
+2023-08-28 19:29:47.332 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #60
+2023-08-28 19:29:47.334 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 19:29:47.335 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #61
+2023-08-28 19:29:47.335 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #62
+2023-08-28 19:29:47.371 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #63
+2023-08-28 19:29:47.481 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #64
+2023-08-28 19:29:47.491 [pool-3-thread-21] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 19:29:47.491 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #65
+2023-08-28 19:29:47.491 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 19:29:47.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #66
+2023-08-28 19:29:47.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #67
+2023-08-28 19:29:47.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #68
+2023-08-28 19:29:47.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #69
+2023-08-28 19:29:47.492 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #70
+2023-08-28 19:29:47.493 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #71
+2023-08-28 19:29:47.500 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #72
+2023-08-28 19:29:47.514 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #73
+2023-08-28 19:29:47.618 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:29:47.603 [pool-3-thread-10] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 19:29:47.655 [pool-3-thread-19] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 19:29:47.742 [pool-3-thread-12] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:29:47.742 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:29:47.776 [pool-3-thread-22] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 19:29:47.778 [pool-3-thread-14] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:29:47.831 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:29:47.831 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:29:47.874 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:29:48.024 [pool-3-thread-16] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:29:48.036 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:29:48.037 [pool-3-thread-17] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:29:48.117 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:29:48.167 [pool-3-thread-18] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:29:48.232 [pool-3-thread-9] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:29:48.232 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:29:48.233 [pool-3-thread-21] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:29:48.234 [pool-3-thread-20] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 19:29:48.250 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:29:48.261 [pool-3-thread-13] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:32:54.827 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:33:05.496 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:33:15.671 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:33:25.840 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:33:26.064 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 19:33:26.161 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 19:33:26.226 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 19:33:26.352 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 19:33:26.431 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 19:33:26.781 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:33:26.782 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:33:26.781 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:33:26.883 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:33:36.563 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008009
+2023-08-28 19:33:36.741 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 19:33:36.741 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 19:33:36.742 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 19:33:36.742 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 19:33:36.742 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 19:33:36.762 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 19:33:36.881 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 19:33:36.932 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 19:33:37.071 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 19:33:37.195 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:33:37.197 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:33:37.345 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:33:37.399 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:33:37.604 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:33:37.631 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:33:37.738 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:33:37.826 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:33:47.140 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008009
+2023-08-28 19:33:47.341 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 16
+2023-08-28 19:33:47.352 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 19:33:47.353 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 19:33:47.353 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 19:33:47.353 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 19:33:47.353 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 19:33:47.354 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 19:33:47.354 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 19:33:47.354 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 19:33:47.354 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 19:33:47.355 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 19:33:47.376 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 19:33:47.395 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 19:33:47.404 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 19:33:47.456 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #26
+2023-08-28 19:33:47.472 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #27
+2023-08-28 19:33:47.614 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #28
+2023-08-28 19:33:47.890 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:33:48.110 [pool-3-thread-9] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:33:48.237 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:33:48.655 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:33:48.767 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:33:48.743 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:33:48.766 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:33:48.854 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:33:48.890 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:33:48.894 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:33:49.157 [pool-3-thread-10] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:33:49.179 [pool-3-thread-13] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:33:49.291 [pool-3-thread-12] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:33:49.292 [pool-3-thread-14] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:33:49.414 [pool-3-thread-16] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:33:49.537 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:33:57.679 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008009
+2023-08-28 19:33:57.817 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 23
+2023-08-28 19:33:57.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #29
+2023-08-28 19:33:57.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #30
+2023-08-28 19:33:57.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #31
+2023-08-28 19:33:57.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #32
+2023-08-28 19:33:57.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #33
+2023-08-28 19:33:57.818 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #34
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #35
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #36
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #37
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #38
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #39
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #40
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #41
+2023-08-28 19:33:57.819 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #42
+2023-08-28 19:33:57.820 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #43
+2023-08-28 19:33:57.820 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #44
+2023-08-28 19:33:57.820 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #45
+2023-08-28 19:33:57.973 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #46
+2023-08-28 19:33:57.985 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #47
+2023-08-28 19:33:58.013 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #48
+2023-08-28 19:33:58.017 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:33:58.128 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #49
+2023-08-28 19:33:58.129 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #50
+2023-08-28 19:33:58.136 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #51
+2023-08-28 19:33:58.159 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:33:58.281 [pool-3-thread-10] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 19:33:58.349 [pool-3-thread-12] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 19:33:58.436 [pool-3-thread-13] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 19:33:58.458 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:33:58.633 [pool-3-thread-16] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 19:33:58.686 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:33:58.867 [pool-3-thread-17] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:33:58.906 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:33:58.907 [pool-3-thread-14] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 19:33:58.991 [pool-3-thread-9] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:33:59.018 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:33:59.125 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:33:59.173 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:33:59.239 [pool-3-thread-19] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:33:59.254 [pool-3-thread-18] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:33:59.281 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:33:59.405 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:33:59.430 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:33:59.466 [pool-3-thread-20] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:33:59.405 [pool-3-thread-22] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:33:59.467 [pool-3-thread-21] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:34:08.260 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008009
+2023-08-28 19:34:08.360 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 25
+2023-08-28 19:34:08.360 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #52
+2023-08-28 19:34:08.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #53
+2023-08-28 19:34:08.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #54
+2023-08-28 19:34:08.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #55
+2023-08-28 19:34:08.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #56
+2023-08-28 19:34:08.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #57
+2023-08-28 19:34:08.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #58
+2023-08-28 19:34:08.361 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #59
+2023-08-28 19:34:08.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #60
+2023-08-28 19:34:08.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #61
+2023-08-28 19:34:08.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #62
+2023-08-28 19:34:08.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #63
+2023-08-28 19:34:08.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #64
+2023-08-28 19:34:08.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #65
+2023-08-28 19:34:08.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #66
+2023-08-28 19:34:08.384 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #67
+2023-08-28 19:34:08.534 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #68
+2023-08-28 19:34:08.563 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #69
+2023-08-28 19:34:08.586 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #70
+2023-08-28 19:34:08.647 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #71
+2023-08-28 19:34:08.690 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #72
+2023-08-28 19:34:08.745 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #73
+2023-08-28 19:34:08.783 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #74
+2023-08-28 19:34:08.794 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:34:08.836 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #75
+2023-08-28 19:34:08.895 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #76
+2023-08-28 19:34:09.004 [pool-3-thread-22] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 19:34:09.117 [pool-3-thread-21] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 19:34:09.259 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:34:09.274 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 19:34:09.277 [pool-3-thread-19] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 19:34:09.278 [pool-3-thread-18] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 19:34:09.280 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:34:09.280 [pool-3-thread-9] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:34:09.300 [pool-3-thread-20] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:34:09.300 [pool-3-thread-17] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:34:09.341 [pool-3-thread-16] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:34:09.343 [pool-3-thread-10] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:34:09.426 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:34:09.426 [pool-3-thread-13] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:34:09.437 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:34:09.439 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 19:34:09.440 [pool-3-thread-12] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:34:09.441 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 19:34:09.454 [pool-3-thread-14] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:34:09.455 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:34:09.456 [pool-3-thread-24] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:34:09.457 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:34:09.457 [pool-3-thread-23] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:34:09.457 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:34:19.035 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008009
+2023-08-28 19:34:19.155 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 25
+2023-08-28 19:34:19.168 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #77
+2023-08-28 19:34:19.185 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #78
+2023-08-28 19:34:19.187 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #79
+2023-08-28 19:34:19.187 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #80
+2023-08-28 19:34:19.188 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #81
+2023-08-28 19:34:19.189 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #82
+2023-08-28 19:34:19.191 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #83
+2023-08-28 19:34:19.192 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #84
+2023-08-28 19:34:19.207 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #85
+2023-08-28 19:34:19.267 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #86
+2023-08-28 19:34:19.329 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #87
+2023-08-28 19:34:19.334 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #88
+2023-08-28 19:34:19.335 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #89
+2023-08-28 19:34:19.335 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #90
+2023-08-28 19:34:19.335 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #91
+2023-08-28 19:34:19.335 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #92
+2023-08-28 19:34:19.335 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #93
+2023-08-28 19:34:19.336 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #94
+2023-08-28 19:34:19.336 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #95
+2023-08-28 19:34:19.336 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #96
+2023-08-28 19:34:19.336 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #97
+2023-08-28 19:34:19.354 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #98
+2023-08-28 19:34:19.362 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #99
+2023-08-28 19:34:19.363 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #100
+2023-08-28 19:34:19.363 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #101
+2023-08-28 19:34:19.374 [pool-3-thread-24] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 19:34:19.423 [pool-3-thread-14] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 19:34:19.465 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 19:34:19.625 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:34:19.755 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:34:19.755 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:34:19.804 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 19:34:19.916 [pool-3-thread-12] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 19:34:19.936 [pool-3-thread-23] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 19:34:20.066 [pool-3-thread-13] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:34:20.066 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:34:20.055 [pool-3-thread-11] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 19:34:20.123 [pool-3-thread-15] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:34:20.227 [pool-3-thread-20] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:34:20.248 [pool-3-thread-16] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:34:20.341 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:34:20.516 [pool-3-thread-22] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:34:20.687 [pool-3-thread-18] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:34:20.738 [pool-3-thread-10] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:34:20.858 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:34:20.858 [pool-3-thread-19] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:34:20.859 [pool-3-thread-21] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:34:20.859 [pool-3-thread-17] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:34:20.860 [pool-3-thread-9] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:34:20.861 [pool-3-thread-25] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:37:13.155 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:37:25.054 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:37:35.359 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:37:45.551 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:37:45.727 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 19:37:45.729 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 19:37:45.729 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 19:37:45.750 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 19:37:45.767 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 19:37:46.739 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:37:46.739 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:37:46.702 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 19:37:46.740 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:37:55.787 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008037
+2023-08-28 19:37:56.062 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 19:37:56.088 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 19:37:56.185 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 19:37:56.187 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 19:37:56.204 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 19:37:56.206 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 19:37:56.468 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 19:37:56.569 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 19:37:56.601 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 19:37:56.854 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:37:57.045 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:37:57.055 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:37:57.325 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:37:57.327 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:37:57.542 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:37:57.542 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:37:57.737 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:38:06.758 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008044
+2023-08-28 19:38:07.020 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 7
+2023-08-28 19:38:07.034 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 19:38:07.168 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 19:38:07.303 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 19:38:07.337 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 19:38:07.340 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 19:38:07.340 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 19:38:07.341 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 19:38:07.490 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:38:07.591 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:38:07.858 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:38:07.859 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:38:07.860 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:38:07.859 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:38:07.870 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:38:17.352 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008050
+2023-08-28 19:38:17.592 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 7
+2023-08-28 19:38:17.627 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 19:38:17.639 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 19:38:17.645 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 19:38:17.715 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 19:38:17.757 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 19:38:17.771 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 19:38:17.771 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #26
+2023-08-28 19:38:17.892 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 19:38:18.104 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:38:18.174 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 19:38:18.278 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:38:18.380 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 19:38:18.435 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 19:38:18.576 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 19:38:27.921 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008056
+2023-08-28 19:38:28.122 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 3
+2023-08-28 19:38:28.143 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #27
+2023-08-28 19:38:28.144 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #28
+2023-08-28 19:38:28.154 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #29
+2023-08-28 19:38:28.341 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:38:28.348 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 19:38:28.364 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 19:38:38.174 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008058
+2023-08-28 19:38:38.579 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 1
+2023-08-28 19:38:38.579 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #30
+2023-08-28 19:38:39.388 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 19:38:45.860 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 19:38:45.858 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:50) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 19:40:31.864 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:40:43.059 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:40:53.307 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 19:40:53.943 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 2
+2023-08-28 19:40:54.086 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 19:40:54.170 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 19:40:54.931 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 19:41:04.269 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008061
+2023-08-28 19:41:07.435 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 19:41:07.511 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 19:41:07.654 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 19:41:07.928 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 19:41:07.964 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 19:41:08.205 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 19:41:08.245 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 19:41:08.376 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 19:41:08.419 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 19:41:08.420 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 19:41:08.544 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 19:41:08.993 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 19:41:08.844 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 19:41:09.018 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 19:41:09.184 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 19:41:09.184 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 19:41:09.049 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 19:41:18.424 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008069
+2023-08-28 19:41:19.017 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 6
+2023-08-28 19:41:19.097 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 19:41:19.123 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 19:41:19.128 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 19:41:19.155 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 19:41:19.217 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 19:41:19.322 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 19:41:19.867 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 19:41:20.656 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 19:41:20.887 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 19:41:20.923 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 19:41:21.201 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 19:41:21.527 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 19:41:29.521 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008075
+2023-08-28 19:41:30.026 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 19:41:30.139 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 19:41:30.287 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 19:41:30.340 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 19:41:30.340 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 19:41:30.484 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 19:41:30.485 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 19:41:30.498 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 19:41:30.704 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 19:41:40.433 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008079
+2023-08-28 19:41:40.706 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 19:41:40.724 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 19:41:40.733 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 19:41:40.734 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 19:41:40.734 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 19:41:40.840 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 19:41:41.061 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 19:41:41.154 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 19:41:41.214 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 19:41:50.746 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008083
+2023-08-28 19:41:50.994 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 1
+2023-08-28 19:41:50.995 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 19:41:51.325 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 19:42:01.012 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008084
+2023-08-28 19:42:11.222 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008084
+2023-08-28 19:42:21.400 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008084
+2023-08-28 19:42:29.464 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 19:42:29.462 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:50) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 20:19:06.253 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:19:17.317 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:19:27.617 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:19:37.978 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:19:38.763 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 20:19:38.878 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 20:19:38.926 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 20:19:38.994 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 20:19:39.050 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 20:19:39.226 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 20:19:39.333 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 20:19:39.452 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 20:19:39.547 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 20:19:40.155 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 20:19:40.238 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 20:19:40.155 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 20:19:40.236 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 20:19:40.575 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 20:19:40.595 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 20:19:40.595 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 20:19:40.715 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 20:19:49.695 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008092
+2023-08-28 20:19:50.085 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 5
+2023-08-28 20:19:50.104 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 20:19:50.166 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 20:19:50.196 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 20:19:50.196 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 20:19:50.197 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 20:19:50.498 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 20:19:50.629 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 20:19:50.659 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 20:19:50.795 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 20:19:50.774 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 20:20:00.221 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008097
+2023-08-28 20:20:00.727 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 20:20:00.737 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 20:20:00.765 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 20:20:00.838 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 20:20:00.917 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 20:20:01.017 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 20:20:01.187 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 20:20:01.187 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 20:20:01.187 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 20:20:01.617 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 20:20:01.704 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 20:20:01.867 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 20:20:02.108 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 20:20:02.423 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 20:20:02.605 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 20:20:02.646 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 20:20:11.189 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008105
+2023-08-28 20:20:11.342 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 20:20:11.352 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 20:20:11.368 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 20:20:11.455 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 20:20:11.468 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 20:20:11.477 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 20:20:11.602 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 20:20:11.615 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 20:20:11.729 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 20:20:21.483 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008109
+2023-08-28 20:20:31.636 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008109
+2023-08-28 20:20:41.803 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008109
+2023-08-28 20:20:43.714 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 20:20:43.714 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:50) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 20:28:31.227 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:28:42.663 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:28:52.981 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:29:03.257 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:29:04.439 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 20:29:04.459 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 20:29:04.485 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 20:29:04.734 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 20:29:04.811 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 20:29:05.407 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 20:29:05.408 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 20:29:05.408 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 20:29:05.407 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 20:29:14.835 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008113
+2023-08-28 20:29:14.974 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 7
+2023-08-28 20:29:15.086 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 20:29:15.089 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 20:29:15.167 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 20:29:15.262 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 20:29:15.318 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 20:29:15.437 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 20:29:15.562 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 20:29:15.591 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 20:29:15.800 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 20:29:15.845 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 20:29:15.988 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 20:29:16.026 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 20:29:16.182 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 20:29:16.321 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 20:29:25.594 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008120
+2023-08-28 20:29:25.834 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 5
+2023-08-28 20:29:25.835 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 20:29:25.835 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 20:29:25.835 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 20:29:25.835 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 20:29:25.915 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 20:29:26.151 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 20:29:26.362 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 20:29:26.508 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 20:29:26.746 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 20:29:26.845 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 20:29:35.950 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008125
+2023-08-28 20:29:36.111 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 20:29:36.111 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 20:29:36.111 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 20:29:36.111 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 20:29:36.112 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 20:29:36.112 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 20:29:36.112 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 20:29:36.112 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 20:29:36.112 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 20:29:36.304 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 20:29:36.306 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 20:29:36.443 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 20:29:36.478 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 20:29:36.461 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 20:29:36.572 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 20:29:36.719 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 20:29:36.905 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 20:29:46.118 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008133
+2023-08-28 20:29:46.489 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 1
+2023-08-28 20:29:46.489 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 20:29:46.783 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 20:29:53.544 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 20:29:53.543 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:50) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 20:32:23.769 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:32:35.302 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:32:45.633 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:32:55.798 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:33:05.985 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:33:16.240 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:33:16.905 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 20:33:17.084 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 20:33:17.086 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 20:33:17.235 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 20:33:17.266 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 20:33:18.430 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AAPL
+2023-08-28 20:33:18.234 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of BRK.B
+2023-08-28 20:33:18.432 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of AMZN
+2023-08-28 20:33:18.450 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ABC
+2023-08-28 20:33:27.530 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008138
+2023-08-28 20:33:28.024 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 20:33:28.058 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 20:33:28.112 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 20:33:28.489 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 20:33:28.588 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 20:33:29.261 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVS
+2023-08-28 20:33:29.404 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CAH
+2023-08-28 20:33:29.400 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of CVX
+2023-08-28 20:33:29.655 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of COST
+2023-08-28 20:33:38.753 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008142
+2023-08-28 20:33:39.236 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 5
+2023-08-28 20:33:39.392 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 20:33:39.462 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 20:33:39.569 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 20:33:39.570 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 20:33:39.600 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 20:33:39.846 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of IBM
+2023-08-28 20:33:39.903 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of HD
+2023-08-28 20:33:40.091 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of ELV
+2023-08-28 20:33:40.175 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of F
+2023-08-28 20:33:40.389 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of GOOG
+2023-08-28 20:33:49.761 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008147
+2023-08-28 20:33:50.141 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 7
+2023-08-28 20:33:50.151 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 20:33:50.303 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 20:33:50.304 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 20:33:50.330 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 20:33:50.330 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 20:33:50.330 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 20:33:50.344 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 20:33:50.613 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MSFT
+2023-08-28 20:33:50.831 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of TSLA
+2023-08-28 20:33:50.995 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MPC
+2023-08-28 20:33:50.994 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of T
+2023-08-28 20:33:51.355 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of MCK
+2023-08-28 20:33:51.325 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of KR
+2023-08-28 20:33:51.474 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of JPM
+2023-08-28 20:34:00.576 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008154
+2023-08-28 20:34:01.090 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 4
+2023-08-28 20:34:01.091 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 20:34:01.092 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 20:34:01.092 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 20:34:01.092 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 20:34:01.369 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WMT
+2023-08-28 20:34:01.464 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of WBA
+2023-08-28 20:34:01.540 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of UNH
+2023-08-28 20:34:01.618 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of VZ
+2023-08-28 20:34:11.096 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008158
+2023-08-28 20:34:11.430 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 1
+2023-08-28 20:34:11.431 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 20:34:11.559 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Capturing trade of XOM
+2023-08-28 20:34:21.435 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008159
+2023-08-28 20:34:23.449 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 20:34:23.449 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:50) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]
+2023-08-28 20:35:57.609 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:36:08.685 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:36:18.823 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:36:29.126 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 0
+2023-08-28 20:36:30.794 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 8
+2023-08-28 20:36:31.209 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #1
+2023-08-28 20:36:31.612 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #2
+2023-08-28 20:36:31.967 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #3
+2023-08-28 20:36:32.391 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #4
+2023-08-28 20:36:32.605 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #5
+2023-08-28 20:36:32.759 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #6
+2023-08-28 20:36:32.777 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #7
+2023-08-28 20:36:32.986 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #8
+2023-08-28 20:36:36.839 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 7f120756-6b76-4503-b8b5-142db7232299
+2023-08-28 20:36:37.205 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 7ac4a252-0c03-4bd5-875e-bcb6a89edd1d
+2023-08-28 20:36:37.230 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract c278beac-cfa7-4790-bf96-0e751f722854
+2023-08-28 20:36:37.244 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract b4ffaf9d-2b66-40a5-bba0-efcd998303fb
+2023-08-28 20:36:37.250 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract eab9da61-b36b-4a26-8060-0b8025667ddb
+2023-08-28 20:36:37.648 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 1c3767e3-475e-406b-9ef3-060985f20c9a
+2023-08-28 20:36:37.983 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 789cda4e-fee1-4c5b-a377-29ab4ce383a9
+2023-08-28 20:36:38.187 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 5eff1c4e-89dc-4e4b-93af-ec87bed49e10
+2023-08-28 20:36:43.556 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008167
+2023-08-28 20:36:45.206 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 16
+2023-08-28 20:36:45.207 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #9
+2023-08-28 20:36:45.207 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #10
+2023-08-28 20:36:45.207 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #11
+2023-08-28 20:36:45.207 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #12
+2023-08-28 20:36:45.207 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #13
+2023-08-28 20:36:45.230 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #14
+2023-08-28 20:36:45.456 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #15
+2023-08-28 20:36:45.708 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #16
+2023-08-28 20:36:47.578 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 83b5549b-c4b3-41ca-891e-3385bbfaa631
+2023-08-28 20:36:48.087 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 448c63a3-ce37-4d57-9699-f60b5bd9055e
+2023-08-28 20:36:48.271 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 8e61cf72-04fd-4154-b6ab-03d4ef705a97
+2023-08-28 20:36:48.364 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 8bd0de8f-51ae-4055-9429-9f72e43ed2f7
+2023-08-28 20:36:48.812 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 17f0849a-8061-4853-b300-81e0f6a0bda3
+2023-08-28 20:36:48.963 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 731e0629-4229-44ba-888a-299d3690589f
+2023-08-28 20:36:49.108 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract af352358-ed87-4393-a8ba-33a178cc57a3
+2023-08-28 20:36:49.236 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 516f34fd-c6d0-4f84-8511-f0ecd481a9b0
+2023-08-28 20:36:55.850 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008183
+2023-08-28 20:36:56.178 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 16
+2023-08-28 20:36:56.178 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #17
+2023-08-28 20:36:56.179 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #18
+2023-08-28 20:36:56.179 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #19
+2023-08-28 20:36:56.179 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #20
+2023-08-28 20:36:56.179 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #21
+2023-08-28 20:36:56.179 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #22
+2023-08-28 20:36:56.179 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #23
+2023-08-28 20:36:56.199 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #24
+2023-08-28 20:36:57.133 [pool-3-thread-2] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract f5163e7a-10cc-45f6-baba-2480d09be2f6
+2023-08-28 20:36:57.134 [pool-3-thread-3] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 00c76e0a-162b-42a6-9a2f-665504a8410a
+2023-08-28 20:36:57.153 [pool-3-thread-7] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 3966bb35-8028-44df-82d5-410f586f587b
+2023-08-28 20:36:57.297 [pool-3-thread-5] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 17d8a95e-b6d9-45d6-bba4-2af7d9d3b37e
+2023-08-28 20:36:57.300 [pool-3-thread-8] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract a2de7992-a807-4870-8f00-c44a77a7ff1a
+2023-08-28 20:36:57.312 [pool-3-thread-6] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 4bc0711c-7975-4f90-9174-c1bef6d1213e
+2023-08-28 20:36:57.452 [pool-3-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract ea04e6f0-1ed8-4fde-9e89-6e9f1d85d1f5
+2023-08-28 20:36:57.431 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract 6ba892a7-fc2b-432a-8967-aa48c878b009
+2023-08-28 20:37:06.220 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008199
+2023-08-28 20:37:06.419 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 9
+2023-08-28 20:37:06.461 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Spawn thread for trade #25
+2023-08-28 20:37:07.235 [pool-3-thread-4] INFO  com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler - Proposing contract afefb3ba-baf0-4985-9c8e-4b1ca8be787d
+2023-08-28 20:37:16.495 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008208
+2023-08-28 20:37:16.712 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Number of events retrieved 1
+2023-08-28 20:37:26.715 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008209
+2023-08-28 20:37:36.962 [pool-2-thread-1] INFO  com.equilend.simulator.EventsProcessor.EventsProcessor - Retrieve events from event id 10008209
+2023-08-28 20:37:44.121 [com.equilend.simulator.Simulator.main()] INFO  com.equilend.simulator.Simulator - DONE :)
+2023-08-28 20:37:44.121 [pool-2-thread-1] ERROR com.equilend.simulator.EventsProcessor.EventsProcessor - Unable to listen for new events
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.equilend.simulator.EventsProcessor.EventsProcessor.run(EventsProcessor.java:50) [classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:829) [?:?]

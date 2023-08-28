@@ -75,6 +75,7 @@ public class TradeHandler implements EventHandler{
         Trade trade = agreement.getTrade();
         if (rules.actOnTrade(trade)){
             postContractProposal(trade);
+            // if (trade != null) logger.info("Capturing trade of {}", trade.getInstrument().getTicker());
         }
     }    
 }

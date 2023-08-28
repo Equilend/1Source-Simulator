@@ -42,7 +42,8 @@ public class EventsProcessor implements Runnable{
         }
 
         OffsetDateTime since = APIConnector.getCurrentTime();
-        OffsetDateTime before;
+        int fromEventId = 0;
+        int t = 1;
         while (true){
             try {
                 Thread.sleep(waitInterval);
@@ -50,25 +51,29 @@ public class EventsProcessor implements Runnable{
                 logger.error("Unable to listen for new events", e);
                 return;
             }
-            before = APIConnector.getCurrentTime();
-            logger.info("Listening between [" + since + ", " + before + "]");
+            logger.info("Retrieve events from event id {}", fromEventId);
 
             List<Event> events;
             try{
-                events = APIConnector.getAllEvents(token, since, before);
+                events = APIConnector.getAllEvents(token, since, fromEventId);
             } catch(APIException e){
                 logger.error("Unable to listen for new events", e);
                 return;
             }
             if (events.size() == 0){
-                logger.info("No new events");
+                // logger.info("No new events");
+                continue;
             }
+                
+            fromEventId = events.get(0).getEventId() + 1;
+            logger.info("Number of events retrieved {}", events.size());
 
             for (Event event : events){
                 EventHandler task = null;
                 switch (event.getEventType()){
                     case "TRADE":   
                         task = (mode == Mode.LENDER) ? new TradeHandler(event, configurator) : null;
+                        logger.info("Spawn thread for trade #{}", t++);
                         break;
                     case "CONTRACT":    
                         task = (mode == Mode.BORROWER) ? new ContractHandler(event, configurator) : null;                           
@@ -78,9 +83,7 @@ public class EventsProcessor implements Runnable{
                 if (task != null) 
                     exec.execute(task);
             }
-
-            since = before;
-        }
+        } 
     }
         
 }

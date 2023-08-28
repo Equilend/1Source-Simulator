@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,8 @@ public class APIConnector
 
     public static OffsetDateTime getCurrentTime()
     {
-        return OffsetDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS);
+        return OffsetDateTime.now(ZoneId.of("UTC"));
+        // return OffsetDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS);
     }
     
     public static String formatTime(OffsetDateTime time)
@@ -442,18 +442,23 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), eventListType);
     }    
 
-    public static List<Event> getAllEvents(BearerToken token) throws APIException{
+    public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, int eventId) throws APIException
+    {
         if (token == null){
-            String message = "Token is null, unable to get all today's events";
+            String message = "Token is null, unable to get all events";
             logger.error(message);
             throw new APIException(message);
         }
 
+        String sinceStr = formatTime(since);
+        String encodedSince = encode (sinceStr);
+
+        
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/events"))
+                .uri(new URI("https://stageapi.equilend.com/v1/ledger/events" + "?" + "since=" + encodedSince + "&" + "fromEventId=" + eventId))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
@@ -470,9 +475,14 @@ public class APIConnector
             logger.error(message, e);
             throw new APIException(message, e);
         }
-        Type eventListType = new TypeToken<ArrayList<Contract>>(){}.getType();
-        return gson.fromJson(getResponse.body(), eventListType);        
-    }
+
+        if (getResponse.body().charAt(0) == '{'){
+            //Then no events
+            return new ArrayList<Event>();
+        }
+        Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
+        return gson.fromJson(getResponse.body(), eventListType);
+    } 
 
     public static Event getEventById (BearerToken token, String id) throws APIException
     {
