@@ -47,16 +47,17 @@ public class EventsProcessor implements Runnable{
             try {
                 Thread.sleep(waitInterval);
             } catch (InterruptedException e) {
-                logger.error("Interrupt during sleep", e);
+                logger.error("Unable to listen for new events", e);
                 return;
             }
             before = APIConnector.getCurrentTime();
+            logger.info("Listening between [" + since + ", " + before + "]");
 
             List<Event> events;
             try{
                 events = APIConnector.getAllEvents(token, since, before);
             } catch(APIException e){
-                logger.error("Error getting events", e);
+                logger.error("Unable to listen for new events", e);
                 return;
             }
             if (events.size() == 0){
@@ -71,9 +72,6 @@ public class EventsProcessor implements Runnable{
                         break;
                     case "CONTRACT":    
                         task = (mode == Mode.BORROWER) ? new ContractHandler(event, configurator) : null;                           
-                        break;
-                    default:  
-                        logger.warn("Functionality not yet supported.");
                         break;
                 }
 

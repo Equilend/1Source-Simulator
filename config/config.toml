@@ -1,16 +1,16 @@
 [bot]
-mode = "BORROWER"
-
-[login]
-client_id = "canton-participant1-client"
-client_secret="c0a05c2d-ac70-472a-ac4f-38b80dba28d8"
-grant_type="password"
-username="TestBorrower1User"
-password="FqnNQyUwaenQ8K3h"
+mode = "LENDER"
 
 # [login]
-# client_id="canton-participant2-client"
-# client_secret="9fa094bf-9e39-4271-aa63-c6a641730423"
+# client_id = "canton-participant1-client"
+# client_secret="c0a05c2d-ac70-472a-ac4f-38b80dba28d8"
 # grant_type="password"
-# username="TestLender1User"
-# password="fjmxVeKzpzUDg3YJ"
+# username="TestBorrower1User"
+# password="FqnNQyUwaenQ8K3h"
+
+[login]
+client_id="canton-participant2-client"
+client_secret="9fa094bf-9e39-4271-aa63-c6a641730423"
+grant_type="password"
+username="TestLender1User"
+password="fjmxVeKzpzUDg3YJ"

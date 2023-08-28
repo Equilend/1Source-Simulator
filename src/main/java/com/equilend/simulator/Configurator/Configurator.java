@@ -24,7 +24,7 @@ public class Configurator {
 
     //max attempts should be read from config file
     private int maxAttempts = 3;
-    private long waitIntervalInMs = 10 * 1000;
+    private long waitIntervalInMs = 3 * 1000;
     
     public Configurator(){
         readLoginConfig();
