@@ -13,7 +13,11 @@ public class ContractProposalResponse {
     }
 
     public String getContractId(){
-        return this.resourceUri.substring(21);
+        String uri = resourceUri;
+        String[] arr = uri.split("/");
+        String contractId = arr[arr.length-1];
+
+        return contractId;
     }
 
     @Override

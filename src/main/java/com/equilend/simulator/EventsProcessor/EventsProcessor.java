@@ -43,7 +43,6 @@ public class EventsProcessor implements Runnable{
 
         OffsetDateTime since = APIConnector.getCurrentTime();
         int fromEventId = 0;
-        int t = 1;
         while (true){
             try {
                 Thread.sleep(waitInterval);
@@ -61,7 +60,6 @@ public class EventsProcessor implements Runnable{
                 return;
             }
             if (events.size() == 0){
-                // logger.info("No new events");
                 continue;
             }
                 
@@ -73,7 +71,6 @@ public class EventsProcessor implements Runnable{
                 switch (event.getEventType()){
                     case "TRADE":   
                         task = (mode == Mode.LENDER) ? new TradeHandler(event, configurator) : null;
-                        logger.info("Spawn thread for trade #{}", t++);
                         break;
                     case "CONTRACT":    
                         task = (mode == Mode.BORROWER) ? new ContractHandler(event, configurator) : null;                           
