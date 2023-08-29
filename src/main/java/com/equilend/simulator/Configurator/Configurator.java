@@ -2,6 +2,7 @@ package com.equilend.simulator.Configurator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,12 +10,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.Contract.Contract;
 import com.equilend.simulator.Trade.Trade;
+import com.equilend.simulator.Trade.TransactingParty.PartyRole;
+import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 
 public class Configurator {
     private String configFilename = "config/config.toml";
-    private Mode mode;
+    private PartyRole mode;
     private Map<String, String> loginMap;
     private String clientPartyId;
     private long waitIntervalMillis = 10 * 1000;
@@ -40,20 +43,16 @@ public class Configurator {
             logger.error("TOML file mapper unable to be created");
         }
 
-        this.mode = Mode.valueOf(settings.get("bot").get("mode"));
-        this.loginMap = (this.mode == Mode.LENDER) ? settings.get("lender_bot_login") : settings.get("borrower_bot_login");
+        this.mode = PartyRole.valueOf(settings.get("bot").get("mode"));
+        this.loginMap = (this.mode == PartyRole.LENDER) ? settings.get("lender_bot_login") : settings.get("borrower_bot_login");
         Map<String, String> general = settings.get("general");
         this.clientPartyId = general.get("your_party_id");
         this.waitIntervalMillis = Long.parseLong(general.get("wait_interval_ms"));
         this.maxAttempts = Integer.parseInt(general.get("max_refresh_attempts"));
     }
 
-    public Mode getMode() {
+    public PartyRole getMode() {
         return mode;
-    }
-
-    public void setMode(Mode mode) {
-        this.mode = mode;
     }
 
     public Map<String, String> getLoginMap(){
@@ -72,12 +71,28 @@ public class Configurator {
         return maxAttempts;
     }
 
+    public boolean correctPartner(Trade trade){
+        List<TransactingParty> parties = trade.getTransactingParties();
+        for (TransactingParty tp : parties){
+            if (tp.getPartyRole() != mode && tp.getParty().getPartyId() != clientPartyId){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean actOnTrade(Trade trade){
+        //if trade not between bot and clientPartyId... CHOPT
+        if (!correctPartner(trade)) return false;
+        
         //Determine whether you should propose a contract from the trade or not
         return true;
     }
 
     public boolean ignoreProposal(Contract contract){
+        //If proposal not from clientPartyId... CHOPT
+        if (!correctPartner(contract.getTrade())) return false;
+
         //Either ignore contract proposal
         //Or Accept/Decline it
         return false;

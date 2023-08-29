@@ -11,16 +11,16 @@ import org.apache.logging.log4j.Logger;
 import com.equilend.simulator.API.APIConnector;
 import com.equilend.simulator.API.APIException;
 import com.equilend.simulator.Configurator.Configurator;
-import com.equilend.simulator.Configurator.Mode;
 import com.equilend.simulator.Event.Event;
 import com.equilend.simulator.EventsProcessor.EventHandler.ContractHandler;
 import com.equilend.simulator.EventsProcessor.EventHandler.EventHandler;
 import com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler;
 import com.equilend.simulator.Token.BearerToken;
+import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
 public class EventsProcessor implements Runnable{
     private Configurator configurator;
-    private Mode mode;
+    private PartyRole mode;
     private Long waitInterval;
     private static final Logger logger = LogManager.getLogger();
 
@@ -71,10 +71,10 @@ public class EventsProcessor implements Runnable{
                 EventHandler task = null;
                 switch (event.getEventType()){
                     case "TRADE":   
-                        task = (mode == Mode.LENDER) ? new TradeHandler(event, configurator) : null;
+                        task = (mode == PartyRole.LENDER) ? new TradeHandler(event, configurator) : null;
                         break;
                     case "CONTRACT":    
-                        task = (mode == Mode.BORROWER) ? new ContractHandler(event, configurator) : null;                           
+                        task = (mode == PartyRole.BORROWER) ? new ContractHandler(event, configurator) : null;                           
                         break;
                 }
 
