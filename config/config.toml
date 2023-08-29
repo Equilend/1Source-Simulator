@@ -1,16 +1,21 @@
 [bot]
 mode = "LENDER"
 
-# [login]
-# client_id = "canton-participant1-client"
-# client_secret="c0a05c2d-ac70-472a-ac4f-38b80dba28d8"
-# grant_type="password"
-# username="TestBorrower1User"
-# password="FqnNQyUwaenQ8K3h"
+[borrower_bot_login]
+client_id = "canton-participant1-client"
+client_secret="c0a05c2d-ac70-472a-ac4f-38b80dba28d8"
+grant_type="password"
+username="TestBorrower1User"
+password="FqnNQyUwaenQ8K3h"
 
-[login]
+[lender_bot_login]
 client_id="canton-participant2-client"
 client_secret="9fa094bf-9e39-4271-aa63-c6a641730423"
 grant_type="password"
 username="TestLender1User"
 password="fjmxVeKzpzUDg3YJ"
+
+[general]
+your_party_id = "TBORR-US"
+wait_interval_ms = 10000
+max_refresh_attempts = 3

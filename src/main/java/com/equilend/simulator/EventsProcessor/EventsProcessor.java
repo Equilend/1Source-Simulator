@@ -27,7 +27,7 @@ public class EventsProcessor implements Runnable{
     public EventsProcessor(Configurator configurator){
         this.configurator = configurator;
         this.mode = configurator.getMode();
-        this.waitInterval = configurator.getWaitInterval();
+        this.waitInterval = configurator.getWaitIntervalMillis();
     }
 
     public void run(){

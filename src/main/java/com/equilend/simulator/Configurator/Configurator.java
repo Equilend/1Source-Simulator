@@ -13,40 +13,39 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 
 public class Configurator {
+    private String configFilename = "config/config.toml";
+    private Mode mode;
+    private Map<String, String> loginMap;
+    private String clientPartyId;
+    private long waitIntervalMillis = 10 * 1000;
+    private int maxAttempts = 3;
     private static final Logger logger = LogManager.getLogger();
     
-    //Configurator should probably look for config file itself..
-    private String configFilename = "config/config.toml";
-    
-    private Map<String, String> loginMap;
-
-    private Mode mode;
-
-    //max attempts should be read from config file
-    private int maxAttempts = 3;
-    private long waitIntervalInMs = 10 * 1000;
-    
-    public Configurator(){
-        readLoginConfig();
+    public Configurator()
+    {
+        readTOMLFile();
     }
 
-    public void readLoginConfig() 
+    public void readTOMLFile()
     {
         TomlMapper tomlMapper = new TomlMapper();
-        Map<String, Map<String, String>> data = null;
+        Map<String, Map<String, String>> settings = null;
         try {
-            data = tomlMapper.readValue(new File(this.configFilename), new TypeReference<Map<String, Map<String, String>>>() {});
+            settings = tomlMapper.readValue(new File(this.configFilename), new TypeReference<Map<String, Map<String, String>>>() {});
         } catch (IOException e) {
             logger.error("Error reading config TOML file", e);
             return;
         }
+        if (settings == null){
+            logger.error("TOML file mapper unable to be created");
+        }
 
-        if (data == null){
-            return;
-        } 
-
-        this.mode = Mode.valueOf(data.get("bot").get("mode"));
-        this.loginMap = data.get("login");
+        this.mode = Mode.valueOf(settings.get("bot").get("mode"));
+        this.loginMap = (this.mode == Mode.LENDER) ? settings.get("lender_bot_login") : settings.get("borrower_bot_login");
+        Map<String, String> general = settings.get("general");
+        this.clientPartyId = general.get("your_party_id");
+        this.waitIntervalMillis = Long.parseLong(general.get("wait_interval_ms"));
+        this.maxAttempts = Integer.parseInt(general.get("max_refresh_attempts"));
     }
 
     public Mode getMode() {
@@ -61,12 +60,16 @@ public class Configurator {
         return loginMap;
     }
 
+    public String getClientPartyId(){
+        return clientPartyId;
+    }
+    
+    public Long getWaitIntervalMillis(){
+        return waitIntervalMillis;
+    }
+        
     public int getMaxAttempts(){
         return maxAttempts;
-    }
-
-    public long getWaitInterval(){
-        return waitIntervalInMs;
     }
 
     public boolean actOnTrade(Trade trade){
@@ -86,5 +89,3 @@ public class Configurator {
     }
 
 }
-
-
