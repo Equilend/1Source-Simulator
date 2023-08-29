@@ -60,6 +60,7 @@ public class EventsProcessor implements Runnable{
                 return;
             }
             if (events.size() == 0){
+                logger.info("No new events");
                 continue;
             }
                 
