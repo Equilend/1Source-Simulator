@@ -6,9 +6,9 @@ import java.util.concurrent.Executors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.Configurator.Configurator;
-import com.equilend.simulator.EventsProcessor.EventsProcessor;
-import com.equilend.simulator.Token.BearerToken;
+import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.events_processor.EventsProcessor;
+import com.equilend.simulator.token.BearerToken;
 
 
 public class Simulator {   
