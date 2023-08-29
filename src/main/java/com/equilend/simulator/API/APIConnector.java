@@ -33,26 +33,22 @@ import com.equilend.simulator.Trade.TransactingParty.Party;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class APIConnector 
-{
+public class APIConnector {
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
     private static HttpClient httpClient = HttpClient.newHttpClient();
     private static Gson gson = new Gson();
-    private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
     private static final Logger logger = LogManager.getLogger();
 
-    public static OffsetDateTime getCurrentTime()
-    {
+    public static OffsetDateTime getCurrentTime() {
         return OffsetDateTime.now(ZoneId.of("UTC"));
-        // return OffsetDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS);
     }
     
-    public static String formatTime(OffsetDateTime time)
-    {
+    public static String formatTime(OffsetDateTime time) {
         return time.format(formatter);
     }
 
-    public static String encodeMapAsString(Map<String, String> formData) 
-    {
+    public static String encodeMapAsString(Map<String, String> formData) {
         StringBuilder formBodyBuilder = new StringBuilder();
         for (Map.Entry<String, String> singleEntry : formData.entrySet()) {
             if (formBodyBuilder.length() > 0) {
@@ -62,11 +58,15 @@ public class APIConnector
             formBodyBuilder.append("=");
             formBodyBuilder.append(URLEncoder.encode(singleEntry.getValue(), StandardCharsets.UTF_8));
         }
+
         return formBodyBuilder.toString();
     }
     
-    public static Token getBearerToken(Map<String, String> loginInfo) throws APIException
-    {
+    public static Token getBearerToken(Map<String, String> loginInfo) throws APIException {
+        if (loginInfo == null){
+            throw new APIException("Login info not configured or failed to be read");
+        }
+
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
@@ -96,11 +96,11 @@ public class APIConnector
             logger.error(message);
             throw new APIException(message);
         }
+
         return token;
     }
 
-    public static ContractProposalResponse postContractProposal(BearerToken token, ContractProposal contract) throws APIException
-    {
+    public static ContractProposalResponse postContractProposal(BearerToken token, ContractProposal contract) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
             logger.error(message);
@@ -131,12 +131,12 @@ public class APIConnector
             logger.error(message, e);
             throw new APIException(message, e);
         }
+
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         return response;
     }
     
-    public static ContractProposalResponse cancelContractProposal(BearerToken token, String contractId) throws APIException
-    {
+    public static ContractProposalResponse cancelContractProposal(BearerToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get cancel contract proposal";
             logger.error(message);
@@ -170,8 +170,7 @@ public class APIConnector
         return response;       
     }
     
-    public static ContractProposalResponse acceptContractProposal(BearerToken token, String contractId, AcceptSettlement settlement) throws APIException
-    {
+    public static ContractProposalResponse acceptContractProposal(BearerToken token, String contractId, AcceptSettlement settlement) throws APIException {
         if (token == null){
             String message = "Token is null, unable to accept contract proposal";
             logger.error(message);
@@ -207,8 +206,7 @@ public class APIConnector
         return response;
     }
 
-    public static ContractProposalResponse declineContractProposal(BearerToken token, String contractId) throws APIException
-    {
+    public static ContractProposalResponse declineContractProposal(BearerToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to decline contract proposal";
             logger.error(message);
@@ -252,11 +250,11 @@ public class APIConnector
             logger.error(message, e);
             throw new AssertionError(message, e);
         }
+
         return encoded;
     }
 
-    public static List<Agreement> getAllAgreements(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException
-    {
+    public static List<Agreement> getAllAgreements(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all agreements";
             logger.error(message);
@@ -289,12 +287,12 @@ public class APIConnector
             logger.error(message, e);
             throw new APIException(message, e);
         }    
+
         Type agreementListType = new TypeToken<ArrayList<Agreement>>(){}.getType();
         return gson.fromJson(getResponse.body(), agreementListType);
     }
 
-    public static Agreement getAgreementById(BearerToken token, String id) throws APIException
-    {
+    public static Agreement getAgreementById(BearerToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get agreement by id";
             logger.error(message);
@@ -327,8 +325,7 @@ public class APIConnector
         return agreement;
     }
 
-    public static List<Contract> getAllContracts(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException
-    {
+    public static List<Contract> getAllContracts(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all contracts";
             logger.error(message);
@@ -361,12 +358,12 @@ public class APIConnector
             logger.error(message, e);
             throw new APIException(message, e);
         }
+
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
         return gson.fromJson(getResponse.body(), contractListType);
     }    
 
-    public static Contract getContractById(BearerToken token, String id) throws APIException
-    {
+    public static Contract getContractById(BearerToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get contract by id";
             logger.error(message);
@@ -399,8 +396,7 @@ public class APIConnector
         return contract;
     }
 
-    public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException
-    {
+    public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, OffsetDateTime before) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.error(message);
@@ -434,16 +430,16 @@ public class APIConnector
             throw new APIException(message, e);
         }
 
+        //Returns an obj, not a list when no events found within conditions
         if (getResponse.body().charAt(0) == '{'){
-            //Then no events
             return new ArrayList<Event>();
         }
+
         Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
         return gson.fromJson(getResponse.body(), eventListType);
     }    
 
-    public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, int eventId) throws APIException
-    {
+    public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, int eventId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.error(message);
@@ -453,7 +449,6 @@ public class APIConnector
         String sinceStr = formatTime(since);
         String encodedSince = encode (sinceStr);
 
-        
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
@@ -476,16 +471,16 @@ public class APIConnector
             throw new APIException(message, e);
         }
 
+        //Returns an obj, not a list when no events found within conditions
         if (getResponse.body().charAt(0) == '{'){
-            //Then no events
             return new ArrayList<Event>();
         }
+
         Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
         return gson.fromJson(getResponse.body(), eventListType);
     } 
 
-    public static Event getEventById (BearerToken token, String id) throws APIException
-    {
+    public static Event getEventById (BearerToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get event by id";
             logger.error(message);
@@ -519,8 +514,7 @@ public class APIConnector
         return eventList.get(0);
     } 
 
-    public static List<Party> getAllParties (BearerToken token) throws APIException
-    {
+    public static List<Party> getAllParties (BearerToken token) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all parties";
             logger.error(message);
@@ -553,8 +547,7 @@ public class APIConnector
         return gson.fromJson(getResponse.body(), partyListType);
     }
 
-    public static Party getPartyById (BearerToken token, String id) throws APIException
-    {
+    public static Party getPartyById (BearerToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get party by id";
             logger.error(message);

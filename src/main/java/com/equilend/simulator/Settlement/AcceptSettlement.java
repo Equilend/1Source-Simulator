@@ -1,6 +1,7 @@
 package com.equilend.simulator.Settlement;
 
 public class AcceptSettlement {
+
     Settlement borrowerSettlementInformation;
 
     public AcceptSettlement(Settlement borrowerSettlementInformation) {

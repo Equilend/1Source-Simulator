@@ -27,28 +27,32 @@ import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 import com.equilend.simulator.Trade.TransactingParty.TransactingParty;
 
 public class ContractProposal {
+
     private Trade trade;
     private List<Settlement> settlement;
 
-    
     public ContractProposal(Trade trade, List<Settlement> settlement) {
         this.trade = trade;
         this.settlement = settlement;
     }
+
     public Trade getTrade() {
         return trade;
     }
+
     public void setTrade(Trade trade) {
         this.trade = trade;
     }
+
     public List<Settlement> getSettlement() {
         return settlement;
     }
+
     public void setSettlement(List<Settlement> settlement) {
         this.settlement = settlement;
     }
 
-    public static Trade createTrade(){
+    public static Trade createTrade() {
         Platform platform = new Platform("X", "Phone Brokered", "EXTERNAL", "0");
         List<VenueParty> venueParties = new ArrayList<>();
         VenueParty lenderVenueParty = new VenueParty(PartyRole.LENDER);
@@ -56,20 +60,30 @@ public class ContractProposal {
         VenueParty borrowerVenueParty = new VenueParty(PartyRole.BORROWER);
         venueParties.add(borrowerVenueParty);
         ExecutionVenue executionVenue = new ExecutionVenue(VenueType.OFFPLATFORM, platform, venueParties);
+        
         Instrument instrument = new Instrument("MSFT", "594918104", "US5949181045", "2588173", "BBG001S5TD05", "MICROSOFT CORP COM" );
+        
         Rate rate = new Rate(BigDecimal.valueOf(.125));
+        
         Long quantity = Long.valueOf(25025);
+        
         Currency billingCurrency = Currency.USD;
+        
         BigDecimal dividendRatePct = BigDecimal.valueOf(100);
+        
         LocalDate today = LocalDate.now();
         String todayStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(today);
+        String tradeDate = todayStr;
+        
         LocalDate tPlus2 = today.plusDays(2);
         String tPlus2Str = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(tPlus2);
-        String tradeDate = todayStr;
         String settlementDate = tPlus2Str;
+        
         SettlementType settlementType = SettlementType.DVP;
+        
         Collateral collateral = new Collateral(BigDecimal.valueOf(8758750), BigDecimal.valueOf(8933925), Currency.USD,
         CollateralType.CASH, 10, RoundingMode.ALWAYSUP, BigDecimal.valueOf(102));
+        
         List<TransactingParty> transactingParties = new ArrayList<>();
         TransactingParty lenderTransactingParty = new TransactingParty();
         lenderTransactingParty.setPartyRole(PartyRole.LENDER);
@@ -85,7 +99,7 @@ public class ContractProposal {
         return new Trade(executionVenue, instrument, rate, quantity, billingCurrency, dividendRatePct, tradeDate, settlementDate, settlementType, collateral, transactingParties);
     }
 
-    public static Settlement createSettlement(PartyRole role){
+    public static Settlement createSettlement(PartyRole role) {
         List<LocalMarketFields> localMarketFieldsList = new ArrayList<LocalMarketFields>();
         LocalMarketFields localMarketFields = new LocalMarketFields("DTCYUS00", "00001");
         localMarketFieldsList.add(localMarketFields);
@@ -93,7 +107,7 @@ public class ContractProposal {
         return new Settlement(role, instruction);          
     }    
 
-    public static ContractProposal createContractProposal(){
+    public static ContractProposal createContractProposal() {
         Trade trade = createTrade();
 
         List<Settlement> settlements = new ArrayList<Settlement>();
@@ -103,7 +117,7 @@ public class ContractProposal {
         return contractProposal;
     }
 
-    public static ContractProposal createContractProposal(Trade trade){
+    public static ContractProposal createContractProposal(Trade trade) {
         trade.getCollateral().setRoundingRule(10);
         trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
         trade.getCollateral().setMargin(BigDecimal.valueOf(102));

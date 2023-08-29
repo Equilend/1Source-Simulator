@@ -13,41 +13,42 @@ import com.equilend.simulator.Event.Event;
 import com.equilend.simulator.Token.BearerToken;
 import com.equilend.simulator.Trade.Trade;
 
-public class TradeHandler implements EventHandler{
+public class TradeHandler implements EventHandler {
+
     private Event event;
     private Agreement agreement;
     private Configurator rules;
     private static final Logger logger = LogManager.getLogger();
 
-    
-    public BearerToken getToken(){
+    public BearerToken getToken() {
         BearerToken token = null;
         try {
             token = BearerToken.getToken();
         } catch (APIException e) {
-            logger.error("Unable to process trade event");
+            logger.error("Unable to process trade event due to error with token");
             return null;
         }
         return token;
     }
 
-    public TradeHandler(Event e, Configurator rules){
+    public TradeHandler(Event e, Configurator rules) {
         this.event = e;
         this.rules = rules;
     }
 
-    public boolean getAgreementById(String id){
+    public boolean getAgreementById(String id) {
         try {
             agreement = APIConnector.getAgreementById(getToken(), id);
         } catch (APIException e) {
             logger.error("Unable to process trade event");
             return false;
         }
-        if (agreement == null) return false;       
+
+        if (agreement == null) return false;
         return true;
     }
 
-    public boolean postContractProposal(Trade trade){
+    public boolean postContractProposal(Trade trade) {
         ContractProposal contractProposal = ContractProposal.createContractProposal(trade);
     
         ContractProposalResponse response;
@@ -62,7 +63,7 @@ public class TradeHandler implements EventHandler{
         return true;
     }
 
-    public void run(){
+    public void run() {
         //Parse agreement id
         String uri = event.getResourceUri();
         String[] arr = uri.split("/");
@@ -76,5 +77,6 @@ public class TradeHandler implements EventHandler{
         if (rules.actOnTrade(trade)){
             postContractProposal(trade);
         }
-    }    
+    }   
+
 }

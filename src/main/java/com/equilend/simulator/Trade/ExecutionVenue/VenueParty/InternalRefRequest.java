@@ -1,6 +1,7 @@
 package com.equilend.simulator.Trade.ExecutionVenue.VenueParty;
 
 public class InternalRefRequest {
+
     private String brokerCd;
     private String accountId;
     private String internalRefId;

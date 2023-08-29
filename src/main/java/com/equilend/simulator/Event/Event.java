@@ -1,6 +1,7 @@
 package com.equilend.simulator.Event;
 
 public class Event {
+
     private int eventId;
     private String eventType;
     private String eventDateTime;
@@ -9,24 +10,31 @@ public class Event {
     public int getEventId() {
         return eventId;
     }
+    
     public void setEventId(int eventId) {
         this.eventId = eventId;
     }
+
     public String getEventType() {
         return eventType;
     }
+
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
+
     public String getEventDateTime() {
         return eventDateTime;
     }
+
     public void setEventDateTime(String eventDateTime) {
         this.eventDateTime = eventDateTime;
     }
+
     public String getResourceUri() {
         return resourceUri;
     }
+
     public void setResourceUri(String resourceUri) {
         this.resourceUri = resourceUri;
     }

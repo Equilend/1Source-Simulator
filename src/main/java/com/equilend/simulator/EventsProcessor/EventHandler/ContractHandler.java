@@ -15,41 +15,42 @@ import com.equilend.simulator.Token.BearerToken;
 import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
 public class ContractHandler implements EventHandler {
+
     private Event event;
     private Contract contract;
     private Configurator rules;
     private static final Logger logger = LogManager.getLogger();
     
-    public BearerToken getToken(){
+    public BearerToken getToken() {
         BearerToken token = null;
         try {
             token = BearerToken.getToken();
         } catch (APIException e) {
-            logger.error("Unable to process contract event");
+            logger.error("Unable to process contract event due to error with token");
             return null;
         }
+
         return token;
     }
     
-    public ContractHandler(Event e, Configurator rules){
+    public ContractHandler(Event e, Configurator rules) {
         this.event = e;
         this.rules = rules;
     }
 
-    private boolean getContractById(String id){
+    private boolean getContractById(String id) {
         try {
             contract = APIConnector.getContractById(getToken(), id);
         } catch (APIException e) {
             logger.error("Unable to process contract event");
             return false;
         }   
-        if (contract == null) return false;
 
+        if (contract == null) return false;
         return true;    
     }
 
-    private boolean acceptContractProposal(String contractId) 
-    {
+    private boolean acceptContractProposal(String contractId) {
         Settlement settlement = ContractProposal.createSettlement(PartyRole.BORROWER);
         AcceptSettlement acceptSettlement = new AcceptSettlement(settlement);
         try {
@@ -58,18 +59,19 @@ public class ContractHandler implements EventHandler {
             logger.error("Unable to process contract event");
             return false;
         }
+
         logger.info("Accepting contract {}", contractId);
         return true;
     }
 
-    private boolean declineContractProposal(String contractId) 
-    {
+    private boolean declineContractProposal(String contractId) {
         try {
             APIConnector.declineContractProposal(getToken(), contractId);
         } catch (APIException e) {
             logger.error("Unable to process contract event");
             return false;
         }
+
         logger.info("Declining contract {}", contractId);
         return true;
     }
@@ -92,5 +94,6 @@ public class ContractHandler implements EventHandler {
                 declineContractProposal(contractId); //returns true or false based on success
             }
         }
-    }    
+    }
+    
 }

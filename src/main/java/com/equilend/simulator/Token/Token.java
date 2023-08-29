@@ -1,6 +1,7 @@
 package com.equilend.simulator.Token;
 
-public class Token { 
+public class Token {
+    
     private String access_token;
     private String error;
     private String error_description;
@@ -28,4 +29,5 @@ public class Token {
     public void setAccess_token(String access_token) {                               
         this.access_token = access_token;
     }
+
 }

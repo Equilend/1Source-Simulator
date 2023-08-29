@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 
 public class Configurator {
+
     private String configFilename = "config/config.toml";
     private PartyRole mode;
     private Map<String, String> loginMap;
@@ -24,13 +25,11 @@ public class Configurator {
     private int maxAttempts = 3;
     private static final Logger logger = LogManager.getLogger();
     
-    public Configurator()
-    {
+    public Configurator() {
         readTOMLFile();
     }
 
-    public void readTOMLFile()
-    {
+    public void readTOMLFile() {
         TomlMapper tomlMapper = new TomlMapper();
         Map<String, Map<String, String>> settings = null;
         try {
@@ -55,23 +54,23 @@ public class Configurator {
         return mode;
     }
 
-    public Map<String, String> getLoginMap(){
+    public Map<String, String> getLoginMap() {
         return loginMap;
     }
 
-    public String getClientPartyId(){
+    public String getClientPartyId() {
         return clientPartyId;
     }
     
-    public Long getWaitIntervalMillis(){
+    public Long getWaitIntervalMillis() {
         return waitIntervalMillis;
     }
         
-    public int getMaxAttempts(){
+    public int getMaxAttempts() {
         return maxAttempts;
     }
 
-    public boolean correctPartner(Trade trade){
+    public boolean correctPartner(Trade trade) {
         List<TransactingParty> parties = trade.getTransactingParties();
         for (TransactingParty tp : parties){
             if (tp.getPartyRole() != mode && tp.getParty().getPartyId() != clientPartyId){
@@ -81,7 +80,7 @@ public class Configurator {
         return true;
     }
 
-    public boolean actOnTrade(Trade trade){
+    public boolean actOnTrade(Trade trade) {
         //if trade not between bot and clientPartyId... CHOPT
         if (!correctPartner(trade)) return false;
         
@@ -89,7 +88,7 @@ public class Configurator {
         return true;
     }
 
-    public boolean ignoreProposal(Contract contract){
+    public boolean ignoreProposal(Contract contract) {
         //If proposal not from clientPartyId... CHOPT
         if (!correctPartner(contract.getTrade())) return false;
 
@@ -98,7 +97,7 @@ public class Configurator {
         return false;
     }
 
-    public boolean shouldAcceptProposal(Contract contract){
+    public boolean shouldAcceptProposal(Contract contract) {
         //Determine whether you should accept or decline contract proposal
         return true;
     }

@@ -18,26 +18,27 @@ import com.equilend.simulator.EventsProcessor.EventHandler.TradeHandler;
 import com.equilend.simulator.Token.BearerToken;
 import com.equilend.simulator.Trade.TransactingParty.PartyRole;
 
-public class EventsProcessor implements Runnable{
+public class EventsProcessor implements Runnable {
+
     private Configurator configurator;
     private PartyRole mode;
     private Long waitInterval;
     private static final Logger logger = LogManager.getLogger();
 
-    public EventsProcessor(Configurator configurator){
+    public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
         this.mode = configurator.getMode();
         this.waitInterval = configurator.getWaitIntervalMillis();
     }
 
-    public void run(){
+    public void run() {
         ExecutorService exec = Executors.newCachedThreadPool();
 
         BearerToken token;
         try {
             token = BearerToken.getToken();
         } catch (APIException e) {
-            logger.error("Unable to listen for new events");
+            logger.error("Unable to listen for new events due to error with token");
             return;
         }
 
@@ -59,9 +60,10 @@ public class EventsProcessor implements Runnable{
                 logger.error("Unable to listen for new events", e);
                 return;
             }
+
             if (events.size() == 0){
                 logger.info("No new events");
-                continue;
+                continue; //Back to sleep
             }
                 
             fromEventId = events.get(0).getEventId() + 1;

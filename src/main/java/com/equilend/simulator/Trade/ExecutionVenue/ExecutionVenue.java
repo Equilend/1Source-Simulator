@@ -5,6 +5,7 @@ import java.util.List;
 import com.equilend.simulator.Trade.ExecutionVenue.VenueParty.VenueParty;
 
 public class ExecutionVenue {
+    
     private VenueType type;
     private Platform platform;
     private List<VenueParty> venueParties;
@@ -14,24 +15,29 @@ public class ExecutionVenue {
         this.platform = platform;
         this.venueParties = venueParties;
     }
+    
     public VenueType getType() {
         return type;
     }
+    
     public void setType(VenueType type) {
         this.type = type;
     }
+    
     public Platform getPlatform() {
         return platform;
     }
+    
     public void setPlatform(Platform platform) {
         this.platform = platform;
     }
+    
     public List<VenueParty> getVenueParties() {
         return venueParties;
     }
+    
     public void setVenueParties(List<VenueParty> venueParties) {
         this.venueParties = venueParties;
     }
-
-    
+   
 }

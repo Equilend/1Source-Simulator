@@ -1,8 +1,8 @@
 package com.equilend.simulator.API;
 
 public class ContractProposalResponse {
-    private String resourceUri;
 
+    private String resourceUri;
 
     public String getResourceUri() {
         return resourceUri;
@@ -12,7 +12,7 @@ public class ContractProposalResponse {
         this.resourceUri = resourceUri;
     }
 
-    public String getContractId(){
+    public String getContractId() {
         String uri = resourceUri;
         String[] arr = uri.split("/");
         String contractId = arr[arr.length-1];
@@ -21,7 +21,8 @@ public class ContractProposalResponse {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return resourceUri;
     }
+
 }
