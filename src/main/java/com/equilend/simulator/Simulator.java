@@ -18,7 +18,7 @@ public class Simulator {
         Configurator configurator = new Configurator();
         
         BearerToken.configureToken(configurator.getLoginMap());
-        
+
         ExecutorService exec = Executors.newSingleThreadExecutor();
         exec.execute(new EventsProcessor(configurator));
         
