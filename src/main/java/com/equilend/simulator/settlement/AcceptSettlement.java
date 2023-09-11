@@ -2,18 +2,18 @@ package com.equilend.simulator.settlement;
 
 public class AcceptSettlement {
 
-    Settlement borrowerSettlementInformation;
+    private Settlement settlement;
 
-    public AcceptSettlement(Settlement borrowerSettlementInformation) {
-        this.borrowerSettlementInformation = borrowerSettlementInformation;
+    public AcceptSettlement(Settlement settlement) {
+        this.settlement = settlement;
     }
 
-    public Settlement getBorrowerSettlementInformation() {
-        return borrowerSettlementInformation;
+    public Settlement getSettlement() {
+        return settlement;
     }
 
-    public void setBorrowerSettlementInformation(Settlement borrowerSettlementInformation) {
-        this.borrowerSettlementInformation = borrowerSettlementInformation;
+    public void setSettlement(Settlement settlement) {
+        this.settlement = settlement;
     }
 
 }
