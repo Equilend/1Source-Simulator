@@ -130,6 +130,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
+        logger.info("Get All Events: Status Code {}", getResponse.statusCode());
+
         Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
         return gson.fromJson(getResponse.body(), eventListType);
     }     
@@ -162,6 +164,8 @@ public class APIConnector {
             logger.error(message, e);
             throw new APIException(message, e);
         }
+
+        logger.info("Get Agreement By Id: Status Code {}", getResponse.statusCode());
         
         Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
         return agreement;
@@ -195,6 +199,8 @@ public class APIConnector {
             logger.error(message, e);
             throw new APIException(message, e);
         }
+       
+        logger.info("Get Contract By Id: Status Code {}", getResponse.statusCode());
         
         Contract contract = gson.fromJson(getResponse.body(), Contract.class);
         return contract;
@@ -233,6 +239,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
+        logger.info("Post Contract Proposal: Status Code {}", postResponse.statusCode());
+
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         return response;
     }
@@ -266,6 +274,8 @@ public class APIConnector {
             logger.error(message, e);
             throw new APIException(message, e);
         }
+
+        logger.info("Cancel Contract Proposal: Status Code {}", postResponse.statusCode());        
         
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         return response;       
@@ -303,6 +313,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
+        logger.info("Accept Contract Proposal: Status Code {}", postResponse.statusCode());
+
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         return response;
     }
@@ -336,6 +348,8 @@ public class APIConnector {
             logger.error(message, e);
             throw new APIException(message, e);
         }
+
+        logger.info("Decline Contract Proposal: Status Code {}", postResponse.statusCode());
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         return response;

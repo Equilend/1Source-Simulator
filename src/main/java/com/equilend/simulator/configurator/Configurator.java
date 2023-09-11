@@ -73,7 +73,7 @@ public class Configurator {
     public boolean correctPartner(Trade trade) {
         List<TransactingParty> parties = trade.getTransactingParties();
         for (TransactingParty tp : parties){
-            if (tp.getPartyRole() != mode && tp.getParty().getPartyId() != clientPartyId){
+            if (tp.getPartyRole() != mode && !tp.getParty().getPartyId().equals(clientPartyId)){
                 return false;
             }
         }
