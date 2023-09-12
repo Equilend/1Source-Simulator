@@ -21,8 +21,11 @@ import com.equilend.simulator.trade.execution_venue.Platform;
 import com.equilend.simulator.trade.execution_venue.VenueType;
 import com.equilend.simulator.trade.execution_venue.venue_party.VenueParty;
 import com.equilend.simulator.trade.instrument.Instrument;
+import com.equilend.simulator.trade.rate.BenchmarkCd;
 import com.equilend.simulator.trade.rate.FixedRate;
+import com.equilend.simulator.trade.rate.FloatingRate;
 import com.equilend.simulator.trade.rate.Rate;
+import com.equilend.simulator.trade.rate.RebateRate;
 import com.equilend.simulator.trade.transacting_party.Party;
 import com.equilend.simulator.trade.transacting_party.PartyRole;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
@@ -62,10 +65,11 @@ public class ContractProposal {
         venueParties.add(borrowerVenueParty);
         ExecutionVenue executionVenue = new ExecutionVenue(VenueType.OFFPLATFORM, platform, venueParties);
         
-        Instrument instrument = new Instrument("MSFT", "594918104", "US5949181045", "2588173", "BBG001S5TD05", "MICROSOFT CORP COM" );
-        
-        FixedRate fee = new FixedRate(Float.valueOf("5.0"), Float.valueOf("5.0"), "2023-09-11", "18:00:00");
-        Rate rate = new Rate(fee);
+        Instrument instrument = new Instrument("MSFT", "BBG001S5TD05", "MICROSOFT CORP COM");
+
+        FloatingRate floating = new FloatingRate(BenchmarkCd.OBFR, null, Float.valueOf(".15"), Float.valueOf(".15"), false, null, "2023-09-12", "18:00:00");
+        RebateRate rebate = new RebateRate(floating);
+        Rate rate = new Rate(rebate);
         
         Long quantity = Long.valueOf(25025);
         

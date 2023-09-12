@@ -1,0 +1,127 @@
+[
+	{
+		"figi" : "BBG001S5XH92",
+		"ticker" : "WMT",
+		"description" : "WALMART INC COM"
+	},
+	{
+		"figi" : "BBG001S5PQL7",
+		"ticker" : "AMZN",
+		"description" : "AMAZON COM INC COM"
+	},
+	{
+		"figi" : "BBG001S5N8V8",
+		"ticker" : "AAPL",
+		"description" : "APPLE INC COM"
+	},
+	{
+		"figi" : "BBG001S5QBD8",
+		"ticker" : "CVS",
+		"description" : "CVS HEALTH CORPORATION COM"
+	},
+	{
+		"figi" : "BBG001S6WCJ1",
+		"ticker" : "UNH",
+		"description" : "UNITEDHEALTH GROUP INC COM"
+	},
+	{
+		"figi" : "BBG001S69V32",
+		"ticker" : "XOM",
+		"description" : "EXXON MOBIL CORPORATION COM NPV"
+	},
+	{
+		"figi" : "BBG001S90346",
+		"ticker" : "BRK.B",
+		"description" : "BERKSHIRE HATHAWAY INC COM CLASS'B'"
+	},
+	{
+		"figi" : "BBG009S3NB21",
+		"ticker" : "GOOG",
+		"description" : "ALPHABET INC CAP CL C"
+	},
+	{
+		"figi" : "BBG001S8F8P8",
+		"ticker" : "MCK",
+		"description" : "MCKESSON CORPORATION COM"
+	},
+	{
+		"figi" : "BBG001S8X7P0",
+		"ticker" : "ABC",
+		"description" : "AMERISOURCEBERGEN CORPORATION COM"
+	},
+	{
+		"figi" : "BBG001S5TD05",
+		"ticker" : "MSFT",
+		"description" : "MICROSOFT CORP COM"
+	},
+	{
+		"figi" : "BBG001S9KRQ7",
+		"ticker" : "COST",
+		"description" : "COSTCO WHOLESALE CORP COM"
+	},
+	{
+		"figi" : "BBG001S5VWH2",
+		"ticker" : "T",
+		"description" : "AT&T INC COM"
+	},
+	{
+		"figi" : "BBG001S7PC34",
+		"ticker" : "CAH",
+		"description" : "CARDINAL HEALTH INC COM NPV"
+	},
+	{
+		"figi" : "BBG001S67ZC5",
+		"ticker" : "CVX",
+		"description" : "CHEVRON CORPORATION COM"
+	},
+	{
+		"figi" : "BBG001S5RTW7",
+		"ticker" : "HD",
+		"description" : "HOME DEPOT INC COM"
+	},
+	{
+		"figi" : "BBG001S5XBY7",
+		"ticker" : "WBA",
+		"description" : "WALGREENS BOOTS ALLIANCE INC COM"
+	},
+	{
+		"figi" : "BBG001S169P1",
+		"ticker" : "MPC",
+		"description" : "MARATHON PETROLEUM CORP COM"
+	},
+	{
+		"figi" : "BBG001S6KBQ8",
+		"ticker" : "ELV",
+		"description" : "ELEVANCE HEALTH INC COM"
+	},
+	{
+		"figi" : "BBG001S5SN40",
+		"ticker" : "KR",
+		"description" : "KROGER CO COM"
+	},
+	{
+		"figi" : "BBG001S5TZ33",
+		"ticker" : "F",
+		"description" : "FORD MOTOR CO COM"
+	},
+	{
+		"figi" : "BBG001S67QY1",
+		"ticker" : "VZ",
+		"description" : "VERIZON COMMUNICATIONS COM"
+	},
+	{
+		"figi" : "BBG001S8CRC3",
+		"ticker" : "JPM",
+		"description" : "JPMORGAN CHASE & CO. COM"
+	},
+	{
+		"figi" : "BBG001S5S399",
+		"ticker" : "IBM",
+		"description" : "INTERNATIONAL BUS MACH CORP COM"
+	},
+	{
+		"figi" : "BBG001SQKGD7",
+		"ticker" : "TSLA",
+		"description" : "TESLA INC COM"
+	}
+]

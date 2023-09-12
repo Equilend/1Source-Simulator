@@ -21,7 +21,13 @@ public class Instrument {
         this.figi = figi;
         this.description = description;
     }
-    
+
+    public Instrument(String ticker, String figi, String description) {
+        this.ticker = ticker;
+        this.figi = figi;
+        this.description = description;
+    }
+
     public String getTicker() {
         return ticker;
     }
