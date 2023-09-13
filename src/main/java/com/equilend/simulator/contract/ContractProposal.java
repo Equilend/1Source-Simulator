@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -72,7 +71,9 @@ public class ContractProposal {
         
         Instrument instrument = security;
 
-        FloatingRate floating = new FloatingRate(BenchmarkCd.OBFR, null, Float.valueOf(".15"), Float.valueOf(".15"), false, null, "2023-09-13", "18:00:00");
+        LocalDate today = LocalDate.now();
+        String todayStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(today);
+        FloatingRate floating = new FloatingRate(BenchmarkCd.OBFR, null, Float.valueOf(".15"), Float.valueOf(".15"), false, null, todayStr, "18:00:00");
         RebateRate rebate = new RebateRate(floating);
         Rate rate = new Rate(rebate);
         
@@ -82,8 +83,6 @@ public class ContractProposal {
         
         BigDecimal dividendRatePct = BigDecimal.valueOf(100);
         
-        LocalDate today = LocalDate.now();
-        String todayStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(today);
         String tradeDate = todayStr;
         
         LocalDate tPlus2 = today.plusDays(2);
