@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.trade.Trade;
+import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.PartyRole;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,13 +24,16 @@ public class Configurator {
     private String clientPartyId;
     private long waitIntervalMillis = 10 * 1000;
     private int maxAttempts = 3;
+    private List<Instrument> instruments = null;
+
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
         readTOMLFile();
+        readInstrumentsFile();
     }
 
-    public void readTOMLFile() {
+    private void readTOMLFile() {
         TomlMapper tomlMapper = new TomlMapper();
         Map<String, Map<String, String>> settings = null;
         try {
@@ -48,6 +52,23 @@ public class Configurator {
         this.clientPartyId = general.get("your_party_id");
         this.waitIntervalMillis = Long.parseLong(general.get("wait_interval_ms"));
         this.maxAttempts = Integer.parseInt(general.get("max_refresh_attempts"));
+    }
+
+    private void readInstrumentsFile() {
+        String instrumentsFilename = "config/instruments.toml";
+        TomlMapper tomlMapper = new TomlMapper();
+        Map<String, List<Instrument>> map = null;
+        try {
+            map = tomlMapper.readValue(new File(instrumentsFilename), new TypeReference<Map<String, List<Instrument>>>() {});
+        } catch(IOException e){
+            logger.error("Error reading instruments file", e);
+            return;
+        }
+        if (map == null){
+            logger.error("Instruments unable to be successfully loaded");
+        }
+
+        this.instruments = map.get("instruments");
     }
 
     public PartyRole getMode() {
@@ -69,6 +90,14 @@ public class Configurator {
     public int getMaxAttempts() {
         return maxAttempts;
     }
+
+    public List<Instrument> getInstruments() {
+        return instruments;
+    }
+
+    public void setInstruments(List<Instrument> instruments) {
+        this.instruments = instruments;
+    }    
 
     public boolean correctPartner(Trade trade) {
         List<TransactingParty> parties = trade.getTransactingParties();

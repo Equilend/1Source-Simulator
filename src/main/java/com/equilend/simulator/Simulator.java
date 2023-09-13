@@ -1,13 +1,18 @@
 package com.equilend.simulator;
 
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.equilend.simulator.api.APIConnector;
+import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.events_processor.EventsProcessor;
+import com.equilend.simulator.scheduler.Scheduler;
 import com.equilend.simulator.token.BearerToken;
 
 
@@ -19,8 +24,11 @@ public class Simulator {
         
         BearerToken.configureToken(configurator.getLoginMap());
 
-        ExecutorService exec = Executors.newSingleThreadExecutor();
-        exec.execute(new EventsProcessor(configurator));
+        ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
+        execOutgoing.execute(new Scheduler(configurator));
+
+        // ExecutorService execIncoming = Executors.newSingleThreadExecutor();
+        // execIncoming.execute(new EventsProcessor(configurator));
         
         System.out.println("Enter q to quit");
         Scanner input = new Scanner(System.in);
@@ -30,7 +38,8 @@ public class Simulator {
             if (line.equalsIgnoreCase("q")){
                 System.out.println("You've pressed \'q\'");
                 System.out.println("Let us clean up a lil and we'll be done in 5 secs at MOST...");
-                exec.shutdownNow();
+                execOutgoing.shutdownNow();
+                // execIncoming.shutdownNow();
                 break;
             }
         }

@@ -6,6 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.settlement.Settlement;
 import com.equilend.simulator.settlement.instruction.Instruction;
@@ -34,6 +38,7 @@ public class ContractProposal {
 
     private Trade trade;
     private List<Settlement> settlement;
+    private static final Logger logger = LogManager.getLogger();
 
     public ContractProposal(Trade trade, List<Settlement> settlement) {
         this.trade = trade;
@@ -56,7 +61,7 @@ public class ContractProposal {
         this.settlement = settlement;
     }
 
-    public static Trade createTrade() {
+    public static Trade createTrade(Instrument security) {
         Platform platform = new Platform("X", "Phone Brokered", "EXTERNAL", "0");
         List<VenueParty> venueParties = new ArrayList<>();
         VenueParty lenderVenueParty = new VenueParty(PartyRole.LENDER);
@@ -65,9 +70,9 @@ public class ContractProposal {
         venueParties.add(borrowerVenueParty);
         ExecutionVenue executionVenue = new ExecutionVenue(VenueType.OFFPLATFORM, platform, venueParties);
         
-        Instrument instrument = new Instrument("MSFT", "BBG001S5TD05", "MICROSOFT CORP COM");
+        Instrument instrument = security;
 
-        FloatingRate floating = new FloatingRate(BenchmarkCd.OBFR, null, Float.valueOf(".15"), Float.valueOf(".15"), false, null, "2023-09-12", "18:00:00");
+        FloatingRate floating = new FloatingRate(BenchmarkCd.OBFR, null, Float.valueOf(".15"), Float.valueOf(".15"), false, null, "2023-09-13", "18:00:00");
         RebateRate rebate = new RebateRate(floating);
         Rate rate = new Rate(rebate);
         
@@ -113,8 +118,9 @@ public class ContractProposal {
         return new Settlement(role, instruction);          
     }    
 
-    public static ContractProposal createContractProposal() {
-        Trade trade = createTrade();
+    // Returns null if instruments not populated successfully..
+    public static ContractProposal createContractProposal(Instrument security) {
+        Trade trade = createTrade(security);
 
         List<Settlement> settlements = new ArrayList<Settlement>();
         settlements.add(createSettlement(PartyRole.LENDER));

@@ -12,7 +12,7 @@ public class Instrument {
     private String figi;
     private String description;
     private Price price;
-    
+        
     public Instrument(String ticker, String cusip, String isin, String sedol, String figi, String description) {
         this.ticker = ticker;
         this.cusip = cusip;
@@ -21,11 +21,15 @@ public class Instrument {
         this.figi = figi;
         this.description = description;
     }
-
+    
     public Instrument(String ticker, String figi, String description) {
         this.ticker = ticker;
         this.figi = figi;
         this.description = description;
+    }
+    
+    public Instrument(){
+
     }
 
     public String getTicker() {

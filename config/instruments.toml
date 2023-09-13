@@ -1,0 +1,124 @@
+[[instruments]]
+ticker = "WMT"
+figi = "BBG001S5XH92"
+description = "WALMART INC COM"
+
+[[instruments]]
+ticker = "AMZN"
+figi = "BBG001S5PQL7"
+description = "AMAZON COM INC COM"
+
+[[instruments]]
+ticker = "AAPL"
+figi = "BBG001S5N8V8"
+description = "APPLE INC COM"
+
+[[instruments]]
+ticker = "CVS"
+figi = "BBG001S5QBD8"
+description = "CVS HEALTH CORPORATION COM"
+
+[[instruments]]
+ticker = "UNH"
+figi = "BBG001S6WCJ1"
+description = "UNITEDHEALTH GROUP INC COM"
+
+[[instruments]]
+ticker = "XOM"
+figi = "BBG001S69V32"
+description = "EXXON MOBIL CORPORATION COM NPV"
+
+[[instruments]]
+ticker = "BRK.B"
+figi = "BBG001S90346"
+description = "BERKSHIRE HATHAWAY INC COM CLASS'B'"
+
+[[instruments]]
+ticker = "GOOG"
+figi = "BBG009S3NB21"
+description = "ALPHABET INC CAP CL C"
+
+[[instruments]]
+ticker = "MCK"
+figi = "BBG001S8F8P8"
+description = "MCKESSON CORPORATION COM"
+
+[[instruments]]
+ticker = "ABC"
+figi = "BBG001S8X7P0"
+description = "AMERISOURCEBERGEN CORPORATION COM"
+
+[[instruments]]
+ticker = "MSFT"
+figi = "BBG001S5TD05"
+description = "MICROSOFT CORP COM"
+
+[[instruments]]
+ticker = "COST"
+figi = "BBG001S9KRQ7"
+description = "COSTCO WHOLESALE CORP COM"
+
+[[instruments]]
+ticker = "T"
+figi = "BBG001S5VWH2"
+description = "AT&T INC COM"
+
+[[instruments]]
+ticker = "CAH"
+figi = "BBG001S7PC34"
+description = "CARDINAL HEALTH INC COM NPV"
+
+[[instruments]]
+ticker = "CVX"
+figi = "BBG001S67ZC5"
+description = "CHEVRON CORPORATION COM"
+
+[[instruments]]
+ticker = "HD"
+figi = "BBG001S5RTW7"
+description = "HOME DEPOT INC COM"
+
+[[instruments]]
+ticker = "WBA"
+figi = "BBG001S5XBY7"
+description = "WALGREENS BOOTS ALLIANCE INC COM"
+
+[[instruments]]
+ticker = "MPC"
+figi = "BBG001S169P1"
+description = "MARATHON PETROLEUM CORP COM"
+
+[[instruments]]
+ticker = "ELV"
+figi = "BBG001S6KBQ8"
+description = "ELEVANCE HEALTH INC COM"
+
+[[instruments]]
+ticker = "KR"
+figi = "BBG001S5SN40"
+description = "KROGER CO COM"
+
+[[instruments]]
+ticker = "F"
+figi = "BBG001S5TZ33"
+description = "FORD MOTOR CO COM"
+
+[[instruments]]
+ticker = "VZ"
+figi = "BBG001S67QY1"
+description = "VERIZON COMMUNICATIONS COM"
+
+[[instruments]]
+ticker = "JPM"
+figi = "BBG001S8CRC3"
+description = "JPMORGAN CHASE & CO. COM"
+
+[[instruments]]
+ticker = "IBM"
+figi = "BBG001S5S399"
+description = "INTERNATIONAL BUS MACH CORP COM"
+
+[[instruments]]
+ticker = "TSLA"
+figi = "BBG001SQKGD7"
+description = "TESLA INC COM"
