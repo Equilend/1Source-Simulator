@@ -1,6 +1,8 @@
 package com.equilend.simulator.configurator;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,7 @@ public class Configurator {
     public Configurator() {
         readTOMLFile();
         readInstrumentsFile();
+        readRulesFile();
     }
 
     private void readTOMLFile() {
@@ -71,11 +74,27 @@ public class Configurator {
         this.instruments = map.get("instruments");
     }
 
+    private void readRulesFile(){
+        String rulesFilename = "config/rules.txt";
+        StringBuilder str = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(rulesFilename))) {
+            String line;
+            while ((line = reader.readLine()) != null){
+                str.append(line);
+                str.append("\n");
+            }
+        } catch (IOException e) {
+            logger.error("Error reading rules file", e);
+        }
+        
+        System.out.println(str);
+    }
+
     public PartyRole getMode() {
         return mode;
     }
 
-    public Map<String, String> getLoginMap() {
+    public Map<String, String> getLoginMap() { 
         return loginMap;
     }
 
