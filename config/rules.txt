@@ -1,5 +1,5 @@
 [General] 
-client_party = "BANK-INC"
+user_party_id = "BANK-INC"
 max_refresh_attempts = 3
 event_fetch_interval_secs = 10
 

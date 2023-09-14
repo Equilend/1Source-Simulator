@@ -9,7 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.contract.Contract;
-import com.equilend.simulator.rules_parser.Parser;
+import com.equilend.simulator.rules.Parser;
+import com.equilend.simulator.rules.Rules;
 import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.PartyRole;
@@ -26,12 +27,13 @@ public class Configurator {
     private long waitIntervalMillis = 10 * 1000;
     private int maxAttempts = 3;
     private List<Instrument> instruments = null;
+    private Map<String, Rules> rules;
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
         readTOMLFile();
         readInstrumentsFile();
-        Parser.readRulesFile();
+        this.rules = Parser.readRulesFile();
     }
 
     private void readTOMLFile() {
@@ -96,9 +98,9 @@ public class Configurator {
         return instruments;
     }
 
-    public void setInstruments(List<Instrument> instruments) {
-        this.instruments = instruments;
-    }    
+    public Map<String, Rules> getRules() {
+        return rules;
+    }
 
     public boolean correctPartner(Trade trade) {
         List<TransactingParty> parties = trade.getTransactingParties();

@@ -1,4 +1,4 @@
-package com.equilend.simulator.rules_parser;
+package com.equilend.simulator.rules;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,6 +14,30 @@ import org.apache.logging.log4j.Logger;
 public class Parser {
 
     private static final Logger logger = LogManager.getLogger();
+
+    private static List<String> splitIntoSections(StringBuilder str){
+        List<String> sections = new ArrayList<>();
+        int end = 0;
+        int start = -1;
+        while ((end = str.indexOf("[", end)) != -1){
+            if (start >= 0){
+                String section = str.substring(start, end-1);
+                sections.add(section);
+            }
+            start = end++;
+        }
+        String lastSection = str.substring(start, str.length()-1);
+        sections.add(lastSection);
+
+        return sections;
+    }
+
+    private static String getSectionHeader(String section){
+        int start = section.indexOf('[') + 1;
+        int end = section.indexOf(']');
+
+        return section.substring(start, end);
+    }
 
     private static List<String> splitIntoSubsections(String section){
         List<String> subsections = new ArrayList<>();
@@ -50,43 +74,49 @@ public class Parser {
         return subsections;
     }
 
-    private static List<String> splitIntoSections(StringBuilder str){
-        List<String> sections = new ArrayList<>();
+    private static String getSubsectionSubheader(String subsection){
         int end = 0;
-        int start = -1;
-        while ((end = str.indexOf("[", end)) != -1){
-            if (start >= 0){
-                String section = str.substring(start, end-1);
-                sections.add(section);
-            }
-            start = end++;
+        String subheader;
+        
+        if ( (end = subsection.indexOf('>')) != -1){
+            int start = subsection.indexOf('<') + 1;
+            subheader = subsection.substring(start, end);
+        }else{
+            subheader = "general";
         }
-        String lastSection = str.substring(start, str.length()-1);
-        sections.add(lastSection);
-
-        return sections;
+        
+        return subheader;
     }
 
-    private static void loadVariables(Map<String, String> map, String subsection){
+    private static Map<String, String> getSubsectionRules(String subsection){
         int idx = 0;
         if ( (idx = subsection.indexOf('>')) != -1){
-            int start = subsection.indexOf('<') + 1;
-            String subheader = subsection.substring(start, idx);
-            map.put("subheader", subheader);
             subsection = subsection.substring(idx+1).trim();
-        }else{
-            map.put("subheader", "general");
         }
 
+        Map<String, String> rules = new HashMap<>();
         String[] lines = subsection.split("\n");
         for (String str : lines){
             String[] parts = str.split("=");
-            map.put(parts[0].trim(), parts[1].trim());
+            rules.put(parts[0].trim(), parts[1].trim());
         }
-
+        return rules;
     }
 
-    public static void readRulesFile(){
+    private static Map<String, Map<String, String>> loadSectionRules(String section){
+        Map<String, Map<String, String>> map = new HashMap<>();
+
+        List<String> subsections = splitIntoSubsections(section);
+        for (String subsection : subsections){
+            String subheader = getSubsectionSubheader(subsection);
+            Map<String, String> rules = getSubsectionRules(subsection);
+            map.put(subheader, rules);
+        }
+
+        return map;
+    }
+
+    public static Map<String, Rules> readRulesFile(){
         String rulesFilename = "config/rules.txt";
         StringBuilder str = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(rulesFilename))) {
@@ -100,27 +130,21 @@ public class Parser {
         }
 
         List<String> sections = splitIntoSections(str);
+        Map<String, Rules> rules = new HashMap<>();
         for (int i = 0; i < sections.size(); i++){
             String section = sections.get(i);
-            List<String> subsections = splitIntoSubsections(section);
-            String header = section.substring(section.indexOf('[') + 1, section.indexOf(']'));
-            for (int j = 0; j < subsections.size(); j++){
-                Map<String, String> map = new HashMap<>();
-                map.put("header", header);
-                loadVariables(map, subsections.get(j));
-
-                System.out.println("header = " + map.get("header"));
-                System.out.println("subheader = " + map.get("subheader"));
-                map.forEach( (k, v) -> {
-                    if (!k.equals("header") && !k.equals("subheader")){
-                        System.out.println(k + " = " + v);
-                    }
-                });
-                System.out.println();
+            String header = getSectionHeader(section);
+            Map<String, Map<String, String>> sectionRulesMap = loadSectionRules(section);
+            
+            switch (header){
+                case "General" :
+                    rules.put(header, new GeneralRules(sectionRulesMap));
+                case "Auth" :
+                    rules.put(header, new AuthorizationRules(sectionRulesMap));
             }
         }
 
-
+        return rules;
     }
 
 }
