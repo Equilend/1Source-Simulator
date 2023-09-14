@@ -38,7 +38,7 @@ public class ContractProposal {
     private Trade trade;
     private List<Settlement> settlement;
     private static final Logger logger = LogManager.getLogger();
-
+    
     public ContractProposal(Trade trade, List<Settlement> settlement) {
         this.trade = trade;
         this.settlement = settlement;

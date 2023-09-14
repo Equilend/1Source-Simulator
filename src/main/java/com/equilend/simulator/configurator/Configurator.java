@@ -1,8 +1,6 @@
 package com.equilend.simulator.configurator;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.contract.Contract;
+import com.equilend.simulator.rules_parser.Parser;
 import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.PartyRole;
@@ -27,13 +26,12 @@ public class Configurator {
     private long waitIntervalMillis = 10 * 1000;
     private int maxAttempts = 3;
     private List<Instrument> instruments = null;
-
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
         readTOMLFile();
         readInstrumentsFile();
-        readRulesFile();
+        Parser.readRulesFile();
     }
 
     private void readTOMLFile() {
@@ -72,22 +70,6 @@ public class Configurator {
         }
 
         this.instruments = map.get("instruments");
-    }
-
-    private void readRulesFile(){
-        String rulesFilename = "config/rules.txt";
-        StringBuilder str = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(rulesFilename))) {
-            String line;
-            while ((line = reader.readLine()) != null){
-                str.append(line);
-                str.append("\n");
-            }
-        } catch (IOException e) {
-            logger.error("Error reading rules file", e);
-        }
-        
-        System.out.println(str);
     }
 
     public PartyRole getMode() {

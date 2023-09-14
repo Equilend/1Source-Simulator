@@ -1,15 +1,23 @@
-v 
-i 
-s
-u 
-a 
-l 
+[section0] 
+key1=value1 
+<lender> 
+keylend1=valuelend1 
+keylend2 = valuelend2 
+<borrower> 
+keyborr1= valueborr1 
 
-s
-t 
-u 
-d 
-i 
-o 
+[section1] 
+key1=value1
+key2 =value2
 
-code
+[section2] 
+key1="value1"
+<lender> 
+keylend1 = valuelend1 
+keylend2 = "valuelend2" 
+
+[section3] 
+key1=value1 
+key2=value2 
+<borrower> 
+keyborr1 = lendborr1 
