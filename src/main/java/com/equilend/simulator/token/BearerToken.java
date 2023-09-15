@@ -20,9 +20,10 @@ public class BearerToken {
         return this.accessToken;
     }
 
-    public static void configureToken(Map<String, String> loginInfo) {
-        if (login == null)
-            login = loginInfo;
+    public static void configureToken(Map<String, String> authRules) {
+        if (login == null){
+            login = authRules;
+        }
     }
 
     // Must Configure Token before Getting

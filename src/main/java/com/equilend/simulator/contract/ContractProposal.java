@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.equilend.simulator.settlement.Settlement;
 import com.equilend.simulator.settlement.instruction.Instruction;
 import com.equilend.simulator.settlement.instruction.LocalMarketFields;
@@ -25,7 +22,6 @@ import com.equilend.simulator.trade.execution_venue.VenueType;
 import com.equilend.simulator.trade.execution_venue.venue_party.VenueParty;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.rate.BenchmarkCd;
-import com.equilend.simulator.trade.rate.FixedRate;
 import com.equilend.simulator.trade.rate.FloatingRate;
 import com.equilend.simulator.trade.rate.Rate;
 import com.equilend.simulator.trade.rate.RebateRate;
@@ -37,7 +33,6 @@ public class ContractProposal {
 
     private Trade trade;
     private List<Settlement> settlement;
-    private static final Logger logger = LogManager.getLogger();
     
     public ContractProposal(Trade trade, List<Settlement> settlement) {
         this.trade = trade;

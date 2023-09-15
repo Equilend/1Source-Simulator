@@ -18,28 +18,36 @@ public class Simulator {
     public static void main(String[] args) {
         Configurator configurator = new Configurator();
         
-        BearerToken.configureToken(configurator.getLoginMap());
+        boolean useTestLenderAuth = true;
 
-        // ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
-        // execOutgoing.execute(new Scheduler(configurator));
+        // Eventually would just use one party for autoresponder
+        if (useTestLenderAuth){
+            BearerToken.configureToken(configurator.getAuthorization().getLender());
+        }else{
+            BearerToken.configureToken(configurator.getAuthorization().getBorrower());
+        }
 
-        // ExecutorService execIncoming = Executors.newSingleThreadExecutor();
-        // execIncoming.execute(new EventsProcessor(configurator));
+
+        ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
+        execOutgoing.execute(new Scheduler(configurator));
+
+        ExecutorService execIncoming = Executors.newSingleThreadExecutor();
+        execIncoming.execute(new EventsProcessor(configurator));
         
-        // System.out.println("Enter q to quit");
-        // Scanner input = new Scanner(System.in);
-        // String line;
-        // while (input.hasNext()){
-        //     line = input.nextLine();
-        //     if (line.equalsIgnoreCase("q")){
-        //         System.out.println("You've pressed \'q\'");
-        //         System.out.println("Let us clean up a lil and we'll be done in 5 secs at MOST...");
-        //         execOutgoing.shutdownNow();
-        //         execIncoming.shutdownNow();
-        //         break;
-        //     }
-        // }
-        // input.close();
+        System.out.println("Enter q to quit");
+        Scanner input = new Scanner(System.in);
+        String line;
+        while (input.hasNext()){
+            line = input.nextLine();
+            if (line.equalsIgnoreCase("q")){
+                System.out.println("You've pressed \'q\'");
+                System.out.println("Let us clean up a lil and we'll be done in 5 secs at MOST...");
+                execOutgoing.shutdownNow();
+                execIncoming.shutdownNow();
+                break;
+            }
+        }
+        input.close();
 
         logger.info("DONE :)");
     }

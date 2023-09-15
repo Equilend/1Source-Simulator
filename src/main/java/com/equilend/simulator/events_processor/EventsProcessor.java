@@ -16,19 +16,16 @@ import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
 import com.equilend.simulator.token.BearerToken;
-import com.equilend.simulator.trade.transacting_party.PartyRole;
 
 public class EventsProcessor implements Runnable {
 
     private Configurator configurator;
-    private PartyRole mode;
-    private Long waitInterval;
+    private long waitInterval;
     private static final Logger logger = LogManager.getLogger();
 
     public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
-        this.mode = configurator.getMode();
-        this.waitInterval = configurator.getWaitIntervalMillis();
+        this.waitInterval = Long.valueOf(configurator.getGeneral().getEventFetchIntervalSecs());
     }
 
     public void run() {
@@ -71,12 +68,17 @@ public class EventsProcessor implements Runnable {
 
             for (Event event : events){
                 EventHandler task = null;
-                switch (event.getEventType()){
+                String type = event.getEventType();
+                if (configurator.shouldIgnoreEvent(type)){
+                    continue;
+                }
+
+                switch (type){
                     case "TRADE":   
-                        task = (mode == PartyRole.LENDER) ? new TradeHandler(event, configurator) : null;
+                        task = new TradeHandler(event, configurator);
                         break;
                     case "CONTRACT":    
-                        task = (mode == PartyRole.BORROWER) ? new ContractHandler(event, configurator) : null;                           
+                        task = new ContractHandler(event, configurator);                           
                         break;
                 }
 

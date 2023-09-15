@@ -86,13 +86,15 @@ public class ContractHandler implements EventHandler {
         getContractById(contractId); //returns true or false based on success
 
         //Analyze contract to decide whether to accept or decline based on rules
-        if (!rules.ignoreProposal(contract)){
-            if (rules.shouldAcceptProposal(contract)){
-                acceptContractProposal(contractId); //returns true or false based on success
-            }
-            else{
-                declineContractProposal(contractId); //returns true or false based on success
-            }
+        if (rules.shouldIgnoreContract(contract)){
+            return;
+        }
+
+        if (rules.shouldAcceptProposal(contract)){
+            acceptContractProposal(contractId);
+        }
+        else{
+            declineContractProposal(contractId);
         }
     }
     

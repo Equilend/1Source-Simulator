@@ -9,52 +9,41 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.contract.Contract;
+import com.equilend.simulator.rules.AuthorizationRules;
+import com.equilend.simulator.rules.GeneralRules;
 import com.equilend.simulator.rules.Parser;
 import com.equilend.simulator.rules.Rules;
 import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.instrument.Instrument;
-import com.equilend.simulator.trade.transacting_party.PartyRole;
-import com.equilend.simulator.trade.transacting_party.TransactingParty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 
 public class Configurator {
 
-    private String configFilename = "config/config.toml";
-    private PartyRole mode;
-    private Map<String, String> loginMap;
-    private String clientPartyId;
-    private long waitIntervalMillis = 10 * 1000;
-    private int maxAttempts = 3;
     private List<Instrument> instruments = null;
-    private Map<String, Rules> rules;
+    public GeneralRules general;
+    public AuthorizationRules authorization;
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
-        readTOMLFile();
         readInstrumentsFile();
-        this.rules = Parser.readRulesFile();
+        loadRules(Parser.readRulesFile());
     }
 
-    private void readTOMLFile() {
-        TomlMapper tomlMapper = new TomlMapper();
-        Map<String, Map<String, String>> settings = null;
-        try {
-            settings = tomlMapper.readValue(new File(this.configFilename), new TypeReference<Map<String, Map<String, String>>>() {});
-        } catch (IOException e) {
-            logger.error("Error reading config TOML file", e);
-            return;
+    private void loadRules(Map<String, Rules> rules) {
+        for (String section : rules.keySet()){
+            section = section.toUpperCase();
+            switch (section){
+                case "GENERAL":
+                    general = (GeneralRules) rules.get(section);
+                    break;
+                case "AUTH":
+                    authorization =(AuthorizationRules) rules.get(section);
+                    break;
+                default:
+                    logger.error("Unrecognized rules section header");
+            }
         }
-        if (settings == null){
-            logger.error("TOML file mapper unable to be created");
-        }
-
-        this.mode = PartyRole.valueOf(settings.get("bot").get("mode"));
-        this.loginMap = (this.mode == PartyRole.LENDER) ? settings.get("lender_bot_login") : settings.get("borrower_bot_login");
-        Map<String, String> general = settings.get("general");
-        this.clientPartyId = general.get("your_party_id");
-        this.waitIntervalMillis = Long.parseLong(general.get("wait_interval_ms"));
-        this.maxAttempts = Integer.parseInt(general.get("max_refresh_attempts"));
     }
 
     private void readInstrumentsFile() {
@@ -74,57 +63,39 @@ public class Configurator {
         this.instruments = map.get("instruments");
     }
 
-    public PartyRole getMode() {
-        return mode;
-    }
-
-    public Map<String, String> getLoginMap() { 
-        return loginMap;
-    }
-
-    public String getClientPartyId() {
-        return clientPartyId;
-    }
-    
-    public Long getWaitIntervalMillis() {
-        return waitIntervalMillis;
-    }
-        
-    public int getMaxAttempts() {
-        return maxAttempts;
-    }
-
     public List<Instrument> getInstruments() {
         return instruments;
     }
 
-    public Map<String, Rules> getRules() {
-        return rules;
+    public GeneralRules getGeneral() {
+        return general;
     }
 
-    public boolean correctPartner(Trade trade) {
-        List<TransactingParty> parties = trade.getTransactingParties();
-        for (TransactingParty tp : parties){
-            if (tp.getPartyRole() != mode && !tp.getParty().getPartyId().equals(clientPartyId)){
-                return false;
-            }
-        }
+    public void setGeneral(GeneralRules general) {
+        this.general = general;
+    }
+
+    public AuthorizationRules getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(AuthorizationRules authorization) {
+        this.authorization = authorization;
+    }
+
+    public boolean shouldIgnoreEvent(String eventType){
+        //Determine whether you should process or 
         return true;
     }
 
-    public boolean actOnTrade(Trade trade) {
-        //if trade not between bot and clientPartyId... CHOPT
-        if (!correctPartner(trade)) return false;
-        
+    public boolean shouldIgnoreTrade(Trade trade) {
         //Determine whether you should propose a contract from the trade or not
         return true;
     }
 
-    public boolean ignoreProposal(Contract contract) {
-        //If proposal not from clientPartyId... CHOPT
-        if (!correctPartner(contract.getTrade())) return false;
-
+    public boolean shouldIgnoreContract(Contract contract) {
         //Either ignore contract proposal
+
         //Or Accept/Decline it
         return false;
     }
