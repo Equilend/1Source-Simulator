@@ -38,7 +38,7 @@ public class EventRule {
     }
 
     public boolean isApplicable(Event event){
-        return event.getEventType().equals(eventType);
+        return eventType.equals("*") || eventType.equals(event.getEventType());
     }
 
     @Override

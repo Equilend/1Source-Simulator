@@ -22,9 +22,6 @@ public class Simulator {
 
         // Eventually would just use one party for autoresponder
         if (useTestLenderAuth){
-            if (configurator == null) logger.info("configurator null");
-            if (configurator.getAuthorizationRules() == null) logger.info("auth rules null");
-            if (configurator.getAuthorizationRules().getLender() == null) logger.info("lender null");
             BearerToken.configureToken(configurator.getAuthorizationRules().getLender());
         }else{
             BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
