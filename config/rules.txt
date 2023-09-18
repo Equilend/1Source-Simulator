@@ -16,3 +16,26 @@ client_secret="9fa094bf-9e39-4271-aa63-c6a641730423"
 grant_type="password" 
 username="TestLender1User" 
 password="fjmxVeKzpzUDg3YJ" 
+
+[Events]
+rules = {
+    ("CONTRACT_APPROVE000", "I")
+    ("CONTRACT_REJECT001", "I")
+    ("TRADE002", "I")
+    ("*003","D")
+}
+tools ={
+    ("CONTRACT_REJECT004", "I")
+    ("TRADE005", "I")
+    ("*006","D")
+}
+ghouls={
+    ("TRADE007, "I")
+    ("*008","D")
+}
+mewls= { 
+    ("CONTRACT_APPROVE009", "I")
+    ("CONTRACT_REJECT010", "I")
+    ("*011","D")
+}
+jewels = { ("*012","D") }

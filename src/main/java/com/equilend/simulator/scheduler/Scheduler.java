@@ -22,7 +22,7 @@ public class Scheduler implements Runnable {
 
     public Scheduler(Configurator configurator){
         this.configurator = configurator;
-        this.waitInterval = Long.valueOf(configurator.getGeneral().getEventFetchIntervalSecs());
+        this.waitInterval = Long.valueOf(configurator.getGeneralRules().getEventFetchIntervalSecs());
     }
 
     private Instrument getRandomInstrument(){

@@ -120,10 +120,22 @@ public class Parser {
         String rulesFilename = "config/rules.txt";
         StringBuilder str = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(rulesFilename))) {
+            boolean inList = false;
             String line;
             while ((line = reader.readLine()) != null){
                 str.append(line.trim());
-                if (line.length() > 0) str.append("\n");
+                if (line.indexOf("{") != -1){
+                    inList = true;
+                }
+                if (line.indexOf("}") != -1){
+                    inList = false;
+                }
+                if (inList){
+                    str.append(",");
+                }
+                else {
+                    str.append("\n");
+                }
             }
         } catch (IOException e) {
             logger.error("Error reading rules file", e);
@@ -139,8 +151,16 @@ public class Parser {
             switch (header){
                 case "General" :
                     rules.put(header, new GeneralRules(sectionRulesMap));
+                    break;
                 case "Auth" :
                     rules.put(header, new AuthorizationRules(sectionRulesMap));
+                    break;
+                case "Events" :
+                    rules.put(header, new EventRules(sectionRulesMap));
+                    break;
+                default:
+                    logger.error("Error reading rules file, unrecognized section header");
+
             }
         }
 

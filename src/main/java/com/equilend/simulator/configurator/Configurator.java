@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.rules.AuthorizationRules;
+import com.equilend.simulator.rules.EventRules;
 import com.equilend.simulator.rules.GeneralRules;
 import com.equilend.simulator.rules.Parser;
 import com.equilend.simulator.rules.Rules;
@@ -21,8 +22,9 @@ import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 public class Configurator {
 
     private List<Instrument> instruments = null;
-    public GeneralRules general;
-    public AuthorizationRules authorization;
+    private GeneralRules generalRules;
+    private AuthorizationRules authorizationRules;
+    private EventRules eventRules;
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
@@ -35,10 +37,13 @@ public class Configurator {
             section = section.toUpperCase();
             switch (section){
                 case "GENERAL":
-                    general = (GeneralRules) rules.get(section);
+                    generalRules = (GeneralRules) rules.get(section);
                     break;
                 case "AUTH":
-                    authorization =(AuthorizationRules) rules.get(section);
+                    authorizationRules =(AuthorizationRules) rules.get(section);
+                    break;
+                case "EVENTS":
+                    eventRules = (EventRules) rules.get(section);
                     break;
                 default:
                     logger.error("Unrecognized rules section header");
@@ -67,20 +72,16 @@ public class Configurator {
         return instruments;
     }
 
-    public GeneralRules getGeneral() {
-        return general;
+    public GeneralRules getGeneralRules() {
+        return generalRules;
     }
 
-    public void setGeneral(GeneralRules general) {
-        this.general = general;
+    public AuthorizationRules getAuthorizationRules() {
+        return authorizationRules;
     }
 
-    public AuthorizationRules getAuthorization() {
-        return authorization;
-    }
-
-    public void setAuthorization(AuthorizationRules authorization) {
-        this.authorization = authorization;
+    public EventRules getEventRules(){
+        return eventRules;
     }
 
     public boolean shouldIgnoreEvent(String eventType){

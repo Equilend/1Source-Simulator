@@ -25,7 +25,7 @@ public class EventsProcessor implements Runnable {
 
     public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
-        this.waitInterval = Long.valueOf(configurator.getGeneral().getEventFetchIntervalSecs());
+        this.waitInterval = Long.valueOf(configurator.getGeneralRules().getEventFetchIntervalSecs());
     }
 
     public void run() {
@@ -67,12 +67,12 @@ public class EventsProcessor implements Runnable {
             logger.info("Number of events retrieved {}", events.size());
 
             for (Event event : events){
-                EventHandler task = null;
-                String type = event.getEventType();
-                if (configurator.shouldIgnoreEvent(type)){
+                if (configurator.getEventRules().shouldIgnoreEvent(event)){
                     continue;
                 }
-
+                
+                EventHandler task = null;
+                String type = event.getEventType();
                 switch (type){
                     case "TRADE":   
                         task = new TradeHandler(event, configurator);
