@@ -25,7 +25,7 @@ public class EventsProcessor implements Runnable {
 
     public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
-        this.waitInterval = Long.valueOf(configurator.getGeneralRules().getEventFetchIntervalSecs());
+        this.waitInterval = Long.valueOf(configurator.getGeneralRules().getEventFetchIntervalMillis());
     }
 
     public void run() {
@@ -68,7 +68,11 @@ public class EventsProcessor implements Runnable {
 
             for (Event event : events){
                 if (configurator.getEventRules().shouldIgnoreEvent(event)){
+                    logger.info("Ignoring event of type {}", event.getEventType());
                     continue;
+                }
+                else{
+                    logger.info("Attempting to dispatch event of type {}", event.getEventType());
                 }
                 
                 EventHandler task = null;

@@ -18,36 +18,39 @@ public class Simulator {
     public static void main(String[] args) {
         Configurator configurator = new Configurator();
         
-        // boolean useTestLenderAuth = true;
+        boolean useTestLenderAuth = true;
 
-        // // Eventually would just use one party for autoresponder
-        // if (useTestLenderAuth){
-        //     BearerToken.configureToken(configurator.getAuthorizationRules().getLender());
-        // }else{
-        //     BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
-        // }
+        // Eventually would just use one party for autoresponder
+        if (useTestLenderAuth){
+            if (configurator == null) logger.info("configurator null");
+            if (configurator.getAuthorizationRules() == null) logger.info("auth rules null");
+            if (configurator.getAuthorizationRules().getLender() == null) logger.info("lender null");
+            BearerToken.configureToken(configurator.getAuthorizationRules().getLender());
+        }else{
+            BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
+        }
 
 
         // ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
         // execOutgoing.execute(new Scheduler(configurator));
 
-        // ExecutorService execIncoming = Executors.newSingleThreadExecutor();
-        // execIncoming.execute(new EventsProcessor(configurator));
+        ExecutorService execIncoming = Executors.newSingleThreadExecutor();
+        execIncoming.execute(new EventsProcessor(configurator));
         
-        // System.out.println("Enter q to quit");
-        // Scanner input = new Scanner(System.in);
-        // String line;
-        // while (input.hasNext()){
-        //     line = input.nextLine();
-        //     if (line.equalsIgnoreCase("q")){
-        //         System.out.println("You've pressed \'q\'");
-        //         System.out.println("Let us clean up a lil and we'll be done in 5 secs at MOST...");
-        //         execOutgoing.shutdownNow();
-        //         execIncoming.shutdownNow();
-        //         break;
-        //     }
-        // }
-        // input.close();
+        System.out.println("Enter q to quit");
+        Scanner input = new Scanner(System.in);
+        String line;
+        while (input.hasNext()){
+            line = input.nextLine();
+            if (line.equalsIgnoreCase("q")){
+                System.out.println("You've pressed \'q\'");
+                System.out.println("Let us clean up a lil and we'll be done, thank you for your patience...");
+                // execOutgoing.shutdownNow();
+                execIncoming.shutdownNow();
+                break;
+            }
+        }
+        input.close();
 
         logger.info("DONE :)");
     }

@@ -34,8 +34,7 @@ public class Configurator {
 
     private void loadRules(Map<String, Rules> rules) {
         for (String section : rules.keySet()){
-            section = section.toUpperCase();
-            switch (section){
+            switch (section.toUpperCase()){
                 case "GENERAL":
                     generalRules = (GeneralRules) rules.get(section);
                     break;

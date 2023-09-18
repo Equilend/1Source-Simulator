@@ -1,5 +1,7 @@
 package com.equilend.simulator.rules;
 
+import com.equilend.simulator.event.Event;
+
 public class EventRule {
 
     private String eventType;
@@ -33,6 +35,10 @@ public class EventRule {
 
     public void setShouldIgnore(boolean shouldIgnore) {
         this.shouldIgnore = shouldIgnore;
+    }
+
+    public boolean isApplicable(Event event){
+        return event.getEventType().equals(eventType);
     }
 
     @Override

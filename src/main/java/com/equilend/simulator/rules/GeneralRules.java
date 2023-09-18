@@ -6,14 +6,14 @@ public class GeneralRules implements Rules{
     
     private String userPartyId; 
     private int maxRefreshAttempts;
-    private int eventFetchIntervalSecs;
+    private int eventFetchIntervalMillis;
 
     public GeneralRules(Map<String, Map<String, String>> rulesMap){
         Map<String, String> general = rulesMap.get("general");
 
         this.userPartyId = general.get("user_party_id");
         this.maxRefreshAttempts = Integer.parseInt(general.get("max_refresh_attempts"));
-        this.eventFetchIntervalSecs = Integer.parseInt(general.get("event_fetch_interval_secs"));
+        this.eventFetchIntervalMillis = 1000 * Integer.parseInt(general.get("event_fetch_interval_secs"));
     }
 
     public String getUserPartyId() {
@@ -32,12 +32,12 @@ public class GeneralRules implements Rules{
         this.maxRefreshAttempts = maxRefreshAttempts;
     }
 
-    public int getEventFetchIntervalSecs() {
-        return eventFetchIntervalSecs;
+    public int getEventFetchIntervalMillis() {
+        return eventFetchIntervalMillis;
     }
 
-    public void setEventFetchIntervalSecs(int eventFetchIntervalSecs) {
-        this.eventFetchIntervalSecs = eventFetchIntervalSecs;
+    public void setEventFetchIntervalMillis(int eventFetchIntervalMillis) {
+        this.eventFetchIntervalMillis = eventFetchIntervalMillis;
     }
 
     
