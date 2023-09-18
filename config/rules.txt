@@ -21,14 +21,14 @@ password="fjmxVeKzpzUDg3YJ"
 
 [Events]
 rules = {
-    ("CONTRACT", "I")
     ("*","D")
 }
 
 [Agreements]
+bot_party_id = "TLEN-US"
 <<lender>>
 rules={
-    ("TBORR-US", "MSFT", "<=5000", "P", "20")
-    ("TBORR-US", "IBM", ">=10000", "I", "10")
-    ("*", "*", "*", "P", "0")
+    ("TBORR-US", "MSFT", "<=15000", "P", "20")
+    ("TBORR-US", "IBM", ">=15000", "P", "10")
+    ("*", "*", "*", "I", "0")
 }

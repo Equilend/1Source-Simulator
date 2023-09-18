@@ -74,7 +74,7 @@ public class TradeHandler implements EventHandler {
 
         //Create contract and post proposal
         Trade trade = agreement.getTrade();
-        if (rules.shouldIgnoreTrade(trade)){
+        if (rules.getAgreementRules().shouldIgnoreTrade(trade)){
             return;
         }
         postContractProposal(trade);

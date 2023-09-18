@@ -15,7 +15,6 @@ import com.equilend.simulator.rules.EventRules;
 import com.equilend.simulator.rules.GeneralRules;
 import com.equilend.simulator.rules.Parser;
 import com.equilend.simulator.rules.Rules;
-import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
@@ -88,14 +87,8 @@ public class Configurator {
         return eventRules;
     }
 
-    public boolean shouldIgnoreEvent(String eventType){
-        //Determine whether you should process or 
-        return true;
-    }
-
-    public boolean shouldIgnoreTrade(Trade trade) {
-        //Determine whether you should propose a contract from the trade or not
-        return true;
+    public AgreementRules getAgreementRules(){
+        return agreementRules;
     }
 
     public boolean shouldIgnoreContract(Contract contract) {
