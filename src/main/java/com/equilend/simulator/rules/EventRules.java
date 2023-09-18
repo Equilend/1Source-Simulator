@@ -29,7 +29,6 @@ public class EventRules implements Rules{
             
             start = rulesList.indexOf("(", end);
         }
-
     }
 
     public boolean shouldIgnoreEvent(Event event){

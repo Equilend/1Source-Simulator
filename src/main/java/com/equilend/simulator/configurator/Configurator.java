@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.contract.Contract;
+import com.equilend.simulator.rules.AgreementRules;
 import com.equilend.simulator.rules.AuthorizationRules;
 import com.equilend.simulator.rules.EventRules;
 import com.equilend.simulator.rules.GeneralRules;
@@ -25,6 +26,7 @@ public class Configurator {
     private GeneralRules generalRules;
     private AuthorizationRules authorizationRules;
     private EventRules eventRules;
+    private AgreementRules agreementRules;
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
@@ -39,11 +41,14 @@ public class Configurator {
                     generalRules = (GeneralRules) rules.get(section);
                     break;
                 case "AUTH":
-                    authorizationRules =(AuthorizationRules) rules.get(section);
+                    authorizationRules = (AuthorizationRules) rules.get(section);
                     break;
                 case "EVENTS":
                     eventRules = (EventRules) rules.get(section);
                     break;
+                case "AGREEMENTS":
+                    agreementRules = (AgreementRules) rules.get(section);
+                    break;                    
                 default:
                     logger.error("Unrecognized rules section header");
             }

@@ -42,7 +42,7 @@ public class Parser {
     private static List<String> splitIntoSubsections(String section){
         List<String> subsections = new ArrayList<>();
 
-        if (section.indexOf('<', 0) == -1){
+        if (section.indexOf("<<", 0) == -1){
             //no lender/borrower 
             int start = section.indexOf(']', 0) + 2;
             String general = section.substring(start, section.length()).trim();
@@ -50,17 +50,17 @@ public class Parser {
         }
         else {
             //yes lender/borrower 
-            if ((section.indexOf(']') + 2) != section.indexOf('<', 0)){
+            if ((section.indexOf(']') + 2) != section.indexOf("<<", 0)){
                 //yes general section
                 int start = section.indexOf(']') + 2;
-                int end = section.indexOf('<', 0);
+                int end = section.indexOf("<<", 0);
                 String general = section.substring(start, end).trim();
                 subsections.add(general);
             }
 
             int end = 0;
             int start = -1;
-            while ((end = section.indexOf("<", end)) != -1){
+            while ((end = section.indexOf("<<", end)) != -1){
                 if (start >= 0){
                     String nonGeneral = section.substring(start, end).trim();
                     subsections.add(nonGeneral);
@@ -78,8 +78,8 @@ public class Parser {
         int end = 0;
         String subheader;
         
-        if ( (end = subsection.indexOf('>')) != -1){
-            int start = subsection.indexOf('<') + 1;
+        if ( (end = subsection.indexOf(">>")) != -1){
+            int start = subsection.indexOf("<<") + 2;
             subheader = subsection.substring(start, end);
         }else{
             subheader = "general";
@@ -90,15 +90,17 @@ public class Parser {
 
     private static Map<String, String> getSubsectionRules(String subsection){
         int idx = 0;
-        if ( (idx = subsection.indexOf('>')) != -1){
-            subsection = subsection.substring(idx+1).trim();
+        if ( (idx = subsection.indexOf(">>")) != -1){
+            subsection = subsection.substring(idx+2).trim();
         }
 
         Map<String, String> rules = new HashMap<>();
         String[] lines = subsection.split("\n");
         for (String str : lines){
-            String[] parts = str.split("=");
-            rules.put(parts[0].trim(), parts[1].trim());
+            int split = str.indexOf("=");
+            String key = str.substring(0, split).trim();
+            String value = str.substring(split+1).trim();
+            rules.put(key, value);
         }
         return rules;
     }
@@ -157,6 +159,9 @@ public class Parser {
                     break;
                 case "Events" :
                     rules.put(header, new EventRules(sectionRulesMap));
+                    break;
+                case "Agreements" :
+                    rules.put(header, new AgreementRules(sectionRulesMap));
                     break;
                 default:
                     logger.error("Error reading rules file, unrecognized section header");

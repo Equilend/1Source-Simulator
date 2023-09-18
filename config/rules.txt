@@ -4,13 +4,15 @@ max_refresh_attempts = 3
 event_fetch_interval_secs = 10
 
 [Auth]
-<borrower> 
+<<borrower>> 
+party_id = "TBORR-US"
 client_id = "canton-participant1-client" 
 client_secret="c0a05c2d-ac70-472a-ac4f-38b80dba28d8" 
 grant_type="password" 
 username="TestBorrower1User" 
 password="FqnNQyUwaenQ8K3h" 
-<lender> 
+<<lender>> 
+party_id = "TLEN-US"
 client_id="canton-participant2-client" 
 client_secret="9fa094bf-9e39-4271-aa63-c6a641730423" 
 grant_type="password" 
@@ -21,4 +23,12 @@ password="fjmxVeKzpzUDg3YJ"
 rules = {
     ("CONTRACT", "I")
     ("*","D")
+}
+
+[Agreements]
+<<lender>>
+rules={
+    ("TBORR-US", "MSFT", "<=5000", "P", "20")
+    ("TBORR-US", "IBM", ">=10000", "I", "10")
+    ("*", "*", "*", "P", "0")
 }
