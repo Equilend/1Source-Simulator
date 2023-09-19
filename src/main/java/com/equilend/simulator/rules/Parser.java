@@ -21,13 +21,11 @@ public class Parser {
         int start = -1;
         while ((end = str.indexOf("[[", end)) != -1){
             if (start >= 0){
-                //                                    -1 for \n
                 String section = str.substring(start, end-1);
                 sections.add(section);
             }
             start = end++;
         }
-        //                                              -1
         String lastSection = str.substring(start, str.length()-1);
         sections.add(lastSection);
 
@@ -156,18 +154,21 @@ public class Parser {
             String header = getSectionHeader(section);
             Map<String, Map<String, String>> sectionRulesMap = loadSectionRules(section);
             
-            switch (header){
-                case "General" :
+            switch (header.toUpperCase()){
+                case "GENERAL" :
                     rules.put(header, new GeneralRules(sectionRulesMap));
                     break;
-                case "Auth" :
+                case "AUTH" :
                     rules.put(header, new AuthorizationRules(sectionRulesMap));
                     break;
-                case "Events" :
+                case "EVENTS" :
                     rules.put(header, new EventRules(sectionRulesMap));
                     break;
-                case "Agreements" :
+                case "AGREEMENTS" :
                     rules.put(header, new AgreementRules(sectionRulesMap));
+                    break;
+                case "CONTRACTS" :
+                    rules.put(header, new ContractRules(sectionRulesMap));
                     break;
                 default:
                     logger.error("Error reading rules file, unrecognized section header");

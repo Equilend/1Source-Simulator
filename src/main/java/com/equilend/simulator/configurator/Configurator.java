@@ -8,9 +8,9 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.rules.AgreementRules;
 import com.equilend.simulator.rules.AuthorizationRules;
+import com.equilend.simulator.rules.ContractRules;
 import com.equilend.simulator.rules.EventRules;
 import com.equilend.simulator.rules.GeneralRules;
 import com.equilend.simulator.rules.Parser;
@@ -26,6 +26,7 @@ public class Configurator {
     private AuthorizationRules authorizationRules;
     private EventRules eventRules;
     private AgreementRules agreementRules;
+    private ContractRules contractRules;
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
@@ -47,7 +48,10 @@ public class Configurator {
                     break;
                 case "AGREEMENTS":
                     agreementRules = (AgreementRules) rules.get(section);
-                    break;                    
+                    break;
+                case "CONTRACTS":
+                    contractRules = (ContractRules) rules.get(section);
+                    break;
                 default:
                     logger.error("Unrecognized rules section header");
             }
@@ -91,16 +95,8 @@ public class Configurator {
         return agreementRules;
     }
 
-    public boolean shouldIgnoreContract(Contract contract) {
-        //Either ignore contract proposal
-
-        //Or Accept/Decline it
-        return false;
-    }
-
-    public boolean shouldAcceptProposal(Contract contract) {
-        //Determine whether you should accept or decline contract proposal
-        return true;
+    public ContractRules getContractRules(){
+        return contractRules;
     }
 
 }

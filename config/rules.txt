@@ -22,16 +22,21 @@ password="fjmxVeKzpzUDg3YJ"
 [[Events]]
 rules = {
     ("TRADE", "D")
+    ("CONTRACT", "D")
     ("*","I")
 }
 
 [[Agreements]]
 bot_party_id = "TLEN-US"
-<lender>
 rules={
-    ("TBORR-US", "AAPL|AMZN|BRK.B", "(125, 250] | (450, 600)", "P", "20")
-    ("TBORR-US", "CAH | COST", "[1000, inf)", "P", "5")
-    ("TBORR-US", "ELV|F| GOOG| HD |JPM ", "[1000, 20000) | (30000, 64000)", "P", "20")
-    ("TBORR-US", "XOM", "[2048000, 2048000]", "P", "10")
-    ("*", "*", "*", "I", "0")
+    ("*", "*", "*", "P", "0")
+}
+
+[[Contracts]]
+bot_party_id = "TLEN-US"
+<borrower>
+rules={
+    ("TBORR-US", "AAPL|AMZN|BRK.B", "(4000, 6000)", "A", "20")
+    ("TBORR-US", " GOOG | JPM | TSLA ", "(4000, 6000)", "A", "20")
+    ("*", "*", "*", "R", "0")
 }

@@ -12,7 +12,7 @@ public class AgreementRules implements Rules{
     private String partyId;
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
-        addRules(rulesMap.get("lender").get("rules"));
+        addRules(rulesMap.get("general").get("rules"));
         this.partyId = rulesMap.get("general").get("bot_party_id");
         rules.forEach(System.out::println);
     }

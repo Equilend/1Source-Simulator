@@ -3,10 +3,11 @@ package com.equilend.simulator.rules;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
-public class AgreementRule {
+public class ContractRule {
     
     private String counterpartyExp;
     private Set<String> counterparties = new HashSet<>();
@@ -14,11 +15,12 @@ public class AgreementRule {
     private Set<String> securities = new HashSet<>();
     private String quantityExp;
     private Set<String> quantities = new HashSet<>();
+    private boolean shouldReject;
     private boolean shouldIgnore;
-    private int delay;
+    private int timeout;
     private String partyId;
 
-    public AgreementRule(String rule, String partyId){
+    public ContractRule(String rule, String partyId){
         loadRule(rule);
         this.partyId = partyId;
 
@@ -40,12 +42,15 @@ public class AgreementRule {
         this.quantityExp = rule.substring(start+1, end);
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
+        if (rule.charAt(start+1) == 'R'){
+            shouldReject = true;
+        }
         if (rule.charAt(start+1) == 'I'){
             shouldIgnore = true;
-        }
+        }        
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
-        this.delay = Integer.parseInt(rule.substring(start+1, end));
+        this.timeout = Integer.parseInt(rule.substring(start+1, end));
     }
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -81,7 +86,8 @@ public class AgreementRule {
         long upper = (upperStr.equals("inf")) ? Long.MAX_VALUE : Long.parseLong(upperStr);
         
         return (lowerInclusive && tradeQty >= lower || !lowerInclusive && tradeQty > lower) 
-            && (upperInclusive && tradeQty <= upper || !upperInclusive && tradeQty < upper);
+        && (upperInclusive && tradeQty <= upper || !upperInclusive && tradeQty < upper);
+        
     }
     
     private boolean validQuantity(long tradeQty){
@@ -91,6 +97,10 @@ public class AgreementRule {
             }
         }
         return false;
+    }
+
+    public boolean isShouldReject(){
+        return shouldReject;
     }
 
     public boolean isShouldIgnore() {
@@ -106,7 +116,9 @@ public class AgreementRule {
         return "";
     }
 
-    public boolean isApplicable(Trade trade){
+    public boolean isApplicable(Contract contract){
+        if (contract == null) return false;
+        Trade trade = contract.getTrade();
         String cpty = getTradeCptyId(trade);
         return validCounterParty(cpty) && validSecurity(trade.getInstrument().getTicker())
                 && validQuantity(trade.getQuantity());
@@ -115,9 +127,9 @@ public class AgreementRule {
     @Override 
     public String toString(){
         if (shouldIgnore){
-            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
+            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELAY{" + String.valueOf(timeout) + "}";
         } else{
-            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELAY{" + String.valueOf(delay) + "}";
+            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELAY{" + String.valueOf(timeout) + "}";
         }
     }
 

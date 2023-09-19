@@ -19,7 +19,7 @@ public class Simulator {
     public static void main(String[] args) {  
         Configurator configurator = new Configurator();
 
-        boolean useTestLenderAuth = true;
+        boolean useTestLenderAuth = false;
 
         // Eventually would just use one party for autoresponder
         if (useTestLenderAuth){
