@@ -4,6 +4,7 @@ import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
 public class AgreementRule {
+    
     private String counterParty;
     private String security;
     private String quantity;
@@ -44,28 +45,36 @@ public class AgreementRule {
         return security.equals("*") || security.equals(scty);
     }
 
-    public boolean validQuantity(long tradeQty){
-        if (quantity.equals("*")) return true;
+    public boolean validBasicQuantity(String basicQuantity, long tradeQty){
+        if (tradeQty <= 0) return false;
 
-        int digitStart = 0;
-        while (!Character.isDigit(quantity.charAt(digitStart))){
-            digitStart++;
-        }
-        String comp = quantity.substring(0, digitStart).trim();
-        long bound = Long.parseLong(quantity.substring(digitStart).trim());
-        switch (comp){
-            case "<":
-                return tradeQty < bound;
-            case "<=":
-                return tradeQty <= bound;
-            case ">":
-                return tradeQty > bound;
-            case ">=":
-                return tradeQty >= bound;
-            case "==":
-                return tradeQty == bound;
-        }
+        basicQuantity = basicQuantity.trim();
+        if (basicQuantity.equals("*")) return true;
+
+        int delim = basicQuantity.indexOf(",");
+        if (delim == -1) return false;
+
+        String lowerStr = basicQuantity.substring(1, delim).trim();
+        String upperStr = basicQuantity.substring(delim+1, basicQuantity.length()-1).trim();
+
+        boolean lowerInclusive = basicQuantity.charAt(0) == '[';
+        boolean upperInclusive = basicQuantity.charAt(basicQuantity.length()-1) == ']';
         
+        long lower = Long.parseLong(lowerStr);
+        long upper = (upperStr.equals("inf")) ? Long.MAX_VALUE : Long.parseLong(upperStr);
+        
+        return (lowerInclusive && tradeQty >= lower || !lowerInclusive && tradeQty > lower) 
+        && (upperInclusive && tradeQty <= upper || !upperInclusive && tradeQty < upper);
+        
+    }
+
+    public boolean validQuantity(long tradeQty){
+        String[] basicQuantities = this.quantity.split("\\|");
+        for (String basicQuantity : basicQuantities){
+            if (validBasicQuantity(basicQuantity, tradeQty)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -96,4 +105,5 @@ public class AgreementRule {
             return "CPTY{" + counterParty + "}, SEC{" + security + "}, QTY{" + quantity + "}, PROPOSE, DELAY{" + String.valueOf(delay) + "}";
         }
     }
+
 }

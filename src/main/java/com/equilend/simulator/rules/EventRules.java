@@ -7,6 +7,7 @@ import java.util.Map;
 import com.equilend.simulator.event.Event;
 
 public class EventRules implements Rules{
+    
     private List<EventRule> rules = new ArrayList<>();
     
     public EventRules(Map<String, Map<String, String>> rulesMap){

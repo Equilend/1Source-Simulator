@@ -25,7 +25,6 @@ public class AgreementRules implements Rules{
             int end = rulesList.indexOf("),", start);
             
             String rule = rulesList.substring(start+1, end+1);
-            System.out.println(rule);
             rules.add(new AgreementRule(rule, partyId));
             
             start = rulesList.indexOf(",(", end);

@@ -21,15 +21,15 @@ password="fjmxVeKzpzUDg3YJ"
 
 [Events]
 rules = {
-    ("*","D")
+    ("TRADE", "D")
+    ("*","I")
 }
 
 [Agreements]
 bot_party_id = "TLEN-US"
 <<lender>>
 rules={
-    ("TBO((()))))(RR-US", "MSFT", "<=15000", "P", "20")
-    ("TBOR()R-US","(IBM)", ">=15000", "P", "10")
-    ("*", "*", "*", "I", "0")
+    ("TBORR-US", "MSFT", "[0, 15000]", "P", "20"),
+    ("TBORR-US","IBM", "[15000, inf]", "P", "10"),
+    ("*", "*", "*", "I", "0"),
 }
-jewels={ ("*", "*", "*", "I", "0") }

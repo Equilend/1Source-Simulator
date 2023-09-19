@@ -13,11 +13,12 @@ import com.equilend.simulator.token.BearerToken;
 
 
 public class Simulator {   
+    
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {  
         Configurator configurator = new Configurator();
-        
+
         boolean useTestLenderAuth = true;
 
         // Eventually would just use one party for autoresponder
@@ -26,7 +27,6 @@ public class Simulator {
         }else{
             BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
         }
-
 
         // ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
         // execOutgoing.execute(new Scheduler(configurator));
