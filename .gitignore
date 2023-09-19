@@ -1,3 +1,5 @@
 *.class
 config.txt
-*.log
+*.log*
+target/
+.vscode/
