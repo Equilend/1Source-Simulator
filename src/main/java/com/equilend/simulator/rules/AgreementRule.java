@@ -29,22 +29,23 @@ public class AgreementRule {
     }   
 
     private void loadRule(String rule){
-        int start = rule.indexOf("\"");
-        int end = rule.indexOf("\"", start+1);
+        String delim = "\"";
+        int start = rule.indexOf(delim);
+        int end = rule.indexOf(delim, start+1);
         this.counterpartyExp = rule.substring(start+1, end);
-        start = rule.indexOf("\"", end+1);
-        end = rule.indexOf("\"", start+1);
+        start = rule.indexOf(delim, end+1);
+        end = rule.indexOf(delim, start+1);
         this.securityExp = rule.substring(start+1, end);
-        start = rule.indexOf("\"", end+1);
-        end = rule.indexOf("\"", start+1);
+        start = rule.indexOf(delim, end+1);
+        end = rule.indexOf(delim, start+1);
         this.quantityExp = rule.substring(start+1, end);
-        start = rule.indexOf("\"", end+1);
-        end = rule.indexOf("\"", start+1);
+        start = rule.indexOf(delim, end+1);
+        end = rule.indexOf(delim, start+1);
         if (rule.charAt(start+1) == 'I'){
             shouldIgnore = true;
         }
-        start = rule.indexOf("\"", end+1);
-        end = rule.indexOf("\"", start+1);
+        start = rule.indexOf(delim, end+1);
+        end = rule.indexOf(delim, start+1);
         this.delay = Integer.parseInt(rule.substring(start+1, end));
     }
 

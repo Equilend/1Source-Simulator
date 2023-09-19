@@ -14,7 +14,7 @@ public class AgreementRules implements Rules{
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
         addRules(rulesMap.get("lender").get("rules"));
         this.partyId = rulesMap.get("general").get("bot_party_id");
-        // rules.forEach(System.out::println);
+        rules.forEach(System.out::println);
     }
 
     public void addRules(String rulesList){
