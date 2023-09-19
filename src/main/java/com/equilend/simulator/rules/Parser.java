@@ -130,6 +130,10 @@ public class Parser {
                     inList = true;
                 }
                 if (line.indexOf("}") != -1){
+                    if (inList){
+                        int endParenthesis = str.lastIndexOf(")");
+                        str.insert(endParenthesis+1, ",");
+                    }
                     inList = false;
                 }
                 if (inList){

@@ -15,7 +15,7 @@ import com.equilend.simulator.token.BearerToken;
 public class Simulator {   
     private static final Logger logger = LogManager.getLogger();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {  
         Configurator configurator = new Configurator();
         
         boolean useTestLenderAuth = true;

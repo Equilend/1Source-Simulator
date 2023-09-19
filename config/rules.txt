@@ -28,7 +28,8 @@ rules = {
 bot_party_id = "TLEN-US"
 <<lender>>
 rules={
-    ("TBORR-US", "MSFT", "<=15000", "P", "20")
-    ("TBORR-US", "IBM", ">=15000", "P", "10")
+    ("TBO((()))))(RR-US", "MSFT", "<=15000", "P", "20")
+    ("TBOR()R-US","(IBM)", ">=15000", "P", "10")
     ("*", "*", "*", "I", "0")
 }
+jewels={ ("*", "*", "*", "I", "0") }

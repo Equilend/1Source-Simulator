@@ -14,20 +14,21 @@ public class AgreementRules implements Rules{
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
         addRules(rulesMap.get("lender").get("rules"));
         this.partyId = rulesMap.get("general").get("bot_party_id");
-        rules.forEach(System.out::println);
+        // rules.forEach(System.out::println);
     }
 
     public void addRules(String rulesList){
         if (rulesList.charAt(0) != '{') return;
 
-        int start = rulesList.indexOf("(");
+        int start = rulesList.indexOf("(")-1;
         while (start != -1){
-            int end = rulesList.indexOf(")", start);
+            int end = rulesList.indexOf("),", start);
             
-            String rule = rulesList.substring(start, end+1);
+            String rule = rulesList.substring(start+1, end+1);
+            System.out.println(rule);
             rules.add(new AgreementRule(rule, partyId));
             
-            start = rulesList.indexOf("(", end);
+            start = rulesList.indexOf(",(", end);
         }
     }
     
