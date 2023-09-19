@@ -1,13 +1,19 @@
 package com.equilend.simulator.rules;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
 public class AgreementRule {
     
-    private String counterParty;
-    private String security;
-    private String quantity;
+    private String counterpartyExp;
+    private Set<String> counterparties = new HashSet<>();
+    private String securityExp;
+    private Set<String> securities = new HashSet<>();
+    private String quantityExp;
+    private Set<String> quantities = new HashSet<>();
     private boolean shouldIgnore;
     private int delay;
     private String partyId;
@@ -15,18 +21,23 @@ public class AgreementRule {
     public AgreementRule(String rule, String partyId){
         loadRule(rule);
         this.partyId = partyId;
+
+        splitExpressionAndLoad(counterpartyExp, counterparties);
+        splitExpressionAndLoad(securityExp, securities);
+        splitExpressionAndLoad(quantityExp, quantities);
+        
     }   
 
     private void loadRule(String rule){
         int start = rule.indexOf("\"");
         int end = rule.indexOf("\"", start+1);
-        this.counterParty = rule.substring(start+1, end);
+        this.counterpartyExp = rule.substring(start+1, end);
         start = rule.indexOf("\"", end+1);
         end = rule.indexOf("\"", start+1);
-        this.security = rule.substring(start+1, end);
+        this.securityExp = rule.substring(start+1, end);
         start = rule.indexOf("\"", end+1);
         end = rule.indexOf("\"", start+1);
-        this.quantity = rule.substring(start+1, end);
+        this.quantityExp = rule.substring(start+1, end);
         start = rule.indexOf("\"", end+1);
         end = rule.indexOf("\"", start+1);
         if (rule.charAt(start+1) == 'I'){
@@ -37,18 +48,24 @@ public class AgreementRule {
         this.delay = Integer.parseInt(rule.substring(start+1, end));
     }
 
-    public boolean validCounterParty(String cpty){
-        return counterParty.equals("*") || counterParty.equals(cpty);
+    private void splitExpressionAndLoad(String exp, Set<String> set){
+        String[] arr = exp.split("\\|");
+        for (String str : arr){
+            set.add(str.trim());
+        }
     }
 
-    public boolean validSecurity(String scty){
-        return security.equals("*") || security.equals(scty);
+    private boolean validCounterParty(String cpty){
+        return counterpartyExp.equals("*") || counterparties.contains(cpty);
     }
 
-    public boolean validBasicQuantity(String basicQuantity, long tradeQty){
+    private boolean validSecurity(String scty){
+        return securityExp.equals("*") || securities.contains(scty);
+    }
+
+    private boolean validBasicQuantity(String basicQuantity, long tradeQty){
         if (tradeQty <= 0) return false;
 
-        basicQuantity = basicQuantity.trim();
         if (basicQuantity.equals("*")) return true;
 
         int delim = basicQuantity.indexOf(",");
@@ -67,11 +84,10 @@ public class AgreementRule {
         && (upperInclusive && tradeQty <= upper || !upperInclusive && tradeQty < upper);
         
     }
-
-    public boolean validQuantity(long tradeQty){
-        String[] basicQuantities = this.quantity.split("\\|");
-        for (String basicQuantity : basicQuantities){
-            if (validBasicQuantity(basicQuantity, tradeQty)){
+    
+    private boolean validQuantity(long tradeQty){
+        for (String quantity : this.quantities){
+            if (validBasicQuantity(quantity, tradeQty)){
                 return true;
             }
         }
@@ -84,7 +100,7 @@ public class AgreementRule {
     
     public String getTradeCptyId(Trade trade){
         for (TransactingParty tp : trade.getTransactingParties()){
-            if (!tp.getParty().getPartyId().equals(partyId)){
+            if (!tp.getParty().getPartyId().equals(this.partyId)){
                 return tp.getParty().getPartyId();
             }
         }
@@ -100,9 +116,9 @@ public class AgreementRule {
     @Override 
     public String toString(){
         if (shouldIgnore){
-            return "CPTY{" + counterParty + "}, SEC{" + security + "}, QTY{" + quantity + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
+            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
         } else{
-            return "CPTY{" + counterParty + "}, SEC{" + security + "}, QTY{" + quantity + "}, PROPOSE, DELAY{" + String.valueOf(delay) + "}";
+            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELAY{" + String.valueOf(delay) + "}";
         }
     }
 
