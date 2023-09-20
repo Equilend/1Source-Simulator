@@ -25,16 +25,8 @@ public class EventRule {
         return eventType;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
     public boolean isShouldIgnore() {
         return shouldIgnore;
-    }
-
-    public void setShouldIgnore(boolean shouldIgnore) {
-        this.shouldIgnore = shouldIgnore;
     }
 
     public boolean isApplicable(Event event){

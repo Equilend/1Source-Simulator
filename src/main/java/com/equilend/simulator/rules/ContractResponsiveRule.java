@@ -131,16 +131,20 @@ public class ContractResponsiveRule implements ContractRule {
     public String toString(){
         if (shouldIgnore != null){
             if(shouldIgnore){
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, TIMEOUT{" + String.valueOf(timeout) + "}";
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
+                        + "}, IGNORE, TIMEOUT{" + String.valueOf(timeout) + "}";
             } else{
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, CANCEL, TIMEOUT{" + String.valueOf(timeout) + "}";
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
+                        + "}, CANCEL, TIMEOUT{" + String.valueOf(timeout) + "}";
             }
         }
         if (shouldApprove != null){
             if(shouldApprove){
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, APPROVE, TIMEOUT{" + String.valueOf(timeout) + "}";
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
+                        + "}, APPROVE, TIMEOUT{" + String.valueOf(timeout) + "}";
             } else{
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, REJECT, TIMEOUT{" + String.valueOf(timeout) + "}";
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
+                        + "}, REJECT, TIMEOUT{" + String.valueOf(timeout) + "}";
             }            
         }
         return "";

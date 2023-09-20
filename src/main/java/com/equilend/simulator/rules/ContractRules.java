@@ -33,6 +33,7 @@ public class ContractRules implements Rules{
             
             String ruleStr = rawRulesList.substring(start+1, end+1);
             ContractRule rule = (isResponsive) ? new ContractResponsiveRule(ruleStr) : new ContractGenerativeRule(ruleStr);
+            logger.info("{}", rule);
             contractRulesList.add(rule);
             
             start = rawRulesList.indexOf(",(", end);
