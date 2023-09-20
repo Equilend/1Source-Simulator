@@ -19,7 +19,7 @@ public class Simulator {
     public static void main(String[] args) {  
         Configurator configurator = new Configurator();
 
-        boolean useTestLenderAuth = false;
+        boolean useTestLenderAuth = configurator.getGeneralRules().getBotPartyId().equals("TLEN-US");
 
         // Eventually would just use one party for autoresponder
         if (useTestLenderAuth){

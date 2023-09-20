@@ -15,15 +15,12 @@ public class ContractRule {
     private Set<String> securities = new HashSet<>();
     private String quantityExp;
     private Set<String> quantities = new HashSet<>();
-    private boolean shouldReject;
-    private boolean shouldIgnore;
+    private Boolean shouldIgnore = null;
+    private Boolean shouldApprove = null;
     private int timeout;
-    private String partyId;
 
-    public ContractRule(String rule, String partyId){
+    public ContractRule(String rule){
         loadRule(rule);
-        this.partyId = partyId;
-
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
         splitExpressionAndLoad(quantityExp, quantities);
@@ -42,12 +39,18 @@ public class ContractRule {
         this.quantityExp = rule.substring(start+1, end);
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
-        if (rule.charAt(start+1) == 'R'){
-            shouldReject = true;
+        if (rule.charAt(start+1) == 'A'){
+            shouldApprove = true;
         }
-        if (rule.charAt(start+1) == 'I'){
+        else if (rule.charAt(start+1) == 'R'){
+            shouldApprove = false;
+        }
+        else if (rule.charAt(start+1) == 'I'){
             shouldIgnore = true;
-        }        
+        }
+        else if (rule.charAt(start+1) == 'C'){
+            shouldIgnore = false;
+        }
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
         this.timeout = Integer.parseInt(rule.substring(start+1, end));
@@ -99,38 +102,48 @@ public class ContractRule {
         return false;
     }
 
-    public boolean isShouldReject(){
-        return shouldReject;
+    public boolean isShouldApprove(){
+        return shouldApprove;
     }
 
     public boolean isShouldIgnore() {
         return shouldIgnore;
     }
     
-    public String getTradeCptyId(Trade trade){
+    public String getTradeCptyId(Trade trade, String partyId){
         for (TransactingParty tp : trade.getTransactingParties()){
-            if (!tp.getParty().getPartyId().equals(this.partyId)){
+            if (!tp.getParty().getPartyId().equals(partyId)){
                 return tp.getParty().getPartyId();
             }
         }
         return "";
     }
 
-    public boolean isApplicable(Contract contract){
+    public boolean isApplicable(Contract contract, String partyId){
         if (contract == null) return false;
         Trade trade = contract.getTrade();
-        String cpty = getTradeCptyId(trade);
+        String cpty = getTradeCptyId(trade, partyId);
         return validCounterParty(cpty) && validSecurity(trade.getInstrument().getTicker())
                 && validQuantity(trade.getQuantity());
     }
 
     @Override 
     public String toString(){
-        if (shouldIgnore){
-            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELAY{" + String.valueOf(timeout) + "}";
-        } else{
-            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELAY{" + String.valueOf(timeout) + "}";
+        if (shouldIgnore != null){
+            if(shouldIgnore){
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, TIMEOUT{" + String.valueOf(timeout) + "}";
+            } else{
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, CANCEL, TIMEOUT{" + String.valueOf(timeout) + "}";
+            }
         }
+        if (shouldApprove != null){
+            if(shouldApprove){
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, APPROVE, TIMEOUT{" + String.valueOf(timeout) + "}";
+            } else{
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, REJECT, TIMEOUT{" + String.valueOf(timeout) + "}";
+            }            
+        }
+        return "";
     }
 
 }

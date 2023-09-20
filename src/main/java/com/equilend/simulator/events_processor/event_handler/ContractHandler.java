@@ -17,8 +17,7 @@ import com.equilend.simulator.trade.transacting_party.PartyRole;
 public class ContractHandler implements EventHandler {
 
     private Event event;
-    private Contract contract;
-    private Configurator rules;
+    private Configurator configurator;
     private static final Logger logger = LogManager.getLogger();
     
     public BearerToken getToken() {
@@ -33,22 +32,37 @@ public class ContractHandler implements EventHandler {
         return token;
     }
     
-    public ContractHandler(Event e, Configurator rules) {
+    public ContractHandler(Event e, Configurator configurator) {
         this.event = e;
-        this.rules = rules;
+        this.configurator = configurator;
     }
 
-    private boolean getContractById(String id) {
+    private Contract getContractById(String id) {
+        Contract contract = null;
         try {
             contract = APIConnector.getContractById(getToken(), id);
         } catch (APIException e) {
             logger.error("Unable to process contract event");
-            return false;
         }   
 
-        if (contract == null) return false;
-        return true;    
+        return contract;
     }
+
+    private boolean isBotLenderInContract(Contract contract){
+        return true;
+    }
+
+    private boolean cancelContractProposal(String contractId) {
+        try {
+            APIConnector.cancelContractProposal(getToken(), contractId);
+        } catch (APIException e) {
+            logger.error("Unable to process contract event");
+            return false;
+        }
+
+        logger.info("Cancelling contract {}", contractId);
+        return true;
+    }    
 
     private boolean acceptContractProposal(String contractId) {
         Settlement settlement = ContractProposal.createSettlement(PartyRole.BORROWER);
@@ -83,14 +97,28 @@ public class ContractHandler implements EventHandler {
         String contractId = arr[arr.length-1];
 
         //Get contract by Id
-        getContractById(contractId); //returns true or false based on success
+        Contract contract = getContractById(contractId); //returns true or false based on success
+        if (contract == null) return;
 
-        //Analyze contract to decide whether to accept or decline based on rules
-        if (rules.getContractRules().shouldRejectTrade(contract)){
-            declineContractProposal(contractId);
+        String partyId = configurator.getGeneralRules().getBotPartyId();
+
+        boolean botActAsLender = isBotLenderInContract(contract);
+        if (botActAsLender){
+            if (configurator.getContractRules().shouldIgnoreTrade(contract, partyId)){
+                logger.info("don't cancel.. just ignore");
+            }
+            else{
+                cancelContractProposal(contractId);
+            }
         }
         else{
-            acceptContractProposal(contractId);
+            //Analyze contract to decide whether to accept or decline based on configurator
+            if (configurator.getContractRules().shouldApproveTrade(contract, partyId)){
+                acceptContractProposal(contractId);
+            }
+            else{
+                declineContractProposal(contractId);
+            }
         }
     }
     

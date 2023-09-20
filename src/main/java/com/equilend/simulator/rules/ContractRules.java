@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.contract.Contract;
 
 public class ContractRules implements Rules{
 
-        private List<ContractRule> borrowerRules = new ArrayList<>();
-        // private List<ContractRule> lenderRules = new ArrayList<>();
-        private String partyId;
+    private List<ContractRule> borrowerRules = new ArrayList<>();
+    private List<ContractRule> lenderRules = new ArrayList<>();
+
+    private static final Logger logger = LogManager.getLogger();
 
     public ContractRules(Map<String, Map<String, String>> rulesMap){
         addRules(rulesMap.get("borrower").get("rules"), borrowerRules);
-        // addRules(rulesMap.get("lender").get("rules"), lenderRules);
-        this.partyId = rulesMap.get("general").get("bot_party_id");
+        addRules(rulesMap.get("lender").get("rules"), lenderRules);
     }
 
     public void addRules(String rawRulesList, List<ContractRule> contractRulesList){
@@ -26,19 +29,29 @@ public class ContractRules implements Rules{
             int end = rawRulesList.indexOf("),", start);
             
             String rule = rawRulesList.substring(start+1, end+1);
-            contractRulesList.add(new ContractRule(rule, partyId));
+            contractRulesList.add(new ContractRule(rule));
             
             start = rawRulesList.indexOf(",(", end);
         }
     }
-    
-    public boolean shouldRejectTrade(Contract contract){
-        for (ContractRule rule : borrowerRules){
-            if (rule.isApplicable(contract)){
-                return rule.isShouldReject();
+
+    public boolean shouldIgnoreTrade(Contract contract, String partyId){
+        for (ContractRule rule : lenderRules){
+            if (rule.isApplicable(contract, partyId)){
+                logger.info("Applying rule {}", rule);
+                return rule.isShouldIgnore();
             }
         }
+        logger.info("No rules applicable! Default to Ignore");
+        return true;
+    }
 
+    public boolean shouldApproveTrade(Contract contract, String partyId){
+        for (ContractRule rule : borrowerRules){
+            if (rule.isApplicable(contract, partyId)){
+                return rule.isShouldApprove();
+            }
+        }
         return false;
     }
     

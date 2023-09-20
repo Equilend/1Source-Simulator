@@ -1,5 +1,6 @@
 [[General]]
 user_party_id = "BANK-INC"
+bot_party_id = "TLEN-US"
 max_refresh_attempts = 3
 event_fetch_interval_secs = 10
 
@@ -27,16 +28,20 @@ rules = {
 }
 
 [[Agreements]]
-bot_party_id = "TLEN-US"
 rules={
     ("*", "*", "*", "P", "0")
 }
 
 [[Contracts]]
-bot_party_id = "TLEN-US"
 <borrower>
 rules={
     ("TBORR-US", "AAPL|AMZN|BRK.B", "(4000, 6000)", "A", "20")
     ("TBORR-US", " GOOG | JPM | TSLA ", "(4000, 6000)", "A", "20")
     ("*", "*", "*", "R", "0")
+}
+<lender>
+rules={
+    ("TBORR-US", "AAPL|AMZN|BRK.B", "(4000, 6000)", "C", "20")
+    ("TBORR-US", " GOOG | JPM | TSLA ", "(4000, 6000)", "C", "20")
+    ("*", "*", "*", "I", "0")    
 }
