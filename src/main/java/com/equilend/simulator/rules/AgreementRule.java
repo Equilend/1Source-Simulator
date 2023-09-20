@@ -16,12 +16,9 @@ public class AgreementRule {
     private Set<String> quantities = new HashSet<>();
     private boolean shouldIgnore;
     private int delay;
-    private String partyId;
 
-    public AgreementRule(String rule, String partyId){
+    public AgreementRule(String rule){
         loadRule(rule);
-        this.partyId = partyId;
-
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
         splitExpressionAndLoad(quantityExp, quantities);
@@ -97,17 +94,17 @@ public class AgreementRule {
         return shouldIgnore;
     }
     
-    public String getTradeCptyId(Trade trade){
+    public String getTradeCptyId(Trade trade, String partyId){
         for (TransactingParty tp : trade.getTransactingParties()){
-            if (!tp.getParty().getPartyId().equals(this.partyId)){
+            if (!tp.getParty().getPartyId().equals(partyId)){
                 return tp.getParty().getPartyId();
             }
         }
         return "";
     }
 
-    public boolean isApplicable(Trade trade){
-        String cpty = getTradeCptyId(trade);
+    public boolean isApplicable(Trade trade, String partyId){
+        String cpty = getTradeCptyId(trade, partyId);
         return validCounterParty(cpty) && validSecurity(trade.getInstrument().getTicker())
                 && validQuantity(trade.getQuantity());
     }

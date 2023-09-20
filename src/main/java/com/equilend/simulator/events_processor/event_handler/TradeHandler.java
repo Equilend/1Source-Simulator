@@ -17,7 +17,7 @@ public class TradeHandler implements EventHandler {
 
     private Event event;
     private Agreement agreement;
-    private Configurator rules;
+    private Configurator configurator;
     private static final Logger logger = LogManager.getLogger();
 
     public BearerToken getToken() {
@@ -31,9 +31,9 @@ public class TradeHandler implements EventHandler {
         return token;
     }
 
-    public TradeHandler(Event e, Configurator rules) {
+    public TradeHandler(Event e, Configurator configurator) {
         this.event = e;
-        this.rules = rules;
+        this.configurator = configurator;
     }
 
     public boolean getAgreementById(String id) {
@@ -72,9 +72,11 @@ public class TradeHandler implements EventHandler {
         //Get agreement by id
         getAgreementById(agreementId);
 
+        String partyId = configurator.getGeneralRules().getBotPartyId();
+
         //Create contract and post proposal
         Trade trade = agreement.getTrade();
-        if (rules.getAgreementRules().shouldIgnoreTrade(trade)){
+        if (configurator.getAgreementRules().shouldIgnoreTrade(trade, partyId)){
             return;
         }
         postContractProposal(trade);

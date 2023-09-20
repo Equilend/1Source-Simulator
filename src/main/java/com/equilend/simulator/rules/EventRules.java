@@ -11,7 +11,7 @@ public class EventRules implements Rules{
     private List<EventRule> rules = new ArrayList<>();
     
     public EventRules(Map<String, Map<String, String>> rulesMap){
-        addRules(rulesMap.get("general").get("rules"));
+        addRules(rulesMap.get("general").get("responsive"));
     }
 
     public List<EventRule> getRules() {

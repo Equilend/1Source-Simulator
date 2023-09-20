@@ -6,14 +6,12 @@ event_fetch_interval_secs = 10
 
 [[Auth]]
 <borrower>
-party_id = "TBORR-US"
 client_id = "canton-participant1-client" 
 client_secret="c0a05c2d-ac70-472a-ac4f-38b80dba28d8" 
 grant_type="password" 
 username="TestBorrower1User" 
 password="FqnNQyUwaenQ8K3h" 
 <lender>
-party_id = "TLEN-US"
 client_id="canton-participant2-client" 
 client_secret="9fa094bf-9e39-4271-aa63-c6a641730423" 
 grant_type="password" 
@@ -21,26 +19,26 @@ username="TestLender1User"
 password="fjmxVeKzpzUDg3YJ" 
 
 [[Events]]
-rules = {
+responsive = {
     ("TRADE", "D")
     ("CONTRACT", "D")
     ("*","I")
 }
 
 [[Agreements]]
-rules={
+responsive = {
     ("*", "*", "*", "P", "0")
 }
 
 [[Contracts]]
 <borrower>
-rules={
+responsive={
     ("TBORR-US", "AAPL|AMZN|BRK.B", "(4000, 6000)", "A", "20")
     ("TBORR-US", " GOOG | JPM | TSLA ", "(4000, 6000)", "A", "20")
     ("*", "*", "*", "R", "0")
 }
 <lender>
-rules={
+responsive={
     ("TBORR-US", "AAPL|AMZN|BRK.B", "(4000, 6000)", "C", "20")
     ("TBORR-US", " GOOG | JPM | TSLA ", "(4000, 6000)", "C", "20")
     ("*", "*", "*", "I", "0")    

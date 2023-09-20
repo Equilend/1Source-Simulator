@@ -9,12 +9,9 @@ import com.equilend.simulator.trade.Trade;
 public class AgreementRules implements Rules{
 
     private List<AgreementRule> rules = new ArrayList<>();
-    private String partyId;
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
-        addRules(rulesMap.get("general").get("rules"));
-        this.partyId = rulesMap.get("general").get("bot_party_id");
-        rules.forEach(System.out::println);
+        addRules(rulesMap.get("general").get("responsive"));
     }
 
     public void addRules(String rulesList){
@@ -25,15 +22,15 @@ public class AgreementRules implements Rules{
             int end = rulesList.indexOf("),", start);
             
             String rule = rulesList.substring(start+1, end+1);
-            rules.add(new AgreementRule(rule, partyId));
+            rules.add(new AgreementRule(rule));
             
             start = rulesList.indexOf(",(", end);
         }
     }
     
-    public boolean shouldIgnoreTrade(Trade trade){
+    public boolean shouldIgnoreTrade(Trade trade, String partyId){
         for (AgreementRule rule : rules){
-            if (rule.isApplicable(trade)){
+            if (rule.isApplicable(trade, partyId)){
                 return rule.isShouldIgnore();
             }
         }

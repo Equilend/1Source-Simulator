@@ -17,8 +17,8 @@ public class ContractRules implements Rules{
     private static final Logger logger = LogManager.getLogger();
 
     public ContractRules(Map<String, Map<String, String>> rulesMap){
-        addRules(rulesMap.get("borrower").get("rules"), borrowerRules);
-        addRules(rulesMap.get("lender").get("rules"), lenderRules);
+        addRules(rulesMap.get("borrower").get("responsive"), borrowerRules);
+        addRules(rulesMap.get("lender").get("responsive"), lenderRules);
     }
 
     public void addRules(String rawRulesList, List<ContractRule> contractRulesList){
