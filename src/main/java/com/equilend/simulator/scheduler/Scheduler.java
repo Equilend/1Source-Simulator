@@ -6,23 +6,17 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.api.APIConnector;
-import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.contract.ContractProposal;
-import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.instrument.Instrument;
 
 public class Scheduler implements Runnable {
 
     private Configurator configurator;
-    private Long waitInterval;
     private static final Logger logger = LogManager.getLogger();
 
 
     public Scheduler(Configurator configurator){
         this.configurator = configurator;
-        this.waitInterval = Long.valueOf(configurator.getGeneralRules().getEventFetchIntervalMillis());
     }
 
     private Instrument getRandomInstrument(){
@@ -34,31 +28,11 @@ public class Scheduler implements Runnable {
     }
 
     public void run(){
-        BearerToken token;
-        try {
-            token = BearerToken.getToken();
-        } catch (APIException e) {
-            logger.error("Unable to listen for new events due to error with token");
-            return;
-        }
+        getRandomInstrument();
+        logger.info("Scheduler starting up");
 
-        while (true){
-            try {
-                Thread.sleep(waitInterval);
-            } catch (InterruptedException e) {
-                logger.error("Unable to listen for new events", e);
-                return;
-            }
-            
-            Instrument instrument = getRandomInstrument();
-            try {
-                ContractProposal proposal = ContractProposal.createContractProposal(instrument);
-                APIConnector.postContractProposal(token, proposal);
-            } catch (APIException e){
-                logger.error("Error posting contract from scheduler", e);
-            }
-
-        }
-
+        //get generative contract rules/instructions from configurator
+        
+        //for each instruction, create a thread that handles this task.
     }
 }

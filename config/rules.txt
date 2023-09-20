@@ -43,3 +43,6 @@ responsive={
     ("TBORR-US", " GOOG | JPM | TSLA ", "(4000, 6000)", "C", "20")
     ("*", "*", "*", "I", "0")    
 }
+generative={
+    r2=(“TBORR-US”, “TSLA”, “350”, “P”, “10”, “10”, “50”)
+}
