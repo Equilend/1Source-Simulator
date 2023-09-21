@@ -33,7 +33,6 @@ public class ContractRules implements Rules{
             
             String ruleStr = rawRulesList.substring(start+1, end+1);
             ContractRule rule = (isResponsive) ? new ContractResponsiveRule(ruleStr) : new ContractGenerativeRule(ruleStr);
-            logger.info("{}", rule);
             contractRulesList.add(rule);
             
             start = rawRulesList.indexOf(",(", end);
@@ -48,11 +47,9 @@ public class ContractRules implements Rules{
         for (ContractRule rule : lenderRules){
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;
             if (responsiveRule.isApplicable(contract, partyId)){
-                logger.info("Applying rule {}", responsiveRule);
                 return responsiveRule.isShouldIgnore();
             }
         }
-        logger.info("No rules applicable! Default to Ignore");
         return true;
     }
 

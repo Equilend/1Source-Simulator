@@ -2,17 +2,17 @@ package com.equilend.simulator.scheduler;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.api.APIConnector;
-import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.rules.ContractGenerativeRule;
 import com.equilend.simulator.rules.ContractRule;
-import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.Party;
 
@@ -36,40 +36,31 @@ public class Scheduler implements Runnable {
     public void run(){
         logger.info("Scheduler starting up");
 
-        BearerToken token;
-        try {
-            token = BearerToken.getToken();
-        } catch (APIException e) {
-            logger.error("Unable to listen for new events due to error with token");
-            return;
-        }
-
         //get generative contract rules/instructions from configurator
         List<ContractRule> rules = configurator.getContractRules().getSchedulerRules();
         
+        ScheduledExecutorService exec = Executors.newScheduledThreadPool(8);
+
         //for each instruction, create a thread that handles this task.
         for (ContractRule rule : rules){
             ContractGenerativeRule instruction = (ContractGenerativeRule) rule;
             for (String counterpartyId : instruction.getCounterparties()){
-                for (String ticker : instruction.getSecurities()){
-                    for (String quantityStr : instruction.getQuantities() ){
-                        Long quantity;
-                        try {
-                            quantity = Long.parseLong(quantityStr);
+                for (String security : instruction.getSecurities()){
+                    Party party = parties.get(botPartyId);
+                    Party counterparty = parties.get(counterpartyId);
+                    Instrument instrument = instruments.get(security);
+                    String quantity = instruction.getQuantity();
+                    ScheduledEventHandler task = new ScheduledEventHandler(party, counterparty, instrument, quantity);
+                    
+                    Long delayMillis = 1000*instruction.getDelaySecs();
+                    Long periodMillis = Math.round(1000*instruction.getPeriodSecs());
+                    Long durationMillis = 1000*instruction.getTotalDurationSecs(); 
+                    ScheduledFuture<?> taskFuture = exec.scheduleAtFixedRate(task, delayMillis, periodMillis, TimeUnit.MILLISECONDS);
+                    exec.schedule(new Runnable() {
+                        public void run() {
+                            taskFuture.cancel(true);
                         }
-                        catch (NumberFormatException e){
-                            //deal with ranges... random number b/w the range
-                            //for now, just default to 500
-                            quantity = Long.valueOf(500);
-                        }
-
-                        ContractProposal proposal = ContractProposal.createContractProposal(parties.get(botPartyId), parties.get(counterpartyId), instruments.get(ticker), quantity);
-                        try {
-                            APIConnector.postContractProposal(token, proposal);
-                        } catch (APIException e){
-                            logger.error("Unable to execute scheduled create contract", e);
-                        }
-                    }
+                    }, durationMillis, TimeUnit.MILLISECONDS);
                 }
             }
 

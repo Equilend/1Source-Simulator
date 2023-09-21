@@ -239,7 +239,7 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.info("Post Contract Proposal: Status Code {}", postResponse.statusCode());
+        logger.info("Post Contract Proposal: Status Code {}, Ticker {}", postResponse.statusCode(), contract.getTrade().getInstrument().getTicker());
 
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         return response;
