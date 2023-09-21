@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.equilend.simulator.contract.Contract;
 
 public class ContractRules implements Rules{
@@ -14,9 +11,6 @@ public class ContractRules implements Rules{
     private List<ContractRule> borrowerRules = new ArrayList<>();
     private List<ContractRule> lenderRules = new ArrayList<>();
     private List<ContractRule> schedulerRules = new ArrayList<>();
-
-
-    private static final Logger logger = LogManager.getLogger();
 
     public ContractRules(Map<String, Map<String, String>> rulesMap){
         addRules(rulesMap.get("borrower").get("responsive"), borrowerRules, true);

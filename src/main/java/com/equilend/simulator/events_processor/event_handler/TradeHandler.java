@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import com.equilend.simulator.agreement.Agreement;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.api.ContractProposalResponse;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.event.Event;
@@ -48,19 +47,14 @@ public class TradeHandler implements EventHandler {
         return true;
     }
 
-    public boolean postContractProposal(Trade trade) {
+    public void postContractProposal(Trade trade) {
         ContractProposal contractProposal = ContractProposal.createContractProposal(trade);
     
-        ContractProposalResponse response;
         try {
-            response = APIConnector.postContractProposal(getToken(), contractProposal);
+            APIConnector.postContractProposal(getToken(), contractProposal);
         } catch (APIException e) {
             logger.error("Unable to process trade event");
-            return false;
         }
-        
-        logger.info("Proposing contract {}", response.getContractId());
-        return true;
     }
 
     public void run() {

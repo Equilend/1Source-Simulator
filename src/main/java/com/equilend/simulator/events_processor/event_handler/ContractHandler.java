@@ -49,45 +49,34 @@ public class ContractHandler implements EventHandler {
     }
 
     private boolean isBotLenderInContract(Contract contract){
+        //TODO: BRUH!!
         return true;
     }
 
-    private boolean cancelContractProposal(String contractId) {
+    private void cancelContractProposal(String contractId) {
         try {
             APIConnector.cancelContractProposal(getToken(), contractId);
         } catch (APIException e) {
             logger.error("Unable to process contract event");
-            return false;
         }
-
-        logger.info("Cancelling contract {}", contractId);
-        return true;
     }    
 
-    private boolean acceptContractProposal(String contractId) {
+    private void acceptContractProposal(String contractId) {
         Settlement settlement = ContractProposal.createSettlement(PartyRole.BORROWER);
         AcceptSettlement acceptSettlement = new AcceptSettlement(settlement);
         try {
             APIConnector.acceptContractProposal(getToken(), contractId, acceptSettlement);
         } catch (APIException e) {
             logger.error("Unable to process contract event");
-            return false;
         }
-
-        logger.info("Accepting contract {}", contractId);
-        return true;
     }
 
-    private boolean declineContractProposal(String contractId) {
+    private void declineContractProposal(String contractId) {
         try {
             APIConnector.declineContractProposal(getToken(), contractId);
         } catch (APIException e) {
             logger.error("Unable to process contract event");
-            return false;
         }
-
-        logger.info("Declining contract {}", contractId);
-        return true;
     }
 
     public void run(){
@@ -104,10 +93,7 @@ public class ContractHandler implements EventHandler {
 
         boolean botActAsLender = isBotLenderInContract(contract);
         if (botActAsLender){
-            if (configurator.getContractRules().shouldIgnoreTrade(contract, partyId)){
-                logger.info("don't cancel.. just ignore");
-            }
-            else{
+            if (!configurator.getContractRules().shouldIgnoreTrade(contract, partyId)){
                 cancelContractProposal(contractId);
             }
         }

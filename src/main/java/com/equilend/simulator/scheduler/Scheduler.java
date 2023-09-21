@@ -7,9 +7,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.rules.ContractGenerativeRule;
 import com.equilend.simulator.rules.ContractRule;
@@ -23,9 +20,6 @@ public class Scheduler implements Runnable {
     private Map<String, Party> parties;
     private Map<String, Instrument> instruments;
 
-    private static final Logger logger = LogManager.getLogger();
-
-
     public Scheduler(Configurator configurator){
         this.configurator = configurator;
         this.botPartyId = configurator.getGeneralRules().getBotPartyId();
@@ -34,8 +28,6 @@ public class Scheduler implements Runnable {
     }
 
     public void run(){
-        logger.info("Scheduler starting up");
-
         //get generative contract rules/instructions from configurator
         List<ContractRule> rules = configurator.getContractRules().getSchedulerRules();
         

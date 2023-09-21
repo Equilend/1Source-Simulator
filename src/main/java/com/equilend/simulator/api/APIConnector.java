@@ -130,7 +130,7 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.info("Get All Events: Status Code {}", getResponse.statusCode());
+        logger.debug("Get All Events: Status Code {}", getResponse.statusCode());
 
         Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
         return gson.fromJson(getResponse.body(), eventListType);
@@ -165,7 +165,7 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.info("Get Agreement By Id: Status Code {}", getResponse.statusCode());
+        logger.debug("Get Agreement By Id: Status Code {}", getResponse.statusCode());
         
         Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
         return agreement;
@@ -200,7 +200,7 @@ public class APIConnector {
             throw new APIException(message, e);
         }
        
-        logger.info("Get Contract By Id: Status Code {}", getResponse.statusCode());
+        logger.debug("Get Contract By Id: Status Code {}", getResponse.statusCode());
         
         Contract contract = gson.fromJson(getResponse.body(), Contract.class);
         return contract;

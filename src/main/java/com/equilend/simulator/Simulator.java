@@ -17,10 +17,10 @@ public class Simulator {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {  
+        logger.info("Starting Program...");
         Configurator configurator = new Configurator();
 
         boolean useTestLenderAuth = configurator.getGeneralRules().getBotPartyId().equals("TLEN-US");
-        logger.info("Bot Party ID: {}", configurator.getGeneralRules().getBotPartyId());
         if (useTestLenderAuth){
             BearerToken.configureToken(configurator.getAuthorizationRules().getLender());
         }else{
@@ -47,7 +47,6 @@ public class Simulator {
             }
         }
         input.close();
-
         logger.info("DONE :)");
     }
 

@@ -48,7 +48,7 @@ public class EventsProcessor implements Runnable {
                 logger.error("Unable to listen for new events due to thread sleep interruption", e);
                 break;
             }
-            logger.info("Retrieve events from event id {}", fromEventId);
+            logger.debug("Retrieve events from event id {}", fromEventId);
 
             List<Event> events;
             try{
@@ -59,20 +59,18 @@ public class EventsProcessor implements Runnable {
             }
 
             if (events.size() == 0){
-                logger.info("No new events");
                 continue; //Back to sleep
             }
                 
             fromEventId = events.get(0).getEventId() + 1;
-            logger.info("Number of events retrieved {}", events.size());
 
             for (Event event : events){
                 if (configurator.getEventRules().shouldIgnoreEvent(event)){
-                    logger.info("Ignoring event of type {}", event.getEventType());
+                    logger.debug("Ignoring event of type {}", event.getEventType());
                     continue;
                 }
                 else{
-                    logger.info("Attempting to dispatch event of type {}", event.getEventType());
+                    logger.debug("Attempting to dispatch event of type {}", event.getEventType());
                 }
                 
                 EventHandler task = null;
