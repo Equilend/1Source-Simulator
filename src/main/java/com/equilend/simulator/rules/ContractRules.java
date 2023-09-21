@@ -40,6 +40,10 @@ public class ContractRules implements Rules{
         }
     }
 
+    public List<ContractRule> getSchedulerRules(){
+        return schedulerRules;
+    }
+
     public boolean shouldIgnoreTrade(Contract contract, String partyId){
         for (ContractRule rule : lenderRules){
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;

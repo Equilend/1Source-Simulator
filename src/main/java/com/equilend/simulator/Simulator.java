@@ -20,6 +20,7 @@ public class Simulator {
         Configurator configurator = new Configurator();
 
         boolean useTestLenderAuth = configurator.getGeneralRules().getBotPartyId().equals("TLEN-US");
+        logger.info("Bot Party ID: {}", configurator.getGeneralRules().getBotPartyId());
         if (useTestLenderAuth){
             BearerToken.configureToken(configurator.getAuthorizationRules().getLender());
         }else{
@@ -29,8 +30,8 @@ public class Simulator {
         ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
         execOutgoing.execute(new Scheduler(configurator));
 
-        ExecutorService execIncoming = Executors.newSingleThreadExecutor();
-        execIncoming.execute(new EventsProcessor(configurator));
+        // ExecutorService execIncoming = Executors.newSingleThreadExecutor();
+        // execIncoming.execute(new EventsProcessor(configurator));
         
         System.out.println("Enter q to quit");
         Scanner input = new Scanner(System.in);
@@ -41,7 +42,7 @@ public class Simulator {
                 System.out.println("You've pressed \'q\'");
                 System.out.println("Let us clean up a lil and we'll be done, thank you for your patience...");
                 execOutgoing.shutdownNow();
-                execIncoming.shutdownNow();
+                // execIncoming.shutdownNow();
                 break;
             }
         }

@@ -11,6 +11,10 @@ public class Party {
         this.partyName = partyName;
         this.gleifLei = gleifLei;
     }
+
+    public Party() {
+        
+    }
     
     public String getPartyId() {
         return partyId;

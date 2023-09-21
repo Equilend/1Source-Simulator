@@ -20,7 +20,7 @@ password="fjmxVeKzpzUDg3YJ"
 
 [[Events]]
 responsive = {
-    ("TRADE", "D")
+    ("TRADE", "I")
     ("CONTRACT", "D")
     ("*","I")
 }
@@ -44,5 +44,15 @@ responsive={
     ("*", "*", "*", "I", "0")    
 }
 generative={
-    r2=("TBORR-US", "TSLA", "350", "10", "10", "50")
+    ("TBORR-US", "WMT", "5000", "10", "10", "50")
+    ("TBORR-US", "AMZN", "10000", "10", "10", "50")
+    ("TBORR-US", "AAPL", "15000", "10", "10", "50")
+    ("TBORR-US", "CVS", "20000", "10", "10", "50")
+    ("TBORR-US", "UNH", "25000", "10", "10", "50")
+    ("TBORR-US", "XOM", "30000", "10", "10", "50")
+    ("TBORR-US", "BRK.B", "35000", "10", "10", "50")
+    ("TBORR-US", "MCK", "40000", "10", "10", "50")
+    ("TBORR-US", "COST", "45000", "10", "10", "50")
+    ("TBORR-US", "T", "50000", "10", "10", "50")
+
 }

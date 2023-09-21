@@ -2,6 +2,7 @@ package com.equilend.simulator.configurator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,12 +17,16 @@ import com.equilend.simulator.rules.GeneralRules;
 import com.equilend.simulator.rules.Parser;
 import com.equilend.simulator.rules.Rules;
 import com.equilend.simulator.trade.instrument.Instrument;
+import com.equilend.simulator.trade.transacting_party.Party;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 
 public class Configurator {
 
-    private List<Instrument> instruments = null;
+    private List<Party> partiesList = null;
+    private Map<String, Party> parties = new HashMap<>();
+    private List<Instrument> instrumentsList = null;
+    private Map<String, Instrument> instruments = new HashMap<>();
     private GeneralRules generalRules;
     private AuthorizationRules authorizationRules;
     private EventRules eventRules;
@@ -30,8 +35,47 @@ public class Configurator {
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
-        readInstrumentsFile();
+        this.partiesList = loadPartiesTomlFile();
+        partiesList.forEach(p -> parties.put(p.getPartyId(), p));
+        
+        this.instrumentsList = loadInstrumentsTomlFile();
+        instrumentsList.forEach(i -> instruments.put(i.getTicker(), i));
+
         loadRules(Parser.readRulesFile());
+    }
+
+    private List<Instrument> loadInstrumentsTomlFile(){
+        String filename = "config/instruments.toml";
+        TomlMapper tomlMapper = new TomlMapper();
+        Map<String, List<Instrument>> map = null;
+        try {
+            map = tomlMapper.readValue(new File(filename), new TypeReference<Map<String, List<Instrument>>>() {});
+        } catch (IOException e){
+            logger.error("Error reading instruments file", e);
+            return null;
+        }
+        if (map == null){
+            logger.error("Instruments unable to be successfully loaded");
+        }
+
+        return map.get("instruments");
+    }
+
+    private List<Party> loadPartiesTomlFile(){
+        String filename = "config/parties.toml";
+        TomlMapper tomlMapper = new TomlMapper();
+        Map<String, List<Party>> map = null;
+        try {
+            map = tomlMapper.readValue(new File(filename), new TypeReference<Map<String, List<Party>>>() {});
+        } catch (IOException e){
+            logger.error("Error reading parties file", e);
+            return null;
+        }
+        if (map == null){
+            logger.error("Instruments unable to be successfully loaded");
+        }
+
+        return map.get("parties");
     }
 
     private void loadRules(Map<String, Rules> rules) {
@@ -58,26 +102,14 @@ public class Configurator {
         }
     }
 
-    private void readInstrumentsFile() {
-        String instrumentsFilename = "config/instruments.toml";
-        TomlMapper tomlMapper = new TomlMapper();
-        Map<String, List<Instrument>> map = null;
-        try {
-            map = tomlMapper.readValue(new File(instrumentsFilename), new TypeReference<Map<String, List<Instrument>>>() {});
-        } catch(IOException e){
-            logger.error("Error reading instruments file", e);
-            return;
-        }
-        if (map == null){
-            logger.error("Instruments unable to be successfully loaded");
-        }
-
-        this.instruments = map.get("instruments");
+    public Map<String, Party> getParties() {
+        return parties;
     }
 
-    public List<Instrument> getInstruments() {
+    public Map<String, Instrument> getInstruments() {
         return instruments;
     }
+
 
     public GeneralRules getGeneralRules() {
         return generalRules;

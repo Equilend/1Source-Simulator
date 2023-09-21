@@ -1,0 +1,34 @@
+[[parties]]
+partyId = "TLEN-US"
+partyName = "TestLender1"
+gleifLei = "KTB500SKZSDI75VSFU40"
+
+[[parties]]
+partyId = "TBORR-US"
+partyName = "TestBorrower1"
+gleifLei = "KTB500SKZSDI75VSFU40"
+
+[[parties]]
+partyId = "GSCO US"
+partyName = "Goldman Sachs and Co-US"
+gleifLei = "FOR8UP27PHTHYVLBNG30"
+
+[[parties]]
+partyId = "MSCO LLC"
+partyName = "Morgan Stanley and CO LLC"
+gleifLei = "9R7GPTSO7KV3UQJZQ078"
+
+[[parties]]
+partyId = "NBF Inc."
+partyName = "National Bank Financial Inc."
+gleifLei = "254900F2ES7T4LUTQL51"
+
+[[parties]]
+partyId = "BNYMELLON CPX"
+partyName = "BNY Mellon CPX"
+gleifLei = "WFLLPEPC7FZXENRZV188"
+
+[[parties]]
+partyId = "JPMC"
+partyName = "JPMORGAN CHASE"
+gleifLei = "8I5DZWZKVSZI1NUHU748"

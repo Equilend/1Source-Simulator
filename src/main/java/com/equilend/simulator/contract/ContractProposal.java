@@ -55,7 +55,7 @@ public class ContractProposal {
         this.settlement = settlement;
     }
 
-    public static Trade createTrade(Instrument security) {
+    public static Trade createTrade(Party party, Party counterparty, Instrument security, long desiredQuantity) {
         Platform platform = new Platform("X", "Phone Brokered", "EXTERNAL", "0");
         List<VenueParty> venueParties = new ArrayList<>();
         VenueParty lenderVenueParty = new VenueParty(PartyRole.LENDER);
@@ -72,7 +72,7 @@ public class ContractProposal {
         RebateRate rebate = new RebateRate(floating);
         Rate rate = new Rate(rebate);
         
-        Long quantity = Long.valueOf(25025);
+        Long quantity = desiredQuantity;
         
         Currency billingCurrency = Currency.USD;
         
@@ -92,13 +92,11 @@ public class ContractProposal {
         List<TransactingParty> transactingParties = new ArrayList<>();
         TransactingParty lenderTransactingParty = new TransactingParty();
         lenderTransactingParty.setPartyRole(PartyRole.LENDER);
-        Party lenderParty = new Party("TLEN-US", "Test Lender US", "KTB500SKZSDI75VSFU40");
-        lenderTransactingParty.setParty(lenderParty);
+        lenderTransactingParty.setParty(party);
         transactingParties.add(lenderTransactingParty);
         TransactingParty borrowingTransactingParty = new TransactingParty();
         borrowingTransactingParty.setPartyRole(PartyRole.BORROWER);
-        Party borrowerParty = new Party("TBORR-US", "Test Borrower US", "KTB500SKZSDI75VSFU40");
-        borrowingTransactingParty.setParty(borrowerParty);
+        borrowingTransactingParty.setParty(counterparty);
         transactingParties.add(borrowingTransactingParty);
 
         return new Trade(executionVenue, instrument, rate, quantity, billingCurrency, dividendRatePct, tradeDate, settlementDate, settlementType, collateral, transactingParties);
@@ -112,9 +110,9 @@ public class ContractProposal {
         return new Settlement(role, instruction);          
     }    
 
-    // Returns null if instruments not populated successfully..
-    public static ContractProposal createContractProposal(Instrument security) {
-        Trade trade = createTrade(security);
+
+    public static ContractProposal createContractProposal(Party party, Party counterparty, Instrument security, long desiredQuantity) {
+        Trade trade = createTrade(party, counterparty, security, desiredQuantity);
 
         List<Settlement> settlements = new ArrayList<Settlement>();
         settlements.add(createSettlement(PartyRole.LENDER));
