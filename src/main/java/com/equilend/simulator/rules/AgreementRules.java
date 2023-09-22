@@ -28,14 +28,14 @@ public class AgreementRules implements Rules{
         }
     }
     
-    public boolean shouldIgnoreTrade(Trade trade, String partyId){
+    // returns -1 if trade should be ignored, otherwise returns
+    public double shouldIgnoreTrade(Trade trade, String partyId){
         for (AgreementRule rule : rules){
             if (rule.isApplicable(trade, partyId)){
-                return rule.isShouldIgnore();
+                return rule.isShouldIgnore() ? -1.0 : rule.getDelay();
             }
         }
-
-        return false;
+        return 0;
     }
     
 }

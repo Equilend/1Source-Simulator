@@ -15,7 +15,7 @@ public class AgreementRule {
     private String quantityExp;
     private Set<String> quantities = new HashSet<>();
     private boolean shouldIgnore;
-    private int delay;
+    private Double delay;
 
     public AgreementRule(String rule){
         loadRule(rule);
@@ -42,7 +42,7 @@ public class AgreementRule {
         }
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
-        this.delay = Integer.parseInt(rule.substring(start+1, end));
+        this.delay = Double.parseDouble(rule.substring(start+1, end));
     }
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -88,6 +88,10 @@ public class AgreementRule {
             }
         }
         return false;
+    }
+
+    public Double getDelay(){
+        return delay;
     }
 
     public boolean isShouldIgnore() {

@@ -17,6 +17,7 @@ public class TradeHandler implements EventHandler {
     private Event event;
     private Agreement agreement;
     private Configurator configurator;
+    private Long startTime;
     private static final Logger logger = LogManager.getLogger();
 
     public BearerToken getToken() {
@@ -30,9 +31,10 @@ public class TradeHandler implements EventHandler {
         return token;
     }
 
-    public TradeHandler(Event e, Configurator configurator) {
+    public TradeHandler(Event e, Configurator configurator, Long startTime) {
         this.event = e;
         this.configurator = configurator;
+        this.startTime = startTime;
     }
 
     public boolean getAgreementById(String id) {
@@ -70,8 +72,12 @@ public class TradeHandler implements EventHandler {
 
         //Create contract and post proposal
         Trade trade = agreement.getTrade();
-        if (configurator.getAgreementRules().shouldIgnoreTrade(trade, partyId)){
-            return;
+        Double delay = configurator.getAgreementRules().shouldIgnoreTrade(trade, partyId);
+        if (delay == -1) postContractProposal(trade);
+
+        Long delayMillis = Math.round(1000*delay);
+        while (System.currentTimeMillis() - startTime < delayMillis){
+            Thread.yield();
         }
         postContractProposal(trade);
     }   

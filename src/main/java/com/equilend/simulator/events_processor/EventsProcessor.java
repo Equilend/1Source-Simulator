@@ -77,7 +77,7 @@ public class EventsProcessor implements Runnable {
                 String type = event.getEventType();
                 switch (type){
                     case "TRADE":   
-                        task = new TradeHandler(event, configurator);
+                        task = new TradeHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case "CONTRACT":    
                         task = new ContractHandler(event, configurator);                           
