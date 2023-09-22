@@ -44,9 +44,9 @@ public class Scheduler implements Runnable {
                     String quantity = instruction.getQuantity();
                     ScheduledEventHandler task = new ScheduledEventHandler(party, counterparty, instrument, quantity);
                     
-                    Long delayMillis = 1000*instruction.getDelaySecs();
+                    Long delayMillis = Math.round(1000*instruction.getDelaySecs());
                     Long periodMillis = Math.round(1000*instruction.getPeriodSecs());
-                    Long durationMillis = 1000*instruction.getTotalDurationSecs(); 
+                    Long durationMillis = Math.round(1000*instruction.getTotalDurationSecs()); 
                     ScheduledFuture<?> taskFuture = exec.scheduleAtFixedRate(task, delayMillis, periodMillis, TimeUnit.MILLISECONDS);
                     exec.schedule(new Runnable() {
                         public void run() {

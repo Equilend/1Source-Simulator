@@ -10,9 +10,9 @@ public class ContractGenerativeRule implements ContractRule {
     private String securityExp;
     private List<String> securities = new ArrayList<>();
     private String quantityExp;
-    private Long delaySecs;
+    private Double delaySecs;
     private Double periodSecs;
-    private Long totalDurationSecs;
+    private Double totalDurationSecs;
 
     public ContractGenerativeRule(String rule){
         loadRule(rule);
@@ -33,13 +33,13 @@ public class ContractGenerativeRule implements ContractRule {
         this.quantityExp = rule.substring(start+1, end);
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
-        this.delaySecs = Long.parseLong(rule.substring(start+1, end));
+        this.delaySecs = Double.parseDouble(rule.substring(start+1, end));
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
         this.periodSecs = Double.parseDouble(rule.substring(start+1, end));
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
-        this.totalDurationSecs = Long.parseLong(rule.substring(start+1, end));
+        this.totalDurationSecs = Double.parseDouble(rule.substring(start+1, end));
     }
 
     private void splitExpressionAndLoad(String exp, List<String> set){
@@ -61,7 +61,7 @@ public class ContractGenerativeRule implements ContractRule {
         return quantityExp;
     }
 
-    public Long getDelaySecs() {
+    public Double getDelaySecs() {
         return delaySecs;
     }
 
@@ -69,7 +69,7 @@ public class ContractGenerativeRule implements ContractRule {
         return periodSecs;
     }
 
-    public Long getTotalDurationSecs() {
+    public Double getTotalDurationSecs() {
         return totalDurationSecs;
     }
 
