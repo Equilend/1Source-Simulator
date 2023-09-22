@@ -13,13 +13,21 @@ import com.equilend.simulator.settlement.AcceptSettlement;
 import com.equilend.simulator.settlement.Settlement;
 import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.transacting_party.PartyRole;
+import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
 public class ContractHandler implements EventHandler {
 
     private Event event;
     private Configurator configurator;
+    private String botPartyId;
     private static final Logger logger = LogManager.getLogger();
     
+    public ContractHandler(Event e, Configurator configurator) {
+        this.event = e;
+        this.configurator = configurator;
+        this.botPartyId = configurator.getGeneralRules().getBotPartyId();
+    }
+
     public BearerToken getToken() {
         BearerToken token = null;
         try {
@@ -30,11 +38,6 @@ public class ContractHandler implements EventHandler {
         }
 
         return token;
-    }
-    
-    public ContractHandler(Event e, Configurator configurator) {
-        this.event = e;
-        this.configurator = configurator;
     }
 
     private Contract getContractById(String id) {
@@ -49,7 +52,11 @@ public class ContractHandler implements EventHandler {
     }
 
     private boolean isBotLenderInContract(Contract contract){
-        //TODO: BRUH!!
+        for (TransactingParty tp : contract.getTrade().getTransactingParties()){
+            if (tp.getParty().getPartyId().equals(botPartyId)){
+                return tp.getPartyRole() == PartyRole.LENDER;
+            }
+        }        
         return true;
     }
 
