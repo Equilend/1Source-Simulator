@@ -28,7 +28,8 @@ public class AgreementRules implements Rules{
         }
     }
     
-    // returns -1 if trade should be ignored, otherwise returns
+    // returns -1 if trade should be ignored, otherwise returns delay
+    // defaults to propose immediately
     public double shouldIgnoreTrade(Trade trade, String partyId){
         for (AgreementRule rule : rules){
             if (rule.isApplicable(trade, partyId)){

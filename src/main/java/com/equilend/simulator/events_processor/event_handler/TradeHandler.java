@@ -73,7 +73,7 @@ public class TradeHandler implements EventHandler {
         //Create contract and post proposal
         Trade trade = agreement.getTrade();
         Double delay = configurator.getAgreementRules().shouldIgnoreTrade(trade, partyId);
-        if (delay == -1) postContractProposal(trade);
+        if (delay == -1) return;
 
         Long delayMillis = Math.round(1000*delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
