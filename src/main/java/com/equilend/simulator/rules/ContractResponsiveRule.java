@@ -17,7 +17,7 @@ public class ContractResponsiveRule implements ContractRule {
     private Set<String> quantities = new HashSet<>();
     private Boolean shouldIgnore = null;
     private Boolean shouldApprove = null;
-    private int timeout;
+    private Double delay;
 
     public ContractResponsiveRule(String rule){
         loadRule(rule);
@@ -53,7 +53,7 @@ public class ContractResponsiveRule implements ContractRule {
         }
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
-        this.timeout = Integer.parseInt(rule.substring(start+1, end));
+        this.delay = Double.parseDouble(rule.substring(start+1, end));
     }
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -102,6 +102,10 @@ public class ContractResponsiveRule implements ContractRule {
         return false;
     }
 
+    public Double getDelay(){
+        return delay;
+    }
+
     public boolean isShouldApprove(){
         return shouldApprove;
     }
@@ -132,19 +136,19 @@ public class ContractResponsiveRule implements ContractRule {
         if (shouldIgnore != null){
             if(shouldIgnore){
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, IGNORE, TIMEOUT{" + String.valueOf(timeout) + "}";
+                        + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
             } else{
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, CANCEL, TIMEOUT{" + String.valueOf(timeout) + "}";
+                        + "}, CANCEL, DELAY{" + String.valueOf(delay) + "}";
             }
         }
         if (shouldApprove != null){
             if(shouldApprove){
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, APPROVE, TIMEOUT{" + String.valueOf(timeout) + "}";
+                        + "}, APPROVE, DELAY{" + String.valueOf(delay) + "}";
             } else{
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, REJECT, TIMEOUT{" + String.valueOf(timeout) + "}";
+                        + "}, REJECT, DELAY{" + String.valueOf(delay) + "}";
             }            
         }
         return "";

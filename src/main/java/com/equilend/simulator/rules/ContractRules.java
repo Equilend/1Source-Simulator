@@ -37,24 +37,25 @@ public class ContractRules implements Rules{
         return schedulerRules;
     }
 
-    public boolean shouldIgnoreTrade(Contract contract, String partyId){
+    //if should ignore trade return -1, otherwise return delay
+    public Double shouldIgnoreTrade(Contract contract, String partyId){
         for (ContractRule rule : lenderRules){
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;
             if (responsiveRule.isApplicable(contract, partyId)){
-                return responsiveRule.isShouldIgnore();
+                return responsiveRule.isShouldIgnore() ? -1.0 : responsiveRule.getDelay();
             }
         }
-        return true;
+        return -1.0;
     }
 
-    public boolean shouldApproveTrade(Contract contract, String partyId){
+    public ContractResponsiveRule getApproveOrRejectApplicableRule(Contract contract, String partyId){
         for (ContractRule rule : borrowerRules){
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;
             if (responsiveRule.isApplicable(contract, partyId)){
-                return responsiveRule.isShouldApprove();
+                return responsiveRule;
             }
         }
-        return false;
+        return null;
     }
     
 }

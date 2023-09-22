@@ -80,7 +80,7 @@ public class EventsProcessor implements Runnable {
                         task = new TradeHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case "CONTRACT":    
-                        task = new ContractHandler(event, configurator);                           
+                        task = new ContractHandler(event, configurator, System.currentTimeMillis());                           
                         break;
                 }
 

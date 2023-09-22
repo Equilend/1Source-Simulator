@@ -9,6 +9,7 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.event.Event;
+import com.equilend.simulator.rules.ContractResponsiveRule;
 import com.equilend.simulator.settlement.AcceptSettlement;
 import com.equilend.simulator.settlement.Settlement;
 import com.equilend.simulator.token.BearerToken;
@@ -20,12 +21,14 @@ public class ContractHandler implements EventHandler {
     private Event event;
     private Configurator configurator;
     private String botPartyId;
+    private Long startTime;
     private static final Logger logger = LogManager.getLogger();
     
-    public ContractHandler(Event e, Configurator configurator) {
+    public ContractHandler(Event e, Configurator configurator, Long startTime) {
         this.event = e;
         this.configurator = configurator;
         this.botPartyId = configurator.getGeneralRules().getBotPartyId();
+        this.startTime = startTime;
     }
 
     public BearerToken getToken() {
@@ -60,7 +63,12 @@ public class ContractHandler implements EventHandler {
         return true;
     }
 
-    private void cancelContractProposal(String contractId) {
+    private void cancelContractProposal(String contractId, Double delay) {
+        Long delayMillis = Math.round(1000 * delay);
+        while (System.currentTimeMillis() - startTime < delayMillis){
+            Thread.yield();
+        }
+
         try {
             APIConnector.cancelContractProposal(getToken(), contractId);
         } catch (APIException e) {
@@ -68,9 +76,15 @@ public class ContractHandler implements EventHandler {
         }
     }    
 
-    private void acceptContractProposal(String contractId) {
+    private void acceptContractProposal(String contractId, Double delay) {
         Settlement settlement = ContractProposal.createSettlement(PartyRole.BORROWER);
         AcceptSettlement acceptSettlement = new AcceptSettlement(settlement);
+        
+        Long delayMillis = Math.round(1000 * delay);
+        while (System.currentTimeMillis() - startTime < delayMillis){
+            Thread.yield();
+        }
+
         try {
             APIConnector.acceptContractProposal(getToken(), contractId, acceptSettlement);
         } catch (APIException e) {
@@ -78,7 +92,12 @@ public class ContractHandler implements EventHandler {
         }
     }
 
-    private void declineContractProposal(String contractId) {
+    private void declineContractProposal(String contractId, Double delay) {
+        Long delayMillis = Math.round(1000 * delay);
+        while (System.currentTimeMillis() - startTime < delayMillis){
+            Thread.yield();
+        }
+
         try {
             APIConnector.declineContractProposal(getToken(), contractId);
         } catch (APIException e) {
@@ -100,18 +119,21 @@ public class ContractHandler implements EventHandler {
 
         boolean botActAsLender = isBotLenderInContract(contract);
         if (botActAsLender){
-            if (!configurator.getContractRules().shouldIgnoreTrade(contract, partyId)){
-                cancelContractProposal(contractId);
-            }
+            Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, partyId);
+            if (delay == -1) return;  
+            cancelContractProposal(contractId, delay);
+
         }
         else{
             //Analyze contract to decide whether to accept or decline based on configurator
-            if (configurator.getContractRules().shouldApproveTrade(contract, partyId)){
-                acceptContractProposal(contractId);
+            ContractResponsiveRule rule = configurator.getContractRules().getApproveOrRejectApplicableRule(contract, partyId);
+            if (rule.isShouldApprove()){
+                acceptContractProposal(contractId, rule.getDelay());
             }
             else{
-                declineContractProposal(contractId);
+                declineContractProposal(contractId, rule.getDelay());
             }
+
         }
     }
     
