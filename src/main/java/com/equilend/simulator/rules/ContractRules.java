@@ -19,6 +19,7 @@ public class ContractRules implements Rules{
     }
 
     public void addRules(String rawRulesList, List<ContractRule> contractRulesList, boolean isResponsive){
+        if (rawRulesList == null) return;
         if (rawRulesList.charAt(0) != '{') return;
 
         int start = rawRulesList.indexOf("(")-1;

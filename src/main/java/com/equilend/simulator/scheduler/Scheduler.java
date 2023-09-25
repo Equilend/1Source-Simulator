@@ -30,6 +30,7 @@ public class Scheduler implements Runnable {
     public void run(){
         //get generative contract rules/instructions from configurator
         List<ContractRule> rules = configurator.getContractRules().getSchedulerRules();
+        if (rules == null) return;
         
         ScheduledExecutorService exec = Executors.newScheduledThreadPool(8);
 

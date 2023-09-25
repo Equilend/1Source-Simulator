@@ -20,15 +20,18 @@ password="fjmxVeKzpzUDg3YJ"
 
 [[Events]]
 responsive = {
-    ("TRADE", "I")
-    ("CONTRACT", "D")
+    ("TRADE", "D")
+    ("CONTRACT", "I")
     ("*","I")
 }
 
 [[Agreements]]
 responsive = {
-    ("*", "*", "*", "P", "0")
-}
+    ("TBORR-US", "AAPL|AMZN", "(150, 900)", "P", "0")       
+    ("TBORR-US", "MCK | UNH | WBA ", "(0, 20000] | [100000, inf)", "P", "0")         
+    ("TBORR-US", "T | F | HD | VZ", "*", "P", "0")       
+    ("*", "*", "*", "I", "0")         
+}        
 
 [[Contracts]]
 <borrower>
@@ -44,14 +47,5 @@ responsive={
     ("*", "*", "*", "I", "0")    
 }
 generative={
-    ("TBORR-US", "WMT", "5000", "14", "7", "60")
-    ("TBORR-US", "AMZN", "10000", "10", "5", "60")
-    ("TBORR-US", "AAPL", "15000", "1000", "60", "60")
-    ("TBORR-US", "CVS", "20000", "1000", "60", "60")
-    ("TBORR-US", "UNH", "25000", "1000", "60", "60")
-    ("TBORR-US", "XOM", "30000", "1000", "60", "60")
-    ("TBORR-US", "BRK.B", "35000", "1000", "60", "60")
-    ("TBORR-US", "MCK", "40000", "1000", "60", "60")
-    ("TBORR-US", "COST", "45000", "1000", "60", "60")
-    ("TBORR-US", "T", "50000", "1000", "60", "60")
+    ("TBORR-US", "CVX", "5000", "0", "15", "300")
 }
