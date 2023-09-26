@@ -127,7 +127,11 @@ public class ContractHandler implements EventHandler {
         else{
             //Analyze contract to decide whether to accept or decline based on configurator
             ContractResponsiveRule rule = configurator.getContractRules().getApproveOrRejectApplicableRule(contract, partyId);
-            if (rule.isShouldApprove()){
+            if (rule == null){
+                //no applicable rule, default to approve w/o delay
+                acceptContractProposal(contractId, 0.0);
+            }
+            else if(rule.isShouldApprove()){
                 acceptContractProposal(contractId, rule.getDelay());
             }
             else{

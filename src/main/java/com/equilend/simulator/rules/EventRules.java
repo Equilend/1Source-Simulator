@@ -9,7 +9,7 @@ import com.equilend.simulator.event.Event;
 public class EventRules implements Rules{
     
     private List<EventRule> rules = new ArrayList<>();
-    
+
     public EventRules(Map<String, Map<String, String>> rulesMap){
         addRules(rulesMap.get("general").get("responsive"));
     }
@@ -19,6 +19,7 @@ public class EventRules implements Rules{
     }
 
     public void addRules(String rulesList){
+        if (rulesList == null) return;
         if (rulesList.charAt(0) != '{') return;
 
         int start = rulesList.indexOf("(");
@@ -26,7 +27,8 @@ public class EventRules implements Rules{
             int end = rulesList.indexOf(")", start);
             
             String rule = rulesList.substring(start, end+1);
-            rules.add(new EventRule(rule));
+            EventRule eventRule = new EventRule(rule);
+            rules.add(eventRule);
             
             start = rulesList.indexOf("(", end);
         }

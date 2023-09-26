@@ -15,20 +15,23 @@ public class AgreementRules implements Rules{
     private static final Logger logger = LogManager.getLogger();
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
+        // logger.info("\n\nLoad Agreement Rules");
         addRules(rulesMap.get("general").get("responsive"));
     }
 
     public void addRules(String rulesList){
+        if (rulesList == null) return;
         if (rulesList.charAt(0) != '{') return;
 
-        int start = rulesList.indexOf("(")-1;
+        int start = rulesList.indexOf(",(");
         while (start != -1){
             int end = rulesList.indexOf("),", start);
             
             String rule = rulesList.substring(start+1, end+1);
             AgreementRule agreementRule = new AgreementRule(rule);
             rules.add(agreementRule);
-            logger.trace(agreementRule);
+            // logger.info("String: {}", rule);
+            // logger.info("Rule: {}",agreementRule);
             
             start = rulesList.indexOf(",(", end);
         }
