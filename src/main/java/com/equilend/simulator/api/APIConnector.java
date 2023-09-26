@@ -67,7 +67,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating token post request";
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
@@ -76,14 +76,14 @@ public class APIConnector {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error with sending token post request";
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
         Token token = gson.fromJson(postResponse.body(), Token.class);
         if (token.getError() != null){ 
             String message = "Error authorizing bearer token: " + token.getError_description();
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }
 
@@ -101,7 +101,7 @@ public class APIConnector {
     public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, int eventId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all events";
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }
 
@@ -117,7 +117,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating events get request";
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
         
@@ -126,7 +126,7 @@ public class APIConnector {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error with sending events get request";
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
@@ -139,7 +139,7 @@ public class APIConnector {
     public static Agreement getAgreementById(BearerToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get agreement by id";
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }
 
@@ -152,7 +152,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error creating get request for agreement " + id;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
         
@@ -161,7 +161,7 @@ public class APIConnector {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error creating get request for agreement " + id;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
@@ -174,7 +174,7 @@ public class APIConnector {
     public static Contract getContractById(BearerToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get contract by id";
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }
 
@@ -187,7 +187,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error creating get request for contract " + id;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
         
@@ -196,7 +196,7 @@ public class APIConnector {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error creating get request for contract " + id;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
        
@@ -210,7 +210,7 @@ public class APIConnector {
     public static ContractProposalResponse postContractProposal(BearerToken token, ContractProposal contract) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }
 
@@ -226,7 +226,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating contract proposal post request";
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
@@ -235,20 +235,22 @@ public class APIConnector {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error with sending contract proposal post request";
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        logger.info("Post Contract Proposal: Status Code {}, Ticker {}", postResponse.statusCode(), contract.getTrade().getInstrument().getTicker());
-
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
+        logger.info("Propose Contract {} w {} shares of {}", response.getContractId(), contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker());
+        if (postResponse.statusCode() != 201){
+            logger.trace("Post Contract {}; Status Code: {}", response.getContractId(), postResponse.statusCode());
+        }
         return response;
     }
     
     public static ContractProposalResponse cancelContractProposal(BearerToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get cancel contract proposal";
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }
 
@@ -262,7 +264,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with sending cancel contract proposal post request for contract " + contractId;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
             
@@ -271,20 +273,22 @@ public class APIConnector {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error with sending cancel contract proposal post request for contract " + contractId;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
-
-        logger.info("Cancel Contract Proposal: Status Code {}", postResponse.statusCode());        
         
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
+        logger.info("Cancel Contract {}", contractId);
+        if (postResponse.statusCode() != 200){
+            logger.trace("Cancel Contract {}; Status Code {}", contractId, postResponse.statusCode());
+        }
         return response;       
     }
     
     public static ContractProposalResponse acceptContractProposal(BearerToken token, String contractId, AcceptSettlement settlement) throws APIException {
         if (token == null){
             String message = "Token is null, unable to accept contract proposal";
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }        
         
@@ -300,7 +304,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating accept contract proposal post request for contract " + contractId;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
@@ -309,20 +313,22 @@ public class APIConnector {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error with sending accept contract proposal post request for contract " + contractId;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        logger.info("Accept Contract Proposal: Status Code {}", postResponse.statusCode());
-
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
+        logger.info("Accept Contract {}", contractId);
+        if (postResponse.statusCode() != 200){
+            logger.trace("Accept Contract {}; Status Code {}", contractId, postResponse.statusCode());
+        }
         return response;
     }
 
     public static ContractProposalResponse declineContractProposal(BearerToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to decline contract proposal";
-            logger.error(message);
+            logger.debug(message);
             throw new APIException(message);
         }
 
@@ -336,7 +342,7 @@ public class APIConnector {
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating decline contract proposal post request for contract " + contractId;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
             
@@ -345,13 +351,15 @@ public class APIConnector {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             String message = "Error with sending decline contract proposal post request for contract " + contractId;
-            logger.error(message, e);
+            logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        logger.info("Decline Contract Proposal: Status Code {}", postResponse.statusCode());
-
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
+        logger.info("Decline Contract {}", contractId);
+        if (postResponse.statusCode() != 200){
+            logger.trace("Decline Contract {}; Status Code {}", contractId, postResponse.statusCode());
+        }        
         return response;
     }  
 

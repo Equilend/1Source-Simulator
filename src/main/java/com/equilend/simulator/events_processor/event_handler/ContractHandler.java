@@ -48,7 +48,7 @@ public class ContractHandler implements EventHandler {
         try {
             contract = APIConnector.getContractById(getToken(), id);
         } catch (APIException e) {
-            logger.error("Unable to process contract event");
+            logger.debug("Unable to process contract event");
         }   
 
         return contract;
@@ -72,7 +72,7 @@ public class ContractHandler implements EventHandler {
         try {
             APIConnector.cancelContractProposal(getToken(), contractId);
         } catch (APIException e) {
-            logger.error("Unable to process contract event");
+            logger.debug("Unable to process contract event");
         }
     }    
 
@@ -88,7 +88,7 @@ public class ContractHandler implements EventHandler {
         try {
             APIConnector.acceptContractProposal(getToken(), contractId, acceptSettlement);
         } catch (APIException e) {
-            logger.error("Unable to process contract event");
+            logger.debug("Unable to process contract event");
         }
     }
 
@@ -101,7 +101,7 @@ public class ContractHandler implements EventHandler {
         try {
             APIConnector.declineContractProposal(getToken(), contractId);
         } catch (APIException e) {
-            logger.error("Unable to process contract event");
+            logger.debug("Unable to process contract event");
         }
     }
 

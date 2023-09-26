@@ -47,7 +47,7 @@ public class ScheduledEventHandler implements Runnable {
             ContractProposal proposal = ContractProposal.createContractProposal(botParty, counterparty, security, quantity);
             APIConnector.postContractProposal(token, proposal);
         } catch(APIException e){
-            logger.error("Unable to propose scheduled contract proposal");
+            logger.debug("Unable to propose scheduled contract proposal");
         }
     }
 

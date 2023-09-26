@@ -144,7 +144,7 @@ public class Parser {
                 }
             }
         } catch (IOException e) {
-            logger.error("Error reading rules file", e);
+            logger.error("Error opening and/or reading rules file", e);
         }
 
         List<String> sections = splitIntoSections(str);

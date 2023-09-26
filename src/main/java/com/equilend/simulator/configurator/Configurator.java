@@ -72,7 +72,7 @@ public class Configurator {
             return null;
         }
         if (map == null){
-            logger.error("Instruments unable to be successfully loaded");
+            logger.error("Parties unable to be successfully loaded");
         }
 
         return map.get("parties");

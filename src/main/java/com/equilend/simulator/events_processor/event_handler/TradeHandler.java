@@ -41,7 +41,7 @@ public class TradeHandler implements EventHandler {
         try {
             agreement = APIConnector.getAgreementById(getToken(), id);
         } catch (APIException e) {
-            logger.error("Unable to process trade event");
+            logger.debug("Unable to process trade event");
             return false;
         }
 
@@ -55,7 +55,7 @@ public class TradeHandler implements EventHandler {
         try {
             APIConnector.postContractProposal(getToken(), contractProposal);
         } catch (APIException e) {
-            logger.error("Unable to process trade event");
+            logger.debug("Unable to process trade event");
         }
     }
 

@@ -15,7 +15,6 @@ public class AgreementRules implements Rules{
     private static final Logger logger = LogManager.getLogger();
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
-        // logger.info("\n\nLoad Agreement Rules");
         addRules(rulesMap.get("general").get("responsive"));
     }
 
@@ -30,8 +29,6 @@ public class AgreementRules implements Rules{
             String rule = rulesList.substring(start+1, end+1);
             AgreementRule agreementRule = new AgreementRule(rule);
             rules.add(agreementRule);
-            // logger.info("String: {}", rule);
-            // logger.info("Rule: {}",agreementRule);
             
             start = rulesList.indexOf(",(", end);
         }

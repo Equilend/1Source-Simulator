@@ -20,8 +20,8 @@ password="fjmxVeKzpzUDg3YJ"
 
 [[Events]]
 responsive = {
-    ("TRADE", "D")
-    ("CONTRACT", "I")
+    ("TRADE", "I")
+    ("CONTRACT", "D")
     ("*","I")
 }
 
@@ -42,10 +42,11 @@ responsive={
 }
 <lender>
 responsive={
+    ("TBORR-US", "CVX", "[4000, 6000]", "C", "20")
     ("TBORR-US", "AAPL|AMZN|BRK.B", "(4000, 6000)", "C", "20")
     ("TBORR-US", " GOOG | JPM | TSLA ", "(4000, 6000)", "C", "20")
     ("*", "*", "*", "I", "0")    
 }
 generative={
-    ("TBORR-US", "CVX", "5000", "0", "15", "300")
+    ("TBORR-US", "CVX", "5000", "0", "5", "15")
 }

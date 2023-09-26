@@ -45,16 +45,15 @@ public class EventsProcessor implements Runnable {
             try {
                 Thread.sleep(waitInterval);
             } catch (InterruptedException e) {
-                logger.error("Unable to listen for new events due to thread sleep interruption", e);
+                logger.debug("Unable to listen for new events due to thread sleep interruption", e);
                 break;
             }
-            logger.debug("Retrieve events from event id {}", fromEventId);
 
             List<Event> events;
             try{
                 events = APIConnector.getAllEvents(token, since, fromEventId);
             } catch(APIException e){
-                logger.error("Unable to listen for new events", e);
+                logger.error("Unable to get new events", e);
                 break;
             }
 
