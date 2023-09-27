@@ -39,6 +39,14 @@ public class Event {
         this.resourceUri = resourceUri;
     }
 
+    public String getResourceId(){
+        if (this.resourceUri == null) return "";
+        String[] arr = this.resourceUri.split("/");
+        String contractId = arr[arr.length-1];
+
+        return contractId;
+    }
+
     @Override
     public String toString(){
         return String.format("[%s] %s @%s (%s)", getEventType(), getEventId(), getEventDateTime(), getResourceUri());

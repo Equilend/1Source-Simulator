@@ -40,6 +40,7 @@ public class TradeHandler implements EventHandler {
     public boolean getAgreementById(String id) {
         try {
             agreement = APIConnector.getAgreementById(getToken(), id);
+            
         } catch (APIException e) {
             logger.debug("Unable to process trade event");
             return false;

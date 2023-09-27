@@ -165,9 +165,14 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get Agreement By Id: Status Code {}", getResponse.statusCode());
-        
         Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
+        if (getResponse.statusCode() == 200){
+            logger.info("Trade Agreement {} with {} shares of {}", 
+            id, agreement.getTrade().getQuantity(), agreement.getTrade().getInstrument().getTicker());
+        }
+        else{
+            logger.debug("Get Agreement By Id: Status Code {}", getResponse.statusCode());
+        }
         return agreement;
     }
 
@@ -240,9 +245,13 @@ public class APIConnector {
         }
 
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        logger.info("Propose Contract {} w {} shares of {}", response.getContractId(), contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker());
-        if (postResponse.statusCode() != 201){
-            logger.trace("Post Contract {}; Status Code: {}", response.getContractId(), postResponse.statusCode());
+        if (postResponse.statusCode() == 201){
+            logger.info("Propose Contract {} with {} shares of {}", 
+            response.getContractId(), contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker());
+        }
+        else{
+            logger.trace("Propose Contract with {} shares of {}: Status Code = {}",  
+            contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker(), postResponse.statusCode());
         }
         return response;
     }
@@ -276,11 +285,13 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        logger.info("Cancel Contract {}", contractId);
-        if (postResponse.statusCode() != 200){
-            logger.trace("Cancel Contract {}; Status Code {}", contractId, postResponse.statusCode());
+        if (postResponse.statusCode() == 200){
+            logger.info("Cancel Contract {}", contractId);
+        }
+        else{
+            logger.trace("Cancel Contract {}: Status Code = {}", contractId, postResponse.statusCode());
         }
         return response;       
     }
@@ -318,9 +329,11 @@ public class APIConnector {
         }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        logger.info("Accept Contract {}", contractId);
-        if (postResponse.statusCode() != 200){
-            logger.trace("Accept Contract {}; Status Code {}", contractId, postResponse.statusCode());
+        if (postResponse.statusCode() == 200){
+            logger.info("Accept Contract {}", contractId);
+        }
+        else{
+            logger.trace("Accept Contract {}: Status Code = {}", contractId, postResponse.statusCode());
         }
         return response;
     }
@@ -356,10 +369,12 @@ public class APIConnector {
         }
 
         ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-        logger.info("Decline Contract {}", contractId);
-        if (postResponse.statusCode() != 200){
-            logger.trace("Decline Contract {}; Status Code {}", contractId, postResponse.statusCode());
-        }        
+        if (postResponse.statusCode() == 200){
+            logger.info("Decline Contract {}", contractId);
+        }
+        else{
+            logger.trace("Decline Contract {}: Status Code = {}", contractId, postResponse.statusCode());
+        }
         return response;
     }  
 

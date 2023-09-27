@@ -7,6 +7,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.rules.ContractGenerativeRule;
 import com.equilend.simulator.rules.ContractRule;
@@ -19,6 +22,8 @@ public class Scheduler implements Runnable {
     private String botPartyId;
     private Map<String, Party> parties;
     private Map<String, Instrument> instruments;
+
+    private static final Logger logger = LogManager.getLogger();
 
     public Scheduler(Configurator configurator){
         this.configurator = configurator;
@@ -48,10 +53,11 @@ public class Scheduler implements Runnable {
                     Long delayMillis = Math.round(1000*instruction.getDelaySecs());
                     Long periodMillis = Math.round(1000*instruction.getPeriodSecs());
                     Long durationMillis = Math.round(1000*instruction.getTotalDurationSecs()); 
+                    logger.trace("Delay {}, Period {}, Duration {}", delayMillis, periodMillis, durationMillis);
                     ScheduledFuture<?> taskFuture = exec.scheduleAtFixedRate(task, delayMillis, periodMillis, TimeUnit.MILLISECONDS);
                     exec.schedule(new Runnable() {
                         public void run() {
-                            taskFuture.cancel(true);
+                            taskFuture.cancel(false);
                         }
                     }, durationMillis, TimeUnit.MILLISECONDS);
                 }

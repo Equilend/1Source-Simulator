@@ -27,6 +27,7 @@ public class ScheduledEventHandler implements Runnable {
     }
 
     public void run() {
+        Long start = System.currentTimeMillis();
         BearerToken token;
         try {
             token = BearerToken.getToken();
@@ -47,8 +48,10 @@ public class ScheduledEventHandler implements Runnable {
             ContractProposal proposal = ContractProposal.createContractProposal(botParty, counterparty, security, quantity);
             APIConnector.postContractProposal(token, proposal);
         } catch(APIException e){
-            logger.debug("Unable to propose scheduled contract proposal");
+            logger.info("Unable to propose scheduled contract proposal");
         }
+        Long end = System.currentTimeMillis();
+        logger.trace("EXECUTION TIME: {} milliseconds", end-start);
     }
 
 }

@@ -64,7 +64,8 @@ public class EventsProcessor implements Runnable {
             fromEventId = events.get(0).getEventId() + 1;
 
             for (Event event : events){
-                if (configurator.getEventRules().shouldIgnoreEvent(event)){
+                boolean shouldIgnore = configurator.getEventRules().shouldIgnoreEvent(event);
+                if (shouldIgnore){
                     logger.debug("Ignoring event of type {}", event.getEventType());
                     continue;
                 }
@@ -78,7 +79,7 @@ public class EventsProcessor implements Runnable {
                     case "TRADE":   
                         task = new TradeHandler(event, configurator, System.currentTimeMillis());
                         break;
-                    case "CONTRACT":    
+                    case "CONTRACT":  
                         task = new ContractHandler(event, configurator, System.currentTimeMillis());                           
                         break;
                 }
