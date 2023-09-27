@@ -6,6 +6,8 @@ import java.util.concurrent.Executors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.equilend.simulator.api.APIConnector;
+import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.scheduler.Scheduler;
@@ -15,6 +17,15 @@ import com.equilend.simulator.token.BearerToken;
 public class Simulator {   
     
     private static final Logger logger = LogManager.getLogger();
+
+    public static void warmUp(){
+        try{
+            APIConnector.getContractById(BearerToken.getToken(),"DEAD-BEEF");
+        }
+        catch (APIException e){
+            
+        }
+    }
 
     public static void main(String[] args) {  
         logger.info("Starting Program...");
@@ -26,6 +37,8 @@ public class Simulator {
         }else{
             BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
         }
+
+        warmUp();
 
         ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
         execOutgoing.execute(new Scheduler(configurator));
