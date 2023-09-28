@@ -110,7 +110,6 @@ public class ContractProposal {
         return new Settlement(role, instruction);          
     }    
 
-
     public static ContractProposal createContractProposal(Party party, Party counterparty, Instrument security, long desiredQuantity) {
         Trade trade = createTrade(party, counterparty, security, desiredQuantity);
 
@@ -121,15 +120,15 @@ public class ContractProposal {
         return contractProposal;
     }
 
-    public static ContractProposal createContractProposal(Trade trade) {
+    public static ContractProposal createContractProposal(Trade trade, PartyRole botPartyRole) {
         trade.setDividendRatePct(BigDecimal.valueOf(100));
 
-        trade.getCollateral().setRoundingRule(10);
-        trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
+        if (botPartyRole == PartyRole.LENDER) trade.getCollateral().setRoundingRule(10);
+        if (botPartyRole == PartyRole.LENDER) trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
         trade.getCollateral().setMargin(BigDecimal.valueOf(102));
         
         List<Settlement> settlements = new ArrayList<Settlement>();
-        settlements.add(createSettlement(PartyRole.LENDER));
+        settlements.add(createSettlement(botPartyRole));
         
         ContractProposal contractProposal = new ContractProposal(trade, settlements);
         return contractProposal;        

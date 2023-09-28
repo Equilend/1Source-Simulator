@@ -41,8 +41,8 @@ public class EventRules implements Rules{
             }
         }
 
-        //Default to dispatching all events
-        return false;
+        //Default to ignoring all events
+        return true;
     }
 
 }

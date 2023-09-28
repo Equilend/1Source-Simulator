@@ -7,14 +7,14 @@ import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
 public class AgreementRule {
-    
+
     private String counterpartyExp;
     private Set<String> counterparties = new HashSet<>();
     private String securityExp;
     private Set<String> securities = new HashSet<>();
     private String quantityExp;
     private Set<String> quantities = new HashSet<>();
-    private boolean shouldIgnore;
+    private boolean ignore;
     private Double delay;
 
     public AgreementRule(String rule){
@@ -28,7 +28,7 @@ public class AgreementRule {
         String delim = "\"";
         int start = rule.indexOf(delim);
         int end = rule.indexOf(delim, start+1);
-        this.counterpartyExp = rule.substring(start+1, end);
+        this.counterpartyExp = rule.substring(start+1, end);        
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
         this.securityExp = rule.substring(start+1, end);
@@ -38,7 +38,7 @@ public class AgreementRule {
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
         if (rule.charAt(start+1) == 'I'){
-            shouldIgnore = true;
+            ignore = true;
         }
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
@@ -75,7 +75,7 @@ public class AgreementRule {
         boolean upperInclusive = basicQuantity.charAt(basicQuantity.length()-1) == ']';
         
         long lower = Long.parseLong(lowerStr);
-        long upper = (upperStr.equals("inf")) ? Long.MAX_VALUE : Long.parseLong(upperStr);
+        long upper = (upperStr.toUpperCase().equals("INF")) ? Long.MAX_VALUE : Long.parseLong(upperStr);
         
         return (lowerInclusive && tradeQty >= lower || !lowerInclusive && tradeQty > lower) 
             && (upperInclusive && tradeQty <= upper || !upperInclusive && tradeQty < upper);
@@ -94,8 +94,8 @@ public class AgreementRule {
         return delay;
     }
 
-    public boolean isShouldIgnore() {
-        return shouldIgnore;
+    public boolean shouldIgnore() {
+        return ignore;
     }
     
     public String getTradeCptyId(Trade trade, String partyId){
@@ -115,7 +115,7 @@ public class AgreementRule {
 
     @Override 
     public String toString(){
-        if (shouldIgnore){
+        if (ignore){
             return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
         } else{
             return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELAY{" + String.valueOf(delay) + "}";

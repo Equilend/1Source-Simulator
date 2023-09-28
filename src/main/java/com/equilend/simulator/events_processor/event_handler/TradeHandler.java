@@ -9,8 +9,10 @@ import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.event.Event;
+import com.equilend.simulator.rules.AgreementRule;
 import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.Trade;
+import com.equilend.simulator.trade.transacting_party.PartyRole;
 
 public class TradeHandler implements EventHandler {
 
@@ -50,8 +52,8 @@ public class TradeHandler implements EventHandler {
         return true;
     }
 
-    public void postContractProposal(Trade trade) {
-        ContractProposal contractProposal = ContractProposal.createContractProposal(trade);
+    public void postContractProposal(Trade trade, PartyRole botPartyRole) {
+        ContractProposal contractProposal = ContractProposal.createContractProposal(trade, botPartyRole);
     
         try {
             APIConnector.postContractProposal(getToken(), contractProposal);
@@ -68,19 +70,24 @@ public class TradeHandler implements EventHandler {
 
         //Get agreement by id
         getAgreementById(agreementId);
-
-        String partyId = configurator.getGeneralRules().getBotPartyId();
-
-        //Create contract and post proposal
         Trade trade = agreement.getTrade();
-        Double delay = configurator.getAgreementRules().shouldIgnoreTrade(trade, partyId);
-        if (delay == -1) return;
 
-        Long delayMillis = Math.round(1000*delay);
+        String botPartyId = configurator.getGeneralRules().getBotPartyId();
+        PartyRole botPartyRole = trade.getPartyRole(botPartyId);
+        if (botPartyRole == null) {
+            logger.info("Unable to propose contract due to error retrieving bot party id and/or bot party role");
+            return;
+        }
+
+        AgreementRule rule = configurator.getAgreementRules().getFirstApplicableRule(trade, botPartyId);
+        if (rule != null && rule.shouldIgnore()) return;
+
+        Double delay = (rule == null) ? 0 : rule.getDelay();
+        Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
-        postContractProposal(trade);
+        postContractProposal(trade, botPartyRole);
     }   
 
 }

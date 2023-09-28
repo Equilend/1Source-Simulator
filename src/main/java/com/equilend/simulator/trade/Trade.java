@@ -7,6 +7,7 @@ import com.equilend.simulator.trade.collateral.Collateral;
 import com.equilend.simulator.trade.execution_venue.ExecutionVenue;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.rate.Rate;
+import com.equilend.simulator.trade.transacting_party.PartyRole;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
 public class Trade {
@@ -125,6 +126,15 @@ public class Trade {
 
     public void setTransactingParties(List<TransactingParty> transactingParties) {
         this.transactingParties = transactingParties;
+    }
+
+    public PartyRole getPartyRole(String partyId) {
+        for (TransactingParty tp : transactingParties){
+            if (tp.getParty().getPartyId().equals(partyId)){
+                return tp.getPartyRole();
+            }
+        }
+        return null;
     }
 
 }

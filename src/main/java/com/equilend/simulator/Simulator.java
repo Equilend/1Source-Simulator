@@ -32,9 +32,12 @@ public class Simulator {
         Configurator configurator = new Configurator();
 
         boolean useTestLenderAuth = configurator.getGeneralRules().getBotPartyId().equals("TLEN-US");
+        logger.info("USING {} PARTY", configurator.getGeneralRules().getBotPartyId());
         if (useTestLenderAuth){
+            logger.info("lender auth");
             BearerToken.configureToken(configurator.getAuthorizationRules().getLender());
         }else{
+            logger.info("borrower auth");
             BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
         }
 

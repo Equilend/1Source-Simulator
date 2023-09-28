@@ -1,6 +1,6 @@
 [[General]]
 user_party_id = "BANK-INC"
-bot_party_id = "TLEN-US"
+bot_party_id = "TBORR-US"
 max_refresh_attempts = 3
 event_fetch_interval_secs = 10
 
@@ -28,9 +28,9 @@ incoming = {
 [[Agreements]]
 <initiator>
 incoming = {
-    ("TBORR-US", "AAPL|AMZN", "(150, 900)", "P", "0")       
-    ("TBORR-US", "ELV | MCK | UNH", "(0, 5000] | [150000, inf)", "P", "0")         
-    ("TBORR-US", "T | F | HD | VZ", "*", "P", "0")       
+    ("TLEN-US", "AAPL|AMZN", "(150, 900)", "P", "0")       
+    ("TLEN-US", "ELV | MCK | UNH", "(0, 5000] | [150000, inf)", "P", "0")
+    ("*", "T | F | HD | VZ", "*", "P", "0")       
     ("*", "*", "*", "I", "0")         
 }           
 
@@ -47,6 +47,6 @@ incoming={
     ("TBORR-US", "CVX", "(4000, 6000)", "C", "30")
     ("*", "*", "*", "I", "0")    
 }
-outgoing={
+off={
     ("TBORR-US", "CVX", "5000", "0", "3", "20")
 }
