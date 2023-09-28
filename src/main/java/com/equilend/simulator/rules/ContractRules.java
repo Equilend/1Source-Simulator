@@ -8,14 +8,14 @@ import com.equilend.simulator.contract.Contract;
 
 public class ContractRules implements Rules{
 
-    private List<ContractRule> borrowerRules = new ArrayList<>();
-    private List<ContractRule> lenderRules = new ArrayList<>();
-    private List<ContractRule> schedulerRules = new ArrayList<>();
+    private List<ContractRule> recipientIncomingRules = new ArrayList<>();
+    private List<ContractRule> initiatorIncomingRules = new ArrayList<>();
+    private List<ContractRule> initiatorOutgoingRules = new ArrayList<>();
 
     public ContractRules(Map<String, Map<String, String>> rulesMap){        
-        addRules(rulesMap.get("borrower").get("responsive"), borrowerRules, true);
-        addRules(rulesMap.get("lender").get("responsive"), lenderRules, true);
-        addRules(rulesMap.get("lender").get("generative"), schedulerRules, false);
+        addRules(rulesMap.get("recipient").get("incoming"), recipientIncomingRules, true);
+        addRules(rulesMap.get("initiator").get("incoming"), initiatorIncomingRules, true);
+        addRules(rulesMap.get("initiator").get("outgoing"), initiatorOutgoingRules, false);
     }
 
     public void addRules(String rawRulesList, List<ContractRule> contractRulesList, boolean isResponsive){
@@ -35,12 +35,12 @@ public class ContractRules implements Rules{
     }
 
     public List<ContractRule> getSchedulerRules(){
-        return schedulerRules;
+        return initiatorOutgoingRules;
     }
 
     //if should ignore trade return -1, otherwise return delay to cancel
     public Double shouldIgnoreTrade(Contract contract, String partyId){
-        for (ContractRule rule : lenderRules){
+        for (ContractRule rule : initiatorIncomingRules){
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;
             if (responsiveRule.isApplicable(contract, partyId)){
                 return responsiveRule.isShouldIgnore() ? -1.0 : responsiveRule.getDelay();
@@ -50,7 +50,7 @@ public class ContractRules implements Rules{
     }
 
     public ContractResponsiveRule getApproveOrRejectApplicableRule(Contract contract, String partyId){
-        for (ContractRule rule : borrowerRules){
+        for (ContractRule rule : recipientIncomingRules){
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;
             if (responsiveRule.isApplicable(contract, partyId)){
                 return responsiveRule;

@@ -15,7 +15,7 @@ public class AgreementRules implements Rules{
     private static final Logger logger = LogManager.getLogger();
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
-        addRules(rulesMap.get("general").get("responsive"));
+        addRules(rulesMap.get("initiator").get("incoming"));
     }
 
     public void addRules(String rulesList){

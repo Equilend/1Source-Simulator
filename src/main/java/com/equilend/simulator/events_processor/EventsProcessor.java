@@ -57,7 +57,7 @@ public class EventsProcessor implements Runnable {
                 break;
             }
 
-            if (events.size() == 0){
+            if (events == null || events.size() == 0){
                 continue; //Back to sleep
             }
                 

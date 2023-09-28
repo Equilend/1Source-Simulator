@@ -19,14 +19,15 @@ username="TestLender1User"
 password="fjmxVeKzpzUDg3YJ" 
 
 [[Events]]
-responsive = {
+incoming = {
     ("TRADE", "D")
     ("CONTRACT", "D")
     ("*","I")
 }
 
 [[Agreements]]
-responsive = {
+<initiator>
+incoming = {
     ("TBORR-US", "AAPL|AMZN", "(150, 900)", "P", "0")       
     ("TBORR-US", "ELV | MCK | UNH", "(0, 5000] | [150000, inf)", "P", "0")         
     ("TBORR-US", "T | F | HD | VZ", "*", "P", "0")       
@@ -34,18 +35,18 @@ responsive = {
 }           
 
 [[Contracts]]
-<borrower>
-responsive={
+<recipient>
+incoming ={
     ("TBORR-US", "CVX", "(4000, 6000)", "A", "20")
     ("TBORR-US", "AAPL|AMZN|BRK.B", "(0, 500)", "A", "20")
     ("TBORR-US", " GOOG | JPM | TSLA ", "(15000, 75000)", "A", "20")
     ("*", "*", "*", "R", "0")
 }
-<lender>
-responsive={
+<initiator>
+incoming={
     ("TBORR-US", "CVX", "(4000, 6000)", "C", "30")
     ("*", "*", "*", "I", "0")    
 }
-generative={
-    ("TBORR-US", "CVX", "5000", "0", "1", "10")
+outgoing={
+    ("TBORR-US", "CVX", "5000", "0", "3", "20")
 }
