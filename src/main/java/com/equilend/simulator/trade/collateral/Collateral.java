@@ -25,6 +25,14 @@ public class Collateral {
         this.roundingMode = roundingMode;
         this.margin = margin;
     }
+ 
+    public Collateral(BigDecimal contractValue, BigDecimal collateralValue, Currency currency, CollateralType type, BigDecimal margin) {
+        this.contractValue = contractValue;
+        this.collateralValue = collateralValue;
+        this.currency = currency;
+        this.type = type;
+        this.margin = margin;
+    }
     
     public BigDecimal getContractValue() {
         return contractValue;

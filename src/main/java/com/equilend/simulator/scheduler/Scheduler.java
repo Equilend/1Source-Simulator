@@ -15,6 +15,7 @@ import com.equilend.simulator.rules.ContractGenerativeRule;
 import com.equilend.simulator.rules.ContractRule;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.Party;
+import com.equilend.simulator.trade.transacting_party.PartyRole;
 
 public class Scheduler implements Runnable {
 
@@ -33,22 +34,23 @@ public class Scheduler implements Runnable {
     }
 
     public void run(){
-        //get generative contract rules/instructions from configurator
+        // Get generative contract rules/instructions from configurator
         List<ContractRule> rules = configurator.getContractRules().getSchedulerRules();
         if (rules == null) return;
         
         ScheduledExecutorService exec = Executors.newScheduledThreadPool(8);
 
-        //for each instruction, create a thread that handles this task.
+        // For each instruction, create a thread that handles this task.
         for (ContractRule rule : rules){
             ContractGenerativeRule instruction = (ContractGenerativeRule) rule;
             for (String counterpartyId : instruction.getCounterparties()){
                 for (String security : instruction.getSecurities()){
+                    PartyRole partyRole = instruction.getPartyRole();
                     Party party = parties.get(botPartyId);
                     Party counterparty = parties.get(counterpartyId);
                     Instrument instrument = instruments.get(security);
                     String quantity = instruction.getQuantity();
-                    ScheduledEventHandler task = new ScheduledEventHandler(party, counterparty, instrument, quantity);
+                    ScheduledEventHandler task = new ScheduledEventHandler(partyRole, party, counterparty, instrument, quantity);
                     
                     Long delayMillis = Math.round(1000*instruction.getDelaySecs());
                     Long periodMillis = Math.round(1000*instruction.getPeriodSecs());
@@ -62,7 +64,6 @@ public class Scheduler implements Runnable {
                     }, durationMillis, TimeUnit.MILLISECONDS);
                 }
             }
-
         }
     }
 }

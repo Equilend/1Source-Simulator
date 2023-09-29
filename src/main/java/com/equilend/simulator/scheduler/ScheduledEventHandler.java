@@ -9,9 +9,11 @@ import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.Party;
+import com.equilend.simulator.trade.transacting_party.PartyRole;
 
 public class ScheduledEventHandler implements Runnable {
     
+    PartyRole botPartyRole;
     Party botParty;
     Party counterparty;
     Instrument security;
@@ -19,7 +21,8 @@ public class ScheduledEventHandler implements Runnable {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public ScheduledEventHandler(Party botParty, Party counterparty, Instrument security, String quantityStr) {
+    public ScheduledEventHandler(PartyRole botPartyRole, Party botParty, Party counterparty, Instrument security, String quantityStr) {
+        this.botPartyRole = botPartyRole; 
         this.botParty = botParty;
         this.counterparty = counterparty;
         this.security = security;
@@ -45,7 +48,7 @@ public class ScheduledEventHandler implements Runnable {
         }
 
         try {
-            ContractProposal proposal = ContractProposal.createContractProposal(botParty, counterparty, security, quantity);
+            ContractProposal proposal = ContractProposal.createContractProposal(botPartyRole, botParty, counterparty, security, quantity);
             APIConnector.postContractProposal(token, proposal);
         } catch(APIException e){
             logger.info("Unable to propose scheduled contract proposal");

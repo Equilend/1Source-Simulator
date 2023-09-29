@@ -55,7 +55,7 @@ public class ContractProposal {
         this.settlement = settlement;
     }
 
-    public static Trade createTrade(Party party, Party counterparty, Instrument security, long desiredQuantity) {
+    public static Trade createTrade(PartyRole partyRole, Party party, Party counterparty, Instrument security, long desiredQuantity) {
         Platform platform = new Platform("X", "Phone Brokered", "EXTERNAL", "0");
         List<VenueParty> venueParties = new ArrayList<>();
         VenueParty lenderVenueParty = new VenueParty(PartyRole.LENDER);
@@ -86,16 +86,22 @@ public class ContractProposal {
         
         SettlementType settlementType = SettlementType.DVP;
         
-        Collateral collateral = new Collateral(BigDecimal.valueOf(8758750), BigDecimal.valueOf(8933925), Currency.USD,
-        CollateralType.CASH, 10, RoundingMode.ALWAYSUP, BigDecimal.valueOf(102));
+        Collateral collateral;
+        if (partyRole == PartyRole.LENDER){
+            collateral = new Collateral(BigDecimal.valueOf(8758750), BigDecimal.valueOf(8933925), Currency.USD, CollateralType.CASH, 10, RoundingMode.ALWAYSUP, BigDecimal.valueOf(102));
+        }
+        else{
+            collateral = new Collateral(BigDecimal.valueOf(8758750), BigDecimal.valueOf(8933925), Currency.USD, CollateralType.CASH, BigDecimal.valueOf(102));
+        }
         
         List<TransactingParty> transactingParties = new ArrayList<>();
         TransactingParty lenderTransactingParty = new TransactingParty();
-        lenderTransactingParty.setPartyRole(PartyRole.LENDER);
+        lenderTransactingParty.setPartyRole(partyRole);
         lenderTransactingParty.setParty(party);
         transactingParties.add(lenderTransactingParty);
         TransactingParty borrowingTransactingParty = new TransactingParty();
-        borrowingTransactingParty.setPartyRole(PartyRole.BORROWER);
+        PartyRole counterpartyRole = partyRole == PartyRole.LENDER ? PartyRole.BORROWER : PartyRole.LENDER;
+        borrowingTransactingParty.setPartyRole(counterpartyRole);
         borrowingTransactingParty.setParty(counterparty);
         transactingParties.add(borrowingTransactingParty);
 
@@ -110,25 +116,25 @@ public class ContractProposal {
         return new Settlement(role, instruction);          
     }    
 
-    public static ContractProposal createContractProposal(Party party, Party counterparty, Instrument security, long desiredQuantity) {
-        Trade trade = createTrade(party, counterparty, security, desiredQuantity);
+    public static ContractProposal createContractProposal(PartyRole partyRole, Party party, Party counterparty, Instrument security, long desiredQuantity) {
+        Trade trade = createTrade(partyRole, party, counterparty, security, desiredQuantity);
 
         List<Settlement> settlements = new ArrayList<Settlement>();
-        settlements.add(createSettlement(PartyRole.LENDER));
+        settlements.add(createSettlement(partyRole));
 
         ContractProposal contractProposal = new ContractProposal(trade, settlements);
         return contractProposal;
     }
 
-    public static ContractProposal createContractProposal(Trade trade, PartyRole botPartyRole) {
+    public static ContractProposal createContractProposal(Trade trade, PartyRole partyRole) {
         trade.setDividendRatePct(BigDecimal.valueOf(100));
 
-        if (botPartyRole == PartyRole.LENDER) trade.getCollateral().setRoundingRule(10);
-        if (botPartyRole == PartyRole.LENDER) trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
+        if (partyRole == PartyRole.LENDER) trade.getCollateral().setRoundingRule(10);
+        if (partyRole == PartyRole.LENDER) trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
         trade.getCollateral().setMargin(BigDecimal.valueOf(102));
         
         List<Settlement> settlements = new ArrayList<Settlement>();
-        settlements.add(createSettlement(botPartyRole));
+        settlements.add(createSettlement(partyRole));
         
         ContractProposal contractProposal = new ContractProposal(trade, settlements);
         return contractProposal;        

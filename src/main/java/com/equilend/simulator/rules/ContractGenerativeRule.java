@@ -3,8 +3,12 @@ package com.equilend.simulator.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.equilend.simulator.trade.transacting_party.PartyRole;
+
 public class ContractGenerativeRule implements ContractRule {
     
+    private String partyRoleExp;
+    private PartyRole partyRole;
     private String counterpartyExp;
     private List<String> counterparties = new ArrayList<>();
     private String securityExp;
@@ -16,6 +20,7 @@ public class ContractGenerativeRule implements ContractRule {
 
     public ContractGenerativeRule(String rule){
         loadRule(rule);
+        partyRole = (partyRoleExp.toUpperCase().equals("LENDER")) ? PartyRole.LENDER : PartyRole.BORROWER;
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
     }
@@ -24,9 +29,12 @@ public class ContractGenerativeRule implements ContractRule {
         String delim = "\"";
         int start = rule.indexOf(delim);
         int end = rule.indexOf(delim, start+1);
-        this.counterpartyExp = rule.substring(start+1, end);
+        this.partyRoleExp = rule.substring(start+1, end);
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
+        this.counterpartyExp = rule.substring(start+1, end);
+        start = rule.indexOf(delim, end+1);
+        end = rule.indexOf(delim, start+1);        
         this.securityExp = rule.substring(start+1, end);
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
@@ -47,7 +55,11 @@ public class ContractGenerativeRule implements ContractRule {
         for (String str : arr){
             set.add(str.trim());
         }
-    }   
+    }
+    
+    public PartyRole getPartyRole(){
+        return partyRole;
+    }
 
     public List<String> getCounterparties() {
         return counterparties;

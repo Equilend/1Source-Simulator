@@ -250,8 +250,8 @@ public class APIConnector {
             response.getContractId(), contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker());
         }
         else{
-            logger.trace("Propose Contract with {} shares of {}: Status Code = {}",  
-            contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker(), postResponse.statusCode());
+            logger.trace("Propose Contract with {} shares of {}: Status Code = {}", contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker(), postResponse.statusCode());
+            logger.trace("POST response body: {}", postResponse.body());
         }
         return response;
     }
