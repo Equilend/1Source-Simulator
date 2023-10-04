@@ -110,7 +110,6 @@ public class Configurator {
         return instruments;
     }
 
-
     public GeneralRules getGeneralRules() {
         return generalRules;
     }

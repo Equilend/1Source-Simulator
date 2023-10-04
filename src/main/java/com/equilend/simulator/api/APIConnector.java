@@ -36,7 +36,17 @@ public class APIConnector {
     private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
     private static HttpClient httpClient = HttpClient.newHttpClient();
     private static Gson gson = new Gson();
+    private static String keycloakURL = null;
+    private static String restAPIURL = null;
     private static final Logger logger = LogManager.getLogger();
+
+    public static void setKeycloakURL(String url){
+        keycloakURL = url;
+    }
+
+    public static void setRestAPIURL(String url){
+        restAPIURL = url;
+    }
 
     public static String encodeMapAsString(Map<String, String> formData) {
         StringBuilder formBodyBuilder = new StringBuilder();
@@ -57,11 +67,15 @@ public class APIConnector {
             throw new APIException("Login info not configured or failed to be read");
         }
 
+        if (keycloakURL == null){
+            throw new APIException("Keycloak API URL not properly loaded");
+        }
+
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token"))
+                .uri(new URI(keycloakURL))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(BodyPublishers.ofString(encodeMapAsString(loginInfo)))
                 .build();
@@ -108,11 +122,15 @@ public class APIConnector {
         String sinceStr = formatTime(since);
         String encodedSince = URLEncoder.encode(sinceStr, StandardCharsets.UTF_8);
 
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }        
+
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/events" + "?" + "since=" + encodedSince + "&" + "fromEventId=" + eventId))
+                .uri(new URI(restAPIURL + "/events?since=" + encodedSince + "&fromEventId=" + eventId))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
@@ -143,11 +161,15 @@ public class APIConnector {
             throw new APIException(message);
         }
 
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        } 
+
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/agreements" + "/" + id))
+                .uri(new URI(restAPIURL + "/agreements/" + id))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
@@ -183,11 +205,15 @@ public class APIConnector {
             throw new APIException(message);
         }
 
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        } 
+
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts" + "/" + id))
+                .uri(new URI(restAPIURL + "/contracts/" + id))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
@@ -219,13 +245,17 @@ public class APIConnector {
             throw new APIException(message);
         }
 
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        } 
+
         String contractJson = gson.toJson(contract);
 
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts"))
+                .uri(new URI(restAPIURL + "/contracts"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(BodyPublishers.ofString(contractJson))
                 .build();
@@ -263,11 +293,15 @@ public class APIConnector {
             throw new APIException(message);
         }
 
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }
+
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/cancel"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/cancel"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
@@ -301,15 +335,19 @@ public class APIConnector {
             String message = "Token is null, unable to accept contract proposal";
             logger.debug(message);
             throw new APIException(message);
-        }        
-        
+        }       
+         
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }         
+
         String settlementJson = gson.toJson(settlement);
 
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/approve"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/approve"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(BodyPublishers.ofString(settlementJson))
                 .build();
@@ -345,11 +383,15 @@ public class APIConnector {
             throw new APIException(message);
         }
 
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }
+
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI("https://stageapi.equilend.com/v1/ledger/contracts/" + contractId + "/decline"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/decline"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();

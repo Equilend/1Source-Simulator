@@ -27,7 +27,7 @@ public class Simulator {
         }
     }
 
-    public static void main(String[] args) {  
+    public static void main(String[] args) throws InterruptedException {  
         logger.info("Starting Program...");
         Configurator configurator = new Configurator();
 
@@ -41,6 +41,8 @@ public class Simulator {
             BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
         }
 
+        APIConnector.setKeycloakURL(configurator.getGeneralRules().getKeycloakURL());
+        APIConnector.setRestAPIURL(configurator.getGeneralRules().getRestAPIURL());
         warmUp();
 
         ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
