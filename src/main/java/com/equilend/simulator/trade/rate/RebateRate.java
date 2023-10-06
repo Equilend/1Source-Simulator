@@ -2,8 +2,8 @@ package com.equilend.simulator.trade.rate;
 
 public class RebateRate {
  
-    private FixedRate fixed;
-    private FloatingRate floating;
+    private FixedRate fixed = null;
+    private FloatingRate floating = null;
     
     public RebateRate(FixedRate fixed) {
         this.fixed = fixed;

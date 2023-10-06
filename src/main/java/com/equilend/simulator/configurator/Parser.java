@@ -1,4 +1,4 @@
-package com.equilend.simulator.rules;
+package com.equilend.simulator.configurator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,6 +10,14 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.configurator.rules.AuthorizationRules;
+import com.equilend.simulator.configurator.rules.GeneralRules;
+import com.equilend.simulator.configurator.rules.Rules;
+import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
+import com.equilend.simulator.configurator.rules.event_rules.EventRules;
+import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
 
 public class Parser {
 
@@ -169,6 +177,9 @@ public class Parser {
                     break;
                 case "CONTRACTS" :
                     rules.put(header, new ContractRules(sectionRulesMap));
+                    break;
+                case "RERATES" :
+                    rules.put(header, new RerateRules(sectionRulesMap));
                     break;
                 default:
                     logger.error("Error reading rules file, unrecognized section header");

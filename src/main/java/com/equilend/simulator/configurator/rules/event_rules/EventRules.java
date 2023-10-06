@@ -1,9 +1,10 @@
-package com.equilend.simulator.rules;
+package com.equilend.simulator.configurator.rules.event_rules;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.event.Event;
 
 public class EventRules implements Rules{

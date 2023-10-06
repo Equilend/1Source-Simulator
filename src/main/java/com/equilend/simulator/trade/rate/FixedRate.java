@@ -2,31 +2,31 @@ package com.equilend.simulator.trade.rate;
 
 public class FixedRate {
 
-    private Float baseRate;
-    private Float effectiveRate;
+    private Double baseRate;
+    private Double effectiveRate;
     private String effectiveDate;
     private String cutoffTime;
 
-    public FixedRate(Float baseRate, Float effectiveRate, String effectiveDate, String cutoffTime) {
+    public FixedRate(Double baseRate, Double effectiveRate, String effectiveDate, String cutoffTime) {
         this.baseRate = baseRate;
         this.effectiveRate = effectiveRate;
         this.effectiveDate = effectiveDate;
         this.cutoffTime = cutoffTime;
     }
 
-    public Float getBaseRate() {
+    public Double getBaseRate() {
         return baseRate;
     }
 
-    public void setBaseRate(Float baseRate) {
+    public void setBaseRate(Double baseRate) {
         this.baseRate = baseRate;
     }
 
-    public Float getEffectiveRate() {
+    public Double getEffectiveRate() {
         return effectiveRate;
     }
 
-    public void setEffectiveRate(Float effectiveRate) {
+    public void setEffectiveRate(Double effectiveRate) {
         this.effectiveRate = effectiveRate;
     }
 

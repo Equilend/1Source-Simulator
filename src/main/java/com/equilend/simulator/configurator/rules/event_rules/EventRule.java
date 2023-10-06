@@ -1,4 +1,4 @@
-package com.equilend.simulator.rules;
+package com.equilend.simulator.configurator.rules.event_rules;
 
 import com.equilend.simulator.event.Event;
 

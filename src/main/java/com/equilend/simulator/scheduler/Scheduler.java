@@ -11,8 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.rules.ContractGenerativeRule;
-import com.equilend.simulator.rules.ContractRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractGenerativeRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractRule;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.Party;
 import com.equilend.simulator.trade.transacting_party.PartyRole;

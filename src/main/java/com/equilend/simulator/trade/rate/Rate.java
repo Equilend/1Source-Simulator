@@ -29,4 +29,20 @@ public class Rate {
         this.fee = fee;
     }
 
+    public Double getEffectiveRate(){
+        if (fee != null){
+            return fee.getEffectiveRate();
+        }
+        else if (rebate != null){
+           if (rebate.getFixed() != null) {
+                return rebate.getFixed().getEffectiveRate();
+           }
+           else if (rebate.getFloating() != null){
+                return rebate.getFloating().getEffectiveRate();
+           }
+        }
+        return -1.0;
+
+    }
+
 }

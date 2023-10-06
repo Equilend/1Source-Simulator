@@ -5,15 +5,15 @@ import java.math.BigDecimal;
 public class FloatingRate {
 
     private BenchmarkCd benchmark;
-    private Float baseRate;
-    private Float spread;
-    private Float effectiveRate;
+    private Double baseRate;
+    private Double spread;
+    private Double effectiveRate;
     private Boolean isAutoRerate;
     private BigDecimal effectiveDateDelay;
     private String effectiveDate;
     private String cutoffTime;
 
-    public FloatingRate(BenchmarkCd benchmark, Float baseRate, Float spread, Float effectiveRate, Boolean isAutoRerate,
+    public FloatingRate(BenchmarkCd benchmark, Double baseRate, Double spread, Double effectiveRate, Boolean isAutoRerate,
             BigDecimal effectiveDateDelay, String effectiveDate, String cutoffTime) {
         this.benchmark = benchmark;
         this.baseRate = baseRate;
@@ -33,27 +33,27 @@ public class FloatingRate {
         this.benchmark = benchmark;
     }
 
-    public Float getBaseRate() {
+    public Double getBaseRate() {
         return baseRate;
     }
 
-    public void setBaseRate(Float baseRate) {
+    public void setBaseRate(Double baseRate) {
         this.baseRate = baseRate;
     }
 
-    public Float getSpread() {
+    public Double getSpread() {
         return spread;
     }
 
-    public void setSpread(Float spread) {
+    public void setSpread(Double spread) {
         this.spread = spread;
     }
 
-    public Float getEffectiveRate() {
+    public Double getEffectiveRate() {
         return effectiveRate;
     }
 
-    public void setEffectiveRate(Float effectiveRate) {
+    public void setEffectiveRate(Double effectiveRate) {
         this.effectiveRate = effectiveRate;
     }
 

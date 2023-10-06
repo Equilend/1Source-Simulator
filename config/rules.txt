@@ -38,17 +38,17 @@ incoming = {
 
 [[Contracts]]
 <recipient>
-incoming ={
+approve ={
     ("TBORR-US", "CVX", "(4000, 6000)", "A", "20")
     ("TBORR-US", "AAPL|AMZN|BRK.B", "(0, 500)", "A", "20")
     ("TBORR-US", " GOOG | JPM | TSLA ", "(15000, 75000)", "A", "20")
     ("*", "*", "*", "R", "0")
 }
 <initiator>
-incoming={
+cancel = {
     ("TBORR-US", "CVX", "(4000, 6000)", "C", "30")
     ("*", "*", "*", "I", "0")    
 }
-off={
+approve = {
     ("BORROWER", "TLEN-US", "KR", "5000", "0", "3", "10")
 }

@@ -68,7 +68,7 @@ public class ContractProposal {
 
         LocalDate today = LocalDate.now();
         String todayStr = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH).format(today);
-        FloatingRate floating = new FloatingRate(BenchmarkCd.OBFR, null, Float.valueOf(".15"), Float.valueOf(".15"), false, null, todayStr, "18:00:00");
+        FloatingRate floating = new FloatingRate(BenchmarkCd.OBFR, null, Double.valueOf(".15"), Double.valueOf(".15"), false, null, todayStr, "18:00:00");
         RebateRate rebate = new RebateRate(floating);
         Rate rate = new Rate(rebate);
         

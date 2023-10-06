@@ -1,4 +1,4 @@
-package com.equilend.simulator.rules;
+package com.equilend.simulator.configurator.rules.contract_rules;
 
 import java.util.ArrayList;
 import java.util.List;

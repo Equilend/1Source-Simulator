@@ -1,9 +1,10 @@
-package com.equilend.simulator.rules;
+package com.equilend.simulator.configurator.rules.agreement_rules;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.trade.Trade;
 
 public class AgreementRules implements Rules{
