@@ -25,9 +25,11 @@ import com.equilend.simulator.agreement.Agreement;
 import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.event.Event;
+import com.equilend.simulator.rerate.Rerate;
 import com.equilend.simulator.settlement.AcceptSettlement;
 import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.token.Token;
+import com.equilend.simulator.trade.rate.Rate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -237,7 +239,6 @@ public class APIConnector {
         return contract;
     }
 
-
     public static ContractProposalResponse postContractProposal(BearerToken token, ContractProposal contract) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
@@ -419,5 +420,217 @@ public class APIConnector {
         }
         return response;
     }  
+
+    public static Rerate getRerateById(BearerToken token, String id) throws APIException {
+        if (token == null){
+            String message = "Token is null, unable to get rerate by id";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        } 
+
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/rerates/" + id))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error creating get request for rerate " + id;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error creating get request for rerate " + id;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+       
+        logger.debug("Get Rerate By Id: Status Code {}", getResponse.statusCode());
+        
+        Rerate rerate = gson.fromJson(getResponse.body(), Rerate.class);
+        return rerate;
+    }
+
+    public static void postRerateProposal(BearerToken token, String contractId, Rate rerate) throws APIException {
+        if (token == null){
+            String message = "Token is null, unable to get post contract proposal";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        } 
+
+        String rerateJson = gson.toJson(rerate);
+
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/contracts" + contractId + "/rerates"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(BodyPublishers.ofString(rerateJson))
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with creating rerate proposal post request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending rerate proposal post request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        if (postResponse.statusCode() == 201){
+            logger.info("Rerate proposal posted successfully");
+        }
+        else{
+            logger.trace("Error posting rerate proposal");
+        }
+    }
+    
+    public static void cancelRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+        if (token == null){
+            String message = "Token is null, unable to get cancel rerate proposal";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }
+
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/cancel"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with sending cancel rerate proposal post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+            
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending cancel rerate proposal post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        if (postResponse.statusCode() == 200){
+            logger.info("Rerate proposal cancelled successfully");
+        }
+        else{
+            logger.trace("Error cancelling rerate proposal");
+        }
+
+    }
+    
+    public static void approveRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+        if (token == null){
+            String message = "Token is null, unable to get approve rerate proposal";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }
+
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/approve"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with sending approve rerate proposal post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+            
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending approve rerate proposal post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        if (postResponse.statusCode() == 200){
+            logger.info("Rerate proposal approved successfully");
+        }
+        else{
+            logger.trace("Error approving rerate proposal");
+        }
+
+    }
+    
+    public static void rejectRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+        if (token == null){
+            String message = "Token is null, unable to get reject rerate proposal";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }
+
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/reject"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with sending reject rerate proposal post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+            
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending reject rerate proposal post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        if (postResponse.statusCode() == 200){
+            logger.info("Rerate proposal rejected successfully");
+        }
+        else{
+            logger.trace("Error rejecting rerate proposal");
+        }
+
+    }
 
 }

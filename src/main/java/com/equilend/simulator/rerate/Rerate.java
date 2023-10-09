@@ -5,7 +5,7 @@ import com.equilend.simulator.trade.rate.Rate;
 public class Rerate {
     
     private String rerateId;    
-    private String contractId;
+    private String loanId;
     private String status;
     private Rate rate;
     private Rate rerate;
@@ -19,12 +19,12 @@ public class Rerate {
         this.rerateId = rerateId;
     }
     
-    public String getContractId() {
-        return contractId;
+    public String getloanId() {
+        return loanId;
     }
     
-    public void setContractId(String contractId) {
-        this.contractId = contractId;
+    public void setContractId(String loanId) {
+        this.loanId = loanId;
     }
     
     public String getStatus() {

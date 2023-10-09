@@ -14,6 +14,7 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.event.Event;
 import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
+import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
 import com.equilend.simulator.token.BearerToken;
 
@@ -81,6 +82,12 @@ public class EventsProcessor implements Runnable {
                         break;
                     case "CONTRACT":  
                         task = new ContractHandler(event, configurator, System.currentTimeMillis());                           
+                        break;
+                    case "CONTRACT_APPROVE":
+                        task = new RerateHandler(event, configurator, System.currentTimeMillis());
+                        break;
+                    case "RERATE":
+                        task = new RerateHandler(event, configurator, System.currentTimeMillis());
                         break;
                 }
 

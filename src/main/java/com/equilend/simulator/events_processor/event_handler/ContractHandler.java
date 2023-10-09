@@ -112,21 +112,20 @@ public class ContractHandler implements EventHandler {
         String contractId = arr[arr.length-1];
 
         //Get contract by Id
-        Contract contract = getContractById(contractId); //returns true or false based on success
+        Contract contract = getContractById(contractId);
         if (contract == null) return;
 
-        String partyId = configurator.getGeneralRules().getBotPartyId();
-
+        // TODO: Determine whether bot is contract initiator or recipient
+        // This flag will do for now...
         boolean botActAsLender = isBotLenderInContract(contract);
         if (botActAsLender){
-            Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, partyId);
+            Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
             if (delay == -1) return;  
             cancelContractProposal(contractId, delay);
-
         }
         else{
             //Analyze contract to decide whether to accept or decline based on configurator
-            ContractResponsiveRule rule = configurator.getContractRules().getApproveOrRejectApplicableRule(contract, partyId);
+            ContractResponsiveRule rule = configurator.getContractRules().getApproveOrRejectApplicableRule(contract, botPartyId);
             if (rule == null){
                 //no applicable rule, default to approve w/o delay
                 acceptContractProposal(contractId, 0.0);

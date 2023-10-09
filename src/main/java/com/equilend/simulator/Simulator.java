@@ -41,31 +41,31 @@ public class Simulator {
             BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
         }
 
-        APIConnector.setKeycloakURL(configurator.getGeneralRules().getKeycloakURL());
-        APIConnector.setRestAPIURL(configurator.getGeneralRules().getRestAPIURL());
-        warmUp();
+        // APIConnector.setKeycloakURL(configurator.getGeneralRules().getKeycloakURL());
+        // APIConnector.setRestAPIURL(configurator.getGeneralRules().getRestAPIURL());
+        // warmUp();
 
-        ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
-        execOutgoing.execute(new Scheduler(configurator));
+        // ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
+        // execOutgoing.execute(new Scheduler(configurator));
 
-        ExecutorService execIncoming = Executors.newSingleThreadExecutor();
-        execIncoming.execute(new EventsProcessor(configurator));
+        // ExecutorService execIncoming = Executors.newSingleThreadExecutor();
+        // execIncoming.execute(new EventsProcessor(configurator));
         
-        System.out.println("Enter q to quit");
-        Scanner input = new Scanner(System.in);
-        String line;
-        while (input.hasNext()){
-            line = input.nextLine();
-            if (line.equalsIgnoreCase("q")){
-                System.out.println("You've pressed \'q\'");
-                System.out.println("Let us clean up a lil and we'll be done, thank you for your patience...");
-                execOutgoing.shutdownNow();
-                execIncoming.shutdownNow();
-                break;
-            }
-        }
-        input.close();
-        logger.info("DONE :)");
+        // System.out.println("Enter q to quit");
+        // Scanner input = new Scanner(System.in);
+        // String line;
+        // while (input.hasNext()){
+        //     line = input.nextLine();
+        //     if (line.equalsIgnoreCase("q")){
+        //         System.out.println("You've pressed \'q\'");
+        //         System.out.println("Let us clean up a lil and we'll be done, thank you for your patience...");
+        //         execOutgoing.shutdownNow();
+        //         execIncoming.shutdownNow();
+        //         break;
+        //     }
+        // }
+        // input.close();
+        // logger.info("DONE :)");
     }
 
 }

@@ -15,6 +15,7 @@ import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
+import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
 import com.equilend.simulator.trade.instrument.Instrument;
 import com.equilend.simulator.trade.transacting_party.Party;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -31,6 +32,7 @@ public class Configurator {
     private EventRules eventRules;
     private AgreementRules agreementRules;
     private ContractRules contractRules;
+    private RerateRules rerateRules;
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
@@ -95,6 +97,8 @@ public class Configurator {
                 case "CONTRACTS":
                     contractRules = (ContractRules) rules.get(section);
                     break;
+                case "RERATES":
+                    
                 default:
                     logger.error("Unrecognized rules section header");
             }
@@ -127,6 +131,10 @@ public class Configurator {
 
     public ContractRules getContractRules(){
         return contractRules;
+    }
+
+    public RerateRules getRerateRules() {
+        return rerateRules;
     }
 
 }
