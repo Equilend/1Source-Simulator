@@ -8,11 +8,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.api.FedAPIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.scheduler.Scheduler;
 import com.equilend.simulator.token.BearerToken;
-
 
 public class Simulator {   
     
@@ -27,9 +27,15 @@ public class Simulator {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {  
+    public static void main(String[] args) {  
+        
         logger.info("Starting Program...");
         Configurator configurator = new Configurator();
+        try {
+            configurator.loadRefRates();
+        } catch (FedAPIException e) {
+            logger.info("Unable to retrieve benchmark rates, shutting down..");
+        }
 
         boolean useTestLenderAuth = configurator.getGeneralRules().getBotPartyId().equals("TLEN-US");
         logger.info("USING {} PARTY", configurator.getGeneralRules().getBotPartyId());

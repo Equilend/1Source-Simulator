@@ -9,6 +9,9 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.equilend.simulator.api.FedAPIConnector;
+import com.equilend.simulator.api.FedAPIException;
+import com.equilend.simulator.api.FedAPIConnector.RefRate;
 import com.equilend.simulator.configurator.rules.AuthorizationRules;
 import com.equilend.simulator.configurator.rules.GeneralRules;
 import com.equilend.simulator.configurator.rules.Rules;
@@ -33,6 +36,7 @@ public class Configurator {
     private AgreementRules agreementRules;
     private ContractRules contractRules;
     private RerateRules rerateRules;
+    private Map<String, RefRate> refRates = new HashMap<>();
     private static final Logger logger = LogManager.getLogger();
     
     public Configurator() {
@@ -43,6 +47,23 @@ public class Configurator {
         instrumentsList.forEach(i -> instruments.put(i.getTicker(), i));
 
         loadRules(Parser.readRulesFile());
+    }
+
+    private List<Party> loadPartiesTomlFile() {
+        String filename = "config/parties.toml";
+        TomlMapper tomlMapper = new TomlMapper();
+        Map<String, List<Party>> map = null;
+        try {
+            map = tomlMapper.readValue(new File(filename), new TypeReference<Map<String, List<Party>>>() {});
+        } catch (IOException e){
+            logger.error("Error reading parties file", e);
+            return null;
+        }
+        if (map == null){
+            logger.error("Parties unable to be successfully loaded");
+        }
+
+        return map.get("parties");
     }
 
     private List<Instrument> loadInstrumentsTomlFile(){
@@ -60,23 +81,6 @@ public class Configurator {
         }
 
         return map.get("instruments");
-    }
-
-    private List<Party> loadPartiesTomlFile(){
-        String filename = "config/parties.toml";
-        TomlMapper tomlMapper = new TomlMapper();
-        Map<String, List<Party>> map = null;
-        try {
-            map = tomlMapper.readValue(new File(filename), new TypeReference<Map<String, List<Party>>>() {});
-        } catch (IOException e){
-            logger.error("Error reading parties file", e);
-            return null;
-        }
-        if (map == null){
-            logger.error("Parties unable to be successfully loaded");
-        }
-
-        return map.get("parties");
     }
 
     private void loadRules(Map<String, Rules> rules) {
@@ -103,6 +107,14 @@ public class Configurator {
                 default:
                     logger.error("Unrecognized rules section header");
             }
+        }
+    }
+
+    public void loadRefRates() throws FedAPIException {
+        List<RefRate> refRatesList = FedAPIConnector.getLatestRefRates();
+
+        for (RefRate refRate : refRatesList){
+            refRates.put(refRate.getType(), refRate);
         }
     }
 
