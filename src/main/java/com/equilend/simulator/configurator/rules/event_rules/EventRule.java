@@ -14,7 +14,7 @@ public class EventRule {
     private void loadRule(String rule){
         int eventTypeStart = rule.indexOf("\"");
         int eventTypeEnd = rule.indexOf("\"", eventTypeStart+1);
-        this.eventType = rule.substring(eventTypeStart+1, eventTypeEnd);
+        this.eventType = rule.substring(eventTypeStart+1, eventTypeEnd).toUpperCase();
         int ignoreStart = rule.indexOf("\"", eventTypeEnd+1);
         if (rule.charAt(ignoreStart+1) == 'I'){
             shouldIgnore = true;

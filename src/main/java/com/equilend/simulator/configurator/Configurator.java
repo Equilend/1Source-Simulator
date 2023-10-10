@@ -98,7 +98,8 @@ public class Configurator {
                     contractRules = (ContractRules) rules.get(section);
                     break;
                 case "RERATES":
-                    
+                    rerateRules = (RerateRules) rules.get(section);
+                    break;
                 default:
                     logger.error("Unrecognized rules section header");
             }

@@ -83,8 +83,8 @@ public class RerateCancelRule implements RerateRule {
         boolean lowerInclusive = basicQuantity.charAt(0) == '[';
         boolean upperInclusive = basicQuantity.charAt(basicQuantity.length()-1) == ']';
         
-        long lower = Long.parseLong(lowerStr);
-        long upper = (upperStr.equals("inf")) ? Long.MAX_VALUE : Long.parseLong(upperStr);
+        Double lower = Double.parseDouble(lowerStr);
+        Double upper = (upperStr.equals("inf")) ? Double.MAX_VALUE : Double.parseDouble(upperStr);
         
         return (lowerInclusive && rate >= lower || !lowerInclusive && rate > lower) 
         && (upperInclusive && rate <= upper || !upperInclusive && rate < upper);

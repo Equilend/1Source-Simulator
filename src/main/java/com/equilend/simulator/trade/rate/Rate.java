@@ -31,11 +31,11 @@ public class Rate {
 
     public Double getEffectiveRate(){
         if (fee != null){
-            return fee.getEffectiveRate();
+            return fee.getBaseRate();
         }
         else if (rebate != null){
            if (rebate.getFixed() != null) {
-                return rebate.getFixed().getEffectiveRate();
+                return rebate.getFixed().getBaseRate();
            }
            else if (rebate.getFloating() != null){
                 return rebate.getFloating().getEffectiveRate();

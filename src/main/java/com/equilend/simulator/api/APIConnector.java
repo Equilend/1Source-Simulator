@@ -590,9 +590,9 @@ public class APIConnector {
 
     }
     
-    public static void rejectRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+    public static void declineRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
         if (token == null){
-            String message = "Token is null, unable to get reject rerate proposal";
+            String message = "Token is null, unable to get decline rerate proposal";
             logger.debug(message);
             throw new APIException(message);
         }
@@ -605,12 +605,12 @@ public class APIConnector {
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/reject"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/decline"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with sending reject rerate proposal post request for contract " + contractId;
+            String message = "Error with sending decline rerate proposal post request for contract " + contractId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -619,16 +619,16 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending reject rerate proposal post request for contract " + contractId;
+            String message = "Error with sending decline rerate proposal post request for contract " + contractId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
         if (postResponse.statusCode() == 200){
-            logger.info("Rerate proposal rejected successfully");
+            logger.info("Rerate proposal declined successfully");
         }
         else{
-            logger.trace("Error rejecting rerate proposal");
+            logger.trace("Error declining rerate proposal");
         }
 
     }

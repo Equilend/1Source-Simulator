@@ -12,6 +12,7 @@ import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.event.Event;
 import com.equilend.simulator.rerate.Rerate;
 import com.equilend.simulator.token.BearerToken;
+import com.google.gson.Gson;
 
 public class RerateHandler implements EventHandler {
 
@@ -20,6 +21,7 @@ public class RerateHandler implements EventHandler {
     private String botPartyId;
     private Long startTime;
     private static final Logger logger = LogManager.getLogger();
+    private Gson gson = new Gson();
     
     public RerateHandler(Event e, Configurator configurator, Long startTime){
         this.event = e;
@@ -42,6 +44,12 @@ public class RerateHandler implements EventHandler {
 
     private Rerate getRerateById(String id){
         Rerate rerate = null;
+        try {
+            rerate = APIConnector.getRerateById(getToken(), id);
+        }
+        catch (APIException e){
+            logger.debug("Unable to process rerate event");
+        }
         return rerate;
     }
 
@@ -50,7 +58,7 @@ public class RerateHandler implements EventHandler {
         try {
             contract = APIConnector.getContractById(getToken(), id);
         } catch (APIException e) {
-            logger.debug("Unable to process contract event");
+            logger.debug("Unable to process rerate event");
         }   
 
         return contract;
@@ -82,14 +90,14 @@ public class RerateHandler implements EventHandler {
         }
     }    
 
-    public void rejectRerateProposal(String contractId, String rerateId, Double delay){
+    public void declineRerateProposal(String contractId, String rerateId, Double delay){
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }  
         
         try {
-            APIConnector.rejectRerateProposal(getToken(), contractId, rerateId);
+            APIConnector.declineRerateProposal(getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }        
@@ -101,6 +109,8 @@ public class RerateHandler implements EventHandler {
         String rerateId = arr[arr.length-1];
         Rerate rerate = getRerateById(rerateId);
         if (rerate == null) return;
+
+        logger.info(gson.toJson(rerate));
 
         String contractId = rerate.getloanId();
         Contract contract = getContractById(contractId);
@@ -126,7 +136,7 @@ public class RerateHandler implements EventHandler {
             }
             else{
                 Double delay = rule.getDelay();
-                rejectRerateProposal(contractId, rerateId, delay);
+                declineRerateProposal(contractId, rerateId, delay);
             }
         }        
     }

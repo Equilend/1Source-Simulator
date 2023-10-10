@@ -23,7 +23,7 @@ public class Rerate {
         return loanId;
     }
     
-    public void setContractId(String loanId) {
+    public void setLoanId(String loanId) {
         this.loanId = loanId;
     }
     
