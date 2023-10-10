@@ -1,5 +1,8 @@
 package com.equilend.simulator.trade.rate;
 
+import com.equilend.simulator.api.FedAPIConnector;
+import com.equilend.simulator.api.FedAPIException;
+
 public class Rate {
     
     private RebateRate rebate;
@@ -29,17 +32,19 @@ public class Rate {
         this.fee = fee;
     }
 
-    public Double getEffectiveRate(){
+    public Double getEffectiveRate() throws FedAPIException{
         if (fee != null){
             return fee.getBaseRate();
         }
         else if (rebate != null){
-           if (rebate.getFixed() != null) {
+            if (rebate.getFixed() != null) {
                 return rebate.getFixed().getBaseRate();
-           }
-           else if (rebate.getFloating() != null){
-                return rebate.getFloating().getEffectiveRate();
-           }
+            }
+            else if (rebate.getFloating() != null){
+                String benchmarkStr = rebate.getFloating().getBenchmark().name();
+                Double benchmarkRate = FedAPIConnector.getRefRate(benchmarkStr).getPercentRate();
+                return benchmarkRate + rebate.getFloating().getSpread();            
+            }
         }
         return -1.0;
 

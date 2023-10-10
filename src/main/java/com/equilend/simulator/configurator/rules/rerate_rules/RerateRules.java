@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.api.FedAPIException;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.rerate.Rerate;
@@ -13,6 +17,7 @@ public class RerateRules implements Rules {
     private List<RerateRule> approveRules = new ArrayList<>();
     private List<RerateRule> cancelRules = new ArrayList<>();
     private List<RerateRule> proposeRules = new ArrayList<>();
+    private static final Logger logger = LogManager.getLogger();
 
     public RerateRules(Map<String, Map<String, String>> rulesMap){
         addRules(rulesMap.get("recipient").get("approve"), approveRules, RerateRuleType.APPROVE);
@@ -59,8 +64,13 @@ public class RerateRules implements Rules {
     public RerateApproveRule getApproveRule(Rerate rerate, Contract contract, String partyId){
         for (RerateRule rule : approveRules){
             RerateApproveRule approveRule = (RerateApproveRule) rule;
-            if (approveRule.isApplicable(rerate, contract, partyId)){
-                return approveRule;
+            try {
+                if (approveRule.isApplicable(rerate, contract, partyId)){
+                    return approveRule;
+                }
+            } catch (FedAPIException e) {
+                logger.error("FEDAPIException error.. unable to get benchmark rate properly");
+                return null;
             }
         }
         return null;
@@ -70,8 +80,13 @@ public class RerateRules implements Rules {
     public RerateCancelRule getCancelRule(Rerate rerate, Contract contract, String partyId){
         for (RerateRule rule : cancelRules){
             RerateCancelRule cancelRule = (RerateCancelRule) rule;
-            if (cancelRule.isApplicable(rerate, contract, partyId)){
-                return cancelRule;
+            try {
+                if (cancelRule.isApplicable(rerate, contract, partyId)){
+                    return cancelRule;
+                }
+            } catch (FedAPIException e) {
+                logger.error("FEDAPIException error.. unable to get benchmark rate properly");
+                return null;
             }
         }
         return null;

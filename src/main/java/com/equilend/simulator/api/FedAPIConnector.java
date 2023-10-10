@@ -7,7 +7,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +21,7 @@ public class FedAPIConnector {
     private static HttpClient httpClient = HttpClient.newHttpClient();
     private static Gson gson = new Gson();
     private static final Logger logger = LogManager.getLogger();
+    private static Map<String, RefRate> refRates = null;
 
     public class RefRate {
         
@@ -66,7 +69,7 @@ public class FedAPIConnector {
 
     }
 
-    public static List<RefRate> getLatestRefRates() throws FedAPIException {
+    private static void populateRefRates() throws FedAPIException {
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
@@ -90,10 +93,17 @@ public class FedAPIConnector {
             throw new FedAPIException(message, e);
         }
 
+        refRates = new HashMap<>();
         RefRates latestJson = gson.fromJson(getResponse.body(), RefRates.class);
         for (RefRate refRate : latestJson.getRefRates()){
+            refRates.put(refRate.getType(), refRate);
             logger.info("{}: {} on {}", refRate.getType(), refRate.getPercentRate(), refRate.getEffectiveDate());
         }
-        return latestJson.getRefRates();
+    }
+
+    public static RefRate getRefRate(String benchmark) throws FedAPIException{
+        if (refRates == null) populateRefRates();
+
+        return refRates.get(benchmark);
     }
 }
