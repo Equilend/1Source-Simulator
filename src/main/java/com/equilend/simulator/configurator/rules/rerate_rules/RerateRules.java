@@ -90,6 +90,23 @@ public class RerateRules implements Rules {
             }
         }
         return null;
-    }    
+    } 
+
+    //returns first applicable propose/ignore rule    
+    public RerateProposeRule getProposeRule(Contract contract, String partyId){
+        for (RerateRule rule : proposeRules){
+            RerateProposeRule proposeRule = (RerateProposeRule) rule;
+            try {
+                if (proposeRule.isApplicable(contract, partyId)){
+                    return proposeRule;
+                }
+            } catch (FedAPIException e) {
+                logger.error("FEDAPIException error.. unable to get benchmark rate properly");
+                return null;
+            }
+        }        
+
+        return null;
+    }
 
 }

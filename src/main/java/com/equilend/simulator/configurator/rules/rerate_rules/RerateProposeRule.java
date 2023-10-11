@@ -3,8 +3,8 @@ package com.equilend.simulator.configurator.rules.rerate_rules;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.equilend.simulator.api.FedAPIException;
 import com.equilend.simulator.contract.Contract;
-import com.equilend.simulator.rerate.Rerate;
 import com.equilend.simulator.trade.Trade;
 import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
@@ -17,6 +17,7 @@ public class RerateProposeRule implements RerateRule {
     private String quantityExp;
     private Set<String> quantities = new HashSet<>();
     private Boolean propose = null;
+    private Double delta;
     private Integer limit;
     private Double delay;
 
@@ -46,6 +47,9 @@ public class RerateProposeRule implements RerateRule {
         else {
             propose = false;
         }
+        start = rule.indexOf(delim, end+1);
+        end = rule.indexOf(delim, start+1);
+        this.delta = Double.parseDouble(rule.substring(start+1, end));
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
         this.limit = Integer.parseInt(rule.substring(start+1, end));
@@ -100,6 +104,10 @@ public class RerateProposeRule implements RerateRule {
         return false;
     }
 
+    public Double getDelta(){
+        return delta;
+    }
+
     public Integer getLimit(){
         return limit;
     }
@@ -121,23 +129,22 @@ public class RerateProposeRule implements RerateRule {
         return "";        
     }
 
-    public boolean isApplicable(Rerate rerate, Contract contract, String partyId){
-        if (rerate == null) return false;
+    public boolean isApplicable(Contract contract, String partyId) throws FedAPIException{
         Trade trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         return validCounterParty(cpty) && validSecurity(trade.getInstrument().getTicker())
-                && validQuantity(rerate.getRerate().getEffectiveRate());
+                && validQuantity(trade.getRate().getEffectiveRate());
     }
 
     @Override
     public String toString(){
         if (propose != null){
             if(propose){
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, PROPOSE, LIMIT{" + String.valueOf(limit) + "}, DELAY{" + String.valueOf(delay) + "}";
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELTA{"
+                        + String.valueOf(delta) + "}, LIMIT{" + String.valueOf(limit) + "}, DELAY{" + String.valueOf(delay) + "}";
             } else{
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, IGNORE, LIMIT{" + String.valueOf(limit) + "}, DELAY{" + String.valueOf(delay) + "}";
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELTA{"
+                        + String.valueOf(delta) + "}, LIMIT{" + String.valueOf(limit) + "}, DELAY{" + String.valueOf(delay) + "}";
             }            
         }
         return "";       

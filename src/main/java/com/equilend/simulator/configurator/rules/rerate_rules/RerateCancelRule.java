@@ -3,6 +3,7 @@ package com.equilend.simulator.configurator.rules.rerate_rules;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.equilend.simulator.api.FedAPIException;
 import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.rerate.Rerate;
 import com.equilend.simulator.trade.Trade;
@@ -121,7 +122,7 @@ public class RerateCancelRule implements RerateRule {
         return "";        
     }
 
-    public boolean isApplicable(Rerate rerate, Contract contract, String partyId){
+    public boolean isApplicable(Rerate rerate, Contract contract, String partyId) throws FedAPIException{
         if (rerate == null) return false;
         Trade trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);

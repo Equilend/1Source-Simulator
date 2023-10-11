@@ -5,8 +5,8 @@ import com.equilend.simulator.api.FedAPIException;
 
 public class Rate {
     
-    private RebateRate rebate;
-    private FixedRate fee;
+    private RebateRate rebate = null;
+    private FixedRate fee = null;
     
     public Rate(RebateRate rebate) {
         this.rebate = rebate;
