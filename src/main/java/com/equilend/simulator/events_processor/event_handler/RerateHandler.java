@@ -12,6 +12,7 @@ import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.event.Event;
 import com.equilend.simulator.rerate.Rerate;
+import com.equilend.simulator.rerate.RerateProposal;
 import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.rate.FixedRate;
 import com.equilend.simulator.trade.rate.Rate;
@@ -88,7 +89,7 @@ public class RerateHandler implements EventHandler {
         }
 
         try {
-            APIConnector.postRerateProposal(getToken(), contractId, rate);
+            APIConnector.postRerateProposal(getToken(), contractId, new RerateProposal(rate));
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }
@@ -174,7 +175,7 @@ public class RerateHandler implements EventHandler {
             String contractId = arr[arr.length-1];
             Contract contract = getContractById(contractId);
 
-            RerateProposeRule rule = configurator.getRerateRules().getProposeRule(contract, contractId);
+            RerateProposeRule rule = configurator.getRerateRules().getProposeRule(contract, botPartyId);
             if (rule == null || !rule.shouldPropose()) return;
 
             Double delta = rule.getDelta();

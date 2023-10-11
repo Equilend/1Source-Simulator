@@ -17,9 +17,11 @@ public class RerateRules implements Rules {
     private List<RerateRule> approveRules = new ArrayList<>();
     private List<RerateRule> cancelRules = new ArrayList<>();
     private List<RerateRule> proposeRules = new ArrayList<>();
+    private boolean nonLiveMode;
     private static final Logger logger = LogManager.getLogger();
 
     public RerateRules(Map<String, Map<String, String>> rulesMap){
+        nonLiveMode = rulesMap.get("general").get("non_live_mode").equalsIgnoreCase("ON");
         addRules(rulesMap.get("recipient").get("approve"), approveRules, RerateRuleType.APPROVE);
         addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RerateRuleType.CANCEL);
         addRules(rulesMap.get("initiator").get("propose"), proposeRules, RerateRuleType.PROPOSE);
@@ -58,6 +60,10 @@ public class RerateRules implements Rules {
 
             start = rawRulesList.indexOf(",(", end);
         }
+    }
+
+    public boolean getNonLiveMode(){
+        return nonLiveMode;
     }
 
     //returns first applicable approve/reject rule
@@ -105,7 +111,7 @@ public class RerateRules implements Rules {
                 return null;
             }
         }        
-
+        logger.info("no applicable propose rule ..");
         return null;
     }
 

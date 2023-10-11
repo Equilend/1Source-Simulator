@@ -41,15 +41,15 @@ public class RerateProposeRule implements RerateRule {
         this.quantityExp = rule.substring(start+1, end);
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
+        this.delta = Double.parseDouble(rule.substring(start+1, end));
+        start = rule.indexOf(delim, end+1);
+        end = rule.indexOf(delim, start+1);
         if (rule.charAt(start+1) == 'P'){
             propose = true;
         }
         else {
             propose = false;
         }
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.delta = Double.parseDouble(rule.substring(start+1, end));
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
         this.limit = Integer.parseInt(rule.substring(start+1, end));

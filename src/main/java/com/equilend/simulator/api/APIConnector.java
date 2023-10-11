@@ -26,10 +26,10 @@ import com.equilend.simulator.contract.Contract;
 import com.equilend.simulator.contract.ContractProposal;
 import com.equilend.simulator.event.Event;
 import com.equilend.simulator.rerate.Rerate;
+import com.equilend.simulator.rerate.RerateProposal;
 import com.equilend.simulator.settlement.AcceptSettlement;
 import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.token.Token;
-import com.equilend.simulator.trade.rate.Rate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -460,7 +460,7 @@ public class APIConnector {
         return rerate;
     }
 
-    public static void postRerateProposal(BearerToken token, String contractId, Rate rerate) throws APIException {
+    public static void postRerateProposal(BearerToken token, String contractId, RerateProposal rerate) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
             logger.debug(message);
@@ -477,7 +477,7 @@ public class APIConnector {
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts" + contractId + "/rerates"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(BodyPublishers.ofString(rerateJson))
                 .build();
@@ -501,6 +501,7 @@ public class APIConnector {
         }
         else{
             logger.trace("Error posting rerate proposal");
+            logger.trace(postResponse.body());
         }
     }
     
