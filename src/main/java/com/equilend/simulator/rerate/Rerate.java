@@ -1,6 +1,10 @@
 package com.equilend.simulator.rerate;
 
+import java.util.List;
+
 import com.equilend.simulator.trade.rate.Rate;
+import com.equilend.simulator.trade.transacting_party.PartyRole;
+import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
 public class Rerate {
     
@@ -10,6 +14,7 @@ public class Rerate {
     private Rate rate;
     private Rate rerate;
     private String lastUpdateDatetime;
+    private List<TransactingParty> transactingParties;
     
     public String getRerateId() {
         return rerateId;
@@ -19,7 +24,7 @@ public class Rerate {
         this.rerateId = rerateId;
     }
     
-    public String getloanId() {
+    public String getLoanId() {
         return loanId;
     }
     
@@ -57,6 +62,23 @@ public class Rerate {
 
     public void setLastUpdateDatetime(String lastUpdateDatetime) {
         this.lastUpdateDatetime = lastUpdateDatetime;
+    }
+
+    public List<TransactingParty> getTransactingParties() {
+        return transactingParties;
+    }
+
+    public void setTransactingParties(List<TransactingParty> transactingParties) {
+        this.transactingParties = transactingParties;
+    }
+
+    public PartyRole getPartyRole(String partyId) {
+        for (TransactingParty tp : transactingParties){
+            if (tp.getParty().getPartyId().equals(partyId)){
+                return tp.getPartyRole();
+            }
+        }
+        return null;
     }
 
 }

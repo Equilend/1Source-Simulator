@@ -77,14 +77,14 @@ public class RerateHandler implements EventHandler {
         RebateRate rebate = rate.getRebate();
 
         if (fee != null){
-            fee.setBaseRate(fee.getBaseRate() + delta );
+            fee.setBaseRate(Math.max(fee.getBaseRate() + delta, 0.01));
         }
         else if (rebate != null){
             if (rebate.getFixed() != null) {
-                rebate.getFixed().setBaseRate(rebate.getFixed().getBaseRate() + delta);
+                rebate.getFixed().setBaseRate(Math.max(rebate.getFixed().getBaseRate() + delta, 0.01));
             }
             else if (rebate.getFloating() != null){
-                rebate.getFloating().setSpread(rebate.getFloating().getSpread() + delta);
+                rebate.getFloating().setSpread(Math.max(rebate.getFloating().getSpread() + delta, 0.01));
             }
         }
 
@@ -144,7 +144,7 @@ public class RerateHandler implements EventHandler {
             Rerate rerate = getRerateById(rerateId);
             if (rerate == null) return;
     
-            String contractId = rerate.getloanId();
+            String contractId = rerate.getLoanId();
             Contract contract = getContractById(contractId);
             // TODO: determine whether bot is rerate initiator or recipient
             // This flag will do for now..

@@ -200,6 +200,45 @@ public class APIConnector {
         return agreement;
     }
 
+    public static List<Contract> getAllContracts(BearerToken token) throws APIException{
+        if (token == null){
+            String message = "Token is null, unable to get all events";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }        
+
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/contracts?size=2147483647&contractStatus=APPROVED"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with creating contracts get request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending contracts get request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        logger.debug("Get All Contracts: Status Code {}", getResponse.statusCode());
+
+        Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
+        return gson.fromJson(getResponse.body(), contractListType);
+    }
+
     public static Contract getContractById(BearerToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get contract by id";
@@ -239,7 +278,7 @@ public class APIConnector {
         return contract;
     }
 
-    public static ContractProposalResponse postContractProposal(BearerToken token, ContractProposal contract) throws APIException {
+    public static int postContractProposal(BearerToken token, ContractProposal contract) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
             logger.debug(message);
@@ -284,10 +323,10 @@ public class APIConnector {
             logger.trace("Propose Contract with {} shares of {}: Status Code = {}", contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker(), postResponse.statusCode());
             logger.trace("POST response body: {}", postResponse.body());
         }
-        return response;
+        return postResponse.statusCode();
     }
     
-    public static ContractProposalResponse cancelContractProposal(BearerToken token, String contractId) throws APIException {
+    public static int cancelContractProposal(BearerToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get cancel contract proposal";
             logger.debug(message);
@@ -321,17 +360,16 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         if (postResponse.statusCode() == 200){
             logger.info("Cancel Contract {}", contractId);
         }
         else{
             logger.trace("Cancel Contract {}: Status Code = {}", contractId, postResponse.statusCode());
         }
-        return response;       
+        return postResponse.statusCode();       
     }
     
-    public static ContractProposalResponse acceptContractProposal(BearerToken token, String contractId, AcceptSettlement settlement) throws APIException {
+    public static int acceptContractProposal(BearerToken token, String contractId, AcceptSettlement settlement) throws APIException {
         if (token == null){
             String message = "Token is null, unable to accept contract proposal";
             logger.debug(message);
@@ -367,17 +405,16 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         if (postResponse.statusCode() == 200){
             logger.info("Accept Contract {}", contractId);
         }
         else{
             logger.trace("Accept Contract {}: Status Code = {}", contractId, postResponse.statusCode());
         }
-        return response;
+        return postResponse.statusCode();
     }
 
-    public static ContractProposalResponse declineContractProposal(BearerToken token, String contractId) throws APIException {
+    public static int declineContractProposal(BearerToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to decline contract proposal";
             logger.debug(message);
@@ -411,15 +448,92 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        ContractProposalResponse response =  gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         if (postResponse.statusCode() == 200){
             logger.info("Decline Contract {}", contractId);
         }
         else{
             logger.trace("Decline Contract {}: Status Code = {}", contractId, postResponse.statusCode());
         }
-        return response;
+        return postResponse.statusCode();
     }  
+
+    public static List<Rerate> getAllRerates(BearerToken token) throws APIException{
+        if (token == null){
+            String message = "Token is null, unable to get all events";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }        
+
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/rerates"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with creating rerates get request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending rerates get request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        logger.debug("Get All Rerates: Status Code {}", getResponse.statusCode());
+
+        Type rerateListType = new TypeToken<ArrayList<Rerate>>(){}.getType();
+        return gson.fromJson(getResponse.body(), rerateListType);
+    }
+
+    public static List<Rerate> getAllReratesOnContract(BearerToken token, String contractId) throws APIException {
+        if (token == null){
+            String message = "Token is null, unable to get all events";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null){
+            throw new APIException("1Source REST API URL not properly loaded");
+        }        
+
+        HttpRequest getRequest;
+        try {
+            getRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId +"/rerates"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with creating rerates get request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+        
+        HttpResponse<String> getResponse;
+        try {
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending rerates get request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        logger.debug("Get All Rerates: Status Code {}", getResponse.statusCode());
+
+        Type rerateListType = new TypeToken<ArrayList<Rerate>>(){}.getType();
+        return gson.fromJson(getResponse.body(), rerateListType);
+    }
 
     public static Rerate getRerateById(BearerToken token, String id) throws APIException {
         if (token == null){
@@ -460,7 +574,7 @@ public class APIConnector {
         return rerate;
     }
 
-    public static void postRerateProposal(BearerToken token, String contractId, RerateProposal rerate) throws APIException {
+    public static int postRerateProposal(BearerToken token, String contractId, RerateProposal rerate) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
             logger.debug(message);
@@ -503,9 +617,10 @@ public class APIConnector {
             logger.trace("Error posting rerate proposal");
             logger.trace(postResponse.body());
         }
+        return postResponse.statusCode();
     }
     
-    public static void cancelRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+    public static int cancelRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get cancel rerate proposal";
             logger.debug(message);
@@ -544,11 +659,12 @@ public class APIConnector {
         }
         else{
             logger.trace("Error cancelling rerate proposal");
+            logger.trace(postResponse.body());
         }
-
+        return postResponse.statusCode();
     }
     
-    public static void approveRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+    public static int approveRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get approve rerate proposal";
             logger.debug(message);
@@ -587,11 +703,12 @@ public class APIConnector {
         }
         else{
             logger.trace("Error approving rerate proposal");
+            logger.trace(postResponse.body());
         }
-
+        return postResponse.statusCode();
     }
     
-    public static void declineRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+    public static int declineRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get decline rerate proposal";
             logger.debug(message);
@@ -630,8 +747,9 @@ public class APIConnector {
         }
         else{
             logger.trace("Error declining rerate proposal");
+            logger.trace(postResponse.body());
         }
-
+        return postResponse.statusCode();
     }
 
 }

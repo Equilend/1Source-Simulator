@@ -97,7 +97,6 @@ public class FedAPIConnector {
         RefRates latestJson = gson.fromJson(getResponse.body(), RefRates.class);
         for (RefRate refRate : latestJson.getRefRates()){
             refRates.put(refRate.getType(), refRate);
-            logger.info("{}: {} on {}", refRate.getType(), refRate.getPercentRate(), refRate.getEffectiveDate());
         }
     }
 

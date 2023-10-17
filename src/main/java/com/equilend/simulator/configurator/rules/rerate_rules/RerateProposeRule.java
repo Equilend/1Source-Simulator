@@ -18,7 +18,6 @@ public class RerateProposeRule implements RerateRule {
     private Set<String> quantities = new HashSet<>();
     private Boolean propose = null;
     private Double delta;
-    private Integer limit;
     private Double delay;
 
     public RerateProposeRule(String rule){
@@ -50,9 +49,6 @@ public class RerateProposeRule implements RerateRule {
         else {
             propose = false;
         }
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.limit = Integer.parseInt(rule.substring(start+1, end));
         start = rule.indexOf(delim, end+1);
         end = rule.indexOf(delim, start+1);
         this.delay = Double.parseDouble(rule.substring(start+1, end));
@@ -108,10 +104,6 @@ public class RerateProposeRule implements RerateRule {
         return delta;
     }
 
-    public Integer getLimit(){
-        return limit;
-    }
-
     public Double getDelay(){
         return delay;
     }
@@ -141,10 +133,10 @@ public class RerateProposeRule implements RerateRule {
         if (propose != null){
             if(propose){
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELTA{"
-                        + String.valueOf(delta) + "}, LIMIT{" + String.valueOf(limit) + "}, DELAY{" + String.valueOf(delay) + "}";
+                        + String.valueOf(delta) + "}, DELAY{" + String.valueOf(delay) + "}";
             } else{
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELTA{"
-                        + String.valueOf(delta) + "}, LIMIT{" + String.valueOf(limit) + "}, DELAY{" + String.valueOf(delay) + "}";
+                        + String.valueOf(delta) + "}, DELAY{" + String.valueOf(delay) + "}";
             }            
         }
         return "";       

@@ -10,6 +10,7 @@ import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
+import com.equilend.simulator.record_analyzer.RecordAnalyzer;
 import com.equilend.simulator.scheduler.Scheduler;
 import com.equilend.simulator.token.BearerToken;
 
@@ -44,6 +45,12 @@ public class Simulator {
         APIConnector.setKeycloakURL(configurator.getGeneralRules().getKeycloakURL());
         APIConnector.setRestAPIURL(configurator.getGeneralRules().getRestAPIURL());
         warmUp();
+
+        logger.info("Analyzing existing records");
+        RecordAnalyzer analyzer = new RecordAnalyzer(configurator);
+        analyzer.run();
+
+        logger.info("And we're live!!!");
 
         ExecutorService execOutgoing = Executors.newSingleThreadExecutor();
         execOutgoing.execute(new Scheduler(configurator));
