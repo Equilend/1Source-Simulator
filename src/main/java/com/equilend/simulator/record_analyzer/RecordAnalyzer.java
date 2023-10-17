@@ -38,7 +38,7 @@ public class RecordAnalyzer {
     public List<Contract> getApprovedContracts(){
         List<Contract> contracts = null;
         try {
-            contracts = APIConnector.getAllContracts(BearerToken.getToken());
+            contracts = APIConnector.getAllContracts(BearerToken.getToken(), "APPROVED");
         }catch (APIException e){
             logger.error("Error retrieving approved contracts");
         }

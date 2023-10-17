@@ -200,7 +200,7 @@ public class APIConnector {
         return agreement;
     }
 
-    public static List<Contract> getAllContracts(BearerToken token) throws APIException{
+    public static List<Contract> getAllContracts(BearerToken token, String status) throws APIException{
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.debug(message);
@@ -215,7 +215,7 @@ public class APIConnector {
         try {
             getRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts?size=2147483647&contractStatus=APPROVED"))
+                .uri(new URI(restAPIURL + "/contracts?size=2147483647&contractStatus=" + status))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
