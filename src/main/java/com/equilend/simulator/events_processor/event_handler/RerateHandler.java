@@ -17,6 +17,7 @@ import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.rate.FixedRate;
 import com.equilend.simulator.trade.rate.Rate;
 import com.equilend.simulator.trade.rate.RebateRate;
+import com.equilend.simulator.trade.transacting_party.PartyRole;
 
 public class RerateHandler implements EventHandler {
 
@@ -146,10 +147,9 @@ public class RerateHandler implements EventHandler {
     
             String contractId = rerate.getLoanId();
             Contract contract = getContractById(contractId);
-            // TODO: determine whether bot is rerate initiator or recipient
-            // This flag will do for now..
-            boolean cancelOrIgnoreMode = true; 
-            if (cancelOrIgnoreMode){
+
+            //For now, default to lender party being initiator and borrower party being recipient
+            if (rerate.getPartyRole(botPartyId) == PartyRole.LENDER){
                 RerateCancelRule rule = configurator.getRerateRules().getCancelRule(rerate, contract, botPartyId);
                 if (rule == null || !rule.shouldCancel()) return; //default to ignore/ not cancelling
                 Double delay = rule.getDelay();

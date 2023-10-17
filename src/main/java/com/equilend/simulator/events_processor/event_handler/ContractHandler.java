@@ -54,12 +54,29 @@ public class ContractHandler implements EventHandler {
         return contract;
     }
 
-    private boolean isBotLenderInContract(Contract contract){
-        for (TransactingParty tp : contract.getTrade().getTransactingParties()){
-            if (tp.getParty().getPartyId().equals(botPartyId)){
-                return tp.getPartyRole() == PartyRole.LENDER;
+    private boolean didBotInitiate(Contract contract){
+        String initiatorPartyId = "";
+        if (contract.getSettlement().size() == 1){
+            //if only one settlement info is provided
+            PartyRole settlementRole = contract.getSettlement().get(0).getPartyRole();
+            for (TransactingParty tp : contract.getTrade().getTransactingParties()){
+                if (tp.getPartyRole() == settlementRole){
+                    initiatorPartyId = tp.getParty().getPartyId();
+                }
             }
-        }        
+            //  return is only settlement info the bot's?
+            return initiatorPartyId.equals(botPartyId);
+        }
+        else{
+            //if both settlement infos are provided
+            for (TransactingParty tp : contract.getTrade().getTransactingParties()){
+                if (tp.getPartyRole() == PartyRole.LENDER){
+                    //  return is bot lender role ? 
+                    return tp.getParty().getPartyId().equals(botPartyId);
+                }
+            }
+        }
+        
         return true;
     }
 
@@ -115,10 +132,8 @@ public class ContractHandler implements EventHandler {
         Contract contract = getContractById(contractId);
         if (contract == null) return;
 
-        // TODO: Determine whether bot is contract initiator or recipient
-        // This flag will do for now...
-        boolean botActAsLender = isBotLenderInContract(contract);
-        if (botActAsLender){
+        boolean botInitiated = didBotInitiate(contract);
+        if (botInitiated){
             Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
             if (delay == -1) return;  
             cancelContractProposal(contractId, delay);

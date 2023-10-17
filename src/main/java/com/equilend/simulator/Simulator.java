@@ -31,7 +31,7 @@ public class Simulator {
         
         logger.info("Starting Program...");
         Configurator configurator = new Configurator();
-
+        
         boolean useTestLenderAuth = configurator.getGeneralRules().getBotPartyId().equals("TLEN-US");
         logger.info("USING {} PARTY", configurator.getGeneralRules().getBotPartyId());
         if (useTestLenderAuth){
