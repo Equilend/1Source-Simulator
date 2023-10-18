@@ -48,7 +48,6 @@ public class KeycloakConnector {
             postRequest = HttpRequest
                 .newBuilder()
                 .uri(new URI(url))
-                // .uri(new URI(keycloakURL))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(BodyPublishers.ofString(encodeMapAsString(loginInfo)))
                 .build();
