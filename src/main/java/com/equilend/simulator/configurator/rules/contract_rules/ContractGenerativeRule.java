@@ -3,7 +3,7 @@ package com.equilend.simulator.configurator.rules.contract_rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.equilend.simulator.trade.transacting_party.PartyRole;
+import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 
 public class ContractGenerativeRule implements ContractRule {
     

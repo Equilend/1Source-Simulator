@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.equilend.simulator.model.trade.instrument.Instrument;
+import com.equilend.simulator.model.trade.transacting_party.Party;
 import com.equilend.simulator.configurator.rules.AuthorizationRules;
 import com.equilend.simulator.configurator.rules.GeneralRules;
 import com.equilend.simulator.configurator.rules.Rules;
@@ -16,8 +18,6 @@ import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
-import com.equilend.simulator.trade.instrument.Instrument;
-import com.equilend.simulator.trade.transacting_party.Party;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 

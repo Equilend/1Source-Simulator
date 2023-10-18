@@ -10,12 +10,12 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.equilend.simulator.model.trade.instrument.Instrument;
+import com.equilend.simulator.model.trade.transacting_party.Party;
+import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractGenerativeRule;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRule;
-import com.equilend.simulator.trade.instrument.Instrument;
-import com.equilend.simulator.trade.transacting_party.Party;
-import com.equilend.simulator.trade.transacting_party.PartyRole;
 
 public class Scheduler implements Runnable {
 

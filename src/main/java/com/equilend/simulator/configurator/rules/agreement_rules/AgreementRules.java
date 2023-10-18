@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.equilend.simulator.model.trade.Trade;
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.trade.Trade;
 
 public class AgreementRules implements Rules{
 

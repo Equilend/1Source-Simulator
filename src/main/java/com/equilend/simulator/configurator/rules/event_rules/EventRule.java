@@ -1,6 +1,6 @@
 package com.equilend.simulator.configurator.rules.event_rules;
 
-import com.equilend.simulator.event.Event;
+import com.equilend.simulator.model.event.Event;
 
 public class EventRule {
 

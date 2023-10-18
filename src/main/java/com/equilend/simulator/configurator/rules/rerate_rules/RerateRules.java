@@ -8,9 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.FedAPIException;
+import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.contract.Contract;
-import com.equilend.simulator.rerate.Rerate;
 
 public class RerateRules implements Rules {
 

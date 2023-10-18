@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.event.Event;
 
 public class EventRules implements Rules{
     

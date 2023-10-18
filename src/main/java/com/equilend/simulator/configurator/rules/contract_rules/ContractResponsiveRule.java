@@ -3,9 +3,9 @@ package com.equilend.simulator.configurator.rules.contract_rules;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.equilend.simulator.contract.Contract;
-import com.equilend.simulator.trade.Trade;
-import com.equilend.simulator.trade.transacting_party.TransactingParty;
+import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.trade.Trade;
+import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
 
 public class ContractResponsiveRule implements ContractRule {
     

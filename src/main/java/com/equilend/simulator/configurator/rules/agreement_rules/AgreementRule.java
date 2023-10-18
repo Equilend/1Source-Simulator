@@ -3,8 +3,8 @@ package com.equilend.simulator.configurator.rules.agreement_rules;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.equilend.simulator.trade.Trade;
-import com.equilend.simulator.trade.transacting_party.TransactingParty;
+import com.equilend.simulator.model.trade.Trade;
+import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
 
 public class AgreementRule {
 

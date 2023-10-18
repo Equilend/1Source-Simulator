@@ -10,8 +10,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.event.Event;
 import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;

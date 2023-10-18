@@ -5,15 +5,15 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.contract.ContractProposal;
+import com.equilend.simulator.model.event.Event;
+import com.equilend.simulator.model.settlement.AcceptSettlement;
+import com.equilend.simulator.model.settlement.Settlement;
+import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
-import com.equilend.simulator.contract.Contract;
-import com.equilend.simulator.contract.ContractProposal;
-import com.equilend.simulator.event.Event;
-import com.equilend.simulator.settlement.AcceptSettlement;
-import com.equilend.simulator.settlement.Settlement;
 import com.equilend.simulator.token.BearerToken;
-import com.equilend.simulator.trade.transacting_party.PartyRole;
 
 public class ContractHandler implements EventHandler {
 
