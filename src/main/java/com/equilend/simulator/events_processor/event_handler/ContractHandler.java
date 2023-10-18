@@ -14,7 +14,6 @@ import com.equilend.simulator.settlement.AcceptSettlement;
 import com.equilend.simulator.settlement.Settlement;
 import com.equilend.simulator.token.BearerToken;
 import com.equilend.simulator.trade.transacting_party.PartyRole;
-import com.equilend.simulator.trade.transacting_party.TransactingParty;
 
 public class ContractHandler implements EventHandler {
 
@@ -55,29 +54,15 @@ public class ContractHandler implements EventHandler {
     }
 
     private boolean didBotInitiate(Contract contract){
-        String initiatorPartyId = "";
-        if (contract.getSettlement().size() == 1){
-            //if only one settlement info is provided
-            PartyRole settlementRole = contract.getSettlement().get(0).getPartyRole();
-            for (TransactingParty tp : contract.getTrade().getTransactingParties()){
-                if (tp.getPartyRole() == settlementRole){
-                    initiatorPartyId = tp.getParty().getPartyId();
-                }
-            }
-            //  return is only settlement info the bot's?
-            return initiatorPartyId.equals(botPartyId);
+        // Currently, lender only provides its settlement info it only has lender settlement on contract
+        //But borrower creates both lender and borrower settlement, even if lender is empty
+        boolean lenderInitiated = contract.getSettlement().size() == 1;
+        if (lenderInitiated){
+            return contract.getTrade().getPartyRole(botPartyId) == PartyRole.LENDER;
         }
-        else{
-            //if both settlement infos are provided
-            for (TransactingParty tp : contract.getTrade().getTransactingParties()){
-                if (tp.getPartyRole() == PartyRole.LENDER){
-                    //  return is bot lender role ? 
-                    return tp.getParty().getPartyId().equals(botPartyId);
-                }
-            }
-        }
-        
-        return true;
+        //Of course, this won't work if lender provides both its own and the borrower's settlement info
+        //But this is the best we can do until initiator party id given in contract json
+        return contract.getTrade().getPartyRole(botPartyId) == PartyRole.BORROWER;
     }
 
     private void cancelContractProposal(String contractId, Double delay) {
@@ -142,8 +127,8 @@ public class ContractHandler implements EventHandler {
             //Analyze contract to decide whether to accept or decline based on configurator
             ContractResponsiveRule rule = configurator.getContractRules().getApproveOrRejectApplicableRule(contract, botPartyId);
             if (rule == null){
-                //no applicable rule, default to approve w/o delay
-                acceptContractProposal(contractId, 0.0);
+                //If no applicable rule, then default to ignoring the contract.
+                return;
             }
             else if(rule.isShouldApprove()){
                 acceptContractProposal(contractId, rule.getDelay());
