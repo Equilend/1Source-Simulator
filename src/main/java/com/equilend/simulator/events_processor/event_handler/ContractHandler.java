@@ -13,7 +13,7 @@ import com.equilend.simulator.model.settlement.Settlement;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
-import com.equilend.simulator.token.BearerToken;
+import com.equilend.simulator.token.OneSourceToken;
 
 public class ContractHandler implements EventHandler {
 
@@ -30,10 +30,10 @@ public class ContractHandler implements EventHandler {
         this.startTime = startTime;
     }
 
-    public BearerToken getToken() {
-        BearerToken token = null;
+    public OneSourceToken getToken() {
+        OneSourceToken token = null;
         try {
-            token = BearerToken.getToken();
+            token = OneSourceToken.getToken();
         } catch (APIException e) {
             logger.error("Unable to process contract event due to error with token");
             return null;

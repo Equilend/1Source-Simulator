@@ -17,7 +17,7 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
-import com.equilend.simulator.token.BearerToken;
+import com.equilend.simulator.token.OneSourceToken;
 
 public class RerateHandler implements EventHandler {
 
@@ -34,10 +34,10 @@ public class RerateHandler implements EventHandler {
         this.startTime = startTime;
     }
 
-    public BearerToken getToken() {
-        BearerToken token = null;
+    public OneSourceToken getToken() {
+        OneSourceToken token = null;
         try {
-            token = BearerToken.getToken();
+            token = OneSourceToken.getToken();
         } catch (APIException e) {
             logger.error("Unable to process contract event due to error with token");
             return null;

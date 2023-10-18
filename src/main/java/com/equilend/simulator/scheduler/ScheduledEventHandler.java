@@ -9,7 +9,7 @@ import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.trade.instrument.Instrument;
 import com.equilend.simulator.model.trade.transacting_party.Party;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
-import com.equilend.simulator.token.BearerToken;
+import com.equilend.simulator.token.OneSourceToken;
 
 public class ScheduledEventHandler implements Runnable {
     
@@ -31,9 +31,9 @@ public class ScheduledEventHandler implements Runnable {
 
     public void run() {
         Long start = System.currentTimeMillis();
-        BearerToken token;
+        OneSourceToken token;
         try {
-            token = BearerToken.getToken();
+            token = OneSourceToken.getToken();
         } catch (APIException e) {
             logger.error("Unable to propose scheduled contract proposal due to error with token");
             return;

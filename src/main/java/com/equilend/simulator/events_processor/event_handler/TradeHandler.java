@@ -12,7 +12,7 @@ import com.equilend.simulator.model.trade.Trade;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRule;
-import com.equilend.simulator.token.BearerToken;
+import com.equilend.simulator.token.OneSourceToken;
 
 public class TradeHandler implements EventHandler {
 
@@ -22,10 +22,10 @@ public class TradeHandler implements EventHandler {
     private Long startTime;
     private static final Logger logger = LogManager.getLogger();
 
-    public BearerToken getToken() {
-        BearerToken token = null;
+    public OneSourceToken getToken() {
+        OneSourceToken token = null;
         try {
-            token = BearerToken.getToken();
+            token = OneSourceToken.getToken();
         } catch (APIException e) {
             logger.error("Unable to process trade event due to error with token");
             return null;

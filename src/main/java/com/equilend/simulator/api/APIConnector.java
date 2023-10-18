@@ -16,7 +16,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,8 +27,7 @@ import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.settlement.AcceptSettlement;
-import com.equilend.simulator.token.BearerToken;
-import com.equilend.simulator.token.Token;
+import com.equilend.simulator.token.OneSourceToken;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -38,72 +36,11 @@ public class APIConnector {
     private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
     private static HttpClient httpClient = HttpClient.newHttpClient();
     private static Gson gson = new Gson();
-    private static String keycloakURL = null;
     private static String restAPIURL = null;
     private static final Logger logger = LogManager.getLogger();
 
-    public static void setKeycloakURL(String url){
-        keycloakURL = url;
-    }
-
     public static void setRestAPIURL(String url){
         restAPIURL = url;
-    }
-
-    public static String encodeMapAsString(Map<String, String> formData) {
-        StringBuilder formBodyBuilder = new StringBuilder();
-        for (Map.Entry<String, String> singleEntry : formData.entrySet()) {
-            if (formBodyBuilder.length() > 0) {
-                formBodyBuilder.append("&");
-            }
-            formBodyBuilder.append(URLEncoder.encode(singleEntry.getKey(), StandardCharsets.UTF_8));
-            formBodyBuilder.append("=");
-            formBodyBuilder.append(URLEncoder.encode(singleEntry.getValue(), StandardCharsets.UTF_8));
-        }
-
-        return formBodyBuilder.toString();
-    }
-    
-    public static Token getBearerToken(Map<String, String> loginInfo) throws APIException {
-        if (loginInfo == null){
-            throw new APIException("Login info not configured or failed to be read");
-        }
-
-        if (keycloakURL == null){
-            throw new APIException("Keycloak API URL not properly loaded");
-        }
-
-        HttpRequest postRequest;
-        try {
-            postRequest = HttpRequest
-                .newBuilder()
-                .uri(new URI(keycloakURL))
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .POST(BodyPublishers.ofString(encodeMapAsString(loginInfo)))
-                .build();
-        } catch (URISyntaxException e) {
-            String message = "Error with creating token post request";
-            logger.debug(message, e);
-            throw new APIException(message, e);
-        }
-
-        HttpResponse<String> postResponse;
-        try {
-            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            String message = "Error with sending token post request";
-            logger.debug(message, e);
-            throw new APIException(message, e);
-        }
-
-        Token token = gson.fromJson(postResponse.body(), Token.class);
-        if (token.getError() != null){ 
-            String message = "Error authorizing bearer token: " + token.getError_description();
-            logger.debug(message);
-            throw new APIException(message);
-        }
-
-        return token;
     }
 
     public static OffsetDateTime getCurrentTime() {
@@ -114,7 +51,7 @@ public class APIConnector {
         return time.format(formatter);
     }    
    
-    public static List<Event> getAllEvents(BearerToken token, OffsetDateTime since, int eventId) throws APIException {
+    public static List<Event> getAllEvents(OneSourceToken token, OffsetDateTime since, int eventId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.debug(message);
@@ -156,7 +93,7 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), eventListType);
     }     
 
-    public static Agreement getAgreementById(BearerToken token, String id) throws APIException {
+    public static Agreement getAgreementById(OneSourceToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get agreement by id";
             logger.debug(message);
@@ -200,7 +137,7 @@ public class APIConnector {
         return agreement;
     }
 
-    public static List<Contract> getAllContracts(BearerToken token, String status) throws APIException{
+    public static List<Contract> getAllContracts(OneSourceToken token, String status) throws APIException{
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.debug(message);
@@ -239,7 +176,7 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), contractListType);
     }
 
-    public static Contract getContractById(BearerToken token, String id) throws APIException {
+    public static Contract getContractById(OneSourceToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get contract by id";
             logger.debug(message);
@@ -278,7 +215,7 @@ public class APIConnector {
         return contract;
     }
 
-    public static int postContractProposal(BearerToken token, ContractProposal contract) throws APIException {
+    public static int postContractProposal(OneSourceToken token, ContractProposal contract) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
             logger.debug(message);
@@ -326,7 +263,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
     
-    public static int cancelContractProposal(BearerToken token, String contractId) throws APIException {
+    public static int cancelContractProposal(OneSourceToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get cancel contract proposal";
             logger.debug(message);
@@ -369,7 +306,7 @@ public class APIConnector {
         return postResponse.statusCode();       
     }
     
-    public static int acceptContractProposal(BearerToken token, String contractId, AcceptSettlement settlement) throws APIException {
+    public static int acceptContractProposal(OneSourceToken token, String contractId, AcceptSettlement settlement) throws APIException {
         if (token == null){
             String message = "Token is null, unable to accept contract proposal";
             logger.debug(message);
@@ -414,7 +351,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int declineContractProposal(BearerToken token, String contractId) throws APIException {
+    public static int declineContractProposal(OneSourceToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to decline contract proposal";
             logger.debug(message);
@@ -457,7 +394,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }  
 
-    public static List<Rerate> getAllRerates(BearerToken token) throws APIException{
+    public static List<Rerate> getAllRerates(OneSourceToken token) throws APIException{
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.debug(message);
@@ -496,7 +433,7 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), rerateListType);
     }
 
-    public static List<Rerate> getAllReratesOnContract(BearerToken token, String contractId) throws APIException {
+    public static List<Rerate> getAllReratesOnContract(OneSourceToken token, String contractId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.debug(message);
@@ -535,7 +472,7 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), rerateListType);
     }
 
-    public static Rerate getRerateById(BearerToken token, String id) throws APIException {
+    public static Rerate getRerateById(OneSourceToken token, String id) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get rerate by id";
             logger.debug(message);
@@ -574,7 +511,7 @@ public class APIConnector {
         return rerate;
     }
 
-    public static int postRerateProposal(BearerToken token, String contractId, RerateProposal rerate) throws APIException {
+    public static int postRerateProposal(OneSourceToken token, String contractId, RerateProposal rerate) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get post contract proposal";
             logger.debug(message);
@@ -620,7 +557,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
     
-    public static int cancelRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+    public static int cancelRerateProposal(OneSourceToken token, String contractId, String rerateId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get cancel rerate proposal";
             logger.debug(message);
@@ -664,7 +601,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
     
-    public static int approveRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+    public static int approveRerateProposal(OneSourceToken token, String contractId, String rerateId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get approve rerate proposal";
             logger.debug(message);
@@ -708,7 +645,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
     
-    public static int declineRerateProposal(BearerToken token, String contractId, String rerateId) throws APIException {
+    public static int declineRerateProposal(OneSourceToken token, String contractId, String rerateId) throws APIException {
         if (token == null){
             String message = "Token is null, unable to get decline rerate proposal";
             logger.debug(message);

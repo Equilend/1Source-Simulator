@@ -8,8 +8,10 @@ public class GeneralRules implements Rules{
     private String botPartyId; 
     private int maxRefreshAttempts;
     private int eventFetchIntervalMillis;
-    private String keycloakURL;
-    private String restAPIURL;
+    private String oneSourceKeycloakURL;
+    private String oneSourceAPIURL;
+    private String datalendKeycloakURL;
+    private String datalendAPIURL;
 
     public GeneralRules(Map<String, Map<String, String>> rulesMap){
         Map<String, String> general = rulesMap.get("general");
@@ -18,8 +20,10 @@ public class GeneralRules implements Rules{
         this.botPartyId = cleanString(general.get("bot_party_id"));
         this.maxRefreshAttempts = Integer.parseInt(general.get("max_refresh_attempts"));
         this.eventFetchIntervalMillis = 1000 * Integer.parseInt(general.get("event_fetch_interval_secs"));
-        this.keycloakURL = cleanString(general.get("keycloak_url"));
-        this.restAPIURL = cleanString(general.get("rest_api_url"));
+        this.oneSourceKeycloakURL = cleanString(general.get("1source_keycloak_url"));
+        this.oneSourceAPIURL = cleanString(general.get("1source_api_url"));
+        this.datalendKeycloakURL = cleanString(general.get("datalend_keycloak_url"));
+        this.datalendAPIURL = cleanString(general.get("datalend_api_url"));      
     }
 
     private String cleanString(String raw){
@@ -42,12 +46,20 @@ public class GeneralRules implements Rules{
         return eventFetchIntervalMillis;
     }
 
-    public String getKeycloakURL() {
-        return keycloakURL;
+    public String getOneSourceKeycloakURL() {
+        return oneSourceKeycloakURL;
     }
 
-    public String getRestAPIURL() {
-        return restAPIURL;
+    public String getOneSourceAPIURL() {
+        return oneSourceAPIURL;
+    }
+
+    public String getDatalendKeycloakURL() {
+        return datalendKeycloakURL;
+    }
+
+    public String getDatalendAPIURL() {
+        return datalendAPIURL;
     }
     
 }

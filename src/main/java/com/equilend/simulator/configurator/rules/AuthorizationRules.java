@@ -5,28 +5,28 @@ import java.util.Map.Entry;
 
 public class AuthorizationRules implements Rules{
 
-    private Map<String,String> borrower;
-    private Map<String,String> lender;
+    private Map<String,String> oneSource;
+    private Map<String,String> datalend;
 
     public AuthorizationRules(Map<String, Map<String, String>> rulesMap){
-        lender = rulesMap.get("lender");
-        for (Entry<String, String> entry : lender.entrySet()){
+        oneSource = rulesMap.get("1Source");
+        for (Entry<String, String> entry : oneSource.entrySet()){
             String value = entry.getValue();
             entry.setValue(value.substring(1, value.length()-1));
         }
-        borrower = rulesMap.get("borrower");
-        for (Entry<String, String> entry : borrower.entrySet()){
+        datalend = rulesMap.get("datalend");
+        for (Entry<String, String> entry : datalend.entrySet()){
             String value = entry.getValue();
             entry.setValue(value.substring(1, value.length()-1));
         }
     }
 
-    public Map<String,String> getBorrower() {
-        return borrower;
+    public Map<String, String> getOneSource() {
+        return oneSource;
     }
 
-    public Map<String,String> getLender() {
-        return lender;
+    public Map<String, String> getDatalend() {
+        return datalend;
     }
     
 }

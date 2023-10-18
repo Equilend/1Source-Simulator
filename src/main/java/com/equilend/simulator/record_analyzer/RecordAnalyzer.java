@@ -20,7 +20,7 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
-import com.equilend.simulator.token.BearerToken;
+import com.equilend.simulator.token.OneSourceToken;
 
 public class RecordAnalyzer {
 
@@ -38,7 +38,7 @@ public class RecordAnalyzer {
     public List<Contract> getApprovedContracts(){
         List<Contract> contracts = null;
         try {
-            contracts = APIConnector.getAllContracts(BearerToken.getToken(), "APPROVED");
+            contracts = APIConnector.getAllContracts(OneSourceToken.getToken(), "APPROVED");
         }catch (APIException e){
             logger.error("Error retrieving approved contracts");
         }
@@ -48,7 +48,7 @@ public class RecordAnalyzer {
     public Contract getContractById(String contractId) {
         Contract contract = null;
         try {
-            contract = APIConnector.getContractById(BearerToken.getToken(), contractId);
+            contract = APIConnector.getContractById(OneSourceToken.getToken(), contractId);
         } catch (APIException e){
             logger.error("Error retrieving contract {}", contractId);
         }
@@ -58,7 +58,7 @@ public class RecordAnalyzer {
     public List<Rerate> getOpenReratesOnContract(String contractId){
         List<Rerate> rerates = null;
         try {
-            rerates = APIConnector.getAllReratesOnContract(BearerToken.getToken(), contractId);
+            rerates = APIConnector.getAllReratesOnContract(OneSourceToken.getToken(), contractId);
         } catch(APIException e){
             logger.error("Error retrieving open rerates on contract {}", contractId);
         }
@@ -69,7 +69,7 @@ public class RecordAnalyzer {
     public List<Rerate> getAllRerates(){
         List<Rerate> rerates = null;
         try {
-            rerates = APIConnector.getAllRerates(BearerToken.getToken());
+            rerates = APIConnector.getAllRerates(OneSourceToken.getToken());
         }catch (APIException e){
             logger.error("Error retrieving approved rerates");
         }
@@ -106,7 +106,7 @@ public class RecordAnalyzer {
         }
 
         try {
-            APIConnector.postRerateProposal(BearerToken.getToken(), contractId, new RerateProposal(rate));
+            APIConnector.postRerateProposal(OneSourceToken.getToken(), contractId, new RerateProposal(rate));
         } catch (APIException e) {
             logger.debug("Analyzer unable to propose rerate");
         }
@@ -115,7 +115,7 @@ public class RecordAnalyzer {
 
     public void cancelRerateProposal(String contractId, String rerateId){
         try {
-            APIConnector.cancelRerateProposal(BearerToken.getToken(), contractId, rerateId);
+            APIConnector.cancelRerateProposal(OneSourceToken.getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Analyzer unable to cancel rerate");
         }
@@ -123,7 +123,7 @@ public class RecordAnalyzer {
 
     public void approveRerateProposal(String contractId, String rerateId){
         try {
-            APIConnector.approveRerateProposal(BearerToken.getToken(), contractId, rerateId);
+            APIConnector.approveRerateProposal(OneSourceToken.getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Analyzer unable to approve rerate");
         }
@@ -131,7 +131,7 @@ public class RecordAnalyzer {
 
     public void declineRerateProposal(String contractId, String rerateId){
         try {
-            APIConnector.declineRerateProposal(BearerToken.getToken(), contractId, rerateId);
+            APIConnector.declineRerateProposal(OneSourceToken.getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Analyzer unable to decline rerate");
         }        

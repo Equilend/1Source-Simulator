@@ -8,11 +8,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
 import com.equilend.simulator.scheduler.Scheduler;
-import com.equilend.simulator.token.BearerToken;
+import com.equilend.simulator.token.DatalendToken;
+import com.equilend.simulator.token.OneSourceToken;
 
 public class Simulator {   
     
@@ -20,30 +22,23 @@ public class Simulator {
 
     public static void warmUp(){
         try{
-            APIConnector.getContractById(BearerToken.getToken(),"DEAD-BEEF");
+            APIConnector.getContractById(OneSourceToken.getToken(),"DEAD-BEEF");
         }
         catch (APIException e){
             
         }
     }
 
-    public static void main(String[] args) {  
-        
+    public static void main(String[] args) { 
         logger.info("Starting Program...");
         Configurator configurator = new Configurator();
-        
-        boolean useTestLenderAuth = configurator.getGeneralRules().getBotPartyId().equals("TLEN-US");
-        logger.info("USING {} PARTY", configurator.getGeneralRules().getBotPartyId());
-        if (useTestLenderAuth){
-            logger.info("lender auth");
-            BearerToken.configureToken(configurator.getAuthorizationRules().getLender());
-        }else{
-            logger.info("borrower auth");
-            BearerToken.configureToken(configurator.getAuthorizationRules().getBorrower());
+
+        try {
+            DatalendAPIConnector.getSecurityPrice(DatalendToken.getToken(), "ticker", "MSFT");
+        } catch (APIException e) {
+            logger.error(e);
         }
 
-        APIConnector.setKeycloakURL(configurator.getGeneralRules().getKeycloakURL());
-        APIConnector.setRestAPIURL(configurator.getGeneralRules().getRestAPIURL());
         warmUp();
 
         logger.info("Analyzing existing records");

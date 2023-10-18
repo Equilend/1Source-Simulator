@@ -16,7 +16,7 @@ import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
-import com.equilend.simulator.token.BearerToken;
+import com.equilend.simulator.token.OneSourceToken;
 
 public class EventsProcessor implements Runnable {
 
@@ -32,9 +32,9 @@ public class EventsProcessor implements Runnable {
     public void run() {
         ExecutorService exec = Executors.newCachedThreadPool();
 
-        BearerToken token;
+        OneSourceToken token;
         try {
-            token = BearerToken.getToken();
+            token = OneSourceToken.getToken();
         } catch (APIException e) {
             logger.error("Unable to listen for new events due to error with token");
             return;
