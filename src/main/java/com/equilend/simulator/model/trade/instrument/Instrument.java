@@ -22,6 +22,11 @@ public class Instrument {
         this.description = description;
     }
     
+    public Instrument(String figi){
+        this.figi = figi;
+        this.description = "Security LLC";
+    }
+
     public Instrument(String ticker, String figi, String description) {
         this.ticker = ticker;
         this.figi = figi;

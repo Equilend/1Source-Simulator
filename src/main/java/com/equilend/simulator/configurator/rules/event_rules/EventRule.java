@@ -1,32 +1,32 @@
 package com.equilend.simulator.configurator.rules.event_rules;
 
+import java.util.List;
+
+import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.model.event.Event;
 
 public class EventRule {
 
     private String eventType;
-    private boolean shouldIgnore;
+    private boolean ignore;
 
     public EventRule(String rule){
         loadRule(rule);
     }
 
     private void loadRule(String rule){
-        int eventTypeStart = rule.indexOf("\"");
-        int eventTypeEnd = rule.indexOf("\"", eventTypeStart+1);
-        this.eventType = rule.substring(eventTypeStart+1, eventTypeEnd).toUpperCase();
-        int ignoreStart = rule.indexOf("\"", eventTypeEnd+1);
-        if (rule.charAt(ignoreStart+1) == 'I'){
-            shouldIgnore = true;
-        }
+        List<String> args = RuleValidator.parseRule(rule);
+        int idx = 0;
+        this.eventType = args.get(idx++);
+        this.ignore = args.get(idx++).equals("I");
     }
 
     public String getEventType() {
         return eventType;
     }
 
-    public boolean isShouldIgnore() {
-        return shouldIgnore;
+    public boolean shouldIgnore() {
+        return ignore;
     }
 
     public boolean isApplicable(Event event){
@@ -35,7 +35,7 @@ public class EventRule {
 
     @Override
     public String toString(){
-        if (shouldIgnore){
+        if (ignore){
             return "Ignore " + eventType;
         }
         return "Dispatch " + eventType;

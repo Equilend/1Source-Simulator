@@ -1,9 +1,11 @@
 package com.equilend.simulator.configurator.rules.rerate_rules;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.equilend.simulator.api.FedAPIException;
+import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.trade.Trade;
 import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
@@ -14,8 +16,8 @@ public class RerateProposeRule implements RerateRule {
     private Set<String> counterparties = new HashSet<>();
     private String securityExp;
     private Set<String> securities = new HashSet<>();
-    private String quantityExp;
-    private Set<String> quantities = new HashSet<>();
+    private String rateExp;
+    private Set<String> rates = new HashSet<>();
     private Boolean propose = null;
     private Double delta;
     private Double delay;
@@ -24,34 +26,18 @@ public class RerateProposeRule implements RerateRule {
         loadRule(rule);
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
-        splitExpressionAndLoad(quantityExp, quantities);
+        splitExpressionAndLoad(rateExp, rates);
     }
 
     private void loadRule(String rule){
-        String delim = "\"";
-        int start = rule.indexOf(delim);
-        int end = rule.indexOf(delim, start+1);
-        this.counterpartyExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.securityExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.quantityExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.delta = Double.parseDouble(rule.substring(start+1, end));
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        if (rule.charAt(start+1) == 'P'){
-            propose = true;
-        }
-        else {
-            propose = false;
-        }
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.delay = Double.parseDouble(rule.substring(start+1, end));
+        List<String> args = RuleValidator.parseRule(rule);
+        int idx = 0;
+        this.counterpartyExp = args.get(idx++);
+        this.securityExp = args.get(idx++);
+        this.rateExp = args.get(idx++);
+        this.delta = Double.parseDouble(args.get(idx++));
+        propose = args.get(idx++).equals("P");
+        this.delay = Double.parseDouble(args.get(idx++));
     }    
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -61,44 +47,6 @@ public class RerateProposeRule implements RerateRule {
         }
     }
 
-    private boolean validCounterParty(String cpty){
-        return counterpartyExp.equals("*") || counterparties.contains(cpty);
-    }
-
-    private boolean validSecurity(String scty){
-        return securityExp.equals("*") || securities.contains(scty);
-    }
-
-    private boolean validBasicQuantity(String basicQuantity, double rate){
-        if (rate <= 0) return false;
-
-        if (basicQuantity.equals("*")) return true;
-
-        int delim = basicQuantity.indexOf(",");
-        if (delim == -1) return false;
-
-        String lowerStr = basicQuantity.substring(1, delim).trim();
-        String upperStr = basicQuantity.substring(delim+1, basicQuantity.length()-1).trim();
-
-        boolean lowerInclusive = basicQuantity.charAt(0) == '[';
-        boolean upperInclusive = basicQuantity.charAt(basicQuantity.length()-1) == ']';
-        
-        Double lower = Double.parseDouble(lowerStr);
-        Double upper = (upperStr.equals("inf")) ? Double.MAX_VALUE : Double.parseDouble(upperStr);
-        
-        return (lowerInclusive && rate >= lower || !lowerInclusive && rate > lower) 
-        && (upperInclusive && rate <= upper || !upperInclusive && rate < upper);
-        
-    }
-    
-    private boolean validQuantity(double rate){
-        for (String quantity : this.quantities){
-            if (validBasicQuantity(quantity, rate)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public Double getDelta(){
         return delta;
@@ -124,18 +72,19 @@ public class RerateProposeRule implements RerateRule {
     public boolean isApplicable(Contract contract, String partyId) throws FedAPIException{
         Trade trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
-        return validCounterParty(cpty) && validSecurity(trade.getInstrument().getTicker())
-                && validQuantity(trade.getRate().getEffectiveRate());
+        return RuleValidator.validCounterparty(counterparties, cpty) && 
+                RuleValidator.validSecurity(securities, trade.getInstrument())
+                && RuleValidator.validRate(rates, trade.getRate().getEffectiveRate());
     }
 
     @Override
     public String toString(){
         if (propose != null){
             if(propose){
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELTA{"
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp + "}, PROPOSE, DELTA{"
                         + String.valueOf(delta) + "}, DELAY{" + String.valueOf(delay) + "}";
             } else{
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELTA{"
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp + "}, IGNORE, DELTA{"
                         + String.valueOf(delta) + "}, DELAY{" + String.valueOf(delay) + "}";
             }            
         }

@@ -39,6 +39,10 @@ public class ContractRules implements Rules{
         return initiatorOutgoingRules;
     }
 
+    public boolean schedulerMode(){
+        return initiatorOutgoingRules.size() > 0;
+    }
+
     //if should ignore trade return -1, otherwise return delay to cancel
     public Double shouldIgnoreTrade(Contract contract, String partyId){
         for (ContractRule rule : initiatorIncomingRules){

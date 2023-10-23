@@ -38,11 +38,9 @@ public class EventRules implements Rules{
     public boolean shouldIgnoreEvent(Event event){
         for (EventRule rule : rules){
             if (rule.isApplicable(event)){
-                return rule.isShouldIgnore();
+                return rule.shouldIgnore();
             }
         }
-
-        //Default to ignoring all events
         return true;
     }
 

@@ -48,7 +48,15 @@ public class Scheduler implements Runnable {
                     PartyRole partyRole = instruction.getPartyRole();
                     Party party = parties.get(botPartyId);
                     Party counterparty = parties.get(counterpartyId);
-                    Instrument instrument = instruments.get(security);
+                    int colon = security.indexOf(":");
+                    Instrument instrument;
+                    if (colon == -1){
+                        instrument = instruments.get(security);
+                    }
+                    else{
+                        String idValue = security.substring(colon+1).trim();
+                        instrument = new Instrument(idValue);
+                    }
                     String quantity = instruction.getQuantity();
                     ScheduledEventHandler task = new ScheduledEventHandler(partyRole, party, counterparty, instrument, quantity);
                     

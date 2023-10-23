@@ -3,6 +3,7 @@ package com.equilend.simulator.configurator.rules.contract_rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 
 public class ContractGenerativeRule implements ContractRule {
@@ -26,28 +27,15 @@ public class ContractGenerativeRule implements ContractRule {
     }
 
     private void loadRule(String rule){
-        String delim = "\"";
-        int start = rule.indexOf(delim);
-        int end = rule.indexOf(delim, start+1);
-        this.partyRoleExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.counterpartyExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);        
-        this.securityExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.quantityExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.delaySecs = Double.parseDouble(rule.substring(start+1, end));
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.periodSecs = Double.parseDouble(rule.substring(start+1, end));
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.totalDurationSecs = Double.parseDouble(rule.substring(start+1, end));
+        List<String> args = RuleValidator.parseRule(rule);
+        int idx = 0;
+        this.partyRoleExp = args.get(idx++);
+        this.counterpartyExp = args.get(idx++);
+        this.securityExp = args.get(idx++);
+        this.quantityExp = args.get(idx++);
+        this.delaySecs = Double.parseDouble(args.get(idx++));
+        this.periodSecs = Double.parseDouble(args.get(idx++));
+        this.totalDurationSecs = Double.parseDouble(args.get(idx++));
     }
 
     private void splitExpressionAndLoad(String exp, List<String> set){

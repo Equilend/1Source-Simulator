@@ -1,68 +1,74 @@
 [[General]]
-user_party_id = "BANK-INC"
-bot_party_id = "TBORR-US"
+user_party_id = BANK-INC
+bot_party_id = TLEN-US
 max_refresh_attempts = 3
 event_fetch_interval_secs = 10
-1source_keycloak_url = "https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token"
-1source_api_url = "https://stageapi.equilend.com/v1/ledger"
-datalend_keycloak_url = "https://auth.equilend.com/auth/realms/APITest/protocol/openid-connect/token"
-datalend_api_url = "https://api.equilend.com/v1/analytics"
+1source_keycloak_url = https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token
+1source_api_url = https://stageapi.equilend.com/v1/ledger
+datalend_keycloak_url = https://auth.equilend.com/auth/realms/APITest/protocol/openid-connect/token
+datalend_api_url = https://api.equilend.com/v1/analytics
 
 [[Auth]]
 <1Source>
-client_id="canton-participant2-client" 
-client_secret="9fa094bf-9e39-4271-aa63-c6a641730423" 
-grant_type="password" 
-username="TestLender1User" 
-password="fjmxVeKzpzUDg3YJ" 
+client_id=canton-participant2-client
+client_secret=9fa094bf-9e39-4271-aa63-c6a641730423
+grant_type=password
+username=TestLender1User
+password=fjmxVeKzpzUDg3YJ
 <datalend>
-grant_type="password"
-client_id="TrialsApp"
-username="1source_dl_api"
-password="asdf1234"
+grant_type=password
+client_id=TrialsApp
+username=1source_dl_api
+password=asdf1234
 
 [[Events]]
 incoming = {
-    ("TRADE", "D")
-    ("CONTRACT", "D")
-    ("CONTRACT_APPROVE", "D")
-    ("RERATE", "D")
-    ("*","I")
+    (event_type: TRADE, action: D)
+    (event_type: CONTRACT, action: I)
+    (event_type: CONTRACT_APPROVE, action: D)
+    (event_type: RERATE, action: D)
+    (event_type: *, action: I)
 }
 
 [[Agreements]]
 <initiator>
 incoming = {
-    ("*", "*", "*", "P", "0")         
+    (cpty: *, security: AAPL, quantity: *, action: P, delay: 0)
+    (cpty: *, security: t-VZ, quantity: *, action: P, delay: 0)
+    (cpty: *, security: f-BG001S8CRC3, quantity: *, action: P, delay: 0)
+    (cpty: *, security: i-US91324P1021, quantity: *, action: P, delay: 0)
+    (cpty: *, security: s-2831811, quantity: *, action: P, delay: 0)
+    (cpty: *, security: c-931427108, quantity: *, action: P, delay: 0)
+    (cpty: *, security: *, quantity: *, action: I, delay: 0)         
 }           
 
 [[Contracts]]
 <recipient>
 incoming ={
-    ("*", "*", "*", "A", "0")
-    ("*", "*", "*", "R", "0")
+    (cpty: *, security: *, quantity: *, action: A, delay: 0)
+    (cpty: *, security: *, quantity: *, action: R, delay: 0)
 }
 <initiator>
 incoming = {
-    ("*", "*", "*", "C", "0")
-    ("*", "*", "*", "I", "0")
+    (cpty: *, security: *, quantity: *, action: I, delay: 0)
+    (cpty: *, security: *, quantity: *, action: C, delay: 0)
 }
 outgoing = {
-    ("BORROWER", "TLEN-US", "GOOG", "5000", "0", "3", "10")
+    (bot_party_role: LENDER, cpty: TBORR-US, security: f-BBG000BBJQV0, quantity: 5000, delay: 0, period: 3, duration: 10)
 }
 
 [[Rerates]]
-analysis_mode = "OFF"
+analysis_mode = OFF
 <recipient>
 approve = {
-    ("*", "*", "*", "A", "0")
-    ("*", "*", "*", "R", "0")
+    (cpty: *, security: *, rate: *, action: A, delay: 0)
+    (cpty: *, security: *, rate: *, action: R, delay: 0)
 }
 <initiator>
 cancel = {
-    ("*", "*", "*", "C", "0")
-    ("*", "*", "*", "I", "0" )
+    (cpty: *, security: *, rate: *, action: C, delay: 0)
+    (cpty: *, security: *, rate: *, action: I, delay: 0 )
 }
 propose = {
-    ("*", "*", "*", "1.5", "P", "0")
+    (cpty: *, security: *, rate: *, delta: 1.5, action: P, delay: 0)
 }

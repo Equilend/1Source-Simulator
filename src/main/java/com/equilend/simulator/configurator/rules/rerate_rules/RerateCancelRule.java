@@ -1,9 +1,11 @@
 package com.equilend.simulator.configurator.rules.rerate_rules;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.equilend.simulator.api.FedAPIException;
+import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.trade.Trade;
@@ -15,8 +17,8 @@ public class RerateCancelRule implements RerateRule {
     private Set<String> counterparties = new HashSet<>();
     private String securityExp;
     private Set<String> securities = new HashSet<>();
-    private String quantityExp;
-    private Set<String> quantities = new HashSet<>();
+    private String rateExp;
+    private Set<String> rates = new HashSet<>();
     private Boolean cancel = null;
     private Double delay;
 
@@ -24,31 +26,17 @@ public class RerateCancelRule implements RerateRule {
         loadRule(rule);
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
-        splitExpressionAndLoad(quantityExp, quantities);
+        splitExpressionAndLoad(rateExp, rates);
     }
 
     private void loadRule(String rule){
-        String delim = "\"";
-        int start = rule.indexOf(delim);
-        int end = rule.indexOf(delim, start+1);
-        this.counterpartyExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.securityExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.quantityExp = rule.substring(start+1, end);
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        if (rule.charAt(start+1) == 'C'){
-            cancel = true;
-        }
-        else {
-            cancel = false;
-        }
-        start = rule.indexOf(delim, end+1);
-        end = rule.indexOf(delim, start+1);
-        this.delay = Double.parseDouble(rule.substring(start+1, end));
+        List<String> args = RuleValidator.parseRule(rule);
+        int idx = 0;
+        this.counterpartyExp = args.get(idx++);
+        this.securityExp = args.get(idx++);
+        this.rateExp = args.get(idx++);
+        cancel = args.get(idx++).equals("C");
+        this.delay = Double.parseDouble(args.get(idx++));
     }    
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -56,45 +44,6 @@ public class RerateCancelRule implements RerateRule {
         for (String str : arr){
             set.add(str.trim());
         }
-    }
-
-    private boolean validCounterParty(String cpty){
-        return counterpartyExp.equals("*") || counterparties.contains(cpty);
-    }
-
-    private boolean validSecurity(String scty){
-        return securityExp.equals("*") || securities.contains(scty);
-    }
-
-    private boolean validBasicQuantity(String basicQuantity, double rate){
-        if (rate <= 0) return false;
-
-        if (basicQuantity.equals("*")) return true;
-
-        int delim = basicQuantity.indexOf(",");
-        if (delim == -1) return false;
-
-        String lowerStr = basicQuantity.substring(1, delim).trim();
-        String upperStr = basicQuantity.substring(delim+1, basicQuantity.length()-1).trim();
-
-        boolean lowerInclusive = basicQuantity.charAt(0) == '[';
-        boolean upperInclusive = basicQuantity.charAt(basicQuantity.length()-1) == ']';
-        
-        Double lower = Double.parseDouble(lowerStr);
-        Double upper = (upperStr.equals("inf")) ? Double.MAX_VALUE : Double.parseDouble(upperStr);
-        
-        return (lowerInclusive && rate >= lower || !lowerInclusive && rate > lower) 
-        && (upperInclusive && rate <= upper || !upperInclusive && rate < upper);
-        
-    }
-    
-    private boolean validQuantity(double rate){
-        for (String quantity : this.quantities){
-            if (validBasicQuantity(quantity, rate)){
-                return true;
-            }
-        }
-        return false;
     }
 
     public Double getDelay(){
@@ -118,18 +67,19 @@ public class RerateCancelRule implements RerateRule {
         if (rerate == null) return false;
         Trade trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
-        return validCounterParty(cpty) && validSecurity(trade.getInstrument().getTicker())
-                && validQuantity(rerate.getRerate().getEffectiveRate());
+        return RuleValidator.validCounterparty(counterparties, cpty) && 
+                RuleValidator.validSecurity(securities, trade.getInstrument())
+                && RuleValidator.validRate(rates, trade.getRate().getEffectiveRate());
     }
 
     @Override
     public String toString(){
         if (cancel != null){
             if(cancel){
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp 
                         + "}, CANCEL, DELAY{" + String.valueOf(delay) + "}";
             } else{
-                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
+                return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp 
                         + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
             }            
         }
