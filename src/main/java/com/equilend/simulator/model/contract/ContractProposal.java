@@ -151,9 +151,9 @@ public class ContractProposal {
         double price = 250;
         try {
             price = DatalendAPIConnector.getSecurityPrice(DatalendToken.getToken(), idType, idValue);
-            logger.info("{} {} has price {}", idType, idValue, price);
+            // logger.debug("{} {} has price {}", idType, idValue, price);
         } catch (APIException e) {
-            logger.info("Unable to get current price for security w {} {}, default to $250", idType, idValue); 
+            logger.debug("Unable to get current price for security w {} {}, default to $250", idType, idValue); 
         }
         double contractValue = price * trade.getQuantity();
         trade.getCollateral().setContractValue(BigDecimal.valueOf(contractValue));

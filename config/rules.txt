@@ -53,8 +53,9 @@ incoming = {
     (cpty: *, security: *, quantity: *, action: I, delay: 0)
     (cpty: *, security: *, quantity: *, action: C, delay: 0)
 }
-outgoingOFF = {
-    (bot_party_role: LENDER, cpty: TBORR-US, security: f!BBG001S8CRC3, quantity: 1000, delay: 0, period: 3, duration: 10)
+outgoing = {
+    (bot_party_role: LENDER, cpty: TBORR-US, security: AAPL | MSFT, quantity: 1000, delay: 15, period: 10, duration: 90)
+    (bot_party_role: LENDER, cpty: TBORR-US, security: TSLA | GOOG, quantity: 1000, delay: 10, period: 10, duration: 90)
 }
 
 [[Rerates]]

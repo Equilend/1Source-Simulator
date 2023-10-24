@@ -21,7 +21,7 @@ public class RerateRules implements Rules {
     private static final Logger logger = LogManager.getLogger();
 
     public RerateRules(Map<String, Map<String, String>> rulesMap){
-        analysisMode = rulesMap.get("general").get("analysis_mode").equalsIgnoreCase("ON");
+        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("approve"), approveRules, RerateRuleType.APPROVE);
         addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RerateRuleType.CANCEL);
         addRules(rulesMap.get("initiator").get("propose"), proposeRules, RerateRuleType.PROPOSE);
