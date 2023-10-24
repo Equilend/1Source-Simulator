@@ -1,4 +1,4 @@
-package com.equilend.simulator.token;
+package com.equilend.simulator.auth;
 
 import java.util.Map;
 import java.util.concurrent.Executors;

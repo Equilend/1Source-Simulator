@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.agreement.Agreement;
 import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.event.Event;
@@ -12,7 +13,6 @@ import com.equilend.simulator.model.trade.Trade;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRule;
-import com.equilend.simulator.token.OneSourceToken;
 
 public class TradeHandler implements EventHandler {
 

@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.token.DatalendToken;
+import com.equilend.simulator.auth.DatalendToken;
 import com.google.gson.Gson;
 
 public class DatalendAPIConnector {

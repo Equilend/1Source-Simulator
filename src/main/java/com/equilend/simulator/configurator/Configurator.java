@@ -11,10 +11,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.model.trade.instrument.Instrument;
 import com.equilend.simulator.model.trade.transacting_party.Party;
-import com.equilend.simulator.token.DatalendToken;
-import com.equilend.simulator.token.OneSourceToken;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.DatalendAPIConnector;
+import com.equilend.simulator.auth.DatalendToken;
+import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.rules.AuthorizationRules;
 import com.equilend.simulator.configurator.rules.GeneralRules;
 import com.equilend.simulator.configurator.rules.Rules;

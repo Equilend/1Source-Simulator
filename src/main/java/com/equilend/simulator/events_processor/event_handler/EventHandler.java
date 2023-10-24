@@ -1,6 +1,6 @@
 package com.equilend.simulator.events_processor.event_handler;
 
-import com.equilend.simulator.token.OneSourceToken;
+import com.equilend.simulator.auth.OneSourceToken;
 
 public interface EventHandler extends Runnable {
 

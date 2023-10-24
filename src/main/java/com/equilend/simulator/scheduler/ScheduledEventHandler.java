@@ -5,11 +5,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.trade.instrument.Instrument;
 import com.equilend.simulator.model.trade.transacting_party.Party;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
-import com.equilend.simulator.token.OneSourceToken;
 
 public class ScheduledEventHandler implements Runnable {
     

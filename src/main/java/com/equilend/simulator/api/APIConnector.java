@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.agreement.Agreement;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposal;
@@ -28,7 +29,6 @@ import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.settlement.AcceptSettlement;
 import com.equilend.simulator.model.trade.instrument.Instrument;
-import com.equilend.simulator.token.OneSourceToken;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

@@ -15,7 +15,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.equilend.simulator.token.Token;
+import com.equilend.simulator.auth.Token;
 import com.google.gson.Gson;
 
 public class KeycloakConnector {

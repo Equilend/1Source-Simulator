@@ -11,12 +11,12 @@ import org.apache.logging.log4j.Logger;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.DatalendAPIConnector;
+import com.equilend.simulator.auth.DatalendToken;
+import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
 import com.equilend.simulator.scheduler.Scheduler;
-import com.equilend.simulator.token.DatalendToken;
-import com.equilend.simulator.token.OneSourceToken;
 
 public class Simulator {   
     
