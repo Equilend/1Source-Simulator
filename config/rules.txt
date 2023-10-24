@@ -34,11 +34,11 @@ incoming = {
 <initiator>
 incoming = {
     (cpty: *, security: AAPL, quantity: *, action: P, delay: 0)
-    (cpty: *, security: t-VZ, quantity: *, action: P, delay: 0)
-    (cpty: *, security: f-BBG001S8CRC3, quantity: *, action: P, delay: 0)
-    (cpty: *, security: i-US91324P1021, quantity: *, action: P, delay: 0)
-    (cpty: *, security: s-2615468, quantity: *, action: P, delay: 0)
-    (cpty: *, security: c-931427108, quantity: *, action: P, delay: 0)
+    (cpty: *, security: t! VZ, quantity: *, action: P, delay: 0)
+    (cpty: *, security: f! BBG001S8CRC3, quantity: *, action: P, delay: 0)
+    (cpty: *, security: i! US91324P1021, quantity: *, action: P, delay: 0)
+    (cpty: *, security: s! 2615468, quantity: *, action: P, delay: 0)
+    (cpty: *, security: c! 931427108, quantity: *, action: P, delay: 0)
     (cpty: *, security: *, quantity: *, action: I, delay: 0)         
 }           
 
@@ -54,11 +54,11 @@ incoming = {
     (cpty: *, security: *, quantity: *, action: C, delay: 0)
 }
 outgoingOFF = {
-    (bot_party_role: LENDER, cpty: TBORR-US, security: f-BBG001S8CRC3, quantity: 1000, delay: 0, period: 3, duration: 10)
+    (bot_party_role: LENDER, cpty: TBORR-US, security: f!BBG001S8CRC3, quantity: 1000, delay: 0, period: 3, duration: 10)
 }
 
 [[Rerates]]
-analysis_mode = OFF
+analysis_mode = 0
 <recipient>
 approve = {
     (cpty: *, security: *, rate: *, action: A, delay: 0)

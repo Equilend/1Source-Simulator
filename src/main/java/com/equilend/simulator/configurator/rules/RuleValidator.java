@@ -54,21 +54,21 @@ public class RuleValidator {
         if (securities.contains("*")) return true;
 
         for (String id : securities){
-            int dash = id.indexOf("-");
-            String idType = dash == -1 ? "T" : id.substring(0, dash).trim();
-            String idValue = dash == -1 ? id : id.substring(dash+1);
+            int bang = id.indexOf("!");
+            String idType = bang == -1 ? "T" : id.substring(0, bang).trim();
+            String idValue = bang == -1 ? id : id.substring(bang+1);
             idValue = idValue.trim().toUpperCase();
-            switch (idType.toUpperCase()){
-                case "F":
+            switch (idType.toUpperCase().charAt(0)){
+                case 'F':
                     if (idValue.equals(security.getFigi())) return true;
                     break;
-                case "I":
+                case 'I':
                     if (idValue.equals(security.getIsin())) return true;
                     break;  
-                case "S":
+                case 'S':
                     if (idValue.equals(security.getSedol())) return true;
                     break;  
-                case "C":
+                case 'C':
                     if (idValue.equals(security.getCusip())) return true;
                     break;    
                 default:

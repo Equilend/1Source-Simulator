@@ -48,15 +48,15 @@ public class Scheduler implements Runnable {
                     PartyRole partyRole = instruction.getPartyRole();
                     Party party = parties.get(botPartyId);
                     Party counterparty = parties.get(counterpartyId);
-                    int dash = security.indexOf("-");
+                    int bang = security.indexOf("!");
                     Instrument instrument;
                     String idType = "";
-                    if (dash == -1){
+                    if (bang == -1){
                         instrument = instruments.get(security);
                     }
                     else{
-                        idType = security.substring(0, dash).trim();
-                        String idValue = security.substring(dash+1).trim();
+                        idType = security.substring(0, bang).trim();
+                        String idValue = security.substring(bang+1).trim();
                         instrument = new Instrument(idValue);
                     }
                     String quantity = instruction.getQuantity();
