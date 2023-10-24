@@ -5,6 +5,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.KeycloakConnector;
 
@@ -14,6 +17,7 @@ public class OneSourceToken {
     private static Map<String, String> login = null;
     private static String url = null;
     private static OneSourceToken token = null;
+    private static final Logger logger = LogManager.getLogger();
 
     private OneSourceToken() throws APIException {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -24,7 +28,7 @@ public class OneSourceToken {
                     tokenResponse = KeycloakConnector.getBearerToken(login, url);
                     accessToken = tokenResponse.getAccess_token();                
                 } catch (APIException e) {
-
+                    logger.error("Error retrieving 1Source auth token");
                 }
             }
         }, 0, 840, TimeUnit.SECONDS);
