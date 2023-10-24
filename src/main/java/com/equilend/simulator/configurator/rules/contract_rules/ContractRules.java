@@ -23,15 +23,15 @@ public class ContractRules implements Rules{
         if (rawRulesList == null) return;
         if (rawRulesList.charAt(0) != '{') return;
 
-        int start = rawRulesList.indexOf(",(");
+        int start = rawRulesList.indexOf(";(");
         while (start != -1){
-            int end = rawRulesList.indexOf("),", start);
+            int end = rawRulesList.indexOf(");", start);
             
             String ruleStr = rawRulesList.substring(start+1, end+1);
             ContractRule rule = (isResponsive) ? new ContractResponsiveRule(ruleStr) : new ContractGenerativeRule(ruleStr);
             contractRulesList.add(rule);
 
-            start = rawRulesList.indexOf(",(", end);
+            start = rawRulesList.indexOf(";(", end);
         }
     }
 

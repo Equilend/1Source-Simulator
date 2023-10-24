@@ -4,9 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.model.trade.instrument.Instrument;
+import com.equilend.simulator.token.DatalendToken;
 
 public class RuleValidator {
+
+    private static final Logger logger = LogManager.getLogger();
+
 
     public static List<String> parseRule(String ruleStr){
         List<Integer> commaIdxs = new ArrayList<>();
@@ -100,9 +109,7 @@ public class RuleValidator {
         return false;
     }
 
-    private static boolean validRateHelper(String rateRange, double rate){
-        if (rate <= 0) return false;
-
+    private static boolean validRateHelper(String rateRange, double rate, String sedolValue, boolean rebate){
         if (rateRange.equals("*")) return true;
 
         int delim = rateRange.indexOf(",");
@@ -114,17 +121,58 @@ public class RuleValidator {
         boolean lowerInclusive = rateRange.charAt(0) == '[';
         boolean upperInclusive = rateRange.charAt(rateRange.length()-1) == ']';
         
-        Double lower = (lowerStr.equals("-INF")) ? Double.MIN_VALUE : Double.parseDouble(lowerStr);
-        Double upper = (upperStr.equals("INF")) ? Double.MAX_VALUE : Double.parseDouble(upperStr);
+        Double lower = Double.MIN_VALUE;
+        if (lowerStr.equals("AVG")){
+            if (rebate){
+                try {
+                    lower = DatalendAPIConnector.getSecurityRebate(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
+                } catch (APIException e) {
+                    logger.debug("Unable to get avg rebate of sedol {}, defaulting to 5.00 effective rate", sedolValue);
+                }
+            }
+            else{
+                try{
+                    lower = DatalendAPIConnector.getSecurityFee(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
+                }catch(APIException e){
+                    logger.debug("Unable to get avg fee of sedol {}, defaulting to 5.00 effective rate", sedolValue);
+                }
+            }
+        }
+        else if (!lowerStr.equals("-INF")){
+            lower = Double.parseDouble(lowerStr);
+        }
+
+        Double upper = Double.MAX_VALUE;
+        if (upperStr.equals("AVG")){
+              if (rebate){
+                try {
+                    upper = DatalendAPIConnector.getSecurityRebate(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
+                    logger.debug("Avg rebate of sedol {} is {} bps or {}%", sedolValue, upper*100, upper);
+                } catch (APIException e) {
+                    logger.debug("Unable to get avg rebate of sedol {}, defaulting to 5.00 effective rate", sedolValue);
+                }
+            }
+            else{
+                try{
+                    upper = DatalendAPIConnector.getSecurityFee(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
+                    logger.debug("Avg fee of sedol {} is {} bps or {}%", sedolValue, upper*100, upper);
+                }catch(APIException e){
+                    logger.debug("Unable to get avg fee of sedol {}, defaulting to 5.00 effective rate", sedolValue);
+                }
+            }
+        }
+        else if (!upperStr.equals("INF")){
+            upper = Double.parseDouble(upperStr);
+        }
         
         return (lowerInclusive && rate >= lower || !lowerInclusive && rate > lower) 
         && (upperInclusive && rate <= upper || !upperInclusive && rate < upper);
         
     }
     
-    public static boolean validRate(Set<String> rates, double rate){
+    public static boolean validRate(Set<String> rates, double rate, String sedolValue, boolean rebate){
         for (String rateRange : rates){
-            if (validRateHelper(rateRange, rate)){
+            if (validRateHelper(rateRange, rate, sedolValue, rebate)){
                 return true;
             }
         }

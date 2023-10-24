@@ -82,10 +82,10 @@ public class RerateHandler implements EventHandler {
         }
         else if (rebate != null){
             if (rebate.getFixed() != null) {
-                rebate.getFixed().setBaseRate(Math.max(rebate.getFixed().getBaseRate() + delta, 0.01));
+                rebate.getFixed().setBaseRate(rebate.getFixed().getBaseRate() + delta);
             }
             else if (rebate.getFloating() != null){
-                rebate.getFloating().setSpread(Math.max(rebate.getFloating().getSpread() + delta, 0.01));
+                rebate.getFloating().setSpread(rebate.getFloating().getSpread() + delta);
             }
         }
 

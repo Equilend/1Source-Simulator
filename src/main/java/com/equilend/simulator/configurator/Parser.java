@@ -140,12 +140,12 @@ public class Parser {
                 if (line.indexOf("}") != -1){
                     if (inList){
                         int endParenthesis = str.lastIndexOf(")");
-                        str.insert(endParenthesis+1, ",");
+                        str.insert(endParenthesis+1, ";");
                     }
                     inList = false;
                 }
                 if (inList){
-                    str.append(",");
+                    str.append(";");
                 }
                 else {
                     str.append("\n");

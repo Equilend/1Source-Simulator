@@ -63,13 +63,16 @@ public class RerateApproveRule implements RerateRule {
         return "";        
     }
 
+
+
     public boolean isApplicable(Rerate rerate, Contract contract, String partyId) throws FedAPIException{
         if (rerate == null) return false;
         Trade trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
+        boolean rebate = trade.getRate().getRebate() != null;
         return RuleValidator.validCounterparty(counterparties, cpty) && 
                 RuleValidator.validSecurity(securities, trade.getInstrument())
-                && RuleValidator.validRate(rates, trade.getRate().getEffectiveRate());
+                && RuleValidator.validRate(rates, trade.getRate().getEffectiveRate(), trade.getInstrument().getSedol(), rebate);
     }
 
     @Override

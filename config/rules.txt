@@ -23,10 +23,10 @@ password=asdf1234
 
 [[Events]]
 incoming = {
-    (event_type: TRADE, action: D)
+    (event_type: TRADE, action: I)
     (event_type: CONTRACT, action: I)
     (event_type: CONTRACT_APPROVE, action: I)
-    (event_type: RERATE, action: I)
+    (event_type: RERATE, action: D)
     (event_type: *, action: I)
 }
 
@@ -66,7 +66,7 @@ approve = {
 }
 <initiator>
 cancel = {
-    (cpty: *, security: *, rate: *, action: C, delay: 0)
+    (cpty: *, security: *, rate: (0, AVG), action: C, delay: 0)
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
 }
 propose = {

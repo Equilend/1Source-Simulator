@@ -19,15 +19,15 @@ public class AgreementRules implements Rules{
         if (rulesList == null) return;
         if (rulesList.charAt(0) != '{') return;
 
-        int start = rulesList.indexOf(",(");
+        int start = rulesList.indexOf(";(");
         while (start != -1){
-            int end = rulesList.indexOf("),", start);
+            int end = rulesList.indexOf(");", start);
             
             String rule = rulesList.substring(start+1, end+1);
             AgreementRule agreementRule = new AgreementRule(rule);
             rules.add(agreementRule);
             
-            start = rulesList.indexOf(",(", end);
+            start = rulesList.indexOf(";(", end);
         }
     }
     

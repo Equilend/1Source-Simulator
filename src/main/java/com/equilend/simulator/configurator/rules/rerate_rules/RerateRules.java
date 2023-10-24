@@ -37,9 +37,9 @@ public class RerateRules implements Rules {
         if (rawRulesList == null) return;
         if (rawRulesList.charAt(0) != '{') return;
 
-        int start = rawRulesList.indexOf(",(");
+        int start = rawRulesList.indexOf(";(");
         while (start != -1){
-            int end = rawRulesList.indexOf("),", start);
+            int end = rawRulesList.indexOf(");", start);
             
             String ruleStr = rawRulesList.substring(start+1, end+1);
             RerateRule rule;
@@ -58,7 +58,7 @@ public class RerateRules implements Rules {
             }
             rerateRulesList.add(rule);
 
-            start = rawRulesList.indexOf(",(", end);
+            start = rawRulesList.indexOf(";(", end);
         }
     }
 
