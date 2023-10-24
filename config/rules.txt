@@ -25,8 +25,8 @@ password=asdf1234
 incoming = {
     (event_type: TRADE, action: D)
     (event_type: CONTRACT, action: I)
-    (event_type: CONTRACT_APPROVE, action: D)
-    (event_type: RERATE, action: D)
+    (event_type: CONTRACT_APPROVE, action: I)
+    (event_type: RERATE, action: I)
     (event_type: *, action: I)
 }
 
@@ -35,9 +35,9 @@ incoming = {
 incoming = {
     (cpty: *, security: AAPL, quantity: *, action: P, delay: 0)
     (cpty: *, security: t-VZ, quantity: *, action: P, delay: 0)
-    (cpty: *, security: f-BG001S8CRC3, quantity: *, action: P, delay: 0)
+    (cpty: *, security: f-BBG001S8CRC3, quantity: *, action: P, delay: 0)
     (cpty: *, security: i-US91324P1021, quantity: *, action: P, delay: 0)
-    (cpty: *, security: s-2831811, quantity: *, action: P, delay: 0)
+    (cpty: *, security: s-2615468, quantity: *, action: P, delay: 0)
     (cpty: *, security: c-931427108, quantity: *, action: P, delay: 0)
     (cpty: *, security: *, quantity: *, action: I, delay: 0)         
 }           
@@ -53,8 +53,8 @@ incoming = {
     (cpty: *, security: *, quantity: *, action: I, delay: 0)
     (cpty: *, security: *, quantity: *, action: C, delay: 0)
 }
-outgoing = {
-    (bot_party_role: LENDER, cpty: TBORR-US, security: f-BBG000BBJQV0, quantity: 5000, delay: 0, period: 3, duration: 10)
+outgoingOFF = {
+    (bot_party_role: LENDER, cpty: TBORR-US, security: f-BBG001S8CRC3, quantity: 1000, delay: 0, period: 3, duration: 10)
 }
 
 [[Rerates]]

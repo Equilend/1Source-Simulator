@@ -48,17 +48,19 @@ public class Scheduler implements Runnable {
                     PartyRole partyRole = instruction.getPartyRole();
                     Party party = parties.get(botPartyId);
                     Party counterparty = parties.get(counterpartyId);
-                    int colon = security.indexOf(":");
+                    int dash = security.indexOf("-");
                     Instrument instrument;
-                    if (colon == -1){
+                    String idType = "";
+                    if (dash == -1){
                         instrument = instruments.get(security);
                     }
                     else{
-                        String idValue = security.substring(colon+1).trim();
+                        idType = security.substring(0, dash).trim();
+                        String idValue = security.substring(dash+1).trim();
                         instrument = new Instrument(idValue);
                     }
                     String quantity = instruction.getQuantity();
-                    ScheduledEventHandler task = new ScheduledEventHandler(partyRole, party, counterparty, instrument, quantity);
+                    ScheduledEventHandler task = new ScheduledEventHandler(partyRole, party, counterparty, instrument, quantity, idType);
                     
                     Long delayMillis = Math.round(1000*instruction.getDelaySecs());
                     Long periodMillis = Math.round(1000*instruction.getPeriodSecs());

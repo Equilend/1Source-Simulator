@@ -18,15 +18,17 @@ public class ScheduledEventHandler implements Runnable {
     Party counterparty;
     Instrument security;
     String quantityStr;
+    String idType;
 
     private static final Logger logger = LogManager.getLogger();
 
-    public ScheduledEventHandler(PartyRole botPartyRole, Party botParty, Party counterparty, Instrument security, String quantityStr) {
+    public ScheduledEventHandler(PartyRole botPartyRole, Party botParty, Party counterparty, Instrument security, String quantityStr, String idType) {
         this.botPartyRole = botPartyRole; 
         this.botParty = botParty;
         this.counterparty = counterparty;
         this.security = security;
         this.quantityStr = quantityStr;
+        this.idType = idType;
     }
 
     public void run() {
@@ -48,7 +50,7 @@ public class ScheduledEventHandler implements Runnable {
         }
 
         try {
-            ContractProposal proposal = ContractProposal.createContractProposal(botPartyRole, botParty, counterparty, security, quantity);
+            ContractProposal proposal = ContractProposal.createContractProposal(botPartyRole, botParty, counterparty, security, quantity, idType);
             APIConnector.postContractProposal(token, proposal);
         } catch(APIException e){
             logger.info("Unable to propose scheduled contract proposal");

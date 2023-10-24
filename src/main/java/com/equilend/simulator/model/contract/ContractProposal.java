@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.model.settlement.Settlement;
 import com.equilend.simulator.model.settlement.instruction.Instruction;
 import com.equilend.simulator.model.settlement.instruction.LocalMarketFields;
@@ -28,11 +33,13 @@ import com.equilend.simulator.model.trade.rate.RebateRate;
 import com.equilend.simulator.model.trade.transacting_party.Party;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
+import com.equilend.simulator.token.DatalendToken;
 
 public class ContractProposal {
 
     private Trade trade;
     private List<Settlement> settlement;
+    private static final Logger logger = LogManager.getLogger();
     
     public ContractProposal(Trade trade, List<Settlement> settlement) {
         this.trade = trade;
@@ -116,8 +123,47 @@ public class ContractProposal {
         return new Settlement(role, instruction);          
     }    
 
-    public static ContractProposal createContractProposal(PartyRole partyRole, Party party, Party counterparty, Instrument security, long desiredQuantity) {
-        Trade trade = createTrade(partyRole, party, counterparty, security, desiredQuantity);
+    private static void updateTradePrice(Trade trade, String idType){
+        String idValue = null;
+        switch (idType.toUpperCase()){
+            case "S":
+                idType = "sedol";
+                idValue = trade.getInstrument().getSedol();
+                break;
+            case "I":
+                idType = "isin";
+                idValue = trade.getInstrument().getIsin();
+                break;
+            case "C":
+                idType = "cusip";
+                idValue = trade.getInstrument().getCusip();
+                break;
+            case "F": 
+                idType = "figi";
+                idValue = null;
+                break;
+            default:
+                idType = "ticker";
+                idValue = trade.getInstrument().getTicker();
+                break;
+        }
+        if (idValue == null) return;
+        double price = 250;
+        try {
+            price = DatalendAPIConnector.getSecurityPrice(DatalendToken.getToken(), idType, idValue);
+            logger.info("{} {} has price {}", idType, idValue, price);
+        } catch (APIException e) {
+            logger.info("Unable to get current price for security w {} {}, default to $250", idType, idValue); 
+        }
+        double contractValue = price * trade.getQuantity();
+        trade.getCollateral().setContractValue(BigDecimal.valueOf(contractValue));
+        double collateralValue = contractValue * trade.getCollateral().getMargin().doubleValue() / 100.0;
+        trade.getCollateral().setCollateralValue(BigDecimal.valueOf(collateralValue));
+    }
+
+    public static ContractProposal createContractProposal(PartyRole partyRole, Party party, Party counterparty, Instrument security, long desiredQuantity, String idType) {
+        Trade trade = createTrade(partyRole, party, counterparty, security, desiredQuantity);    
+        updateTradePrice(trade, idType);
 
         List<Settlement> settlements = new ArrayList<Settlement>();
         settlements.add(createSettlement(partyRole));
@@ -126,13 +172,15 @@ public class ContractProposal {
         return contractProposal;
     }
 
+
     public static ContractProposal createContractProposal(Trade trade, PartyRole partyRole) {
         trade.setDividendRatePct(BigDecimal.valueOf(100));
 
         if (partyRole == PartyRole.LENDER) trade.getCollateral().setRoundingRule(10);
         if (partyRole == PartyRole.LENDER) trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
         trade.getCollateral().setMargin(BigDecimal.valueOf(102));
-        
+        updateTradePrice(trade, "S");
+
         List<Settlement> settlements = new ArrayList<Settlement>();
         settlements.add(createSettlement(partyRole));
         

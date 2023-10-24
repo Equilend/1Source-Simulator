@@ -12,7 +12,6 @@ import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
 import com.equilend.simulator.scheduler.Scheduler;
@@ -49,44 +48,44 @@ public class Simulator {
     }
 
     public static void main(String[] args) { 
-        // logger.info("Starting Program...");
-        // Configurator configurator = new Configurator();
+        logger.info("Starting Program...");
+        Configurator configurator = new Configurator();
 
-        // warmUp();
+        warmUp();
 
-        // if (configurator.getRerateRules().getAnalysisMode()){
-        //     logger.info("Analyzing existing records");
-        //     RecordAnalyzer analyzer = new RecordAnalyzer(configurator);
-        //     analyzer.run();
-        // }
+        if (configurator.getRerateRules().getAnalysisMode()){
+            logger.info("Analyzing existing records");
+            RecordAnalyzer analyzer = new RecordAnalyzer(configurator);
+            analyzer.run();
+        }
 
-        // logger.info("And we're live!!!");
-        // ExecutorService execOutgoing = null; 
-        // if (configurator.getContractRules().schedulerMode()){
-        //     execOutgoing = Executors.newSingleThreadExecutor();
-        //     execOutgoing.execute(new Scheduler(configurator));
-        // }
+        logger.info("And we're live!!!");
+        ExecutorService execOutgoing = null; 
+        if (configurator.getContractRules().schedulerMode()){
+            execOutgoing = Executors.newSingleThreadExecutor();
+            execOutgoing.execute(new Scheduler(configurator));
+        }
 
-        // ExecutorService execIncoming = Executors.newSingleThreadExecutor();
-        // execIncoming.execute(new EventsProcessor(configurator));
+        ExecutorService execIncoming = Executors.newSingleThreadExecutor();
+        execIncoming.execute(new EventsProcessor(configurator));
         
-        // System.out.println("Enter q to quit");
-        // Scanner input = new Scanner(System.in);
-        // String line;
-        // while (input.hasNext()){
-        //     line = input.nextLine();
-        //     if (line.equalsIgnoreCase("q")){
-        //         System.out.println("You've pressed \'q\'");
-        //         System.out.println("Let us clean up a lil and we'll be done, thank you for your patience...");
-        //         if (configurator.getContractRules().schedulerMode()) {
-        //             execOutgoing.shutdownNow();
-        //         }
-        //         execIncoming.shutdownNow();
-        //         break;
-        //     }
-        // }
-        // input.close();
-        // logger.info("DONE :)");
+        System.out.println("Enter q to quit");
+        Scanner input = new Scanner(System.in);
+        String line;
+        while (input.hasNext()){
+            line = input.nextLine();
+            if (line.equalsIgnoreCase("q")){
+                System.out.println("You've pressed \'q\'");
+                System.out.println("Let us clean up a lil and we'll be done, thank you for your patience...");
+                if (configurator.getContractRules().schedulerMode()) {
+                    execOutgoing.shutdownNow();
+                }
+                execIncoming.shutdownNow();
+                break;
+            }
+        }
+        input.close();
+        logger.info("DONE :)");
     }
 
 }

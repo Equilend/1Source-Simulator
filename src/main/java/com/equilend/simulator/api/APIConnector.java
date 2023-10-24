@@ -27,6 +27,7 @@ import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.settlement.AcceptSettlement;
+import com.equilend.simulator.model.trade.instrument.Instrument;
 import com.equilend.simulator.token.OneSourceToken;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -128,8 +129,10 @@ public class APIConnector {
 
         Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
         if (getResponse.statusCode() == 200){
+            Instrument instrument = agreement.getTrade().getInstrument();
+            String identifier = (instrument.getTicker() == null) ? instrument.getFigi() : instrument.getTicker();
             logger.info("Trade Agreement {} with {} shares of {}", 
-            id, agreement.getTrade().getQuantity(), agreement.getTrade().getInstrument().getTicker());
+            id, agreement.getTrade().getQuantity(), identifier);
         }
         else{
             logger.debug("Get Agreement By Id: Status Code {}", getResponse.statusCode());
@@ -252,12 +255,14 @@ public class APIConnector {
         }
 
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
+        Instrument instrument = contract.getTrade().getInstrument();
+        String identifier = (instrument.getTicker() == null) ? instrument.getFigi() : instrument.getTicker();
         if (postResponse.statusCode() == 201){
             logger.info("Propose Contract {} with {} shares of {}", 
-            response.getContractId(), contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker());
+            response.getContractId(), contract.getTrade().getQuantity(), identifier);
         }
         else{
-            logger.trace("Propose Contract with {} shares of {}: Status Code = {}", contract.getTrade().getQuantity(), contract.getTrade().getInstrument().getTicker(), postResponse.statusCode());
+            logger.trace("Propose Contract with {} shares of {}: Status Code = {}", contract.getTrade().getQuantity(), identifier, postResponse.statusCode());
             logger.trace("POST response body: {}", postResponse.body());
         }
         return postResponse.statusCode();
