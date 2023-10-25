@@ -56,7 +56,7 @@ public class RuleValidator {
         for (String id : securities){
             int bang = id.indexOf("!");
             String idType = bang == -1 ? "T" : id.substring(0, bang).trim();
-            String idValue = bang == -1 ? id : id.substring(bang+1);
+            String idValue = bang == -1 ? id : id.substring(bang+1).trim();
             idValue = idValue.trim().toUpperCase();
             switch (idType.toUpperCase().charAt(0)){
                 case 'F':

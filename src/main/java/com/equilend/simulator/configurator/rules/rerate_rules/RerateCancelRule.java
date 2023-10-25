@@ -30,7 +30,6 @@ public class RerateCancelRule implements RerateRule {
     }
 
     private void loadRule(String rule){
-        System.out.println(rule);
         List<String> args = RuleValidator.parseRule(rule);
         int idx = 0;
         this.counterpartyExp = args.get(idx++);

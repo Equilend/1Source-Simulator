@@ -24,9 +24,9 @@ password=asdf1234
 [[Events]]
 incoming = {
     (event_type: TRADE, action: I)
-    (event_type: CONTRACT, action: I)
+    (event_type: CONTRACT, action: D)
     (event_type: CONTRACT_APPROVE, action: I)
-    (event_type: RERATE, action: D)
+    (event_type: RERATE, action: I)
     (event_type: *, action: I)
 }
 
@@ -43,21 +43,21 @@ incoming = {
 }           
 
 [[Contracts]]
-analysis_mode = 0
-analysis_start_date = 2023-10-20
+analysis_mode = 1
+analysis_start_date = 2023-10-25
 <recipient>
 incoming ={
-    (cpty: *, security: *, quantity: *, action: A, delay: 0)
-    (cpty: *, security: *, quantity: *, action: R, delay: 0)
+    (cpty: *, security: F! BBG001S5N8V8 | S! 2795393 | I! US0231351067 | C! 084670702 , quantity: *, action: A, delay: 0)        
+    (cpty: *, security: CAH | COST | CVS | CVX, quantity: *, action: R, delay: 0)
 }
 <initiator>
 incoming = {
-    (cpty: *, security: *, quantity: *, action: I, delay: 0)
     (cpty: *, security: *, quantity: *, action: C, delay: 0)
+    (cpty: *, security: *, quantity: *, action: I, delay: 0)
 }
 outgoingOFF = {
-    (bot_party_role: LENDER, cpty: TBORR-US, security: AAPL | MSFT, quantity: 1000, delay: 15, period: 10, duration: 90)
-    (bot_party_role: LENDER, cpty: TBORR-US, security: TSLA | GOOG, quantity: 1000, delay: 10, period: 10, duration: 90)
+    (bot_party_role: LENDER, cpty: TBORR-US, security: AAPL | MSFT, quantity: 1000, delay: 0, period: 3, duration: 6)
+    (bot_party_role: LENDER, cpty: TBORR-US, security: TSLA | GOOG, quantity: 1000, delay: 0, period: 3, duration: 6)
 }
 
 [[Rerates]]

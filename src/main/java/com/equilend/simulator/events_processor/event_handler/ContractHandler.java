@@ -36,7 +36,7 @@ public class ContractHandler implements EventHandler {
         } catch (APIException e) {
             logger.debug("Unable to process contract event");
         }   
-
+        if (contract == null) logger.trace("get contract by id returns null");
         return contract;
     }
 
@@ -65,9 +65,9 @@ public class ContractHandler implements EventHandler {
         }
     }    
 
-    public static void acceptContractProposal(String contractId, Long startTime, Double delay) {
-        Settlement settlement = ContractProposal.createSettlement(PartyRole.BORROWER);
-        AcceptSettlement acceptSettlement = new AcceptSettlement(settlement);
+    public static void acceptContractProposal(String contractId, PartyRole role, Long startTime, Double delay) {
+        Settlement settlement = ContractProposal.createSettlement(role);
+        AcceptSettlement acceptSettlement = new AcceptSettlement(settlement, role);
         
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
@@ -118,7 +118,7 @@ public class ContractHandler implements EventHandler {
                 return;
             }
             else if(rule.isShouldApprove()){
-                acceptContractProposal(contractId, startTime, rule.getDelay());
+                acceptContractProposal(contractId, contract.getTrade().getPartyRole(botPartyId), startTime, rule.getDelay());
             }
             else{
                 declineContractProposal(contractId, startTime, rule.getDelay());

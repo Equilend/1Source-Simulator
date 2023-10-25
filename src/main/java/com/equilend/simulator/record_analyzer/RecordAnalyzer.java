@@ -25,6 +25,7 @@ public class RecordAnalyzer {
     private String botPartyId;
     private boolean rerateAnalysisMode;
     private boolean contractAnalysisMode;
+    private String contractStartDate;
     private static final Logger logger = LogManager.getLogger();
 
     public RecordAnalyzer(Configurator configurator){
@@ -32,6 +33,7 @@ public class RecordAnalyzer {
         this.botPartyId = configurator.getGeneralRules().getBotPartyId();
         this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
         this.contractAnalysisMode = configurator.getContractRules().getAnalysisMode();
+        this.contractStartDate = configurator.getContractRules().getAnalysisStartDate();
     }
 
     private Contract getContractById(String contractId) {
@@ -47,7 +49,7 @@ public class RecordAnalyzer {
     private List<Contract> getContracts(String status){
         List<Contract> contracts = null;
         try {
-            contracts = APIConnector.getAllContracts(OneSourceToken.getToken(), status);
+            contracts = APIConnector.getAllContracts(OneSourceToken.getToken(), status, contractStartDate);
         }catch (APIException e){
             logger.error("Analyzer unable to retrieve approved contracts");
         }
@@ -133,7 +135,7 @@ public class RecordAnalyzer {
                         ContractResponsiveRule rule = configurator.getContractRules().getApproveOrRejectApplicableRule(contract, botPartyId);
                         if (rule == null) continue;
                         if(rule.isShouldApprove()){
-                            ContractHandler.acceptContractProposal(contract.getContractId(), 0L, 0.0);
+                            ContractHandler.acceptContractProposal(contract.getContractId(), contract.getTrade().getPartyRole(botPartyId), 0L, 0.0);
                         }
                         else{
                             ContractHandler.declineContractProposal(contract.getContractId(), 0L, 0.0); 

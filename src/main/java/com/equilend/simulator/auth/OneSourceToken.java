@@ -20,6 +20,13 @@ public class OneSourceToken {
     private static final Logger logger = LogManager.getLogger();
 
     private OneSourceToken() throws APIException {
+        Token tokenResponse;
+        try {
+            tokenResponse = KeycloakConnector.getBearerToken(login, url);
+            accessToken = tokenResponse.getAccess_token();                
+        } catch (APIException e) {
+            logger.error("Error retrieving 1Source auth token");
+        }
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(new Runnable () {
             public void run() {
@@ -31,7 +38,7 @@ public class OneSourceToken {
                     logger.error("Error retrieving 1Source auth token");
                 }
             }
-        }, 0, 840, TimeUnit.SECONDS);
+        }, 840, 840, TimeUnit.SECONDS);
     }
 
     public String getAccessToken(){

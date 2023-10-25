@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.configurator.rules.Rules;
 
 public class ContractRules implements Rules{
@@ -13,12 +14,14 @@ public class ContractRules implements Rules{
     private List<ContractRule> initiatorIncomingRules = new ArrayList<>();
     private List<ContractRule> initiatorOutgoingRules = new ArrayList<>();
     private boolean analysisMode;
+    private String analysisStartDate = APIConnector.formatTime(APIConnector.getCurrentTime()).substring(0, 10);
 
     public ContractRules(Map<String, Map<String, String>> rulesMap){    
-        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("incoming"), recipientIncomingRules, true);
         addRules(rulesMap.get("initiator").get("incoming"), initiatorIncomingRules, true);
         addRules(rulesMap.get("initiator").get("outgoing"), initiatorOutgoingRules, false);
+        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        analysisStartDate = rulesMap.get("general").get("analysis_start_date");
     }
 
     public void addRules(String rawRulesList, List<ContractRule> contractRulesList, boolean isResponsive){
@@ -47,6 +50,10 @@ public class ContractRules implements Rules{
 
     public boolean getAnalysisMode(){
         return analysisMode;
+    }
+
+    public String getAnalysisStartDate(){
+        return analysisStartDate;
     }
 
     //if should ignore trade return -1, otherwise return delay to cancel

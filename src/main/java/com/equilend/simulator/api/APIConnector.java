@@ -140,7 +140,7 @@ public class APIConnector {
         return agreement;
     }
 
-    public static List<Contract> getAllContracts(OneSourceToken token, String status) throws APIException{
+    public static List<Contract> getAllContracts(OneSourceToken token, String status, String since) throws APIException{
         if (token == null){
             String message = "Token is null, unable to get all events";
             logger.debug(message);
@@ -151,11 +151,17 @@ public class APIConnector {
             throw new APIException("1Source REST API URL not properly loaded");
         }        
 
+        StringBuilder uri = new StringBuilder(restAPIURL);
+        uri.append("/contracts?size=2147483647&contractStatus=");
+        uri.append(status);
+        uri.append("&since=");
+        uri.append(since);
+        uri.append("T00:00:00Z");
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts?size=2147483647&contractStatus=" + status))
+                .uri(new URI(uri.toString()))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
@@ -176,7 +182,7 @@ public class APIConnector {
         logger.debug("Get All Contracts: Status Code {}", getResponse.statusCode());
 
         Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
-        return gson.fromJson(getResponse.body(), contractListType);
+        return gson.fromJson(getResponse.body(), contractListType);        
     }
 
     public static Contract getContractById(OneSourceToken token, String id) throws APIException {
@@ -323,6 +329,7 @@ public class APIConnector {
         }         
 
         String settlementJson = gson.toJson(settlement);
+        logger.trace(settlementJson);
 
         HttpRequest postRequest;
         try {
@@ -352,6 +359,7 @@ public class APIConnector {
         }
         else{
             logger.trace("Accept Contract {}: Status Code = {}", contractId, postResponse.statusCode());
+            logger.trace(postResponse.body());
         }
         return postResponse.statusCode();
     }
