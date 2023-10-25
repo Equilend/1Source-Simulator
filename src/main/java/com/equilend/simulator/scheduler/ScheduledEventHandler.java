@@ -32,7 +32,6 @@ public class ScheduledEventHandler implements Runnable {
     }
 
     public void run() {
-        // Long start = System.currentTimeMillis();
         OneSourceToken token;
         try {
             token = OneSourceToken.getToken();
@@ -46,7 +45,6 @@ public class ScheduledEventHandler implements Runnable {
             quantity = Long.parseLong(quantityStr);
         } catch(NumberFormatException e){
             quantity = 666L;
-            //if quantityStr is a range, randomly select a number from that range
         }
 
         try {
@@ -55,8 +53,6 @@ public class ScheduledEventHandler implements Runnable {
         } catch(APIException e){
             logger.info("Unable to propose scheduled contract proposal");
         }
-        // Long end = System.currentTimeMillis();
-        // logger.trace("EXECUTION TIME: {} milliseconds", end-start);
     }
 
 }

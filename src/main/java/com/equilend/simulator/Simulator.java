@@ -53,7 +53,7 @@ public class Simulator {
 
         warmUp();
 
-        if (configurator.getRerateRules().getAnalysisMode()){
+        if (configurator.getRerateRules().getAnalysisMode() || configurator.getContractRules().getAnalysisMode()){
             logger.info("Analyzing existing records");
             RecordAnalyzer analyzer = new RecordAnalyzer(configurator);
             analyzer.run();

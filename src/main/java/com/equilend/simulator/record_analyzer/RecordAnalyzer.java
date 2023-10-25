@@ -7,135 +7,73 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.api.FedAPIConnector;
-import com.equilend.simulator.api.FedAPIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.rerate.RerateProposal;
-import com.equilend.simulator.model.trade.rate.FixedRate;
-import com.equilend.simulator.model.trade.rate.Rate;
-import com.equilend.simulator.model.trade.rate.RebateRate;
 import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
+import com.equilend.simulator.events_processor.event_handler.ContractHandler;
+import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 
 public class RecordAnalyzer {
 
     private Configurator configurator;    
     private String botPartyId;
     private boolean rerateAnalysisMode;
+    private boolean contractAnalysisMode;
     private static final Logger logger = LogManager.getLogger();
 
     public RecordAnalyzer(Configurator configurator){
         this.configurator = configurator;
         this.botPartyId = configurator.getGeneralRules().getBotPartyId();
         this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
+        this.contractAnalysisMode = configurator.getContractRules().getAnalysisMode();
     }
 
-    public List<Contract> getApprovedContracts(){
-        List<Contract> contracts = null;
-        try {
-            contracts = APIConnector.getAllContracts(OneSourceToken.getToken(), "APPROVED");
-        }catch (APIException e){
-            logger.error("Error retrieving approved contracts");
-        }
-        return contracts;
-    }
-
-    public Contract getContractById(String contractId) {
+    private Contract getContractById(String contractId) {
         Contract contract = null;
         try {
             contract = APIConnector.getContractById(OneSourceToken.getToken(), contractId);
         } catch (APIException e){
-            logger.error("Error retrieving contract {}", contractId);
+            logger.error("Analyzer unable to retrieve contract {}", contractId);
         }
         return contract;
     }
 
-    public List<Rerate> getOpenReratesOnContract(String contractId){
+    private List<Contract> getContracts(String status){
+        List<Contract> contracts = null;
+        try {
+            contracts = APIConnector.getAllContracts(OneSourceToken.getToken(), status);
+        }catch (APIException e){
+            logger.error("Analyzer unable to retrieve approved contracts");
+        }
+        return contracts;
+    }
+
+    private List<Rerate> getOpenReratesOnContract(String contractId){
         List<Rerate> rerates = null;
         try {
             rerates = APIConnector.getAllReratesOnContract(OneSourceToken.getToken(), contractId);
         } catch(APIException e){
-            logger.error("Error retrieving open rerates on contract {}", contractId);
+            logger.error("Analyzer unable to retrieve open rerates on contract {}", contractId);
         }
         
         return rerates;
     }
 
-    public List<Rerate> getAllRerates(){
+    private List<Rerate> getAllRerates(){
         List<Rerate> rerates = null;
         try {
             rerates = APIConnector.getAllRerates(OneSourceToken.getToken());
         }catch (APIException e){
-            logger.error("Error retrieving approved rerates");
+            logger.error("Analyzer unable to retrieve approved rerates");
         }
         return rerates;        
     }
-
-    public void postRerateProposal(String contractId, Rate rate, Double delta){
-        FixedRate fee = rate.getFee();
-        RebateRate rebate = rate.getRebate();
-
-        String today = APIConnector.getCurrentTime().toString().substring(0, 10);
-        if (fee != null){
-            fee.setBaseRate(Math.max(fee.getBaseRate() + delta, 0.01));
-            fee.setEffectiveDate(today);
-        }
-        else if (rebate != null){
-            if (rebate.getFixed() != null) {
-                rebate.getFixed().setBaseRate(Math.max(rebate.getFixed().getBaseRate() + delta, 0.01));
-                rebate.getFixed().setEffectiveDate(today);
-            }
-            else if (rebate.getFloating() != null){
-                String benchmarkStr = rebate.getFloating().getBenchmark().name();
-                Double benchmarkRate = 5.0;
-                try {
-                    benchmarkRate = FedAPIConnector.getRefRate(benchmarkStr).getPercentRate();
-                } catch (FedAPIException e) {
-                    logger.debug("Analyzer unable to get benchmark rate, default to 5%");
-                }
-
-                rebate.getFloating().setBaseRate(benchmarkRate);
-                rebate.getFloating().setSpread(Math.max(rebate.getFloating().getSpread() + delta, 0.01));
-                rebate.getFloating().setEffectiveDate(today);
-            }
-        }
-
-        try {
-            APIConnector.postRerateProposal(OneSourceToken.getToken(), contractId, new RerateProposal(rate));
-        } catch (APIException e) {
-            logger.debug("Analyzer unable to propose rerate");
-        }
-
-    }
-
-    public void cancelRerateProposal(String contractId, String rerateId){
-        try {
-            APIConnector.cancelRerateProposal(OneSourceToken.getToken(), contractId, rerateId);
-        } catch (APIException e) {
-            logger.debug("Analyzer unable to cancel rerate");
-        }
-    }
-
-    public void approveRerateProposal(String contractId, String rerateId){
-        try {
-            APIConnector.approveRerateProposal(OneSourceToken.getToken(), contractId, rerateId);
-        } catch (APIException e) {
-            logger.debug("Analyzer unable to approve rerate");
-        }
-    }    
-
-    public void declineRerateProposal(String contractId, String rerateId){
-        try {
-            APIConnector.declineRerateProposal(OneSourceToken.getToken(), contractId, rerateId);
-        } catch (APIException e) {
-            logger.debug("Analyzer unable to decline rerate");
-        }        
-    }        
 
     public void run(){
         if (rerateAnalysisMode){
@@ -150,7 +88,7 @@ public class RecordAnalyzer {
                         RerateCancelRule rule = configurator.getRerateRules().getCancelRule(rerate, contract, botPartyId);
                         if (rule == null || !rule.shouldCancel()) continue;
     
-                        cancelRerateProposal(rerate.getLoanId(), rerate.getRerateId());
+                        RerateHandler.cancelRerateProposal(rerate.getLoanId(), rerate.getRerateId(), 0L, 0.0);
                     }
                     else{
                         // if bot is borrower => recipient => approve/reject rules
@@ -159,16 +97,16 @@ public class RecordAnalyzer {
                         RerateApproveRule rule = configurator.getRerateRules().getApproveRule(rerate, contract, botPartyId);
                         if (rule == null) continue;
                         if (rule.shouldApprove()){
-                            approveRerateProposal(rerate.getLoanId(), rerate.getRerateId());
+                            RerateHandler.approveRerateProposal(rerate.getLoanId(), rerate.getRerateId(), 0L, 0.0);
                         }
                         else{
-                            declineRerateProposal(rerate.getLoanId(), rerate.getRerateId());
+                            RerateHandler.declineRerateProposal(rerate.getLoanId(), rerate.getRerateId(), 0L, 0.0);
                         }
                     }
                 }
             }
             // Get approved contracts to consider proposing rerates
-            List<Contract> contracts = getApprovedContracts();
+            List<Contract> contracts = getContracts("APPROVED");
             if (contracts != null) {
                 for (Contract contract : contracts){
                     List<Rerate> reratesOnContract = getOpenReratesOnContract(contract.getContractId());
@@ -176,11 +114,33 @@ public class RecordAnalyzer {
         
                     RerateProposeRule rule = configurator.getRerateRules().getProposeRule(contract, configurator.getGeneralRules().getBotPartyId());
                     if (rule == null || !rule.shouldPropose()) continue;
-                    postRerateProposal(contract.getContractId(), contract.getTrade().getRate(), rule.getDelta());
+                    RerateHandler.postRerateProposal(contract.getContractId(), contract.getTrade().getRate(), rule.getDelta(), 0L, 0.0);
                 }
             }
         }
-
+        if (contractAnalysisMode){
+            //get all proposed contracts to consider accepting/declining/cancelling
+            List<Contract> contracts = getContracts("PROPOSED");
+            if (contracts != null){
+                for (Contract contract : contracts){
+                    //determine whether will consider as initiator or as recipient
+                    if (ContractHandler.didBotInitiate(botPartyId, contract)){
+                        Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
+                        if (delay == -1.0) continue;
+                        ContractHandler.cancelContractProposal(contract.getContractId(), 0L, 0.0);
+                    }
+                    else{
+                        ContractResponsiveRule rule = configurator.getContractRules().getApproveOrRejectApplicableRule(contract, botPartyId);
+                        if (rule == null) continue;
+                        if(rule.isShouldApprove()){
+                            ContractHandler.acceptContractProposal(contract.getContractId(), 0L, 0.0);
+                        }
+                        else{
+                            ContractHandler.declineContractProposal(contract.getContractId(), 0L, 0.0); 
+                        }
+                    }
+                }
+            }
+        }
     }
-
 }

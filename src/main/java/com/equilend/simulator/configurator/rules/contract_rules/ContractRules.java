@@ -12,8 +12,10 @@ public class ContractRules implements Rules{
     private List<ContractRule> recipientIncomingRules = new ArrayList<>();
     private List<ContractRule> initiatorIncomingRules = new ArrayList<>();
     private List<ContractRule> initiatorOutgoingRules = new ArrayList<>();
+    private boolean analysisMode;
 
-    public ContractRules(Map<String, Map<String, String>> rulesMap){        
+    public ContractRules(Map<String, Map<String, String>> rulesMap){    
+        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("incoming"), recipientIncomingRules, true);
         addRules(rulesMap.get("initiator").get("incoming"), initiatorIncomingRules, true);
         addRules(rulesMap.get("initiator").get("outgoing"), initiatorOutgoingRules, false);
@@ -41,6 +43,10 @@ public class ContractRules implements Rules{
 
     public boolean schedulerMode(){
         return initiatorOutgoingRules.size() > 0;
+    }
+
+    public boolean getAnalysisMode(){
+        return analysisMode;
     }
 
     //if should ignore trade return -1, otherwise return delay to cancel

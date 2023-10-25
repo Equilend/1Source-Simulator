@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.rerate.Rerate;
@@ -34,22 +33,10 @@ public class RerateHandler implements EventHandler {
         this.startTime = startTime;
     }
 
-    public OneSourceToken getToken() {
-        OneSourceToken token = null;
-        try {
-            token = OneSourceToken.getToken();
-        } catch (APIException e) {
-            logger.error("Unable to process contract event due to error with token");
-            return null;
-        }
-
-        return token;
-    }
-
     private Rerate getRerateById(String id){
         Rerate rerate = null;
         try {
-            rerate = APIConnector.getRerateById(getToken(), id);
+            rerate = APIConnector.getRerateById(EventHandler.getToken(), id);
         }
         catch (APIException e){
             logger.debug("Unable to process rerate event");
@@ -60,7 +47,7 @@ public class RerateHandler implements EventHandler {
     private Contract getContractById(String id) {
         Contract contract = null;
         try {
-            contract = APIConnector.getContractById(getToken(), id);
+            contract = APIConnector.getContractById(EventHandler.getToken(), id);
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }   
@@ -68,7 +55,7 @@ public class RerateHandler implements EventHandler {
         return contract;
     }   
 
-    public void postRerateProposal(String contractId, Rate rate, Double delta, Double delay){
+    public static void postRerateProposal(String contractId, Rate rate, Double delta, Long startTime, Double delay){
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
@@ -90,47 +77,46 @@ public class RerateHandler implements EventHandler {
         }
 
         try {
-            APIConnector.postRerateProposal(getToken(), contractId, new RerateProposal(rate));
+            APIConnector.postRerateProposal(EventHandler.getToken(), contractId, new RerateProposal(rate));
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }
 
     }
 
-    public void cancelRerateProposal(String contractId, String rerateId, Double delay){
+    public static void cancelRerateProposal(String contractId, String rerateId, Long startTime, Double delay){
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
-
         try {
-            APIConnector.cancelRerateProposal(getToken(), contractId, rerateId);
+            APIConnector.cancelRerateProposal(EventHandler.getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }
     }
 
-    public void approveRerateProposal(String contractId, String rerateId, Double delay){
+    public static void approveRerateProposal(String contractId, String rerateId, Long startTime, Double delay){
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }   
         
         try {
-            APIConnector.approveRerateProposal(getToken(), contractId, rerateId);
+            APIConnector.approveRerateProposal(EventHandler.getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }
     }    
 
-    public void declineRerateProposal(String contractId, String rerateId, Double delay){
+    public static void declineRerateProposal(String contractId, String rerateId, Long startTime, Double delay){
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }  
         
         try {
-            APIConnector.declineRerateProposal(getToken(), contractId, rerateId);
+            APIConnector.declineRerateProposal(EventHandler.getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }        
@@ -153,21 +139,21 @@ public class RerateHandler implements EventHandler {
                 RerateCancelRule rule = configurator.getRerateRules().getCancelRule(rerate, contract, botPartyId);
                 if (rule == null || !rule.shouldCancel()) return; //default to ignore/ not cancelling
                 Double delay = rule.getDelay();
-                cancelRerateProposal(contractId, rerateId, delay);
+                cancelRerateProposal(contractId, rerateId, startTime, delay);
             }
             else{
                 RerateApproveRule rule = configurator.getRerateRules().getApproveRule(rerate, contract, botPartyId);
                 if (rule == null){
                     //no applicable rule, default to approve w/o delay
-                    approveRerateProposal(contractId, rerateId, 0.0);
+                    approveRerateProposal(contractId, rerateId, startTime, 0.0);
                 }
                 else if (rule.shouldApprove()){
                     Double delay = rule.getDelay();
-                    approveRerateProposal(contractId, rerateId, delay);
+                    approveRerateProposal(contractId, rerateId, startTime, delay);
                 }
                 else{
                     Double delay = rule.getDelay();
-                    declineRerateProposal(contractId, rerateId, delay);
+                    declineRerateProposal(contractId, rerateId, startTime, delay);
                 }
             }        
         }
@@ -181,7 +167,7 @@ public class RerateHandler implements EventHandler {
             Double delta = rule.getDelta();
             Double delay = rule.getDelay();
 
-            postRerateProposal(contractId, contract.getTrade().getRate(), delta, delay);
+            postRerateProposal(contractId, contract.getTrade().getRate(), delta, startTime, delay);
         }
     }
 }

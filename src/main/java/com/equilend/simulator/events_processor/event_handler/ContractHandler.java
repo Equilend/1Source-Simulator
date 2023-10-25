@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.event.Event;
@@ -30,22 +29,10 @@ public class ContractHandler implements EventHandler {
         this.startTime = startTime;
     }
 
-    public OneSourceToken getToken() {
-        OneSourceToken token = null;
-        try {
-            token = OneSourceToken.getToken();
-        } catch (APIException e) {
-            logger.error("Unable to process contract event due to error with token");
-            return null;
-        }
-
-        return token;
-    }
-
-    private Contract getContractById(String id) {
+    public Contract getContractById(String id) {
         Contract contract = null;
         try {
-            contract = APIConnector.getContractById(getToken(), id);
+            contract = APIConnector.getContractById(EventHandler.getToken(), id);
         } catch (APIException e) {
             logger.debug("Unable to process contract event");
         }   
@@ -53,7 +40,7 @@ public class ContractHandler implements EventHandler {
         return contract;
     }
 
-    private boolean didBotInitiate(Contract contract){
+    public static boolean didBotInitiate(String botPartyId, Contract contract){
         // Currently, lender only provides its settlement info it only has lender settlement on contract
         //But borrower creates both lender and borrower settlement, even if lender is empty
         boolean lenderInitiated = contract.getSettlement().size() == 1;
@@ -65,20 +52,20 @@ public class ContractHandler implements EventHandler {
         return contract.getTrade().getPartyRole(botPartyId) == PartyRole.BORROWER;
     }
 
-    private void cancelContractProposal(String contractId, Double delay) {
+    public static void cancelContractProposal(String contractId, Long startTime, Double delay) {
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
 
         try {
-            APIConnector.cancelContractProposal(getToken(), contractId);
+            APIConnector.cancelContractProposal(EventHandler.getToken(), contractId);
         } catch (APIException e) {
             logger.debug("Unable to process contract event");
         }
     }    
 
-    private void acceptContractProposal(String contractId, Double delay) {
+    public static void acceptContractProposal(String contractId, Long startTime, Double delay) {
         Settlement settlement = ContractProposal.createSettlement(PartyRole.BORROWER);
         AcceptSettlement acceptSettlement = new AcceptSettlement(settlement);
         
@@ -88,20 +75,20 @@ public class ContractHandler implements EventHandler {
         }
 
         try {
-            APIConnector.acceptContractProposal(getToken(), contractId, acceptSettlement);
+            APIConnector.acceptContractProposal(EventHandler.getToken(), contractId, acceptSettlement);
         } catch (APIException e) {
             logger.debug("Unable to process contract event");
         }
     }
 
-    private void declineContractProposal(String contractId, Double delay) {
+    public static void declineContractProposal(String contractId, Long startTime, Double delay) {
         Long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
 
         try {
-            APIConnector.declineContractProposal(getToken(), contractId);
+            APIConnector.declineContractProposal(EventHandler.getToken(), contractId);
         } catch (APIException e) {
             logger.debug("Unable to process contract event");
         }
@@ -117,11 +104,11 @@ public class ContractHandler implements EventHandler {
         Contract contract = getContractById(contractId);
         if (contract == null) return;
 
-        boolean botInitiated = didBotInitiate(contract);
+        boolean botInitiated = didBotInitiate(botPartyId, contract);
         if (botInitiated){
             Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
             if (delay == -1) return;  
-            cancelContractProposal(contractId, delay);
+            cancelContractProposal(contractId, startTime, delay);
         }
         else{
             //Analyze contract to decide whether to accept or decline based on configurator
@@ -131,10 +118,10 @@ public class ContractHandler implements EventHandler {
                 return;
             }
             else if(rule.isShouldApprove()){
-                acceptContractProposal(contractId, rule.getDelay());
+                acceptContractProposal(contractId, startTime, rule.getDelay());
             }
             else{
-                declineContractProposal(contractId, rule.getDelay());
+                declineContractProposal(contractId, startTime, rule.getDelay());
             }
 
         }

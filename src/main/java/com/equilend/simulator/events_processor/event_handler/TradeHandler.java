@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.agreement.Agreement;
 import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.event.Event;
@@ -22,17 +21,6 @@ public class TradeHandler implements EventHandler {
     private Long startTime;
     private static final Logger logger = LogManager.getLogger();
 
-    public OneSourceToken getToken() {
-        OneSourceToken token = null;
-        try {
-            token = OneSourceToken.getToken();
-        } catch (APIException e) {
-            logger.error("Unable to process trade event due to error with token");
-            return null;
-        }
-        return token;
-    }
-
     public TradeHandler(Event e, Configurator configurator, Long startTime) {
         this.event = e;
         this.configurator = configurator;
@@ -41,7 +29,7 @@ public class TradeHandler implements EventHandler {
 
     public boolean getAgreementById(String id) {
         try {
-            agreement = APIConnector.getAgreementById(getToken(), id);
+            agreement = APIConnector.getAgreementById(EventHandler.getToken(), id);
             
         } catch (APIException e) {
             logger.debug("Unable to process trade event");
@@ -56,7 +44,7 @@ public class TradeHandler implements EventHandler {
         ContractProposal contractProposal = ContractProposal.createContractProposal(trade, botPartyRole);
     
         try {
-            APIConnector.postContractProposal(getToken(), contractProposal);
+            APIConnector.postContractProposal(EventHandler.getToken(), contractProposal);
         } catch (APIException e) {
             logger.debug("Unable to process trade event");
         }
