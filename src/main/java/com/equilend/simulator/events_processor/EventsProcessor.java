@@ -4,6 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,18 +20,25 @@ import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
 
 public class EventsProcessor implements Runnable {
-
+    
     private Configurator configurator;
     private long waitInterval;
     private static final Logger logger = LogManager.getLogger();
-
+    
     public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
         this.waitInterval = Long.valueOf(configurator.getGeneralRules().getEventFetchIntervalMillis());
     }
+    
+    private static class EventHandlerThread implements ThreadFactory {
+        private static int count = 0;
+        public Thread newThread(Runnable r){
+            return new Thread(r, "Event-Handler-Thread-" + String.valueOf(count++));
+        }
+    }
 
     public void run() {
-        ExecutorService exec = Executors.newCachedThreadPool();
+        ExecutorService exec = Executors.newCachedThreadPool(new EventHandlerThread());
 
         OneSourceToken token;
         try {

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,6 +49,18 @@ public class Simulator {
         }
     }
 
+    private static class EventProcessorThread implements ThreadFactory {
+        public Thread newThread(Runnable r){
+            return new Thread(r, "Events-Processor-Thread");
+        }
+    }    
+
+    private static class SchedulerThread implements ThreadFactory {
+        public Thread newThread(Runnable r){
+            return new Thread(r, "Scheduler-Thread");
+        }
+    } 
+
     public static void main(String[] args) { 
         logger.info("Starting Program...");
         Configurator configurator = new Configurator();
@@ -62,11 +76,11 @@ public class Simulator {
         logger.info("And we're live!!!");
         ExecutorService execOutgoing = null; 
         if (configurator.getContractRules().schedulerMode()){
-            execOutgoing = Executors.newSingleThreadExecutor();
+            execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());
             execOutgoing.execute(new Scheduler(configurator));
         }
 
-        ExecutorService execIncoming = Executors.newSingleThreadExecutor();
+        ExecutorService execIncoming = Executors.newSingleThreadExecutor(new EventProcessorThread());
         execIncoming.execute(new EventsProcessor(configurator));
         
         System.out.println("Enter q to quit");

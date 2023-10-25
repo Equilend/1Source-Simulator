@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,12 +34,19 @@ public class Scheduler implements Runnable {
         this.instruments = configurator.getInstruments();
     }
 
+    private static class GeneratedEventThread implements ThreadFactory {
+        private static int count = 0;
+        public Thread newThread(Runnable r){
+            return new Thread(r, "Generated-Event-Thread-" + String.valueOf(count++));
+        }
+    }
+
     public void run(){
         // Get generative contract rules/instructions from configurator
         List<ContractRule> rules = configurator.getContractRules().getSchedulerRules();
         if (rules == null || rules.size() == 0) return;
         
-        ScheduledExecutorService exec = Executors.newScheduledThreadPool(8);
+        ScheduledExecutorService exec = Executors.newScheduledThreadPool(8, new GeneratedEventThread());
 
         // For each instruction, create a thread that handles this task.
         for (ContractRule rule : rules){
