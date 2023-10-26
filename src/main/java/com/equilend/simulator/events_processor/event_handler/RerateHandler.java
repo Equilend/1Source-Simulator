@@ -135,7 +135,7 @@ public class RerateHandler implements EventHandler {
             Contract contract = getContractById(contractId);
 
             //For now, default to lender party being initiator and borrower party being recipient
-            if (rerate.getPartyRole(botPartyId) == PartyRole.LENDER){
+            if (contract.getTrade().getPartyRole(botPartyId) == PartyRole.LENDER){
                 RerateCancelRule rule = configurator.getRerateRules().getCancelRule(rerate, contract, botPartyId);
                 if (rule == null || !rule.shouldCancel()) return; //default to ignore/ not cancelling
                 Double delay = rule.getDelay();

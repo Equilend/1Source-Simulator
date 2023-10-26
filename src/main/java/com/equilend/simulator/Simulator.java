@@ -62,18 +62,20 @@ public class Simulator {
     } 
 
     public static void main(String[] args) { 
-        logger.info("Starting Program...");
+        logger.info("=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n"
+                    + "Starting Program..." + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
         Configurator configurator = new Configurator();
 
         warmUp();
 
         if (configurator.getRerateRules().getAnalysisMode() || configurator.getContractRules().getAnalysisMode()){
-            logger.info("Analyzing existing records");
+            logger.info("=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n"
+                    + "Analyzing existing records" + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
             RecordAnalyzer analyzer = new RecordAnalyzer(configurator);
             analyzer.run();
         }
-
-        logger.info("And we're live!!!");
+        logger.info("=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n" 
+                    + "And we're live!!!" + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
         ExecutorService execOutgoing = null; 
         if (configurator.getContractRules().schedulerMode()){
             execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());

@@ -1,5 +1,4 @@
 [[General]]
-user_party_id = BANK-INC
 bot_party_id = TLEN-US
 max_refresh_attempts = 3
 event_fetch_interval_secs = 10
@@ -23,7 +22,7 @@ password=asdf1234
 
 [[Events]]
 incoming = {
-    (event_type: TRADE, action: D)
+    (event_type: TRADE, action: I)
     (event_type: CONTRACT, action: I)
     (event_type: CONTRACT_APPROVE, action: I)
     (event_type: RERATE, action: I)
@@ -43,11 +42,13 @@ incoming = {
 }           
 
 [[Contracts]]
-analysis_mode = 1
-analysis_start_date = 2023-10-25
+analysis_mode = 0
+analysis_start_date = 2023-10-26
 <recipient>
 incoming ={
-    (cpty: *, security: F! BBG001S5N8V8 | S! 2795393 | I! US0231351067 | C! 084670702 , quantity: *, action: A, delay: 0)        
+    (cpty: *, security: JPM | IBM, quantity: *, action: A, delay: 0)
+    (cpty: *, security: AAPL | MSFT | AMZN | GOOG, quantity: *, action: A, delay: 0)
+    (cpty: *, security: F! BBG001S5N8V8 | S! 2795393 | I! US0231351067 | C! 084670702 , quantity: *, action: R, delay: 0)        
     (cpty: *, security: CAH | COST | CVS | CVX, quantity: *, action: R, delay: 0)
 }
 <initiator>
@@ -57,21 +58,22 @@ incoming = {
 }
 outgoingOFF = {
     (bot_party_role: LENDER, cpty: TBORR-US, security: AAPL | MSFT, quantity: 1000, delay: 0, period: 5, duration: 60)
-    (bot_party_role: LENDER, cpty: TBORR-US, security: TSLA | GOOG, quantity: 1000, delay: 0, period: 5, duration: 60)
+    (bot_party_role: LENDER, cpty: TBORR-US, security: AMZN | GOOG, quantity: 1000, delay: 0, period: 5, duration: 60)
+    (bot_party_role: LENDER, cpty: TBORR-US, security: JPM | IBM, quantity: 1000, delay: 0, period: 5, duration: 60)
 }
 
 [[Rerates]]
-analysis_mode = 0
+analysis_mode = 1
 <recipient>
 approve = {
-    (cpty: *, security: *, rate: *, action: A, delay: 0)
-    (cpty: *, security: *, rate: *, action: R, delay: 0)
+    (cpty: *, security: *, rate: (-inf, AVG), action: A, delay: 0)
+    (cpty: *, security: *, rate: [AVG, inf], action: R, delay: 0)
 }
 <initiator>
 cancel = {
-    (cpty: *, security: *, rate: (0, AVG), action: C, delay: 0)
+    (cpty: *, security: *, rate: *, action: C, delay: 0)
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
 }
 propose = {
-    (cpty: *, security: *, rate: *, delta: 1.5, action: P, delay: 0)
+    (cpty: NULL, security: *, rate: *, delta: 1.5, action: P, delay: 0)
 }

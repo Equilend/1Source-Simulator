@@ -83,10 +83,11 @@ public class RecordAnalyzer {
             List<Rerate> rerates = getAllRerates();
             if (rerates != null){
                 for (Rerate rerate : rerates){
-                    if (rerate.getPartyRole(botPartyId) == PartyRole.LENDER){
+                    Contract contract = getContractById(rerate.getLoanId());
+                    if (contract == null) continue;
+
+                    if (contract.getTrade().getPartyRole(botPartyId) == PartyRole.BORROWER){
                         // if bot is lender => initiator => cancel/ignore rules
-                        Contract contract = getContractById(rerate.getLoanId());
-                        if (contract == null) continue;
                         RerateCancelRule rule = configurator.getRerateRules().getCancelRule(rerate, contract, botPartyId);
                         if (rule == null || !rule.shouldCancel()) continue;
     
@@ -94,8 +95,6 @@ public class RecordAnalyzer {
                     }
                     else{
                         // if bot is borrower => recipient => approve/reject rules
-                        Contract contract = getContractById(rerate.getLoanId());
-                        if (contract == null) continue;
                         RerateApproveRule rule = configurator.getRerateRules().getApproveRule(rerate, contract, botPartyId);
                         if (rule == null) continue;
                         if (rule.shouldApprove()){
