@@ -38,7 +38,7 @@ public class OneSourceToken {
                     logger.error("Error retrieving 1Source auth token");
                 }
             }
-        }, 840, 840, TimeUnit.SECONDS);
+        }, 600, 600, TimeUnit.SECONDS);
     }
 
     public String getAccessToken(){

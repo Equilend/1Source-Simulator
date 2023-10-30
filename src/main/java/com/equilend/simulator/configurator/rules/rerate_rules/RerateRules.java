@@ -111,7 +111,6 @@ public class RerateRules implements Rules {
                 return null;
             }
         }        
-        logger.info("no applicable propose rule ..");
         return null;
     }
 

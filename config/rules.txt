@@ -22,7 +22,7 @@ password=asdf1234
 
 [[Events]]
 incoming = {
-    (event_type: TRADE, action: I)
+    (event_type: TRADE, action: D)
     (event_type: CONTRACT, action: I)
     (event_type: CONTRACT_APPROVE, action: I)
     (event_type: RERATE, action: I)
@@ -42,8 +42,8 @@ incoming = {
 }           
 
 [[Contracts]]
-analysis_mode = 0
-analysis_start_date = 2023-10-26
+analysis_mode = 1
+analysis_start_date = 2023-10-27
 <recipient>
 incoming ={
     (cpty: *, security: JPM | IBM, quantity: *, action: A, delay: 0)
@@ -63,7 +63,7 @@ outgoingOFF = {
 }
 
 [[Rerates]]
-analysis_mode = 1
+analysis_mode = 0
 <recipient>
 approve = {
     (cpty: *, security: *, rate: (-inf, AVG), action: A, delay: 0)

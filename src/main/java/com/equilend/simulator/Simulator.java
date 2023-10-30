@@ -62,28 +62,31 @@ public class Simulator {
     } 
 
     public static void main(String[] args) { 
-        logger.info("=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n"
+        logger.info("\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n"
                     + "Starting Program..." + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
         Configurator configurator = new Configurator();
 
         warmUp();
 
         if (configurator.getRerateRules().getAnalysisMode() || configurator.getContractRules().getAnalysisMode()){
-            logger.info("=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n"
+            logger.info("\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n"
                     + "Analyzing existing records" + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
             RecordAnalyzer analyzer = new RecordAnalyzer(configurator);
             analyzer.run();
         }
-        logger.info("=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n" 
-                    + "And we're live!!!" + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
         ExecutorService execOutgoing = null; 
         if (configurator.getContractRules().schedulerMode()){
+            logger.info("\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n" 
+            + "Generating contracts from rules" + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
+
             execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());
             execOutgoing.execute(new Scheduler(configurator));
         }
-
+        
         ExecutorService execIncoming = Executors.newSingleThreadExecutor(new EventProcessorThread());
         execIncoming.execute(new EventsProcessor(configurator));
+        logger.info("\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$\n\n\n" 
+                    + "Now listening for events!" + "\n\n\n=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$");
         
         System.out.println("Enter q to quit");
         Scanner input = new Scanner(System.in);
