@@ -8,7 +8,7 @@ public class AuthorizationRules implements Rules{
     private Map<String,String> datalend;
 
     public AuthorizationRules(Map<String, Map<String, String>> rulesMap){
-        oneSource = rulesMap.get("1Source");
+        oneSource = rulesMap.get("1source");
         datalend = rulesMap.get("datalend");
     }
 
