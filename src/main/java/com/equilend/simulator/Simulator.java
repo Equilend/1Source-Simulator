@@ -1,19 +1,11 @@
 package com.equilend.simulator;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.api.DatalendAPIConnector;
-import com.equilend.simulator.auth.DatalendToken;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
@@ -42,7 +34,6 @@ public class Simulator {
             " |  __/| | | (_) | (_|  __/\\__ \\__ \\ |  __/\\ V /  __/ | | | |_\\__ \\\n" + //
             " |_|   |_|  \\___/ \\___\\___||___/___/  \\___| \\_/ \\___|_| |_|\\__|___/\n\n";
     private static String fence = "=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$";
-    private static final Logger logger = LogManager.getLogger();
 
     public static void warmUp(){
         try{
