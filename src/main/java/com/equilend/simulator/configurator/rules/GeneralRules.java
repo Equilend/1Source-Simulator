@@ -4,14 +4,14 @@ import java.util.Map;
 
 public class GeneralRules implements Rules{
     
-    private String userPartyId; 
-    private String botPartyId; 
-    private int maxRefreshAttempts;
-    private int eventFetchIntervalMillis;
-    private String oneSourceKeycloakURL;
-    private String oneSourceAPIURL;
-    private String datalendKeycloakURL;
-    private String datalendAPIURL;
+    private final String userPartyId;
+    private final String botPartyId;
+    private final int maxRefreshAttempts;
+    private final int eventFetchIntervalMillis;
+    private final String oneSourceKeycloakURL;
+    private final String oneSourceAPIURL;
+    private final String datalendKeycloakURL;
+    private final String datalendAPIURL;
 
     public GeneralRules(Map<String, Map<String, String>> rulesMap){
         Map<String, String> general = rulesMap.get("general");

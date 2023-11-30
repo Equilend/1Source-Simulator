@@ -12,11 +12,11 @@ import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
 public class ContractResponsiveRule implements ContractRule {
     
     private String counterpartyExp;
-    private Set<String> counterparties = new HashSet<>();
+    private final Set<String> counterparties = new HashSet<>();
     private String securityExp;
-    private Set<String> securities = new HashSet<>();
+    private final Set<String> securities = new HashSet<>();
     private String quantityExp;
-    private Set<String> quantities = new HashSet<>();
+    private final Set<String> quantities = new HashSet<>();
     private Boolean shouldIgnore = null;
     private Boolean shouldApprove = null;
     private Double delay;
@@ -38,7 +38,7 @@ public class ContractResponsiveRule implements ContractRule {
         if (args.get(idx).equals("R")) shouldApprove = false;
         if (args.get(idx).equals("I")) shouldIgnore = true;
         if (args.get(idx++).equals("C")) shouldIgnore = false;        
-        this.delay = Double.parseDouble(args.get(idx++));
+        this.delay = Double.parseDouble(args.get(idx));
     }
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -83,19 +83,19 @@ public class ContractResponsiveRule implements ContractRule {
         if (shouldIgnore != null){
             if(shouldIgnore){
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
+                        + "}, IGNORE, DELAY{" + delay + "}";
             } else{
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, CANCEL, DELAY{" + String.valueOf(delay) + "}";
+                        + "}, CANCEL, DELAY{" + delay + "}";
             }
         }
         if (shouldApprove != null){
             if(shouldApprove){
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, APPROVE, DELAY{" + String.valueOf(delay) + "}";
+                        + "}, APPROVE, DELAY{" + delay + "}";
             } else{
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-                        + "}, REJECT, DELAY{" + String.valueOf(delay) + "}";
+                        + "}, REJECT, DELAY{" + delay + "}";
             }            
         }
         return "";

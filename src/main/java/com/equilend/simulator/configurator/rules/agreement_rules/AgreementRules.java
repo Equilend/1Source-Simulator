@@ -9,7 +9,7 @@ import com.equilend.simulator.configurator.rules.Rules;
 
 public class AgreementRules implements Rules{
 
-    private List<AgreementRule> rules = new ArrayList<>();
+    private final List<AgreementRule> rules = new ArrayList<>();
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap){
         addRules(rulesMap.get("initiator").get("incoming"));

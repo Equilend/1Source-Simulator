@@ -20,6 +20,7 @@ public class RuleValidator {
     public static List<String> parseRule(String ruleStr){
         List<Integer> commaIdxs = new ArrayList<>();
         boolean withinRange = false;
+
         for (int i = 1; i < ruleStr.length()-1; i++){
             if (!withinRange && ruleStr.charAt(i) == ','){
                 commaIdxs.add(i);
@@ -121,7 +122,7 @@ public class RuleValidator {
         boolean lowerInclusive = rateRange.charAt(0) == '[';
         boolean upperInclusive = rateRange.charAt(rateRange.length()-1) == ']';
         
-        Double lower = Double.MIN_VALUE;
+        double lower = Double.MIN_VALUE;
         if (lowerStr.equals("AVG")){
             if (rebate){
                 try {
@@ -142,7 +143,7 @@ public class RuleValidator {
             lower = Double.parseDouble(lowerStr);
         }
 
-        Double upper = Double.MAX_VALUE;
+        double upper = Double.MAX_VALUE;
         if (upperStr.equals("AVG")){
               if (rebate){
                 try {

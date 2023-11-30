@@ -20,10 +20,10 @@ import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 
 public class RerateHandler implements EventHandler {
 
-    private Event event;
-    private Configurator configurator;
-    private String botPartyId;
-    private Long startTime;
+    private final Event event;
+    private final Configurator configurator;
+    private final String botPartyId;
+    private final Long startTime;
     private static final Logger logger = LogManager.getLogger();
     
     public RerateHandler(Event e, Configurator configurator, Long startTime){
@@ -56,7 +56,7 @@ public class RerateHandler implements EventHandler {
     }   
 
     public static void postRerateProposal(String contractId, Rate rate, Double delta, Long startTime, Double delay){
-        Long delayMillis = Math.round(1000 * delay);
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
@@ -85,7 +85,7 @@ public class RerateHandler implements EventHandler {
     }
 
     public static void cancelRerateProposal(String contractId, String rerateId, Long startTime, Double delay){
-        Long delayMillis = Math.round(1000 * delay);
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
@@ -97,7 +97,7 @@ public class RerateHandler implements EventHandler {
     }
 
     public static void approveRerateProposal(String contractId, String rerateId, Long startTime, Double delay){
-        Long delayMillis = Math.round(1000 * delay);
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }   
@@ -110,7 +110,7 @@ public class RerateHandler implements EventHandler {
     }    
 
     public static void declineRerateProposal(String contractId, String rerateId, Long startTime, Double delay){
-        Long delayMillis = Math.round(1000 * delay);
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }  

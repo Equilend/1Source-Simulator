@@ -15,10 +15,10 @@ import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRule;
 
 public class TradeHandler implements EventHandler {
 
-    private Event event;
+    private final Event event;
     private Agreement agreement;
-    private Configurator configurator;
-    private Long startTime;
+    private final Configurator configurator;
+    private final Long startTime;
     private static final Logger logger = LogManager.getLogger();
 
     public TradeHandler(Event e, Configurator configurator, Long startTime) {
@@ -36,8 +36,7 @@ public class TradeHandler implements EventHandler {
             return false;
         }
 
-        if (agreement == null) return false;
-        return true;
+        return agreement != null;
     }
 
     public void postContractProposal(Trade trade, PartyRole botPartyRole) {
@@ -70,12 +69,11 @@ public class TradeHandler implements EventHandler {
         AgreementRule rule = configurator.getAgreementRules().getFirstApplicableRule(trade, botPartyId);
         if (rule != null && rule.shouldIgnore()) return;
 
-        Double delay = (rule == null) ? 0 : rule.getDelay();
-        Long delayMillis = Math.round(1000 * delay);
+        double delay = (rule == null) ? 0 : rule.getDelay();
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
         postContractProposal(trade, botPartyRole);
-    }   
-
+    }
 }

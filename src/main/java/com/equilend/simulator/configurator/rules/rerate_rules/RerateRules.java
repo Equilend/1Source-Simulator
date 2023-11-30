@@ -14,10 +14,10 @@ import com.equilend.simulator.configurator.rules.Rules;
 
 public class RerateRules implements Rules {
 
-    private List<RerateRule> approveRules = new ArrayList<>();
-    private List<RerateRule> cancelRules = new ArrayList<>();
-    private List<RerateRule> proposeRules = new ArrayList<>();
-    private boolean analysisMode;
+    private final List<RerateRule> approveRules = new ArrayList<>();
+    private final List<RerateRule> cancelRules = new ArrayList<>();
+    private final List<RerateRule> proposeRules = new ArrayList<>();
+    private final boolean analysisMode;
     private static final Logger logger = LogManager.getLogger();
 
     public RerateRules(Map<String, Map<String, String>> rulesMap){

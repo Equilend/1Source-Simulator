@@ -13,11 +13,11 @@ import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
 public class RerateProposeRule implements RerateRule {
     
     private String counterpartyExp;
-    private Set<String> counterparties = new HashSet<>();
+    private final Set<String> counterparties = new HashSet<>();
     private String securityExp;
-    private Set<String> securities = new HashSet<>();
+    private final Set<String> securities = new HashSet<>();
     private String rateExp;
-    private Set<String> rates = new HashSet<>();
+    private final Set<String> rates = new HashSet<>();
     private Boolean propose = null;
     private Double delta;
     private Double delay;
@@ -37,7 +37,7 @@ public class RerateProposeRule implements RerateRule {
         this.rateExp = args.get(idx++);
         this.delta = Double.parseDouble(args.get(idx++));
         propose = args.get(idx++).equals("P");
-        this.delay = Double.parseDouble(args.get(idx++));
+        this.delay = Double.parseDouble(args.get(idx));
     }    
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -83,10 +83,10 @@ public class RerateProposeRule implements RerateRule {
         if (propose != null){
             if(propose){
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp + "}, PROPOSE, DELTA{"
-                        + String.valueOf(delta) + "}, DELAY{" + String.valueOf(delay) + "}";
+                        + delta + "}, DELAY{" + delay + "}";
             } else{
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp + "}, IGNORE, DELTA{"
-                        + String.valueOf(delta) + "}, DELAY{" + String.valueOf(delay) + "}";
+                        + delta + "}, DELAY{" + delay + "}";
             }            
         }
         return "";       

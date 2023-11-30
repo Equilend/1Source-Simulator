@@ -10,10 +10,10 @@ import com.equilend.simulator.configurator.rules.Rules;
 
 public class ContractRules implements Rules{
 
-    private List<ContractRule> recipientIncomingRules = new ArrayList<>();
-    private List<ContractRule> initiatorIncomingRules = new ArrayList<>();
-    private List<ContractRule> initiatorOutgoingRules = new ArrayList<>();
-    private boolean analysisMode;
+    private final List<ContractRule> recipientIncomingRules = new ArrayList<>();
+    private final List<ContractRule> initiatorIncomingRules = new ArrayList<>();
+    private final List<ContractRule> initiatorOutgoingRules = new ArrayList<>();
+    private final boolean analysisMode;
     private String analysisStartDate = APIConnector.formatTime(APIConnector.getCurrentTime()).substring(0, 10);
 
     public ContractRules(Map<String, Map<String, String>> rulesMap){    
@@ -45,7 +45,7 @@ public class ContractRules implements Rules{
     }
 
     public boolean schedulerMode(){
-        return initiatorOutgoingRules.size() > 0;
+        return !initiatorOutgoingRules.isEmpty();
     }
 
     public boolean getAnalysisMode(){

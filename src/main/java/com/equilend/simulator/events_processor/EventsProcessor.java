@@ -21,19 +21,19 @@ import com.equilend.simulator.events_processor.event_handler.TradeHandler;
 
 public class EventsProcessor implements Runnable {
     
-    private Configurator configurator;
-    private long waitInterval;
+    private final Configurator configurator;
+    private final long waitInterval;
     private static final Logger logger = LogManager.getLogger();
     
     public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
-        this.waitInterval = Long.valueOf(configurator.getGeneralRules().getEventFetchIntervalMillis());
+        this.waitInterval = configurator.getGeneralRules().getEventFetchIntervalMillis();
     }
     
     private static class EventHandlerThread implements ThreadFactory {
         private static int count = 0;
         public Thread newThread(Runnable r){
-            return new Thread(r, "Event-Handler-Thread-" + String.valueOf(count++));
+            return new Thread(r, "Event-Handler-Thread-" + count++);
         }
     }
 
@@ -50,10 +50,12 @@ public class EventsProcessor implements Runnable {
 
         OffsetDateTime since = APIConnector.getCurrentTime();
         int fromEventId = 0;
+
         while (true){
             try {
                 Thread.sleep(waitInterval);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 logger.debug("Unable to listen for new events due to thread sleep interruption", e);
                 return;
             }
@@ -66,7 +68,7 @@ public class EventsProcessor implements Runnable {
                 return;
             }
 
-            if (events == null || events.size() == 0){
+            if (events == null || events.isEmpty()){
                 continue; //Back to sleep
             }
                 
@@ -92,8 +94,6 @@ public class EventsProcessor implements Runnable {
                         task = new ContractHandler(event, configurator, System.currentTimeMillis());                           
                         break;
                     case "CONTRACT_APPROVE":
-                        task = new RerateHandler(event, configurator, System.currentTimeMillis());
-                        break;
                     case "RERATE":
                         task = new RerateHandler(event, configurator, System.currentTimeMillis());
                         break;

@@ -14,11 +14,11 @@ import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
 public class RerateApproveRule implements RerateRule {
     
     private String counterpartyExp;
-    private Set<String> counterparties = new HashSet<>();
+    private final Set<String> counterparties = new HashSet<>();
     private String securityExp;
-    private Set<String> securities = new HashSet<>();
+    private final Set<String> securities = new HashSet<>();
     private String rateExp;
-    private Set<String> rates = new HashSet<>();
+    private final Set<String> rates = new HashSet<>();
     private Boolean approve = null;
     private Double delay;
 
@@ -36,7 +36,7 @@ public class RerateApproveRule implements RerateRule {
         this.securityExp = args.get(idx++);
         this.rateExp = args.get(idx++);
         approve = args.get(idx++).equals("A");
-        this.delay = Double.parseDouble(args.get(idx++));
+        this.delay = Double.parseDouble(args.get(idx));
     }    
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -80,10 +80,10 @@ public class RerateApproveRule implements RerateRule {
         if (approve != null){
             if(approve){
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp 
-                        + "}, APPROVE, DELAY{" + String.valueOf(delay) + "}";
+                        + "}, APPROVE, DELAY{" + delay + "}";
             } else{
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp 
-                        + "}, REJECT, DELAY{" + String.valueOf(delay) + "}";
+                        + "}, REJECT, DELAY{" + delay + "}";
             }            
         }
         return "";       

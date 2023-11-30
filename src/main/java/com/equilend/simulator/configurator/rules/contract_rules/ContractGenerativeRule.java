@@ -9,11 +9,11 @@ import com.equilend.simulator.model.trade.transacting_party.PartyRole;
 public class ContractGenerativeRule implements ContractRule {
     
     private String partyRoleExp;
-    private PartyRole partyRole;
+    private final PartyRole partyRole;
     private String counterpartyExp;
-    private List<String> counterparties = new ArrayList<>();
+    private final List<String> counterparties = new ArrayList<>();
     private String securityExp;
-    private List<String> securities = new ArrayList<>();
+    private final List<String> securities = new ArrayList<>();
     private String quantityExp;
     private Double delaySecs;
     private Double periodSecs;
@@ -21,7 +21,7 @@ public class ContractGenerativeRule implements ContractRule {
 
     public ContractGenerativeRule(String rule){
         loadRule(rule);
-        partyRole = (partyRoleExp.toUpperCase().equals("LENDER")) ? PartyRole.LENDER : PartyRole.BORROWER;
+        partyRole = (partyRoleExp.equalsIgnoreCase("LENDER")) ? PartyRole.LENDER : PartyRole.BORROWER;
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
     }
@@ -35,7 +35,7 @@ public class ContractGenerativeRule implements ContractRule {
         this.quantityExp = args.get(idx++);
         this.delaySecs = Double.parseDouble(args.get(idx++));
         this.periodSecs = Double.parseDouble(args.get(idx++));
-        this.totalDurationSecs = Double.parseDouble(args.get(idx++));
+        this.totalDurationSecs = Double.parseDouble(args.get(idx));
     }
 
     private void splitExpressionAndLoad(String exp, List<String> set){
@@ -76,8 +76,8 @@ public class ContractGenerativeRule implements ContractRule {
     @Override
     public String toString(){
         return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
-            + "}, DELAY{" + String.valueOf(delaySecs) + "}, Period{" + String.valueOf(periodSecs)
-            + "}, DURATION{" + String.valueOf(totalDurationSecs) + "}";
+            + "}, DELAY{" + delaySecs + "}, Period{" + periodSecs
+            + "}, DURATION{" + totalDurationSecs + "}";
     }
     
 }

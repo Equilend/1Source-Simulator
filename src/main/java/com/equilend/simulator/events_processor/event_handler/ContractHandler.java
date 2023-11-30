@@ -16,10 +16,10 @@ import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsi
 
 public class ContractHandler implements EventHandler {
 
-    private Event event;
-    private Configurator configurator;
-    private String botPartyId;
-    private Long startTime;
+    private final Event event;
+    private final Configurator configurator;
+    private final String botPartyId;
+    private final Long startTime;
     private static final Logger logger = LogManager.getLogger();
     
     public ContractHandler(Event e, Configurator configurator, Long startTime) {
@@ -53,7 +53,7 @@ public class ContractHandler implements EventHandler {
     }
 
     public static void cancelContractProposal(String contractId, Long startTime, Double delay) {
-        Long delayMillis = Math.round(1000 * delay);
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
@@ -69,7 +69,7 @@ public class ContractHandler implements EventHandler {
         Settlement settlement = ContractProposal.createSettlement(role);
         AcceptSettlement acceptSettlement = new AcceptSettlement(settlement, role);
         
-        Long delayMillis = Math.round(1000 * delay);
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
@@ -82,7 +82,7 @@ public class ContractHandler implements EventHandler {
     }
 
     public static void declineContractProposal(String contractId, Long startTime, Double delay) {
-        Long delayMillis = Math.round(1000 * delay);
+        long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis){
             Thread.yield();
         }
@@ -123,7 +123,6 @@ public class ContractHandler implements EventHandler {
             else{
                 declineContractProposal(contractId, startTime, rule.getDelay());
             }
-
         }
     }
     

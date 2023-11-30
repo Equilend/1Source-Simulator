@@ -11,11 +11,11 @@ import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
 public class AgreementRule {
 
     private String counterpartyExp;
-    private Set<String> counterparties = new HashSet<>();
+    private final Set<String> counterparties = new HashSet<>();
     private String securityExp;
-    private Set<String> securities = new HashSet<>();
+    private final Set<String> securities = new HashSet<>();
     private String quantityExp;
-    private Set<String> quantities = new HashSet<>();
+    private final Set<String> quantities = new HashSet<>();
     private boolean ignore;
     private Double delay;
 
@@ -33,7 +33,7 @@ public class AgreementRule {
         this.securityExp = args.get(idx++);
         this.quantityExp = args.get(idx++);
         ignore = args.get(idx++).equals("I");
-        this.delay = Double.parseDouble(args.get(idx++));
+        this.delay = Double.parseDouble(args.get(idx));
     }
 
     private void splitExpressionAndLoad(String exp, Set<String> set){
@@ -70,9 +70,9 @@ public class AgreementRule {
     @Override 
     public String toString(){
         if (ignore){
-            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELAY{" + String.valueOf(delay) + "}";
+            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, IGNORE, DELAY{" + delay + "}";
         } else{
-            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELAY{" + String.valueOf(delay) + "}";
+            return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp + "}, PROPOSE, DELAY{" + delay + "}";
         }
     }
 

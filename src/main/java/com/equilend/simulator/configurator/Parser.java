@@ -50,18 +50,18 @@ public class Parser {
     private static List<String> splitIntoSubsections(String section){
         List<String> subsections = new ArrayList<>();
 
-        if (section.indexOf("<", 0) == -1){
+        if (!section.contains("<")){
             //no lender/borrower 
-            int start = section.indexOf("]]", 0) + 3;
-            String general = section.substring(start, section.length()).trim();
-            if (general.length() > 0) subsections.add(general);
+            int start = section.indexOf("]]") + 3;
+            String general = section.substring(start).trim();
+            if (!general.isEmpty()) subsections.add(general);
         }
         else {
             //yes lender/borrower 
-            if ((section.indexOf("]]") + 3) != section.indexOf("<", 0)){
+            if ((section.indexOf("]]") + 3) != section.indexOf("<")){
                 //yes general section
                 int start = section.indexOf("]]") + 2;
-                int end = section.indexOf("<", 0);
+                int end = section.indexOf("<");
                 String general = section.substring(start, end).trim();
                 subsections.add(general);
             }
@@ -75,7 +75,7 @@ public class Parser {
                 }
                 start = end++;
             }
-            String nonGeneral = section.substring(start, section.length()).trim();
+            String nonGeneral = section.substring(start).trim();
             subsections.add(nonGeneral);
         }
 
@@ -83,7 +83,7 @@ public class Parser {
     }
 
     private static String getSubsectionSubheader(String subsection){
-        int end = 0;
+        int end;
         String subheader;
         
         if ( (end = subsection.indexOf(">")) != -1){
@@ -97,7 +97,7 @@ public class Parser {
     }
 
     private static Map<String, String> getSubsectionRules(String subsection){
-        int idx = 0;
+        int idx;
         if ( (idx = subsection.indexOf(">")) != -1){
             subsection = subsection.substring(idx+1).trim();
         }
@@ -134,10 +134,10 @@ public class Parser {
             String line;
             while ((line = reader.readLine()) != null){
                 str.append(line.trim());
-                if (line.indexOf("{") != -1){
+                if (line.contains("{")){
                     inList = true;
                 }
-                if (line.indexOf("}") != -1){
+                if (line.contains("}")){
                     if (inList){
                         int endParenthesis = str.lastIndexOf(")");
                         str.insert(endParenthesis+1, ";");
@@ -157,28 +157,28 @@ public class Parser {
 
         List<String> sections = splitIntoSections(str);
         Map<String, Rules> rules = new HashMap<>();
-        for (int i = 0; i < sections.size(); i++){
-            String section = sections.get(i);
+
+        for (String section : sections) {
             String header = getSectionHeader(section);
             Map<String, Map<String, String>> sectionRulesMap = loadSectionRules(section);
-            
-            switch (header.toUpperCase()){
-                case "GENERAL" :
+
+            switch (header.toUpperCase()) {
+                case "GENERAL":
                     rules.put(header, new GeneralRules(sectionRulesMap));
                     break;
-                case "AUTH" :
+                case "AUTH":
                     rules.put(header, new AuthorizationRules(sectionRulesMap));
                     break;
-                case "EVENTS" :
+                case "EVENTS":
                     rules.put(header, new EventRules(sectionRulesMap));
                     break;
-                case "AGREEMENTS" :
+                case "AGREEMENTS":
                     rules.put(header, new AgreementRules(sectionRulesMap));
                     break;
-                case "CONTRACTS" :
+                case "CONTRACTS":
                     rules.put(header, new ContractRules(sectionRulesMap));
                     break;
-                case "RERATES" :
+                case "RERATES":
                     rules.put(header, new RerateRules(sectionRulesMap));
                     break;
                 default:

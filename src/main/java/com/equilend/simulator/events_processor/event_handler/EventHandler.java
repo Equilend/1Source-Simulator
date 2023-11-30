@@ -8,10 +8,11 @@ import com.equilend.simulator.auth.OneSourceToken;
 
 public interface EventHandler extends Runnable {
 
-    public static final Logger logger = LogManager.getLogger();
+    Logger logger = LogManager.getLogger();
 
-    public static OneSourceToken getToken() {
-        OneSourceToken token = null;
+    static OneSourceToken getToken() {
+        OneSourceToken token;
+
         try {
             token = OneSourceToken.getToken();
         } catch (APIException e) {
@@ -21,5 +22,4 @@ public interface EventHandler extends Runnable {
 
         return token;
     }
-
 }
