@@ -102,15 +102,15 @@ public class ContractProposal {
         }
         
         List<TransactingParty> transactingParties = new ArrayList<>();
-        TransactingParty lenderTransactingParty = new TransactingParty();
-        lenderTransactingParty.setPartyRole(partyRole);
-        lenderTransactingParty.setParty(party);
-        transactingParties.add(lenderTransactingParty);
-        TransactingParty borrowingTransactingParty = new TransactingParty();
+        TransactingParty botTransactingParty = new TransactingParty();
+        botTransactingParty.setPartyRole(partyRole);
+        botTransactingParty.setParty(party);
+        transactingParties.add(botTransactingParty);
+        TransactingParty counterTransactingParty = new TransactingParty();
         PartyRole counterpartyRole = partyRole == PartyRole.LENDER ? PartyRole.BORROWER : PartyRole.LENDER;
-        borrowingTransactingParty.setPartyRole(counterpartyRole);
-        borrowingTransactingParty.setParty(counterparty);
-        transactingParties.add(borrowingTransactingParty);
+        counterTransactingParty.setPartyRole(counterpartyRole);
+        counterTransactingParty.setParty(counterparty);
+        transactingParties.add(counterTransactingParty);
 
         return new Trade(executionVenue, instrument, rate, quantity, billingCurrency, dividendRatePct, tradeDate, settlementDate, settlementType, collateral, transactingParties);
     }
