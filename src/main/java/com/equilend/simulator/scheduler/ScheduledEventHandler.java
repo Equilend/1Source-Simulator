@@ -40,7 +40,7 @@ public class ScheduledEventHandler implements Runnable {
             return;
         }
 
-        Long quantity;
+        long quantity;
         try{
             quantity = Long.parseLong(quantityStr);
         } catch(NumberFormatException e){
@@ -51,7 +51,7 @@ public class ScheduledEventHandler implements Runnable {
             ContractProposal proposal = ContractProposal.createContractProposal(botPartyRole, botParty, counterparty, security, quantity, idType);
             APIConnector.postContractProposal(token, proposal);
         } catch(APIException e){
-            logger.info("Unable to propose scheduled contract proposal");
+            logger.info("Unable to propose scheduled contract proposal: " + e.getMessage());
         }
     }
 

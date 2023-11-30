@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class AuthorizationRules implements Rules{
 
-    private Map<String,String> oneSource;
-    private Map<String,String> datalend;
+    private final Map<String,String> oneSource;
+    private final Map<String,String> datalend;
 
     public AuthorizationRules(Map<String, Map<String, String>> rulesMap){
         oneSource = rulesMap.get("1source");

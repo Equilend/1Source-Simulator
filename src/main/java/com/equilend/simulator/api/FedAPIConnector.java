@@ -18,12 +18,12 @@ import com.google.gson.Gson;
 
 public class FedAPIConnector {
 
-    private static HttpClient httpClient = HttpClient.newHttpClient();
-    private static Gson gson = new Gson();
+    private static final HttpClient httpClient = HttpClient.newHttpClient();
+    private static final Gson gson = new Gson();
     private static final Logger logger = LogManager.getLogger();
     private static Map<String, RefRate> refRates = null;
 
-    public class RefRate {
+    public static class RefRate {
         
         private String effectiveDate;
         private String type;
@@ -55,7 +55,7 @@ public class FedAPIConnector {
 
     }
 
-    public class RefRates {
+    public static class RefRates {
         
         private List<RefRate> refRates;
 

@@ -19,10 +19,10 @@ import com.google.gson.Gson;
 
 public class DatalendAPIConnector {
 
-    private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
-    private static HttpClient httpClient = HttpClient.newHttpClient();
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
+    private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static String restAPIURL = null;
-    private static Gson gson = new Gson(); 
+    private static final Gson gson = new Gson();
     private static final Logger logger = LogManager.getLogger();    
 
     public static void setRestAPIURL(String url){

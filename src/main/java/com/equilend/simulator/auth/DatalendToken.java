@@ -7,7 +7,7 @@ import com.equilend.simulator.api.KeycloakConnector;
 
 public class DatalendToken {
    
-    private String accessToken;
+    private final String accessToken;
     private static Map<String, String> login = null;
     private static String url = null;
     private static DatalendToken token = null;

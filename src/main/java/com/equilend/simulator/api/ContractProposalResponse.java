@@ -15,9 +15,8 @@ public class ContractProposalResponse {
     public String getContractId() {
         String uri = resourceUri;
         String[] arr = uri.split("/");
-        String contractId = arr[arr.length-1];
 
-        return contractId;
+        return arr[arr.length-1];
     }
 
     @Override

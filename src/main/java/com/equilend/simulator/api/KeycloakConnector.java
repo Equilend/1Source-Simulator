@@ -20,8 +20,8 @@ import com.google.gson.Gson;
 
 public class KeycloakConnector {
 
-    private static HttpClient httpClient = HttpClient.newHttpClient();
-    private static Gson gson = new Gson();
+    private static final HttpClient httpClient = HttpClient.newHttpClient();
+    private static final Gson gson = new Gson();
     private static final Logger logger = LogManager.getLogger();
     
     public static String encodeMapAsString(Map<String, String> formData) {
