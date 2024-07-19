@@ -1,18 +1,18 @@
 package com.equilend.simulator.scheduler;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.trade.instrument.Instrument;
-import com.equilend.simulator.model.trade.transacting_party.Party;
-import com.equilend.simulator.model.trade.transacting_party.PartyRole;
+import com.equilend.simulator.model.party.Party;
+import com.equilend.simulator.model.party.PartyRole;
+import com.equilend.simulator.model.instrument.Instrument;
+import com.equilend.simulator.service.ContractService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ScheduledEventHandler implements Runnable {
-    
+
     PartyRole botPartyRole;
     Party botParty;
     Party counterparty;
@@ -22,8 +22,9 @@ public class ScheduledEventHandler implements Runnable {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public ScheduledEventHandler(PartyRole botPartyRole, Party botParty, Party counterparty, Instrument security, String quantityStr, String idType) {
-        this.botPartyRole = botPartyRole; 
+    public ScheduledEventHandler(PartyRole botPartyRole, Party botParty, Party counterparty, Instrument security,
+        String quantityStr, String idType) {
+        this.botPartyRole = botPartyRole;
         this.botParty = botParty;
         this.counterparty = counterparty;
         this.security = security;
@@ -40,17 +41,18 @@ public class ScheduledEventHandler implements Runnable {
             return;
         }
 
-        long quantity;
-        try{
-            quantity = Long.parseLong(quantityStr);
-        } catch(NumberFormatException e){
-            quantity = 666L;
+        Integer quantity;
+        try {
+            quantity = Integer.parseInt(quantityStr);
+        } catch (NumberFormatException e) {
+            quantity = 666;
         }
 
         try {
-            ContractProposal proposal = ContractProposal.createContractProposal(botPartyRole, botParty, counterparty, security, quantity, idType);
+            ContractProposal proposal = ContractService.createContractProposal(botPartyRole, botParty, counterparty,
+                security, quantity, idType);
             APIConnector.postContractProposal(token, proposal);
-        } catch(APIException e){
+        } catch (APIException e) {
             logger.info("Unable to propose scheduled contract proposal: " + e.getMessage());
         }
     }

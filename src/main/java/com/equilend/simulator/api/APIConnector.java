@@ -1,7 +1,23 @@
 package com.equilend.simulator.api;
 
+import com.equilend.simulator.auth.OneSourceToken;
+import com.equilend.simulator.model.agreement.Agreement;
+import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.contract.ContractProposal;
+import com.equilend.simulator.model.contract.ContractProposalApproval;
+import com.equilend.simulator.model.event.Event;
+import com.equilend.simulator.model.rerate.Rerate;
+import com.equilend.simulator.model.rerate.RerateProposal;
+import com.equilend.simulator.model.instrument.Instrument;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -11,49 +27,49 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.agreement.Agreement;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.rerate.RerateProposal;
-import com.equilend.simulator.model.settlement.AcceptSettlement;
-import com.equilend.simulator.model.trade.instrument.Instrument;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class APIConnector {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
     private static HttpClient httpClient = HttpClient.newHttpClient();
-    private static Gson gson = new Gson();
+    private static Gson gson = new GsonBuilder()
+        .registerTypeAdapter(OffsetDateTime.class,
+            (JsonDeserializer<OffsetDateTime>) (json, typeOfT, context) -> OffsetDateTime.parse(json.getAsString()))
+        .registerTypeAdapter(OffsetDateTime.class,
+            (JsonSerializer<OffsetDateTime>) (offsetDateTime, type, jsonSerializationContext) -> new JsonPrimitive(offsetDateTime.format(formatter))
+        )
+        .registerTypeAdapter(LocalDate.class,
+            (JsonDeserializer<LocalDate>) (json, typeOfT, context) -> LocalDate.parse(json.getAsString()))
+        .registerTypeAdapter(LocalDate.class,
+            (JsonSerializer<LocalDate>) (localDate, type, jsonSerializationContext) -> new JsonPrimitive(localDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
+        )
+        .create();
     private static String restAPIURL = null;
     private static final Logger logger = LogManager.getLogger();
 
-    public static void setRestAPIURL(String url){
+    public static void setRestAPIURL(String url) {
         restAPIURL = url;
     }
 
     public static OffsetDateTime getCurrentTime() {
         return OffsetDateTime.now(ZoneId.of("UTC"));
     }
-    
+
     public static String formatTime(OffsetDateTime time) {
         return time.format(formatter);
-    }    
-   
-    public static List<Event> getAllEvents(OneSourceToken token, OffsetDateTime since, int eventId) throws APIException {
-        if (token == null){
+    }
+
+    public static List<Event> getAllEvents(OneSourceToken token, OffsetDateTime since, BigInteger eventId)
+        throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to get all events";
             logger.debug(message);
             throw new APIException(message);
@@ -62,9 +78,9 @@ public class APIConnector {
         String sinceStr = formatTime(since);
         String encodedSince = URLEncoder.encode(sinceStr, StandardCharsets.UTF_8);
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        }        
+        }
 
         HttpRequest getRequest;
         try {
@@ -78,7 +94,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -90,20 +106,21 @@ public class APIConnector {
 
         logger.debug("Get All Events: Status Code {}", getResponse.statusCode());
 
-        Type eventListType = new TypeToken<ArrayList<Event>>(){}.getType();
+        Type eventListType = new TypeToken<ArrayList<Event>>() {
+        }.getType();
         return gson.fromJson(getResponse.body(), eventListType);
-    }     
+    }
 
     public static Agreement getAgreementById(OneSourceToken token, String id) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get agreement by id";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        } 
+        }
 
         HttpRequest getRequest;
         try {
@@ -117,7 +134,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -128,28 +145,28 @@ public class APIConnector {
         }
 
         Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
-        if (getResponse.statusCode() == 200){
+        if (getResponse.statusCode() == 200) {
             Instrument instrument = agreement.getTrade().getInstrument();
             String identifier = (instrument.getTicker() == null) ? instrument.getFigi() : instrument.getTicker();
-            logger.info("Trade Agreement {} with {} shares of {}", 
-            id, agreement.getTrade().getQuantity(), identifier);
-        }
-        else{
+            logger.info("Trade Agreement {} with {} shares of {}",
+                id, agreement.getTrade().getQuantity(), identifier);
+        } else {
             logger.debug("Get Agreement By Id: Status Code {}", getResponse.statusCode());
         }
         return agreement;
     }
 
-    public static List<Contract> getAllContracts(OneSourceToken token, String status, String since) throws APIException{
-        if (token == null){
+    public static List<Contract> getAllContracts(OneSourceToken token, String status, String since)
+        throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to get all events";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        }        
+        }
 
         StringBuilder uri = new StringBuilder(restAPIURL);
         uri.append("/contracts?size=2147483647&contractStatus=");
@@ -169,7 +186,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -181,20 +198,21 @@ public class APIConnector {
 
         logger.debug("Get All Contracts: Status Code {}", getResponse.statusCode());
 
-        Type contractListType = new TypeToken<ArrayList<Contract>>(){}.getType();
-        return gson.fromJson(getResponse.body(), contractListType);        
+        Type contractListType = new TypeToken<ArrayList<Contract>>() {
+        }.getType();
+        return gson.fromJson(getResponse.body(), contractListType);
     }
 
     public static Contract getContractById(OneSourceToken token, String id) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get contract by id";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        } 
+        }
 
         HttpRequest getRequest;
         try {
@@ -208,7 +226,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -217,23 +235,23 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-       
+
         logger.debug("Get Contract By Id: Status Code {}", getResponse.statusCode());
-        
+
         Contract contract = gson.fromJson(getResponse.body(), Contract.class);
         return contract;
     }
 
     public static int postContractProposal(OneSourceToken token, ContractProposal contract) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get post contract proposal";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        } 
+        }
 
         String contractJson = gson.toJson(contract);
 
@@ -263,25 +281,25 @@ public class APIConnector {
         ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
         Instrument instrument = contract.getTrade().getInstrument();
         String identifier = (instrument.getTicker() == null) ? instrument.getFigi() : instrument.getTicker();
-        if (postResponse.statusCode() == 201){
-            logger.info("Propose Contract {} with {} shares of {}", 
-            response.getContractId(), contract.getTrade().getQuantity(), identifier);
-        }
-        else{
-            logger.trace("Propose Contract with {} shares of {}: Status Code = {}", contract.getTrade().getQuantity(), identifier, postResponse.statusCode());
+        if (postResponse.statusCode() == 201) {
+            logger.info("Propose Contract {} with {} shares of {}",
+                response.getContractId(), contract.getTrade().getQuantity(), identifier);
+        } else {
+            logger.trace("Propose Contract with {} shares of {}: Status Code = {}", contract.getTrade().getQuantity(),
+                identifier, postResponse.statusCode());
             logger.trace("POST response body: {}", postResponse.body());
         }
         return postResponse.statusCode();
     }
-    
+
     public static int cancelContractProposal(OneSourceToken token, String contractId) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get cancel contract proposal";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
         }
 
@@ -298,7 +316,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-            
+
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -308,27 +326,27 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200){
+        if (postResponse.statusCode() == 200) {
             logger.info("Cancel Contract {}", contractId);
-        }
-        else{
+        } else {
             logger.trace("Cancel Contract {}: Status Code = {}", contractId, postResponse.statusCode());
         }
-        return postResponse.statusCode();       
+        return postResponse.statusCode();
     }
-    
-    public static int acceptContractProposal(OneSourceToken token, String contractId, AcceptSettlement settlement) throws APIException {
-        if (token == null){
+
+    public static int acceptContractProposal(OneSourceToken token, String contractId,
+        ContractProposalApproval contractProposalApproval) throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to accept contract proposal";
             logger.debug(message);
             throw new APIException(message);
-        }       
-         
-        if (restAPIURL == null){
-            throw new APIException("1Source REST API URL not properly loaded");
-        }         
+        }
 
-        String settlementJson = gson.toJson(settlement);
+        if (restAPIURL == null) {
+            throw new APIException("1Source REST API URL not properly loaded");
+        }
+
+        String settlementJson = gson.toJson(contractProposalApproval);
         logger.trace(settlementJson);
 
         HttpRequest postRequest;
@@ -354,10 +372,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200){
+        if (postResponse.statusCode() == 200) {
             logger.info("Accept Contract {}", contractId);
-        }
-        else{
+        } else {
             logger.trace("Accept Contract {}: Status Code = {}", contractId, postResponse.statusCode());
             logger.trace(postResponse.body());
         }
@@ -365,13 +382,13 @@ public class APIConnector {
     }
 
     public static int declineContractProposal(OneSourceToken token, String contractId) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to decline contract proposal";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
         }
 
@@ -388,7 +405,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-            
+
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -398,25 +415,24 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200){
+        if (postResponse.statusCode() == 200) {
             logger.info("Decline Contract {}", contractId);
-        }
-        else{
+        } else {
             logger.trace("Decline Contract {}: Status Code = {}", contractId, postResponse.statusCode());
         }
         return postResponse.statusCode();
-    }  
+    }
 
-    public static List<Rerate> getAllRerates(OneSourceToken token) throws APIException{
-        if (token == null){
+    public static List<Rerate> getAllRerates(OneSourceToken token) throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to get all events";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        }        
+        }
 
         HttpRequest getRequest;
         try {
@@ -430,7 +446,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -442,26 +458,27 @@ public class APIConnector {
 
         logger.debug("Get All Rerates: Status Code {}", getResponse.statusCode());
 
-        Type rerateListType = new TypeToken<ArrayList<Rerate>>(){}.getType();
+        Type rerateListType = new TypeToken<ArrayList<Rerate>>() {
+        }.getType();
         return gson.fromJson(getResponse.body(), rerateListType);
     }
 
     public static List<Rerate> getAllReratesOnContract(OneSourceToken token, String contractId) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get all events";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        }        
+        }
 
         HttpRequest getRequest;
         try {
             getRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId +"/rerates"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .build();
         } catch (URISyntaxException e) {
@@ -469,7 +486,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -481,20 +498,21 @@ public class APIConnector {
 
         logger.debug("Get All Rerates: Status Code {}", getResponse.statusCode());
 
-        Type rerateListType = new TypeToken<ArrayList<Rerate>>(){}.getType();
+        Type rerateListType = new TypeToken<ArrayList<Rerate>>() {
+        }.getType();
         return gson.fromJson(getResponse.body(), rerateListType);
     }
 
     public static Rerate getRerateById(OneSourceToken token, String id) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get rerate by id";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        } 
+        }
 
         HttpRequest getRequest;
         try {
@@ -508,7 +526,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -517,23 +535,24 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-       
+
         logger.debug("Get Rerate By Id: Status Code {}", getResponse.statusCode());
-        
+
         Rerate rerate = gson.fromJson(getResponse.body(), Rerate.class);
         return rerate;
     }
 
-    public static int postRerateProposal(OneSourceToken token, String contractId, RerateProposal rerate) throws APIException {
-        if (token == null){
+    public static int postRerateProposal(OneSourceToken token, String contractId, RerateProposal rerate)
+        throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to get post contract proposal";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
-        } 
+        }
 
         String rerateJson = gson.toJson(rerate);
 
@@ -560,24 +579,24 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 201){
+        if (postResponse.statusCode() == 201) {
             logger.info("Rerate proposal posted successfully");
-        }
-        else{
+        } else {
             logger.trace("Error posting rerate proposal");
             logger.trace(postResponse.body());
         }
         return postResponse.statusCode();
     }
-    
-    public static int cancelRerateProposal(OneSourceToken token, String contractId, String rerateId) throws APIException {
-        if (token == null){
+
+    public static int cancelRerateProposal(OneSourceToken token, String contractId, String rerateId)
+        throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to get cancel rerate proposal";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
         }
 
@@ -585,7 +604,7 @@ public class APIConnector {
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/cancel"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/cancel"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
@@ -594,7 +613,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-            
+
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -604,24 +623,24 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200){
+        if (postResponse.statusCode() == 200) {
             logger.info("Rerate proposal cancelled successfully");
-        }
-        else{
+        } else {
             logger.trace("Error cancelling rerate proposal");
             logger.trace(postResponse.body());
         }
         return postResponse.statusCode();
     }
-    
-    public static int approveRerateProposal(OneSourceToken token, String contractId, String rerateId) throws APIException {
-        if (token == null){
+
+    public static int approveRerateProposal(OneSourceToken token, String contractId, String rerateId)
+        throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to get approve rerate proposal";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
         }
 
@@ -629,7 +648,7 @@ public class APIConnector {
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/approve"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/approve"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
@@ -638,7 +657,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-            
+
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -648,24 +667,24 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200){
+        if (postResponse.statusCode() == 200) {
             logger.info("Rerate proposal approved successfully");
-        }
-        else{
+        } else {
             logger.trace("Error approving rerate proposal");
             logger.trace(postResponse.body());
         }
         return postResponse.statusCode();
     }
-    
-    public static int declineRerateProposal(OneSourceToken token, String contractId, String rerateId) throws APIException {
-        if (token == null){
+
+    public static int declineRerateProposal(OneSourceToken token, String contractId, String rerateId)
+        throws APIException {
+        if (token == null) {
             String message = "Token is null, unable to get decline rerate proposal";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("1Source REST API URL not properly loaded");
         }
 
@@ -673,7 +692,7 @@ public class APIConnector {
         try {
             postRequest = HttpRequest
                 .newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId +"/decline"))
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/decline"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
@@ -682,7 +701,7 @@ public class APIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-            
+
         HttpResponse<String> postResponse;
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -692,10 +711,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200){
+        if (postResponse.statusCode() == 200) {
             logger.info("Rerate proposal declined successfully");
-        }
-        else{
+        } else {
             logger.trace("Error declining rerate proposal");
             logger.trace(postResponse.body());
         }

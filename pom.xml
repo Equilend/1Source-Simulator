@@ -45,6 +45,11 @@
       <artifactId>jackson-dataformat-toml</artifactId>
       <version>2.15.0</version>
     </dependency>
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations-jakarta</artifactId>
+      <version>2.2.20</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -94,5 +99,27 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>io.swagger.codegen.v3</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <version>3.0.52</version>
+        <configuration>
+          <language>java</language>
+          <library>resttemplate</library>
+          <inputSpec>https://api.swaggerhub.com/apis/1SOURCE/1SOURCE-LEDGER-API/1.0.5</inputSpec>
+          <output>${project.build.directory}/generated-sources/swagger</output>
+          <modelPackage>${project.groupId}.dto</modelPackage>
+<!--          <modelNameSuffix>DTO</modelNameSuffix>-->
+          <apiPackage>${project.groupId}.api</apiPackage>
+          <invokerPackage>${project.groupId}.invoker
+          </invokerPackage>
+          <configOptions>
+            <hideGenerationTimestamp>true</hideGenerationTimestamp>
+            <dateLibrary>java8</dateLibrary>
+          </configOptions>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

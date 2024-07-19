@@ -1,5 +1,7 @@
 package com.equilend.simulator.api;
 
+import com.equilend.simulator.auth.DatalendToken;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,12 +12,8 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.equilend.simulator.auth.DatalendToken;
-import com.google.gson.Gson;
 
 public class DatalendAPIConnector {
 
@@ -23,30 +21,30 @@ public class DatalendAPIConnector {
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static String restAPIURL = null;
     private static final Gson gson = new Gson();
-    private static final Logger logger = LogManager.getLogger();    
+    private static final Logger logger = LogManager.getLogger();
 
-    public static void setRestAPIURL(String url){
+    public static void setRestAPIURL(String url) {
         restAPIURL = url;
     }
 
     public static OffsetDateTime getCurrentTime() {
         return OffsetDateTime.now(ZoneId.of("UTC"));
     }
-    
+
     public static String formatTime(OffsetDateTime time) {
         return time.format(formatter);
-    }    
+    }
 
     public static double getSecurityPrice(DatalendToken token, String idType, String idValue) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get security price";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("Datalend REST API URL not properly loaded");
-        }        
+        }
 
         HttpRequest getRequest;
         try {
@@ -60,7 +58,7 @@ public class DatalendAPIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -74,18 +72,18 @@ public class DatalendAPIConnector {
 
         SecurityResponse response = gson.fromJson(getResponse.body(), SecurityResponse.class);
         return response.getPrice();
-    }  
-    
+    }
+
     public static double getSecurityFee(DatalendToken token, String idType, String idValue) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get security average fee";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("Datalend REST API URL not properly loaded");
-        }        
+        }
 
         HttpRequest getRequest;
         try {
@@ -99,7 +97,7 @@ public class DatalendAPIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -113,18 +111,18 @@ public class DatalendAPIConnector {
 
         SecurityResponse response = gson.fromJson(getResponse.body(), SecurityResponse.class);
         return response.getAvgFee();
-    }     
+    }
 
     public static double getSecurityRebate(DatalendToken token, String idType, String idValue) throws APIException {
-        if (token == null){
+        if (token == null) {
             String message = "Token is null, unable to get security average rebate";
             logger.debug(message);
             throw new APIException(message);
         }
 
-        if (restAPIURL == null){
+        if (restAPIURL == null) {
             throw new APIException("Datalend REST API URL not properly loaded");
-        }        
+        }
 
         HttpRequest getRequest;
         try {
@@ -138,7 +136,7 @@ public class DatalendAPIConnector {
             logger.debug(message, e);
             throw new APIException(message, e);
         }
-        
+
         HttpResponse<String> getResponse;
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
@@ -152,6 +150,6 @@ public class DatalendAPIConnector {
 
         SecurityResponse response = gson.fromJson(getResponse.body(), SecurityResponse.class);
         return response.getAvgRebate();
-    } 
+    }
 
 }

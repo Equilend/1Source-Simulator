@@ -1,12 +1,11 @@
 package com.equilend.simulator.auth;
 
-import java.util.Map;
-
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.KeycloakConnector;
+import java.util.Map;
 
 public class DatalendToken {
-   
+
     private final String accessToken;
     private static Map<String, String> login = null;
     private static String url = null;
@@ -17,12 +16,12 @@ public class DatalendToken {
         this.accessToken = tokenResponse.getAccess_token();
     }
 
-    public String getAccessToken(){
+    public String getAccessToken() {
         return this.accessToken;
     }
-    
+
     public static void configureToken(Map<String, String> authRules, String url_) {
-        if (login == null || url == null){
+        if (login == null || url == null) {
             login = authRules;
             url = url_;
         }
@@ -30,12 +29,12 @@ public class DatalendToken {
 
     // Must Configure Token before Getting
     public static synchronized DatalendToken getToken() throws APIException {
-        if (token == null){
+        if (token == null) {
             token = new DatalendToken();
         }
         return token;
     }
-    
+
     public static synchronized void refreshToken() throws APIException {
         token = new DatalendToken();
     }

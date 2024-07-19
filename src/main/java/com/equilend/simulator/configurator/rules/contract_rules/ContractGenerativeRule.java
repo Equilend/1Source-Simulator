@@ -1,13 +1,12 @@
 package com.equilend.simulator.configurator.rules.contract_rules;
 
+import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.equilend.simulator.model.party.PartyRole;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.trade.transacting_party.PartyRole;
-
 public class ContractGenerativeRule implements ContractRule {
-    
+
     private String partyRoleExp;
     private final PartyRole partyRole;
     private String counterpartyExp;
@@ -19,14 +18,14 @@ public class ContractGenerativeRule implements ContractRule {
     private Double periodSecs;
     private Double totalDurationSecs;
 
-    public ContractGenerativeRule(String rule){
+    public ContractGenerativeRule(String rule) {
         loadRule(rule);
         partyRole = (partyRoleExp.equalsIgnoreCase("LENDER")) ? PartyRole.LENDER : PartyRole.BORROWER;
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
     }
 
-    private void loadRule(String rule){
+    private void loadRule(String rule) {
         List<String> args = RuleValidator.parseRule(rule);
         int idx = 0;
         this.partyRoleExp = args.get(idx++);
@@ -38,14 +37,14 @@ public class ContractGenerativeRule implements ContractRule {
         this.totalDurationSecs = Double.parseDouble(args.get(idx));
     }
 
-    private void splitExpressionAndLoad(String exp, List<String> set){
+    private void splitExpressionAndLoad(String exp, List<String> set) {
         String[] arr = exp.split("\\|");
-        for (String str : arr){
+        for (String str : arr) {
             set.add(str.trim());
         }
     }
-    
-    public PartyRole getPartyRole(){
+
+    public PartyRole getPartyRole() {
         return partyRole;
     }
 
@@ -74,10 +73,10 @@ public class ContractGenerativeRule implements ContractRule {
     }
 
     @Override
-    public String toString(){
-        return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp 
+    public String toString() {
+        return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + quantityExp
             + "}, DELAY{" + delaySecs + "}, Period{" + periodSecs
             + "}, DURATION{" + totalDurationSecs + "}";
     }
-    
+
 }

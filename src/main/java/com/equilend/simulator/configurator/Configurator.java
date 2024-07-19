@@ -1,16 +1,5 @@
 package com.equilend.simulator.configurator;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.equilend.simulator.model.trade.instrument.Instrument;
-import com.equilend.simulator.model.trade.transacting_party.Party;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
@@ -22,8 +11,17 @@ import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
+import com.equilend.simulator.model.party.Party;
+import com.equilend.simulator.model.instrument.Instrument;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Configurator {
 
@@ -36,15 +34,14 @@ public class Configurator {
     private ContractRules contractRules;
     private RerateRules rerateRules;
     private static final Logger logger = LogManager.getLogger();
-    
+
     public Configurator() {
         List<Party> partiesList = loadPartiesTomlFile();
 
         try {
             assert partiesList != null;
             partiesList.forEach(p -> parties.put(p.getPartyId(), p));
-        }
-        catch (NullPointerException npe) {
+        } catch (NullPointerException npe) {
             logger.error("Null Pointer Exception reading parties from the Parties TOML file: " + npe.getMessage());
         }
 
@@ -53,16 +50,16 @@ public class Configurator {
         try {
             assert instrumentsList != null;
             instrumentsList.forEach(i -> instruments.put(i.getTicker(), i));
-        }
-        catch (NullPointerException npe) {
-            logger.error("Null Pointer Exception reading instruments from the Instrument TOML file: " + npe.getMessage());
+        } catch (NullPointerException npe) {
+            logger.error(
+                "Null Pointer Exception reading instruments from the Instrument TOML file: " + npe.getMessage());
         }
 
         loadRules(Parser.readRulesFile());
-        
+
         OneSourceToken.configureToken(authorizationRules.getOneSource(), generalRules.getOneSourceKeycloakURL());
         APIConnector.setRestAPIURL(generalRules.getOneSourceAPIURL());
-        
+
         DatalendToken.configureToken(authorizationRules.getDatalend(), generalRules.getDatalendKeycloakURL());
         DatalendAPIConnector.setRestAPIURL(generalRules.getDatalendAPIURL());
     }
@@ -75,11 +72,11 @@ public class Configurator {
         try {
             map = tomlMapper.readValue(new File(filename), new TypeReference<>() {
             });
-        } catch (IOException e){
+        } catch (IOException e) {
             logger.error("Error reading parties file", e);
             return null;
         }
-        if (map == null){
+        if (map == null) {
             logger.error("Parties unable to be successfully loaded");
         }
 
@@ -87,18 +84,18 @@ public class Configurator {
         return map.get("parties");
     }
 
-    private List<Instrument> loadInstrumentsTomlFile(){
+    private List<Instrument> loadInstrumentsTomlFile() {
         String filename = "config/instruments.toml";
         TomlMapper tomlMapper = new TomlMapper();
         Map<String, List<Instrument>> map;
         try {
             map = tomlMapper.readValue(new File(filename), new TypeReference<>() {
             });
-        } catch (IOException e){
+        } catch (IOException e) {
             logger.error("Error reading instruments file", e);
             return null;
         }
-        if (map == null){
+        if (map == null) {
             logger.error("Instruments unable to be successfully loaded");
         }
 
@@ -107,8 +104,8 @@ public class Configurator {
     }
 
     private void loadRules(Map<String, Rules> rules) {
-        for (String section : rules.keySet()){
-            switch (section.toUpperCase()){
+        for (String section : rules.keySet()) {
+            switch (section.toUpperCase()) {
                 case "GENERAL":
                     generalRules = (GeneralRules) rules.get(section);
                     break;
@@ -149,15 +146,15 @@ public class Configurator {
         return authorizationRules;
     }
 
-    public EventRules getEventRules(){
+    public EventRules getEventRules() {
         return eventRules;
     }
 
-    public AgreementRules getAgreementRules(){
+    public AgreementRules getAgreementRules() {
         return agreementRules;
     }
 
-    public ContractRules getContractRules(){
+    public ContractRules getContractRules() {
         return contractRules;
     }
 

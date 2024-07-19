@@ -2,8 +2,8 @@ package com.equilend.simulator.configurator.rules;
 
 import java.util.Map;
 
-public class GeneralRules implements Rules{
-    
+public class GeneralRules implements Rules {
+
     private final String userPartyId;
     private final String botPartyId;
     private final int maxRefreshAttempts;
@@ -13,7 +13,7 @@ public class GeneralRules implements Rules{
     private final String datalendKeycloakURL;
     private final String datalendAPIURL;
 
-    public GeneralRules(Map<String, Map<String, String>> rulesMap){
+    public GeneralRules(Map<String, Map<String, String>> rulesMap) {
         Map<String, String> general = rulesMap.get("general");
 
         this.userPartyId = general.get("user_party_id");
@@ -23,13 +23,13 @@ public class GeneralRules implements Rules{
         this.oneSourceKeycloakURL = general.get("1source_keycloak_url");
         this.oneSourceAPIURL = general.get("1source_api_url");
         this.datalendKeycloakURL = general.get("datalend_keycloak_url");
-        this.datalendAPIURL = general.get("datalend_api_url");     
+        this.datalendAPIURL = general.get("datalend_api_url");
     }
 
     public String getUserPartyId() {
         return userPartyId;
     }
-        
+
     public String getBotPartyId() {
         return botPartyId;
     }
@@ -57,5 +57,5 @@ public class GeneralRules implements Rules{
     public String getDatalendAPIURL() {
         return datalendAPIURL;
     }
-    
+
 }

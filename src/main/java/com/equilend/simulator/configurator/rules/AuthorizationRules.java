@@ -2,12 +2,12 @@ package com.equilend.simulator.configurator.rules;
 
 import java.util.Map;
 
-public class AuthorizationRules implements Rules{
+public class AuthorizationRules implements Rules {
 
-    private final Map<String,String> oneSource;
-    private final Map<String,String> datalend;
+    private final Map<String, String> oneSource;
+    private final Map<String, String> datalend;
 
-    public AuthorizationRules(Map<String, Map<String, String>> rulesMap){
+    public AuthorizationRules(Map<String, Map<String, String>> rulesMap) {
         oneSource = rulesMap.get("1source");
         datalend = rulesMap.get("datalend");
     }
@@ -19,5 +19,5 @@ public class AuthorizationRules implements Rules{
     public Map<String, String> getDatalend() {
         return datalend;
     }
-    
+
 }
