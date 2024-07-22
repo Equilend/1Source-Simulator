@@ -3,9 +3,9 @@ package com.equilend.simulator.api;
 import java.util.List;
 
 public class SecurityResponse {
-    
+
     public class SecurityData {
-        
+
         private String securityid;
         private Double price;
         private Double avgfee;
@@ -16,8 +16,8 @@ public class SecurityResponse {
         private Double maxrebate;
         private String bucket;
 
-        public SecurityData(){
-            
+        public SecurityData() {
+
         }
 
         public String getSecurityid() {
@@ -90,10 +90,9 @@ public class SecurityResponse {
 
         public void setBucket(String bucket) {
             this.bucket = bucket;
-        }    
+        }
 
-        
-        
+
     }
 
     public class Result {
@@ -101,7 +100,7 @@ public class SecurityResponse {
         private String businessdate;
         private List<SecurityData> securitydata;
 
-        public Result(){
+        public Result() {
 
         }
 
@@ -119,16 +118,16 @@ public class SecurityResponse {
 
         public void setSecuritydata(List<SecurityData> securitydata) {
             this.securitydata = securitydata;
-        } 
+        }
 
     }
 
     private int code;
     private List<Result> results;
 
-    public SecurityResponse(){
+    public SecurityResponse() {
 
-    } 
+    }
 
     public int getCode() {
         return code;
@@ -146,27 +145,32 @@ public class SecurityResponse {
         this.results = results;
     }
 
-    private SecurityData getSecurityData(){
-        if (results == null || results.size() == 0 || results.get(0) == null) return null;
+    private SecurityData getSecurityData() {
+        if (results == null || results.size() == 0 || results.get(0) == null) {
+            return null;
+        }
         Result priceResult = results.get(0);
-        if (priceResult.getSecuritydata() == null || priceResult.getSecuritydata().size() == 0 || priceResult.getSecuritydata().get(0) == null) return null;
-        SecurityData securityData = priceResult.getSecuritydata().get(0);     
-        return securityData;   
+        if (priceResult.getSecuritydata() == null || priceResult.getSecuritydata().size() == 0
+            || priceResult.getSecuritydata().get(0) == null) {
+            return null;
+        }
+        SecurityData securityData = priceResult.getSecuritydata().get(0);
+        return securityData;
     }
 
-    public double getPrice(){
+    public double getPrice() {
         SecurityData securityData = getSecurityData();
         return securityData == null ? 0.0 : securityData.getPrice();
     }
 
-    public double getAvgFee(){
+    public double getAvgFee() {
         SecurityData securityData = getSecurityData();
-        return securityData == null ? 0.0 : securityData.getAvgfee(); 
+        return securityData == null ? 0.0 : securityData.getAvgfee();
     }
 
-    public double getAvgRebate(){
+    public double getAvgRebate() {
         SecurityData securityData = getSecurityData();
         return securityData == null ? 0.0 : securityData.getAvgrebate();
     }
-    
+
 }

@@ -1,17 +1,16 @@
 package com.equilend.simulator.configurator.rules.rerate_rules;
 
+import com.equilend.simulator.api.FedAPIException;
+import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.party.TransactingParty;
+import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.equilend.simulator.api.FedAPIException;
-import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.trade.Trade;
-import com.equilend.simulator.model.trade.transacting_party.TransactingParty;
-
 public class RerateProposeRule implements RerateRule {
-    
+
     private String counterpartyExp;
     private final Set<String> counterparties = new HashSet<>();
     private String securityExp;
@@ -22,14 +21,14 @@ public class RerateProposeRule implements RerateRule {
     private Double delta;
     private Double delay;
 
-    public RerateProposeRule(String rule){
+    public RerateProposeRule(String rule) {
         loadRule(rule);
         splitExpressionAndLoad(counterpartyExp, counterparties);
         splitExpressionAndLoad(securityExp, securities);
         splitExpressionAndLoad(rateExp, rates);
     }
 
-    private void loadRule(String rule){
+    private void loadRule(String rule) {
         List<String> args = RuleValidator.parseRule(rule);
         int idx = 0;
         this.counterpartyExp = args.get(idx++);
@@ -38,58 +37,59 @@ public class RerateProposeRule implements RerateRule {
         this.delta = Double.parseDouble(args.get(idx++));
         propose = args.get(idx++).equals("P");
         this.delay = Double.parseDouble(args.get(idx));
-    }    
+    }
 
-    private void splitExpressionAndLoad(String exp, Set<String> set){
+    private void splitExpressionAndLoad(String exp, Set<String> set) {
         String[] arr = exp.split("\\|");
-        for (String str : arr){
+        for (String str : arr) {
             set.add(str.trim());
         }
     }
 
 
-    public Double getDelta(){
+    public Double getDelta() {
         return delta;
     }
 
-    public Double getDelay(){
+    public Double getDelay() {
         return delay;
     }
 
-    public boolean shouldPropose(){
+    public boolean shouldPropose() {
         return propose;
     }
 
-    private String getTradeCptyId(Trade trade, String partyId){
-        for (TransactingParty tp : trade.getTransactingParties()){
-            if (!tp.getParty().getPartyId().equals(partyId)){
+    private String getTradeCptyId(TradeAgreement trade, String partyId) {
+        for (TransactingParty tp : trade.getTransactingParties()) {
+            if (!tp.getParty().getPartyId().equals(partyId)) {
                 return tp.getParty().getPartyId();
             }
         }
-        return "";        
+        return "";
     }
 
-    public boolean isApplicable(Contract contract, String partyId) throws FedAPIException{
-        Trade trade = contract.getTrade();
+    public boolean isApplicable(Contract contract, String partyId) throws FedAPIException {
+        TradeAgreement trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         boolean rebate = trade.getRate().getRebate() != null;
-        return RuleValidator.validCounterparty(counterparties, cpty) && 
-                RuleValidator.validSecurity(securities, trade.getInstrument())
-                && RuleValidator.validRate(rates, trade.getRate().getEffectiveRate(), trade.getInstrument().getSedol(), rebate);
+        return RuleValidator.validCounterparty(counterparties, cpty) &&
+            RuleValidator.validSecurity(securities, trade.getInstrument())
+            && RuleValidator.validRate(rates, trade.getRate().getEffectiveRate(), trade.getInstrument().getSedol(),
+            rebate);
     }
 
     @Override
-    public String toString(){
-        if (propose != null){
-            if(propose){
+    public String toString() {
+        if (propose != null) {
+            if (propose) {
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp + "}, PROPOSE, DELTA{"
-                        + delta + "}, DELAY{" + delay + "}";
-            } else{
+                    + delta + "}, DELAY{" + delay + "}";
+            } else {
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp + "}, IGNORE, DELTA{"
-                        + delta + "}, DELAY{" + delay + "}";
-            }            
+                    + delta + "}, DELAY{" + delay + "}";
+            }
         }
-        return "";       
-    }    
+        return "";
+    }
 
 }

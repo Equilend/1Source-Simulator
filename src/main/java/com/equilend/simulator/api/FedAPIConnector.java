@@ -1,5 +1,6 @@
 package com.equilend.simulator.api;
 
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,11 +11,8 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.gson.Gson;
 
 public class FedAPIConnector {
 
@@ -24,7 +22,7 @@ public class FedAPIConnector {
     private static Map<String, RefRate> refRates = null;
 
     public static class RefRate {
-        
+
         private String effectiveDate;
         private String type;
         private Double percentRate;
@@ -56,7 +54,7 @@ public class FedAPIConnector {
     }
 
     public static class RefRates {
-        
+
         private List<RefRate> refRates;
 
         public List<RefRate> getRefRates() {
@@ -77,17 +75,16 @@ public class FedAPIConnector {
                 .uri(new URI("https://markets.newyorkfed.org/api/rates/all/latest.json"))
                 .header("Accept", "application/json")
                 .build();
-        }
-        catch (URISyntaxException e){
+        } catch (URISyntaxException e) {
             String message = "URISyntax Error getting the latest reference rates from NYFed API";
             logger.error(message, e);
             throw new FedAPIException(message, e);
         }
 
         HttpResponse<String> getResponse;
-        try{
+        try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e){
+        } catch (IOException | InterruptedException e) {
             String message = "IO Error getting the latest reference rates from NYFed API";
             logger.error(message, e);
             throw new FedAPIException(message, e);
@@ -95,13 +92,15 @@ public class FedAPIConnector {
 
         refRates = new HashMap<>();
         RefRates latestJson = gson.fromJson(getResponse.body(), RefRates.class);
-        for (RefRate refRate : latestJson.getRefRates()){
+        for (RefRate refRate : latestJson.getRefRates()) {
             refRates.put(refRate.getType(), refRate);
         }
     }
 
-    public static RefRate getRefRate(String benchmark) throws FedAPIException{
-        if (refRates == null) populateRefRates();
+    public static RefRate getRefRate(String benchmark) throws FedAPIException {
+        if (refRates == null) {
+            populateRefRates();
+        }
 
         return refRates.get(benchmark);
     }

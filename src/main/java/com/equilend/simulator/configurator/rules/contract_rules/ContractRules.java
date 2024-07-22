@@ -1,14 +1,13 @@
 package com.equilend.simulator.configurator.rules.contract_rules;
 
+import com.equilend.simulator.api.APIConnector;
+import com.equilend.simulator.configurator.rules.Rules;
+import com.equilend.simulator.model.contract.Contract;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.api.APIConnector;
-import com.equilend.simulator.configurator.rules.Rules;
-
-public class ContractRules implements Rules{
+public class ContractRules implements Rules {
 
     private final List<ContractRule> recipientIncomingRules = new ArrayList<>();
     private final List<ContractRule> initiatorIncomingRules = new ArrayList<>();
@@ -16,7 +15,7 @@ public class ContractRules implements Rules{
     private final boolean analysisMode;
     private String analysisStartDate = APIConnector.formatTime(APIConnector.getCurrentTime()).substring(0, 10);
 
-    public ContractRules(Map<String, Map<String, String>> rulesMap){    
+    public ContractRules(Map<String, Map<String, String>> rulesMap) {
         addRules(rulesMap.get("recipient").get("incoming"), recipientIncomingRules, true);
         addRules(rulesMap.get("initiator").get("incoming"), initiatorIncomingRules, true);
         addRules(rulesMap.get("initiator").get("outgoing"), initiatorOutgoingRules, false);
@@ -24,57 +23,62 @@ public class ContractRules implements Rules{
         analysisStartDate = rulesMap.get("general").get("analysis_start_date");
     }
 
-    public void addRules(String rawRulesList, List<ContractRule> contractRulesList, boolean isResponsive){
-        if (rawRulesList == null) return;
-        if (rawRulesList.charAt(0) != '{') return;
+    public void addRules(String rawRulesList, List<ContractRule> contractRulesList, boolean isResponsive) {
+        if (rawRulesList == null) {
+            return;
+        }
+        if (rawRulesList.charAt(0) != '{') {
+            return;
+        }
 
         int start = rawRulesList.indexOf(";(");
-        while (start != -1){
+        while (start != -1) {
             int end = rawRulesList.indexOf(");", start);
-            
-            String ruleStr = rawRulesList.substring(start+1, end+1);
-            ContractRule rule = (isResponsive) ? new ContractResponsiveRule(ruleStr) : new ContractGenerativeRule(ruleStr);
+
+            String ruleStr = rawRulesList.substring(start + 1, end + 1);
+            ContractRule rule =
+                (isResponsive) ? new ContractResponsiveRule(ruleStr) : new ContractGenerativeRule(ruleStr);
             contractRulesList.add(rule);
 
             start = rawRulesList.indexOf(";(", end);
         }
     }
 
-    public List<ContractRule> getSchedulerRules(){
+    public List<ContractRule> getSchedulerRules() {
         return initiatorOutgoingRules;
     }
 
-    public boolean schedulerMode(){
+    public boolean schedulerMode() {
         return !initiatorOutgoingRules.isEmpty();
     }
 
-    public boolean getAnalysisMode(){
+    public boolean getAnalysisMode() {
         return analysisMode;
     }
 
-    public String getAnalysisStartDate(){
+    public String getAnalysisStartDate() {
         return analysisStartDate;
     }
 
     //if should ignore trade return -1, otherwise return delay to cancel
-    public Double shouldIgnoreTrade(Contract contract, String partyId){
-        for (ContractRule rule : initiatorIncomingRules){
+    public Double shouldIgnoreTrade(Contract contract, String partyId) {
+        for (ContractRule rule : initiatorIncomingRules) {
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;
-            if (responsiveRule.isApplicable(contract, partyId)){
+            if (responsiveRule.isApplicable(contract, partyId)) {
                 return responsiveRule.isShouldIgnore() ? -1.0 : responsiveRule.getDelay();
             }
         }
         return -1.0;
     }
 
-    public ContractResponsiveRule getApproveOrRejectApplicableRule(Contract contract, String partyId){
-        for (ContractRule rule : recipientIncomingRules){
+    public ContractResponsiveRule getApproveOrRejectApplicableRule(Contract contract, String partyId) {
+        for (ContractRule rule : recipientIncomingRules) {
             ContractResponsiveRule responsiveRule = (ContractResponsiveRule) rule;
-            if (responsiveRule.isApplicable(contract, partyId)){
+            if (responsiveRule.isApplicable(contract, partyId)) {
                 return responsiveRule;
             }
         }
         return null;
     }
-    
+
 }

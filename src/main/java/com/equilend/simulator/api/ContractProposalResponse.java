@@ -16,7 +16,7 @@ public class ContractProposalResponse {
         String uri = resourceUri;
         String[] arr = uri.split("/");
 
-        return arr[arr.length-1];
+        return arr[arr.length - 1];
     }
 
     @Override

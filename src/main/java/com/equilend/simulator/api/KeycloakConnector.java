@@ -1,5 +1,7 @@
 package com.equilend.simulator.api;
 
+import com.equilend.simulator.auth.Token;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,19 +13,15 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.equilend.simulator.auth.Token;
-import com.google.gson.Gson;
 
 public class KeycloakConnector {
 
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static final Gson gson = new Gson();
     private static final Logger logger = LogManager.getLogger();
-    
+
     public static String encodeMapAsString(Map<String, String> formData) {
         StringBuilder formBodyBuilder = new StringBuilder();
         for (Map.Entry<String, String> singleEntry : formData.entrySet()) {
@@ -37,9 +35,9 @@ public class KeycloakConnector {
 
         return formBodyBuilder.toString();
     }
-    
+
     public static Token getBearerToken(Map<String, String> loginInfo, String url) throws APIException {
-        if (loginInfo == null){
+        if (loginInfo == null) {
             throw new APIException("Login info not configured or failed to be read");
         }
 
@@ -67,7 +65,7 @@ public class KeycloakConnector {
         }
 
         Token token = gson.fromJson(postResponse.body(), Token.class);
-        if (token.getError() != null){ 
+        if (token.getError() != null) {
             String message = "Error authorizing bearer token: " + token.getError_description();
             logger.debug(message);
             throw new APIException(message);
