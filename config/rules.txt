@@ -9,16 +9,16 @@ datalend_api_url = https://api.equilend.com/v1/analytics
 
 [[AUTH]]
 <1source>
-client_id=canton-participant2-client
-client_secret=9fa094bf-9e39-4271-aa63-c6a641730423
+client_id=<client_id>
+client_secret=<client_secret>
 grant_type=password
-username=TestLender1User
-password=fjmxVeKzpzUDg3YJ
+username=<username>
+password=<password>
 <datalend>
 grant_type=password
 client_id=TrialsApp
-username=1source_dl_api
-password=asdf1234
+username=<username>
+password=<password>
 
 [[EVENTS]]
 incoming = {
