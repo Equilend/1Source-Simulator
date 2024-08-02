@@ -68,7 +68,7 @@ public class TradeHandler implements EventHandler {
         getAgreementById(agreementId);
         VenueTradeAgreement trade = agreement.getTrade();
 
-        String botPartyId = configurator.getGeneralRules().getBotPartyId();
+        String botPartyId = configurator.getBotPartyId();
 
         Optional<TransactingParty> transactingPartyById = TradeService.getTransactingPartyById(trade, botPartyId);
         if (transactingPartyById.isEmpty()) {

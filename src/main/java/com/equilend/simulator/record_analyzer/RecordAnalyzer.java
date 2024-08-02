@@ -29,7 +29,7 @@ public class RecordAnalyzer {
 
     public RecordAnalyzer(Configurator configurator) {
         this.configurator = configurator;
-        this.botPartyId = configurator.getGeneralRules().getBotPartyId();
+        this.botPartyId = configurator.getBotPartyId();
         this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
         this.contractAnalysisMode = configurator.getContractRules().getAnalysisMode();
         this.contractStartDate = configurator.getContractRules().getAnalysisStartDate();
@@ -121,7 +121,7 @@ public class RecordAnalyzer {
                     }
 
                     RerateProposeRule rule = configurator.getRerateRules()
-                        .getProposeRule(contract, configurator.getGeneralRules().getBotPartyId());
+                        .getProposeRule(contract, configurator.getBotPartyId());
                     if (rule == null || !rule.shouldPropose()) {
                         continue;
                     }

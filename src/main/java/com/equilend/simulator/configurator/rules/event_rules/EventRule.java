@@ -29,7 +29,7 @@ public class EventRule {
     }
 
     public boolean isApplicable(Event event) {
-        return eventType.equals("*") || eventType.equals(event.getEventType());
+        return eventType.equals("*") || eventType.equals(event.getEventType().toString());
     }
 
     @Override

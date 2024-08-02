@@ -20,10 +20,10 @@ public class DatalendToken {
         return this.accessToken;
     }
 
-    public static void configureToken(Map<String, String> authRules, String url_) {
+    public static void configureToken(Map<String, String> keycloakLoginInfo, String keycloakUrl) {
         if (login == null || url == null) {
-            login = authRules;
-            url = url_;
+            login = keycloakLoginInfo;
+            url = keycloakUrl;
         }
     }
 

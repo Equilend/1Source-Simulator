@@ -29,7 +29,7 @@ public class EventsProcessor implements Runnable {
 
     public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
-        this.waitInterval = configurator.getGeneralRules().getEventFetchIntervalMillis();
+        this.waitInterval = configurator.getEventFetchIntervalMillis();
     }
 
     private static class EventHandlerThread implements ThreadFactory {
@@ -95,8 +95,9 @@ public class EventsProcessor implements Runnable {
                     case CONTRACT_PROPOSED:
                         task = new ContractHandler(event, configurator, System.currentTimeMillis());
                         break;
-                    case CONTRACT_PENDING:
+                    case CONTRACT_OPENED:
                     case RERATE_PROPOSED:
+                    case RERATE_PENDING:
                         task = new RerateHandler(event, configurator, System.currentTimeMillis());
                         break;
                 }

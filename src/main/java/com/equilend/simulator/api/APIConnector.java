@@ -632,6 +632,50 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
+    public static int cancelReratePending(OneSourceToken token, String contractId, String rerateId)
+        throws APIException {
+        if (token == null) {
+            String message = "Token is null, unable to get cancel rerate pending";
+            logger.debug(message);
+            throw new APIException(message);
+        }
+
+        if (restAPIURL == null) {
+            throw new APIException("1Source REST API URL not properly loaded");
+        }
+
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest
+                .newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/cancelpending"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with sending cancel rerate pending post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending cancel rerate pending post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        if (postResponse.statusCode() == 200) {
+            logger.info("Rerate pending cancelled successfully");
+        } else {
+            logger.trace("Error cancelling rerate pending");
+            logger.trace(postResponse.body());
+        }
+        return postResponse.statusCode();
+    }
+
     public static int approveRerateProposal(OneSourceToken token, String contractId, String rerateId)
         throws APIException {
         if (token == null) {

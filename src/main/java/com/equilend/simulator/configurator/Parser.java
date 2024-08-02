@@ -1,7 +1,5 @@
 package com.equilend.simulator.configurator;
 
-import com.equilend.simulator.configurator.rules.AuthorizationRules;
-import com.equilend.simulator.configurator.rules.GeneralRules;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
@@ -14,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -125,8 +124,8 @@ public class Parser {
         return map;
     }
 
-    public static Map<String, Rules> readRulesFile() {
-        String rulesFilename = "config/rules.txt";
+    public static Map<String, Rules> readRulesFile(Properties properties) {
+        String rulesFilename = properties.getProperty("rules_file", "config/rules.txt");
         StringBuilder str = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(rulesFilename))) {
             boolean inList = false;
@@ -161,12 +160,6 @@ public class Parser {
             Map<String, Map<String, String>> sectionRulesMap = loadSectionRules(section);
 
             switch (header.toUpperCase()) {
-                case "GENERAL":
-                    rules.put(header, new GeneralRules(sectionRulesMap));
-                    break;
-                case "AUTH":
-                    rules.put(header, new AuthorizationRules(sectionRulesMap));
-                    break;
                 case "EVENTS":
                     rules.put(header, new EventRules(sectionRulesMap));
                     break;

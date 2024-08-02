@@ -29,7 +29,7 @@ public class ContractHandler implements EventHandler {
     public ContractHandler(Event e, Configurator configurator, Long startTime) {
         this.event = e;
         this.configurator = configurator;
-        this.botPartyId = configurator.getGeneralRules().getBotPartyId();
+        this.botPartyId = configurator.getBotPartyId();
         this.startTime = startTime;
     }
 

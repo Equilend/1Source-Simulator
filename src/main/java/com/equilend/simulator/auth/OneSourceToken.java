@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 public class OneSourceToken {
 
     private volatile String accessToken;
-    private static Map<String, String> login = null;
+    private static Map<String, String> loginInfo = null;
     private static String url = null;
     private static OneSourceToken token = null;
     private static final Logger logger = LogManager.getLogger();
@@ -20,7 +20,7 @@ public class OneSourceToken {
     private OneSourceToken() throws APIException {
         Token tokenResponse;
         try {
-            tokenResponse = KeycloakConnector.getBearerToken(login, url);
+            tokenResponse = KeycloakConnector.getBearerToken(loginInfo, url);
             accessToken = tokenResponse.getAccess_token();
         } catch (APIException e) {
             logger.error("Error retrieving 1Source auth token");
@@ -30,7 +30,7 @@ public class OneSourceToken {
             public void run() {
                 Token tokenResponse;
                 try {
-                    tokenResponse = KeycloakConnector.getBearerToken(login, url);
+                    tokenResponse = KeycloakConnector.getBearerToken(loginInfo, url);
                     accessToken = tokenResponse.getAccess_token();
                 } catch (APIException e) {
                     logger.error("Error retrieving 1Source auth token");
@@ -43,10 +43,10 @@ public class OneSourceToken {
         return this.accessToken;
     }
 
-    public static void configureToken(Map<String, String> authRules, String url_) {
-        if (login == null || url == null) {
-            login = authRules;
-            url = url_;
+    public static void configureToken(Map<String, String> keycloakLoginInfo, String keycloakUrl) {
+        if (loginInfo == null || url == null) {
+            loginInfo = keycloakLoginInfo;
+            url = keycloakUrl;
         }
     }
 
