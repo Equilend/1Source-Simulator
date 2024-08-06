@@ -36,12 +36,6 @@ Clone the code repository locally from GitHub with the following command:
 1Source-Simulator> mvn clean package
 ```
 
-To execute the Simulator using Maven:
-
-```
-1Source-Simulator> mvn clean package
-```
-
 ### Running the Simulator
 
 To execute the Simulator using Maven:
