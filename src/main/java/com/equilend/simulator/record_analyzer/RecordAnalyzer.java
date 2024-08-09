@@ -20,16 +20,16 @@ import org.apache.logging.log4j.Logger;
 
 public class RecordAnalyzer {
 
+    private static final Logger logger = LogManager.getLogger(RecordAnalyzer.class.getName());
     private Configurator configurator;
     private String botPartyId;
     private boolean rerateAnalysisMode;
     private boolean contractAnalysisMode;
     private String contractStartDate;
-    private static final Logger logger = LogManager.getLogger();
 
     public RecordAnalyzer(Configurator configurator) {
         this.configurator = configurator;
-        this.botPartyId = configurator.getGeneralRules().getBotPartyId();
+        this.botPartyId = configurator.getBotPartyId();
         this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
         this.contractAnalysisMode = configurator.getContractRules().getAnalysisMode();
         this.contractStartDate = configurator.getContractRules().getAnalysisStartDate();
@@ -87,7 +87,8 @@ public class RecordAnalyzer {
                         continue;
                     }
 
-                    if (ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole() == PartyRole.BORROWER) {
+                    if (ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole()
+                        == PartyRole.BORROWER) {
                         // if bot is lender => initiator => cancel/ignore rules
                         RerateCancelRule rule = configurator.getRerateRules()
                             .getCancelRule(rerate, contract, botPartyId);
@@ -121,7 +122,7 @@ public class RecordAnalyzer {
                     }
 
                     RerateProposeRule rule = configurator.getRerateRules()
-                        .getProposeRule(contract, configurator.getGeneralRules().getBotPartyId());
+                        .getProposeRule(contract, configurator.getBotPartyId());
                     if (rule == null || !rule.shouldPropose()) {
                         continue;
                     }
@@ -149,7 +150,8 @@ public class RecordAnalyzer {
                             continue;
                         }
                         if (rule.isShouldApprove()) {
-                            PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole();
+                            PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId).get()
+                                .getPartyRole();
                             ContractHandler.acceptContractProposal(contract.getContractId(),
                                 partyRole, 0L, 0.0);
                         } else {

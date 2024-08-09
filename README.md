@@ -36,8 +36,20 @@ Clone the code repository locally from GitHub with the following command:
 1Source-Simulator> mvn clean package
 ```
 
-### Running the Simulator
+To execute the Simulator using Maven:
 
+```
+1Source-Simulator> mvn clean package
+```
+
+To build setup bundle (result will be found in **target/bundle**) run next Maven goal:
+
+```
+1Source-Simulator> mvn clean install
+```
+
+
+### Running the Simulator from source
 To execute the Simulator using Maven:
 
 ```
@@ -48,6 +60,30 @@ To execute the Simulator using from a Bash shell script:
 
 ```
 1Source-Simulator> ./run.sh
+```
+
+### Running Simulator with configuration from setup bundle
+
+**target/bundle** folder contains jar file with application.properties and rules config folder
+
+To run Simulator with application.properties:
+
+```
+1Source-Simulator> java -jar simulator.jar --application.properties=<full path to the file>/application.properties
+```
+or
+```
+1Source-Simulator> java -jar simulator.jar --application.properties=application.properties
+```
+
+It is possible to change any config parameters from run command:
+
+```
+1Source-Simulator> java -jar simulator.jar --bot_party_id=NEWBOT-US
+```
+
+```
+1Source-Simulator> java -jar simulator.jar --application.properties=<full path to the file>/application.properties --bot_party_id=NEWBOT-US
 ```
 
 ### Stopping the Simulator

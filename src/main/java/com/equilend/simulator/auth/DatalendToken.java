@@ -3,8 +3,11 @@ package com.equilend.simulator.auth;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.KeycloakConnector;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DatalendToken {
+    private static final Logger logger = LogManager.getLogger(DatalendToken.class.getName());
 
     private final String accessToken;
     private static Map<String, String> login = null;
@@ -12,18 +15,23 @@ public class DatalendToken {
     private static DatalendToken token = null;
 
     private DatalendToken() throws APIException {
-        Token tokenResponse = KeycloakConnector.getBearerToken(login, url);
-        this.accessToken = tokenResponse.getAccess_token();
+        try {
+            Token tokenResponse = KeycloakConnector.getBearerToken(login, url);
+            this.accessToken = tokenResponse.getAccess_token();
+        } catch (APIException e) {
+            logger.error("Error retrieving Datalend auth token");
+            throw new RuntimeException(e);
+        }
     }
 
     public String getAccessToken() {
         return this.accessToken;
     }
 
-    public static void configureToken(Map<String, String> authRules, String url_) {
+    public static void configureToken(Map<String, String> keycloakLoginInfo, String keycloakUrl) {
         if (login == null || url == null) {
-            login = authRules;
-            url = url_;
+            login = keycloakLoginInfo;
+            url = keycloakUrl;
         }
     }
 

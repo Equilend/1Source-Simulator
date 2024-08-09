@@ -1,7 +1,5 @@
 package com.equilend.simulator.events_processor;
 
-import static com.equilend.simulator.model.event.EventType.TRADE_AGREED;
-
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -9,6 +7,7 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;
+import com.equilend.simulator.events_processor.event_handler.ReturnsHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.event.EventType;
@@ -23,13 +22,14 @@ import org.apache.logging.log4j.Logger;
 
 public class EventsProcessor implements Runnable {
 
+    private static final Logger logger = LogManager.getLogger(EventsProcessor.class.getName());
     private final Configurator configurator;
     private final long waitInterval;
-    private static final Logger logger = LogManager.getLogger();
+
 
     public EventsProcessor(Configurator configurator) {
         this.configurator = configurator;
-        this.waitInterval = configurator.getGeneralRules().getEventFetchIntervalMillis();
+        this.waitInterval = configurator.getEventFetchIntervalMillis();
     }
 
     private static class EventHandlerThread implements ThreadFactory {
@@ -95,9 +95,14 @@ public class EventsProcessor implements Runnable {
                     case CONTRACT_PROPOSED:
                         task = new ContractHandler(event, configurator, System.currentTimeMillis());
                         break;
-                    case CONTRACT_PENDING:
+                    case CONTRACT_OPENED:
                     case RERATE_PROPOSED:
+                    case RERATE_PENDING:
                         task = new RerateHandler(event, configurator, System.currentTimeMillis());
+                        break;
+                    case RETURN_PENDING:
+                    case RECALL_OPENED:
+                        task = new ReturnsHandler(event, configurator, System.currentTimeMillis());
                         break;
                 }
 

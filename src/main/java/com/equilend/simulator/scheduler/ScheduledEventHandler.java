@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ScheduledEventHandler implements Runnable {
 
+    private static final Logger logger = LogManager.getLogger(ScheduledEventHandler.class.getName());
     PartyRole botPartyRole;
     Party botParty;
     Party counterparty;
@@ -20,7 +21,6 @@ public class ScheduledEventHandler implements Runnable {
     String quantityStr;
     String idType;
 
-    private static final Logger logger = LogManager.getLogger();
 
     public ScheduledEventHandler(PartyRole botPartyRole, Party botParty, Party counterparty, Instrument security,
         String quantityStr, String idType) {

@@ -1,6 +1,7 @@
 package com.equilend.simulator.events_processor.event_handler;
 
-import static com.equilend.simulator.model.event.EventType.CONTRACT_PENDING;
+import static com.equilend.simulator.model.event.EventType.CONTRACT_OPENED;
+import static com.equilend.simulator.model.event.EventType.RERATE_PENDING;
 import static com.equilend.simulator.model.event.EventType.RERATE_PROPOSED;
 import static com.equilend.simulator.service.ContractService.getTransactingPartyById;
 
@@ -9,32 +10,33 @@ import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
+import com.equilend.simulator.configurator.rules.rerate_rules.ReratePendingCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.rate.FixedRateDef;
 import com.equilend.simulator.model.rate.Rate;
 import com.equilend.simulator.model.rate.RebateRate;
+import com.equilend.simulator.model.rerate.Rerate;
+import com.equilend.simulator.model.rerate.RerateProposal;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RerateHandler implements EventHandler {
 
+    private static final Logger logger = LogManager.getLogger(RerateHandler.class.getName());
     private final Event event;
     private final Configurator configurator;
     private final String botPartyId;
     private final Long startTime;
-    private static final Logger logger = LogManager.getLogger();
 
     public RerateHandler(Event e, Configurator configurator, Long startTime) {
         this.event = e;
         this.configurator = configurator;
-        this.botPartyId = configurator.getGeneralRules().getBotPartyId();
+        this.botPartyId = configurator.getBotPartyId();
         this.startTime = startTime;
     }
 
@@ -93,6 +95,18 @@ public class RerateHandler implements EventHandler {
         }
         try {
             APIConnector.cancelRerateProposal(EventHandler.getToken(), contractId, rerateId);
+        } catch (APIException e) {
+            logger.debug("Unable to process rerate event");
+        }
+    }
+
+    public static void cancelReratePending(String contractId, String rerateId, Long startTime, Double delay) {
+        long delayMillis = Math.round(1000 * delay);
+        while (System.currentTimeMillis() - startTime < delayMillis) {
+            Thread.yield();
+        }
+        try {
+            APIConnector.cancelReratePending(EventHandler.getToken(), contractId, rerateId);
         } catch (APIException e) {
             logger.debug("Unable to process rerate event");
         }
@@ -160,7 +174,7 @@ public class RerateHandler implements EventHandler {
                     declineRerateProposal(contractId, rerateId, startTime, delay);
                 }
             }
-        } else if (event.getEventType().equals(CONTRACT_PENDING)) {
+        } else if (event.getEventType().equals(CONTRACT_OPENED)) {
             String contractId = arr[arr.length - 1];
             Contract contract = getContractById(contractId);
 
@@ -173,6 +187,23 @@ public class RerateHandler implements EventHandler {
             Double delay = rule.getDelay();
 
             postRerateProposal(contractId, contract.getTrade().getRate(), delta, startTime, delay);
+        } else if (event.getEventType().equals(RERATE_PENDING)) {
+            String rerateId = arr[arr.length - 1];
+            Rerate rerate = getRerateById(rerateId);
+            if (rerate == null) {
+                return;
+            }
+
+            String contractId = rerate.getContractId();
+            Contract contract = getContractById(contractId);
+
+            ReratePendingCancelRule rule = configurator.getRerateRules()
+                .getPendingCancelRule(rerate, contract, botPartyId);
+            if (rule == null || !rule.shouldCancel()) {
+                return; //default to ignore/ not cancelling
+            }
+            Double delay = rule.getDelay();
+            cancelReratePending(contractId, rerateId, startTime, delay);
         }
     }
 }

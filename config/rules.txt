@@ -1,31 +1,11 @@
-[[GENERAL]]
-bot_party_id = TLEN-US
-max_refresh_attempts = 3
-event_fetch_interval_secs = 10
-1source_keycloak_url = https://stageauth.equilend.com/auth/realms/1Source/protocol/openid-connect/token
-1source_api_url = https://stageapi.equilend.com/v1/ledger
-datalend_keycloak_url = https://auth.equilend.com/auth/realms/APITest/protocol/openid-connect/token
-datalend_api_url = https://api.equilend.com/v1/analytics
-
-[[AUTH]]
-<1source>
-client_id=<client_id>
-client_secret=<client_secret>
-grant_type=password
-username=<username>
-password=<password>
-<datalend>
-grant_type=password
-client_id=TrialsApp
-username=<username>
-password=<password>
-
 [[EVENTS]]
 incoming = {
-    (event_type: TRADE, action: D)
+    (event_type: TRADE, action: I)
     (event_type: CONTRACT, action: I)
     (event_type: CONTRACT_APPROVE, action: I)
     (event_type: RERATE, action: I)
+    (event_type: RERATE_PENDING, action: I)
+    (event_type: RETURN_PENDING, action: D)
     (event_type: *, action: I)
 }
 
@@ -63,7 +43,7 @@ outgoing = {
     (bot_party_role: LENDER, cpty: TBORR-US, security: JPM | IBM, quantity: 1000, delay: 10, period: 5, duration: 0)
 }
 
-[[Rerates]]
+[[RERATES]]
 analysis_mode = 0
 <recipient>
 approve = {
@@ -77,4 +57,24 @@ cancel = {
 }
 propose = {
     (cpty: *, security: *, rate: *, delta: 1.5, action: P, delay: 0)
+}
+<common>
+cancel_pending = {
+    (cpty: *, security: *, rate: *, action: CP, delay: 0)
+    (cpty: *, security: *, rate: *, action: I, delay: 0 )
+}
+
+[[RETURNS]]
+analysis_mode = 0
+<recipient>
+acknowledge = {
+    (cpty: *, security: *, open quantity: *, return quantity: *, action: AP, delay: 0)
+}
+<initiator>
+cancel = {
+    (cpty: *, security: *, open quantity: *, return quantity:*, action: I, delay: 0)
+}
+<common>
+update_settlement = {
+ (cpty: *, security: *, open quantity: *, return quantity: *, action: I, delay: 0)
 }

@@ -19,11 +19,11 @@ import org.apache.logging.log4j.Logger;
 
 public class TradeHandler implements EventHandler {
 
+    private static final Logger logger = LogManager.getLogger(TradeHandler.class.getName());
     private final Event event;
     private Agreement agreement;
     private final Configurator configurator;
     private final Long startTime;
-    private static final Logger logger = LogManager.getLogger();
 
     public TradeHandler(Event e, Configurator configurator, Long startTime) {
         this.event = e;
@@ -68,7 +68,7 @@ public class TradeHandler implements EventHandler {
         getAgreementById(agreementId);
         VenueTradeAgreement trade = agreement.getTrade();
 
-        String botPartyId = configurator.getGeneralRules().getBotPartyId();
+        String botPartyId = configurator.getBotPartyId();
 
         Optional<TransactingParty> transactingPartyById = TradeService.getTransactingPartyById(trade, botPartyId);
         if (transactingPartyById.isEmpty()) {

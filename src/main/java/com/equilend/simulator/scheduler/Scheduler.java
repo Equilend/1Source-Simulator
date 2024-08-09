@@ -23,7 +23,7 @@ public class Scheduler implements Runnable {
 
     public Scheduler(Configurator configurator) {
         this.configurator = configurator;
-        this.botPartyId = configurator.getGeneralRules().getBotPartyId();
+        this.botPartyId = configurator.getBotPartyId();
         this.parties = configurator.getParties();
         this.instruments = configurator.getInstruments();
     }

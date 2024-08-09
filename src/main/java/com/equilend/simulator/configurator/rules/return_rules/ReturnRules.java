@@ -1,0 +1,101 @@
+package com.equilend.simulator.configurator.rules.return_rules;
+
+import com.equilend.simulator.configurator.rules.Rules;
+import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.returns.Return;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class ReturnRules implements Rules {
+
+    private static final Logger logger = LogManager.getLogger(ReturnRules.class.getName());
+    private final List<ReturnRule> acknowledgeRules = new ArrayList<>();
+    private final List<ReturnRule> cancelRules = new ArrayList<>();
+    private final List<ReturnRule> proposeRules = new ArrayList<>();
+    private final List<ReturnRule> settlementStatusUpdateRules = new ArrayList<>();
+    private final boolean analysisMode;
+
+
+
+    private enum ReturnRuleType {
+        ACKNOWLEDGE,
+        CANCEL,
+        PROPOSE,
+        UPDATE;
+    }
+    public ReturnRules(Map<String, Map<String, String>> rulesMap) {
+        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        addRules(rulesMap.get("recipient").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
+        addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
+        addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
+    }
+
+    public void addRules(String rawRulesList, List<ReturnRule> returnRules, ReturnRuleType type) {
+        if (rawRulesList == null) {
+            return;
+        }
+        if (rawRulesList.charAt(0) != '{') {
+            return;
+        }
+
+        int start = rawRulesList.indexOf(";(");
+        while (start != -1) {
+            int end = rawRulesList.indexOf(");", start);
+
+            String ruleStr = rawRulesList.substring(start + 1, end + 1);
+            ReturnRule rule;
+            switch (type) {
+                case ACKNOWLEDGE:
+                    rule = new ReturnAcknowledgeRule(ruleStr);
+                    break;
+                case CANCEL:
+                    rule = new ReturnCancelRule(ruleStr);
+                    break;
+                case UPDATE:
+                    rule = new ReturnSettlementStatusUpdateRule(ruleStr);
+                    break;
+                default:
+                    rule = null;
+            }
+            returnRules.add(rule);
+
+            start = rawRulesList.indexOf(";(", end);
+        }
+    }
+
+    public ReturnAcknowledgeRule getReturnAcknowledgeRule(Return oneSourceReturn, Contract contract,
+        String botPartyId) {
+        for (ReturnRule rule : acknowledgeRules) {
+            ReturnAcknowledgeRule acknowledgeRule = (ReturnAcknowledgeRule) rule;
+            if (acknowledgeRule.isApplicable(oneSourceReturn, contract, botPartyId)) {
+                return acknowledgeRule;
+            }
+        }
+        return null;
+    }
+
+    public ReturnCancelRule getReturnCancelRule(Return oneSourceReturn, Contract contract,
+        String botPartyId) {
+        for (ReturnRule rule : cancelRules) {
+            ReturnCancelRule returnCancelRule = (ReturnCancelRule) rule;
+            if (returnCancelRule.isApplicable(oneSourceReturn, contract, botPartyId)) {
+                return returnCancelRule;
+            }
+        }
+        return null;
+    }
+
+    public ReturnSettlementStatusUpdateRule getReturnSettlementStatusUpdateRule(Return oneSourceReturn, Contract contract,
+        String botPartyId) {
+        for (ReturnRule rule : settlementStatusUpdateRules) {
+            ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = (ReturnSettlementStatusUpdateRule) rule;
+            if (returnSettlementStatusUpdateRule.isApplicable(oneSourceReturn, contract, botPartyId)) {
+                return returnSettlementStatusUpdateRule;
+            }
+        }
+        return null;
+    }
+}

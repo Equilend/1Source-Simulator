@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 public class RuleValidator {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(RuleValidator.class.getName());
 
 
     public static List<String> parseRule(String ruleStr) {

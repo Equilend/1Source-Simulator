@@ -12,23 +12,26 @@ import org.apache.logging.log4j.Logger;
 
 public class RerateRules implements Rules {
 
+    private static final Logger logger = LogManager.getLogger(RerateRules.class.getName());
     private final List<RerateRule> approveRules = new ArrayList<>();
     private final List<RerateRule> cancelRules = new ArrayList<>();
     private final List<RerateRule> proposeRules = new ArrayList<>();
+    private final List<RerateRule> pendingCancelRules = new ArrayList<>();
     private final boolean analysisMode;
-    private static final Logger logger = LogManager.getLogger();
 
     public RerateRules(Map<String, Map<String, String>> rulesMap) {
         analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("approve"), approveRules, RerateRuleType.APPROVE);
         addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RerateRuleType.CANCEL);
         addRules(rulesMap.get("initiator").get("propose"), proposeRules, RerateRuleType.PROPOSE);
+        addRules(rulesMap.get("common").get("cancel_pending"), pendingCancelRules, RerateRuleType.PENDING_CANCEL);
     }
 
     private enum RerateRuleType {
         APPROVE,
         CANCEL,
-        PROPOSE
+        PROPOSE,
+        PENDING_CANCEL
     }
 
     public void addRules(String rawRulesList, List<RerateRule> rerateRulesList, RerateRuleType type) {
@@ -54,6 +57,9 @@ public class RerateRules implements Rules {
                     break;
                 case PROPOSE:
                     rule = new RerateProposeRule(ruleStr);
+                    break;
+                case PENDING_CANCEL:
+                    rule = new ReratePendingCancelRule(ruleStr);
                     break;
                 default:
                     rule = null;
@@ -107,6 +113,22 @@ public class RerateRules implements Rules {
             try {
                 if (proposeRule.isApplicable(contract, partyId)) {
                     return proposeRule;
+                }
+            } catch (FedAPIException e) {
+                logger.error("FEDAPIException error.. unable to get benchmark rate properly");
+                return null;
+            }
+        }
+        return null;
+    }
+
+    //returns first applicable propose/ignore rule
+    public ReratePendingCancelRule getPendingCancelRule(Rerate rerate, Contract contract, String partyId) {
+        for (RerateRule rule : pendingCancelRules) {
+            ReratePendingCancelRule reratePendingCancelRule = (ReratePendingCancelRule) rule;
+            try {
+                if (reratePendingCancelRule.isApplicable(rerate, contract, partyId)) {
+                    return reratePendingCancelRule;
                 }
             } catch (FedAPIException e) {
                 logger.error("FEDAPIException error.. unable to get benchmark rate properly");

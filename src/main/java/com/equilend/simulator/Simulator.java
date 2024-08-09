@@ -7,6 +7,8 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
 import com.equilend.simulator.scheduler.Scheduler;
+import com.equilend.simulator.utils.PropertiesUtil;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -50,8 +52,8 @@ public class Simulator {
     }
 
     public static void main(String[] args) {
-
-        Configurator configurator = new Configurator();
+        Properties props = PropertiesUtil.loadProperties(args);
+        Configurator configurator = new Configurator(props);
 
         warmUp();
 
@@ -93,5 +95,4 @@ public class Simulator {
             Thread.yield();
         }
     }
-
 }

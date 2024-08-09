@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ContractService {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(ContractService.class.getName());
 
     public static Optional<TransactingParty> getTransactingPartyById(Contract contract, String botPartyId) {
         return TradeService.getTransactingPartyById(contract.getTrade(), botPartyId);

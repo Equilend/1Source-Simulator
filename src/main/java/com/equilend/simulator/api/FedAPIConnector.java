@@ -16,9 +16,9 @@ import org.apache.logging.log4j.Logger;
 
 public class FedAPIConnector {
 
+    private static final Logger logger = LogManager.getLogger(FedAPIConnector.class.getName());
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static final Gson gson = new Gson();
-    private static final Logger logger = LogManager.getLogger();
     private static Map<String, RefRate> refRates = null;
 
     public static class RefRate {
