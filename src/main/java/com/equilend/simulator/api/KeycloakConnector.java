@@ -18,9 +18,9 @@ import org.apache.logging.log4j.Logger;
 
 public class KeycloakConnector {
 
+    private static final Logger logger = LogManager.getLogger(KeycloakConnector.class.getName());
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static final Gson gson = new Gson();
-    private static final Logger logger = LogManager.getLogger();
 
     public static String encodeMapAsString(Map<String, String> formData) {
         StringBuilder formBodyBuilder = new StringBuilder();
@@ -62,6 +62,10 @@ public class KeycloakConnector {
             String message = "Error with sending token post request";
             logger.debug(message, e);
             throw new APIException(message, e);
+        }
+
+        if (postResponse.statusCode()/100 != 2) {
+            throw new APIException(postResponse.body());
         }
 
         Token token = gson.fromJson(postResponse.body(), Token.class);

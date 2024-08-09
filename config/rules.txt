@@ -4,7 +4,8 @@ incoming = {
     (event_type: CONTRACT, action: I)
     (event_type: CONTRACT_APPROVE, action: I)
     (event_type: RERATE, action: I)
-    (event_type: RERATE_PENDING, action: D)
+    (event_type: RERATE_PENDING, action: I)
+    (event_type: RETURN_PENDING, action: D)
     (event_type: *, action: I)
 }
 
@@ -42,7 +43,7 @@ outgoing = {
     (bot_party_role: LENDER, cpty: TBORR-US, security: JPM | IBM, quantity: 1000, delay: 10, period: 5, duration: 0)
 }
 
-[[Rerates]]
+[[RERATES]]
 analysis_mode = 0
 <recipient>
 approve = {
@@ -63,3 +64,17 @@ cancel_pending = {
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
 }
 
+[[RETURNS]]
+analysis_mode = 0
+<recipient>
+acknowledge = {
+    (cpty: *, security: *, open quantity: *, return quantity: *, action: AP, delay: 0)
+}
+<initiator>
+cancel = {
+    (cpty: *, security: *, open quantity: *, return quantity:*, action: I, delay: 0)
+}
+<common>
+update_settlement = {
+ (cpty: *, security: *, open quantity: *, return quantity: *, action: I, delay: 0)
+}

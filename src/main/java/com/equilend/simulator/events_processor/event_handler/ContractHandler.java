@@ -5,6 +5,7 @@ import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Parser;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposalApproval;
@@ -20,11 +21,11 @@ import org.apache.logging.log4j.Logger;
 
 public class ContractHandler implements EventHandler {
 
+    private static final Logger logger = LogManager.getLogger(ContractHandler.class.getName());
     private final Event event;
     private final Configurator configurator;
     private final String botPartyId;
     private final Long startTime;
-    private static final Logger logger = LogManager.getLogger();
 
     public ContractHandler(Event e, Configurator configurator, Long startTime) {
         this.event = e;

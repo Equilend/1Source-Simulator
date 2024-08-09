@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 public interface EventHandler extends Runnable {
 
-    Logger logger = LogManager.getLogger();
+    Logger logger = LogManager.getLogger(EventHandler.class.getName());
 
     static OneSourceToken getToken() {
         OneSourceToken token;

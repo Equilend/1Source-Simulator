@@ -9,8 +9,9 @@ import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
-import com.equilend.simulator.model.party.Party;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
 import com.equilend.simulator.model.instrument.Instrument;
+import com.equilend.simulator.model.party.Party;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 import java.io.File;
@@ -24,14 +25,15 @@ import org.apache.logging.log4j.Logger;
 
 public class Configurator {
 
+    private static final Logger logger = LogManager.getLogger(Configurator.class.getName());
     private final Map<String, Party> parties = new HashMap<>();
     private final Map<String, Instrument> instruments = new HashMap<>();
     private EventRules eventRules;
     private AgreementRules agreementRules;
     private ContractRules contractRules;
     private RerateRules rerateRules;
+    private ReturnRules returnRules;
     private Properties properties;
-    private static final Logger logger = LogManager.getLogger();
 
     public Configurator(Properties props) {
         properties = props;
@@ -137,12 +139,14 @@ public class Configurator {
                 case "RERATES":
                     rerateRules = (RerateRules) rules.get(section);
                     break;
+                case "RETURNS":
+                    returnRules = (ReturnRules) rules.get(section);
+                    break;
                 default:
                     logger.error("Unrecognized rules section header");
             }
         }
     }
-
 
 
     public Map<String, Party> getParties() {
@@ -167,6 +171,10 @@ public class Configurator {
 
     public RerateRules getRerateRules() {
         return rerateRules;
+    }
+
+    public ReturnRules getReturnRules() {
+        return returnRules;
     }
 
     public String getBotPartyId() {

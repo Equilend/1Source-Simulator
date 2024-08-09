@@ -20,12 +20,12 @@ import org.apache.logging.log4j.Logger;
 
 public class RecordAnalyzer {
 
+    private static final Logger logger = LogManager.getLogger(RecordAnalyzer.class.getName());
     private Configurator configurator;
     private String botPartyId;
     private boolean rerateAnalysisMode;
     private boolean contractAnalysisMode;
     private String contractStartDate;
-    private static final Logger logger = LogManager.getLogger();
 
     public RecordAnalyzer(Configurator configurator) {
         this.configurator = configurator;
@@ -87,7 +87,8 @@ public class RecordAnalyzer {
                         continue;
                     }
 
-                    if (ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole() == PartyRole.BORROWER) {
+                    if (ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole()
+                        == PartyRole.BORROWER) {
                         // if bot is lender => initiator => cancel/ignore rules
                         RerateCancelRule rule = configurator.getRerateRules()
                             .getCancelRule(rerate, contract, botPartyId);
@@ -149,7 +150,8 @@ public class RecordAnalyzer {
                             continue;
                         }
                         if (rule.isShouldApprove()) {
-                            PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole();
+                            PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId).get()
+                                .getPartyRole();
                             ContractHandler.acceptContractProposal(contract.getContractId(),
                                 partyRole, 0L, 0.0);
                         } else {

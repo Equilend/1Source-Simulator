@@ -5,6 +5,7 @@ import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Parser {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger(Parser.class.getName());
 
     private static List<String> splitIntoSections(StringBuilder str) {
         List<String> sections = new ArrayList<>();
@@ -171,6 +172,9 @@ public class Parser {
                     break;
                 case "RERATES":
                     rules.put(header, new RerateRules(sectionRulesMap));
+                    break;
+                case "RETURNS":
+                    rules.put(header, new ReturnRules(sectionRulesMap));
                     break;
                 default:
                     logger.error("Error reading rules file, unrecognized section header");

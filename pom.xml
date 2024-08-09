@@ -101,6 +101,63 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.equilend.simulator.Simulator</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.7.1</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>com.equilend.simulator.Simulator</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>assemble-all</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <configuration>
+              <target>
+                <copy file="target/${project.artifactId}-${project.version}-jar-with-dependencies.jar" tofile="target/bundle/${project.artifactId}.jar"/>
+                <copy file="src/main/resources/application.properties" tofile="target/bundle/application.properties"/>
+                <copy todir="target/bundle/config">
+                  <fileset dir="config" includes="**/*" />
+                </copy>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>io.swagger.codegen.v3</groupId>
         <artifactId>swagger-codegen-maven-plugin</artifactId>
         <version>3.0.52</version>

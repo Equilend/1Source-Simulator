@@ -12,12 +12,12 @@ import org.apache.logging.log4j.Logger;
 
 public class RerateRules implements Rules {
 
+    private static final Logger logger = LogManager.getLogger(RerateRules.class.getName());
     private final List<RerateRule> approveRules = new ArrayList<>();
     private final List<RerateRule> cancelRules = new ArrayList<>();
     private final List<RerateRule> proposeRules = new ArrayList<>();
     private final List<RerateRule> pendingCancelRules = new ArrayList<>();
     private final boolean analysisMode;
-    private static final Logger logger = LogManager.getLogger();
 
     public RerateRules(Map<String, Map<String, String>> rulesMap) {
         analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");

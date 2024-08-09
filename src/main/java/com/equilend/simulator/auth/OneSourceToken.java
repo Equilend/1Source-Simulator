@@ -11,11 +11,11 @@ import org.apache.logging.log4j.Logger;
 
 public class OneSourceToken {
 
+    private static final Logger logger = LogManager.getLogger(OneSourceToken.class.getName());
     private volatile String accessToken;
     private static Map<String, String> loginInfo = null;
     private static String url = null;
     private static OneSourceToken token = null;
-    private static final Logger logger = LogManager.getLogger();
 
     private OneSourceToken() throws APIException {
         Token tokenResponse;
@@ -24,6 +24,7 @@ public class OneSourceToken {
             accessToken = tokenResponse.getAccess_token();
         } catch (APIException e) {
             logger.error("Error retrieving 1Source auth token");
+            throw new RuntimeException(e);
         }
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(new Runnable() {
