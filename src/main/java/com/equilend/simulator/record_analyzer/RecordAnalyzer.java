@@ -1,5 +1,7 @@
 package com.equilend.simulator.record_analyzer;
 
+import static com.equilend.simulator.service.RerateService.postRerateProposal;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -126,8 +128,11 @@ public class RecordAnalyzer {
                     if (rule == null || !rule.shouldPropose()) {
                         continue;
                     }
-                    RerateHandler.postRerateProposal(contract.getContractId(), contract.getTrade().getRate(),
-                        rule.getDelta(), 0L, 0.0);
+                    try {
+                        postRerateProposal(contract,  0.0);
+                    } catch (APIException e) {
+                        logger.error("Unable to post rerate proposal", e);
+                    }
                 }
             }
         }
@@ -137,7 +142,7 @@ public class RecordAnalyzer {
             if (contracts != null) {
                 for (Contract contract : contracts) {
                     //determine whether will consider as initiator or as recipient
-                    if (ContractHandler.didBotInitiate(botPartyId, contract)) {
+                    if (ContractService.isInitiator(contract, botPartyId)) {
                         Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
                         if (delay == -1.0) {
                             continue;
@@ -162,4 +167,6 @@ public class RecordAnalyzer {
             }
         }
     }
+
+
 }

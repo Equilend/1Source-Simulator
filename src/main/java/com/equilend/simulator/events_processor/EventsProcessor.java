@@ -53,7 +53,7 @@ public class EventsProcessor implements Runnable {
         }
 
         OffsetDateTime since = APIConnector.getCurrentTime();
-        BigInteger fromEventId = BigInteger.ZERO;
+        BigInteger fromEventId = null;
 
         while (true) {
             try {
@@ -92,10 +92,10 @@ public class EventsProcessor implements Runnable {
                     case TRADE_AGREED:
                         task = new TradeHandler(event, configurator, System.currentTimeMillis());
                         break;
+                    case CONTRACT_OPENED:
                     case CONTRACT_PROPOSED:
                         task = new ContractHandler(event, configurator, System.currentTimeMillis());
                         break;
-                    case CONTRACT_OPENED:
                     case RERATE_PROPOSED:
                     case RERATE_PENDING:
                         task = new RerateHandler(event, configurator, System.currentTimeMillis());

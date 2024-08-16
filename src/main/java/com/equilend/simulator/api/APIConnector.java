@@ -11,6 +11,7 @@ import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.returns.Return;
 import com.equilend.simulator.model.returns.ReturnAcknowledgement;
+import com.equilend.simulator.model.returns.ReturnProposal;
 import com.equilend.simulator.model.settlement.SettlementStatus;
 import com.equilend.simulator.model.settlement.SettlementStatusUpdate;
 import com.google.gson.Gson;
@@ -77,8 +78,9 @@ public class APIConnector {
 
         HttpRequest getRequest;
         try {
+            String eventQuery = eventId != null ? "&fromEventId=" + eventId : "";
             getRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/events?since=" + encodedSince + "&fromEventId=" + eventId))
+                .uri(new URI(restAPIURL + "/events?since=" + encodedSince + eventQuery))
                 .header("Authorization", "Bearer " + token.getAccessToken()).build();
         } catch (URISyntaxException e) {
             String message = "Error with creating events get request";
@@ -720,6 +722,42 @@ public class APIConnector {
 
         isSuccess(postResponse);
 
+        return postResponse.statusCode();
+    }
+
+    public static int proposeReturn(OneSourceToken token, String contractId, ReturnProposal returnProposal)
+        throws APIException {
+        validateAPISetting(token);
+
+        String returnJson = gson.toJson(returnProposal);
+
+        HttpRequest postRequest;
+        try {
+            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + contractId + "/returns"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(returnJson))
+                .build();
+        } catch (URISyntaxException e) {
+            String message = "Error with creating return proposal post request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        HttpResponse<String> postResponse;
+        try {
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            String message = "Error with sending return proposal post request";
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        if (postResponse.statusCode() == 201) {
+            logger.info("Return proposal posted successfully");
+        } else {
+            logger.trace("Error posting return proposal");
+            logger.trace(postResponse.body());
+            throw new APIException(postResponse.body());
+        }
         return postResponse.statusCode();
     }
 

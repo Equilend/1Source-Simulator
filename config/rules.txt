@@ -2,10 +2,11 @@
 incoming = {
     (event_type: TRADE, action: I)
     (event_type: CONTRACT, action: I)
+    (event_type: CONTRACT_OPENED, action: D)
     (event_type: CONTRACT_APPROVE, action: I)
     (event_type: RERATE, action: I)
     (event_type: RERATE_PENDING, action: I)
-    (event_type: RETURN_PENDING, action: D)
+    (event_type: RETURN_PENDING, action: I)
     (event_type: *, action: I)
 }
 
@@ -56,7 +57,7 @@ cancel = {
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
 }
 propose = {
-    (cpty: *, security: *, rate: *, delta: 1.5, action: P, delay: 0)
+    (cpty: *, security: *, rate: *, delta: 1.5, action: I, delay: 0)
 }
 <common>
 cancel_pending = {
@@ -68,11 +69,14 @@ cancel_pending = {
 analysis_mode = 0
 <recipient>
 acknowledge = {
-    (cpty: *, security: *, open quantity: *, return quantity: *, action: AP, delay: 0)
+    (cpty: *, security: *, open quantity: *, return quantity: *, action: I, delay: 0)
 }
 <initiator>
 cancel = {
     (cpty: *, security: *, open quantity: *, return quantity:*, action: I, delay: 0)
+}
+return = {
+    (cpty: *, security: *, open quantity: *, return quantity:500, action: R, delay: 0)
 }
 <common>
 update_settlement = {

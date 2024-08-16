@@ -10,6 +10,7 @@ import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.returns.Return;
+import com.equilend.simulator.service.ContractService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,25 +39,30 @@ public class ReturnsHandler implements EventHandler {
             return;
         }
         Contract contract = getContractById(oneSourceReturn.getContractId());
+        boolean isInitiator = ContractService.isInitiator(contract, botPartyId);
 
         switch (event.getEventType()) {
             case RETURN_PENDING:
+
                 ReturnAcknowledgeRule acknowledgeRule = configurator.getReturnRules()
                     .getReturnAcknowledgeRule(oneSourceReturn, contract, botPartyId);
-                if (acknowledgeRule != null && !acknowledgeRule.isIgnored()) {
+                if (!isInitiator && acknowledgeRule != null && !acknowledgeRule.isIgnored()) {
                     ReturnRuleProcessor.process(startTime, acknowledgeRule, contract, oneSourceReturn);
+                    return;
                 }
 
                 ReturnCancelRule cancelRule = configurator.getReturnRules()
                     .getReturnCancelRule(oneSourceReturn, contract, botPartyId);
-                if (cancelRule != null && !cancelRule.isIgnored()) {
+                if (isInitiator && cancelRule != null && !cancelRule.isIgnored()) {
                     ReturnRuleProcessor.process(startTime, cancelRule, contract, oneSourceReturn);
+                    return;
                 }
 
                 ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = configurator.getReturnRules()
                     .getReturnSettlementStatusUpdateRule(oneSourceReturn, contract, botPartyId);
                 if (returnSettlementStatusUpdateRule != null && !returnSettlementStatusUpdateRule.isIgnored()) {
                     ReturnRuleProcessor.process(startTime, returnSettlementStatusUpdateRule, contract, oneSourceReturn);
+                    return;
                 }
 
                 break;

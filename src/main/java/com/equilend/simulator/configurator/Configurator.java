@@ -182,6 +182,6 @@ public class Configurator {
     }
 
     public long getEventFetchIntervalMillis() {
-        return Long.parseLong(properties.getProperty("event_fetch_interval_secs"));
+        return Long.parseLong(properties.getProperty("event_fetch_interval_secs"))*1000;
     }
 }

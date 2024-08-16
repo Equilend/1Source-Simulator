@@ -101,4 +101,19 @@ public class ContractService {
         trade.getCollateral().setCollateralValue(Double.valueOf(collateralValue));
     }
 
+    public static boolean isInitiator(Contract contract, String botPartyId) {
+        // Currently, lender only provides its settlement info it only has lender settlement on contract
+        //But borrower creates both lender and borrower settlement, even if lender is empty
+        boolean lenderInitiated = contract.getSettlement().size() == 1;
+        Optional<TransactingParty> transactingPartyOptional = ContractService.getTransactingPartyById(contract, botPartyId);
+        if (lenderInitiated) {
+            return transactingPartyOptional.isPresent()
+                && transactingPartyOptional.get().getPartyRole() == PartyRole.LENDER;
+        }
+        //Of course, this won't work if lender provides both its own and the borrower's settlement info
+        //But this is the best we can do until initiator party id given in contract json
+        return transactingPartyOptional.isPresent()
+            && transactingPartyOptional.get().getPartyRole() == PartyRole.BORROWER;
+    }
+
 }
