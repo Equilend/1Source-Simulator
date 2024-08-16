@@ -27,7 +27,8 @@ public class ReturnRuleProcessor {
 
     private static final Logger logger = LogManager.getLogger(ReturnRuleProcessor.class.getName());
 
-    public static void process(Long startTime, ReturnRule rule, Contract contract, Return oneSourceReturn) {
+    public static void process(Long startTime, ReturnRule rule, Contract contract, Return oneSourceReturn)
+        throws APIException {
 
         if (rule instanceof ReturnAcknowledgeRule) {
             processReturnByAcknowledgeRule(startTime, (ReturnAcknowledgeRule) rule, contract,
@@ -50,7 +51,7 @@ public class ReturnRuleProcessor {
     }
 
     private static void processReturnByAcknowledgeRule(Long startTime, ReturnAcknowledgeRule rule, Contract contract,
-        String returnId) {
+        String returnId) throws APIException {
         if (rule.shouldAcknowledgePositively()) {
             //TODO Send positive ack
             Double delay = rule.getDelay();
@@ -64,18 +65,14 @@ public class ReturnRuleProcessor {
     }
 
     private static void postReturnAcknowledgement(Contract contract, String returnId, Long startTime, Double delay,
-        AcknowledgementType type) {
+        AcknowledgementType type) throws APIException {
         long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis) {
             Thread.yield();
         }
         ReturnAcknowledgement returnAcknowledgement = buildReturnAcknowledgement(type, contract);
-        try {
-            APIConnector.postReturnAck(OneSourceToken.getToken(), contract.getContractId(), returnId,
-                returnAcknowledgement);
-        } catch (APIException e) {
-            logger.debug("Unable to process return event");
-        }
+        APIConnector.postReturnAck(OneSourceToken.getToken(), contract.getContractId(), returnId,
+            returnAcknowledgement);
     }
 
     private static ReturnAcknowledgement buildReturnAcknowledgement(AcknowledgementType type, Contract contract) {
@@ -92,31 +89,24 @@ public class ReturnRuleProcessor {
     }
 
     private static void processReturnByCancelRule(Long startTime, ReturnCancelRule rule, String contractId,
-        String returnId) {
+        String returnId) throws APIException {
         Double delay = rule.getDelay();
         long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis) {
             Thread.yield();
         }
-        try {
-            APIConnector.cancelReturn(OneSourceToken.getToken(), contractId, returnId);
-        } catch (APIException e) {
-            logger.error("Unable to process return event", e);
-        }
+        APIConnector.cancelReturn(OneSourceToken.getToken(), contractId, returnId);
     }
 
-    private static void processConractByProposeRule(Long startTime, ReturnProposeRule rule, Contract contract) {
+    private static void processConractByProposeRule(Long startTime, ReturnProposeRule rule, Contract contract)
+        throws APIException {
         Double delay = rule.getDelay();
         long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis) {
             Thread.yield();
         }
-        try {
-            ReturnProposal returnProposal = buildReturnProposal(contract, rule);
-            APIConnector.proposeReturn(OneSourceToken.getToken(), contract.getContractId(), returnProposal);
-        } catch (APIException | RuleException e) {
-            logger.error("Unable to process return event", e);
-        }
+        ReturnProposal returnProposal = buildReturnProposal(contract, rule);
+        APIConnector.proposeReturn(OneSourceToken.getToken(), contract.getContractId(), returnProposal);
     }
 
     private static ReturnProposal buildReturnProposal(Contract contract, ReturnProposeRule rule) throws RuleException {
@@ -139,17 +129,13 @@ public class ReturnRuleProcessor {
     }
 
     private static void processReturnBySettlementStatusUpdateRule(Long startTime, ReturnSettlementStatusUpdateRule rule,
-        String contractId, String returnId) {
+        String contractId, String returnId) throws APIException {
         Double delay = rule.getDelay();
         long delayMillis = Math.round(1000 * delay);
         while (System.currentTimeMillis() - startTime < delayMillis) {
             Thread.yield();
         }
-        try {
-            APIConnector.instructReturnSettlementStatus(OneSourceToken.getToken(), contractId, returnId,
-                SettlementStatus.SETTLED);
-        } catch (APIException e) {
-            logger.debug("Unable to process return event");
-        }
+        APIConnector.instructReturnSettlementStatus(OneSourceToken.getToken(), contractId, returnId,
+            SettlementStatus.SETTLED);
     }
 }

@@ -1,6 +1,7 @@
 package com.equilend.simulator.events_processor.event_handler;
 
 import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
+import static com.equilend.simulator.service.ContractService.getContractById;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
@@ -33,19 +34,6 @@ public class ContractHandler implements EventHandler {
         this.configurator = configurator;
         this.botPartyId = configurator.getBotPartyId();
         this.startTime = startTime;
-    }
-
-    public Contract getContractById(String id) {
-        Contract contract = null;
-        try {
-            contract = APIConnector.getContractById(EventHandler.getToken(), id);
-        } catch (APIException e) {
-            logger.debug("Unable to process contract event");
-        }
-        if (contract == null) {
-            logger.trace("get contract by id returns null");
-        }
-        return contract;
     }
 
     public static void cancelContractProposal(String contractId, Long startTime, Double delay) {
@@ -101,56 +89,63 @@ public class ContractHandler implements EventHandler {
         String[] arr = uri.split("/");
         String contractId = arr[arr.length - 1];
 
-        //Get contract by Id
-        Contract contract = getContractById(contractId);
-        if (contract == null) {
-            return;
-        }
+        try {
+            Contract contract = getContractById(contractId);
+            if (contract == null) {
+                return;
+            }
 
-        boolean isInitiator = ContractService.isInitiator(contract, botPartyId);
+            boolean isInitiator = ContractService.isInitiator(contract, botPartyId);
 
-        switch (event.getEventType()) {
-            case CONTRACT_PROPOSED:
-                if (isInitiator) {
-                    Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
-                    if (delay == -1) {
-                        return;
-                    }
-                    cancelContractProposal(contractId, startTime, delay);
-                } else {
-                    //Analyze contract to decide whether to accept or decline based on configurator
-                    ContractResponsiveRule rule = configurator.getContractRules()
-                        .getApproveOrRejectApplicableRule(contract, botPartyId);
-                    if (rule != null) {
-                        if(rule.isShouldApprove()){
-                            PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId).get()
-                                .getPartyRole();
-                            acceptContractProposal(contractId, partyRole, startTime,
-                                rule.getDelay());
-                        }else{
-                            declineContractProposal(contractId, startTime, rule.getDelay());
+            switch (event.getEventType()) {
+                case CONTRACT_PROPOSED:
+                    if (isInitiator) {
+                        Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
+                        if (delay == -1) {
+                            return;
+                        }
+                        cancelContractProposal(contractId, startTime, delay);
+                    } else {
+                        //Analyze contract to decide whether to accept or decline based on configurator
+                        ContractResponsiveRule rule = configurator.getContractRules()
+                            .getApproveOrRejectApplicableRule(contract, botPartyId);
+                        if (rule != null) {
+                            if (rule.isShouldApprove()) {
+                                PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId)
+                                    .get()
+                                    .getPartyRole();
+                                acceptContractProposal(contractId, partyRole, startTime,
+                                    rule.getDelay());
+                            } else {
+                                declineContractProposal(contractId, startTime, rule.getDelay());
+                            }
                         }
                     }
-                }
-                break;
-            case CONTRACT_OPENED:
-                if (isInitiator) {
-                    RerateProposeRule rerateProposeRule = configurator.getRerateRules().getProposeRule(contract, botPartyId);
-                    if (rerateProposeRule != null && rerateProposeRule.shouldPropose()) {
-                        RerateRuleProcessor.process(startTime, rerateProposeRule, contract, null);
-                        return;
-                    }
+                    break;
+                case CONTRACT_OPENED:
+                    if (isInitiator) {
+                        RerateProposeRule rerateProposeRule = configurator.getRerateRules()
+                            .getProposeRule(contract, botPartyId);
+                        if (rerateProposeRule != null && rerateProposeRule.shouldPropose()) {
+                            RerateRuleProcessor.process(startTime, rerateProposeRule, contract, null);
+                            return;
+                        }
 
-                    ReturnProposeRule returnProposeRule = configurator.getReturnRules().getReturnProposeRule(contract, botPartyId);
-                    if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
-                        ReturnRuleProcessor.process(startTime, returnProposeRule, contract, null);
-                        return;
+                        ReturnProposeRule returnProposeRule = configurator.getReturnRules()
+                            .getReturnProposeRule(contract, botPartyId);
+                        if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
+                            ReturnRuleProcessor.process(startTime, returnProposeRule, contract, null);
+                            return;
+                        }
                     }
-                }
-                break;
-            default:
-                throw new RuntimeException("event type not supported");
+                    break;
+                default:
+                    throw new RuntimeException("event type not supported");
+            }
+        }catch (APIException e){
+            logger.debug("Unable to process contract event", e);
         }
+
     }
 
 }
