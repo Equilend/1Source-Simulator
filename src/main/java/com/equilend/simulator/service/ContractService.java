@@ -3,9 +3,11 @@ package com.equilend.simulator.service;
 import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
 import static com.equilend.simulator.service.TradeService.createTrade;
 
+import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
+import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.party.Party;
@@ -114,6 +116,10 @@ public class ContractService {
         //But this is the best we can do until initiator party id given in contract json
         return transactingPartyOptional.isPresent()
             && transactingPartyOptional.get().getPartyRole() == PartyRole.BORROWER;
+    }
+
+    public static Contract getContractById(String contractId) throws APIException {
+        return APIConnector.getContractById(EventHandler.getToken(), contractId);
     }
 
 }
