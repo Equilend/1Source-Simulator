@@ -1,5 +1,7 @@
 package com.equilend.simulator.record_analyzer;
 
+import static com.equilend.simulator.service.RerateService.postRerateProposal;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -9,11 +11,11 @@ import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.events_processor.event_handler.ContractHandler;
-import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.service.ContractService;
+import com.equilend.simulator.service.RerateService;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -82,33 +84,37 @@ public class RecordAnalyzer {
             List<Rerate> rerates = getAllRerates();
             if (rerates != null) {
                 for (Rerate rerate : rerates) {
-                    Contract contract = getContractById(rerate.getContractId());
-                    if (contract == null) {
-                        continue;
-                    }
-
-                    if (ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole()
-                        == PartyRole.BORROWER) {
-                        // if bot is lender => initiator => cancel/ignore rules
-                        RerateCancelRule rule = configurator.getRerateRules()
-                            .getCancelRule(rerate, contract, botPartyId);
-                        if (rule == null || !rule.shouldCancel()) {
+                    try {
+                        Contract contract = getContractById(rerate.getContractId());
+                        if (contract == null) {
                             continue;
                         }
 
-                        RerateHandler.cancelRerateProposal(rerate.getContractId(), rerate.getRerateId(), 0L, 0.0);
-                    } else {
-                        // if bot is borrower => recipient => approve/reject rules
-                        RerateApproveRule rule = configurator.getRerateRules()
-                            .getApproveRule(rerate, contract, botPartyId);
-                        if (rule == null) {
-                            continue;
-                        }
-                        if (rule.shouldApprove()) {
-                            RerateHandler.approveRerateProposal(rerate.getContractId(), rerate.getRerateId(), 0L, 0.0);
+                        if (ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole()
+                            == PartyRole.BORROWER) {
+                            // if bot is lender => initiator => cancel/ignore rules
+                            RerateCancelRule rule = configurator.getRerateRules()
+                                .getCancelRule(rerate, contract, botPartyId);
+                            if (rule == null || !rule.shouldCancel()) {
+                                continue;
+                            }
+
+                            RerateService.cancelRerateProposal(contract, rerate);
                         } else {
-                            RerateHandler.declineRerateProposal(rerate.getContractId(), rerate.getRerateId(), 0L, 0.0);
+                            // if bot is borrower => recipient => approve/reject rules
+                            RerateApproveRule rule = configurator.getRerateRules()
+                                .getApproveRule(rerate, contract, botPartyId);
+                            if (rule == null) {
+                                continue;
+                            }
+                            if (rule.shouldApprove()) {
+                                RerateService.approveRerateProposal(contract, rerate);
+                            } else {
+                                RerateService.declineRerateProposal(contract, rerate);
+                            }
                         }
+                    } catch (APIException e) {
+                        logger.error("Unable to process analysis", e);
                     }
                 }
             }
@@ -126,8 +132,11 @@ public class RecordAnalyzer {
                     if (rule == null || !rule.shouldPropose()) {
                         continue;
                     }
-                    RerateHandler.postRerateProposal(contract.getContractId(), contract.getTrade().getRate(),
-                        rule.getDelta(), 0L, 0.0);
+                    try {
+                        postRerateProposal(contract, 0.0);
+                    } catch (APIException e) {
+                        logger.error("Unable to post rerate proposal", e);
+                    }
                 }
             }
         }
@@ -137,7 +146,7 @@ public class RecordAnalyzer {
             if (contracts != null) {
                 for (Contract contract : contracts) {
                     //determine whether will consider as initiator or as recipient
-                    if (ContractHandler.didBotInitiate(botPartyId, contract)) {
+                    if (ContractService.isInitiator(contract, botPartyId)) {
                         Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
                         if (delay == -1.0) {
                             continue;
@@ -162,4 +171,6 @@ public class RecordAnalyzer {
             }
         }
     }
+
+
 }

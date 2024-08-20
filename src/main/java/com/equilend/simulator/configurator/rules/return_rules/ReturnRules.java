@@ -3,6 +3,7 @@ package com.equilend.simulator.configurator.rules.return_rules;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.returns.Return;
+import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class ReturnRules implements Rules {
         analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
         addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
+        addRules(rulesMap.get("initiator").get("return"), proposeRules, ReturnRuleType.PROPOSE);
         addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
     }
 
@@ -53,6 +55,9 @@ public class ReturnRules implements Rules {
                     break;
                 case CANCEL:
                     rule = new ReturnCancelRule(ruleStr);
+                    break;
+                case PROPOSE:
+                    rule = new ReturnProposeRule(ruleStr);
                     break;
                 case UPDATE:
                     rule = new ReturnSettlementStatusUpdateRule(ruleStr);
@@ -83,6 +88,17 @@ public class ReturnRules implements Rules {
             ReturnCancelRule returnCancelRule = (ReturnCancelRule) rule;
             if (returnCancelRule.isApplicable(oneSourceReturn, contract, botPartyId)) {
                 return returnCancelRule;
+            }
+        }
+        return null;
+    }
+
+    public ReturnProposeRule getReturnProposeRule(Contract contract,
+        String botPartyId) {
+        for (ReturnRule rule : proposeRules) {
+            ReturnProposeRule returnProposeRule = (ReturnProposeRule) rule;
+            if (returnProposeRule.isApplicable(contract, botPartyId)) {
+                return returnProposeRule;
             }
         }
         return null;

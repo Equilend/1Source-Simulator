@@ -18,8 +18,13 @@ public class RerateApproveRule implements RerateRule {
     private final Set<String> securities = new HashSet<>();
     private String rateExp;
     private final Set<String> rates = new HashSet<>();
-    private Boolean approve = null;
+    private String action;
     private Double delay;
+
+    public RerateApproveRule(String action, Double delay) {
+        this.action = action;
+        this.delay = delay;
+    }
 
     public RerateApproveRule(String rule) {
         loadRule(rule);
@@ -34,7 +39,7 @@ public class RerateApproveRule implements RerateRule {
         this.counterpartyExp = args.get(idx++);
         this.securityExp = args.get(idx++);
         this.rateExp = args.get(idx++);
-        approve = args.get(idx++).equals("A");
+        action = args.get(idx++);
         this.delay = Double.parseDouble(args.get(idx));
     }
 
@@ -49,8 +54,12 @@ public class RerateApproveRule implements RerateRule {
         return delay;
     }
 
-    public boolean shouldApprove() {
-        return approve;
+    public Boolean shouldApprove() {
+        return "A".equals(action);
+    }
+
+    public Boolean shouldReject() {
+        return "R".equals(action);
     }
 
     private String getTradeCptyId(TradeAgreement trade, String partyId) {
@@ -78,8 +87,8 @@ public class RerateApproveRule implements RerateRule {
 
     @Override
     public String toString() {
-        if (approve != null) {
-            if (approve) {
+        if (action != null) {
+            if (shouldApprove()) {
                 return "CPTY{" + counterpartyExp + "}, SEC{" + securityExp + "}, QTY{" + rateExp
                     + "}, APPROVE, DELAY{" + delay + "}";
             } else {
