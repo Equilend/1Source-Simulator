@@ -8,6 +8,7 @@ import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.contract.ContractProposalApproval;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.instrument.Instrument;
+import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.returns.Return;
@@ -842,6 +843,24 @@ public class APIConnector {
     }
 
 
+    public static Recall getRecallById(OneSourceToken token, String recallId) throws APIException {
+        HttpResponse<String> getResponse;
+        try {
+            HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/ledger/recalls/" + recallId))
+                .header("Authorization", "Bearer " + token.getAccessToken()).build();
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending recall get request for buyin " + recallId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(getResponse);
+
+        return gson.fromJson(getResponse.body(), Recall.class);
+    }
+
     private static void validateAPISetting(OneSourceToken token) throws APIException {
         if (token == null) {
             String message = "Token is null, unable to do request";
@@ -859,5 +878,4 @@ public class APIConnector {
             throw new APIException(String.valueOf(response.body()));
         }
     }
-
 }
