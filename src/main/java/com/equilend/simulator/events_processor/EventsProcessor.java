@@ -4,6 +4,7 @@ import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.events_processor.event_handler.BuyinHandler;
 import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;
@@ -103,6 +104,9 @@ public class EventsProcessor implements Runnable {
                     case RETURN_PENDING:
                     case RECALL_OPENED:
                         task = new ReturnsHandler(event, configurator, System.currentTimeMillis());
+                        break;
+                    case BUYIN_PENDING:
+                        task = new BuyinHandler(event, configurator, System.currentTimeMillis());
                         break;
                 }
 

@@ -6,6 +6,7 @@ import com.equilend.simulator.auth.DatalendToken;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
+import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
@@ -33,6 +34,7 @@ public class Configurator {
     private ContractRules contractRules;
     private RerateRules rerateRules;
     private ReturnRules returnRules;
+    private BuyinRules buyinRules;
     private Properties properties;
 
     public Configurator(Properties props) {
@@ -142,6 +144,9 @@ public class Configurator {
                 case "RETURNS":
                     returnRules = (ReturnRules) rules.get(section);
                     break;
+                case "BUYINS":
+                    buyinRules = (BuyinRules) rules.get(section);
+                    break;
                 default:
                     logger.error("Unrecognized rules section header");
             }
@@ -175,6 +180,10 @@ public class Configurator {
 
     public ReturnRules getReturnRules() {
         return returnRules;
+    }
+
+    public BuyinRules getBuyinRules() {
+        return buyinRules;
     }
 
     public String getBotPartyId() {

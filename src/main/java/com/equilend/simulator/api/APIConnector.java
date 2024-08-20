@@ -2,6 +2,7 @@ package com.equilend.simulator.api;
 
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.agreement.Agreement;
+import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.contract.ContractProposalApproval;
@@ -796,6 +797,48 @@ public class APIConnector {
         isSuccess(patchResponse);
 
         return patchResponse.statusCode();
+    }
+
+    public static BuyinComplete getBuyinById(OneSourceToken token, String buyinId) throws APIException {
+        validateAPISetting(token);
+
+        HttpResponse<String> getResponse;
+        try {
+            HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/ledger/buyins/completes/" + buyinId))
+                .header("Authorization", "Bearer " + token.getAccessToken()).build();
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending buyin get request for buyin " + buyinId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(getResponse);
+
+        return gson.fromJson(getResponse.body(), BuyinComplete.class);
+    }
+
+    public static int acceptBuyin(OneSourceToken token, String contractId, String buyinId) throws APIException {
+        validateAPISetting(token);
+
+        HttpResponse<String> postResponse;
+        try {
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "contracts/" + contractId + "/buyins/completes/" + buyinId + "/accept"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message =
+                "Error with sending approve buyin post request for contract " + contractId + " buyin " + buyinId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
     }
 
 
