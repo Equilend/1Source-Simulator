@@ -8,12 +8,13 @@ public class SettlementService {
 
     public static PartySettlementInstruction createPartySettlementInstruction(PartyRole role) {
         SettlementInstruction settlementInstruction = new SettlementInstruction()
-            .settlementBic("XXXXXXXX")
-            .localAgentBic("YYYYYYYY")
-            .localAgentName("ZZZ Clearing")
-            .localAgentAcct("2468999");
+            .settlementBic("DTCYUS33")
+            .localAgentBic("IRVTBEBBXXX")
+            .localAgentName("THE BANK OF NEW YORK MELLON SA/NV")
+            .localAgentAcct("AGNT12345")
+            .dtcParticipantNumber("0901");
         PartySettlementInstruction partySettlementInstruction = new PartySettlementInstruction().instruction(
-            settlementInstruction).partyRole(role);
+            settlementInstruction).partyRole(role).internalAcctCd("SSIXXX");
         return partySettlementInstruction;
     }
 

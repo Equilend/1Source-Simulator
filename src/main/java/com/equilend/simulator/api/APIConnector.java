@@ -38,6 +38,7 @@ import com.os.client.model.ContractProposalApproval;
 import com.os.client.model.Event;
 import com.os.client.model.Instrument;
 import com.os.client.model.ModelReturn;
+import com.os.client.model.Rate;
 import com.os.client.model.Recall;
 import com.os.client.model.Rerate;
 import com.os.client.model.RerateProposal;
@@ -51,15 +52,10 @@ public class APIConnector {
     private static final Logger logger = LogManager.getLogger(APIConnector.class.getName());
     private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
     private static HttpClient httpClient = HttpClient.newHttpClient();
-    private static Gson gson = new GsonBuilder().registerTypeAdapter(OffsetDateTime.class,
-            (JsonDeserializer<OffsetDateTime>) (json, typeOfT, context) -> OffsetDateTime.parse(json.getAsString()))
-        .registerTypeAdapter(OffsetDateTime.class,
-            (JsonSerializer<OffsetDateTime>) (offsetDateTime, type, jsonSerializationContext) -> new JsonPrimitive(
-                offsetDateTime.format(formatter))).registerTypeAdapter(LocalDate.class,
-            (JsonDeserializer<LocalDate>) (json, typeOfT, context) -> LocalDate.parse(json.getAsString()))
-        .registerTypeAdapter(LocalDate.class,
-            (JsonSerializer<LocalDate>) (localDate, type, jsonSerializationContext) -> new JsonPrimitive(
-                localDate.format(DateTimeFormatter.ISO_LOCAL_DATE))).create();
+    private static Gson gson = new GsonBuilder()
+    		.registerTypeAdapter(Rate.class, new RateGsonAdapter())
+			.registerTypeAdapter(LocalDate.class, new LocalDateTypeGsonAdapter())
+			.registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeTypeGsonAdapter()).create();
     private static String restAPIURL = null;
 
     public static void setRestAPIURL(String url) {

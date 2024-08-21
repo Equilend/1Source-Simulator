@@ -3,7 +3,9 @@ package com.equilend.simulator.service;
 import static com.os.client.model.RoundingMode.ALWAYSUP;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.os.client.model.BenchmarkCd;
 import com.os.client.model.Collateral;
@@ -12,15 +14,18 @@ import com.os.client.model.CurrencyCd;
 import com.os.client.model.FloatingRate;
 import com.os.client.model.FloatingRateDef;
 import com.os.client.model.Instrument;
+import com.os.client.model.InternalReference;
 import com.os.client.model.Party;
 import com.os.client.model.PartyRole;
 import com.os.client.model.RebateRate;
 import com.os.client.model.SettlementType;
+import com.os.client.model.TermType;
 import com.os.client.model.TradeAgreement;
 import com.os.client.model.TransactingParties;
 import com.os.client.model.TransactingParty;
 import com.os.client.model.Venue;
 import com.os.client.model.VenueTradeAgreement;
+import com.os.client.model.VenueType;
 import com.os.client.model.Venues;
 
 public class TradeService {
@@ -58,12 +63,21 @@ public class TradeService {
 
     public static TradeAgreement createTrade(PartyRole partyRole, Party party, Party counterparty, Instrument security,
         Integer desiredQuantity) {
-        Venue lenderVenueParty = new Venue().party(new Party().partyId(PartyRole.LENDER.getValue()));
-        //Venue borrowerVenueParty = new VenueParty(PartyRole.BORROWER);
-        Venue borrowerVenueParty = new Venue().party(new Party().partyId(PartyRole.BORROWER.getValue()));
-        Venues venues = new Venues();
-        venues.add(lenderVenueParty);
-        venues.add(borrowerVenueParty);
+//        Venue lenderVenueParty = new Venue().party(new Party().partyId(PartyRole.LENDER.getValue()));
+//        //Venue borrowerVenueParty = new VenueParty(PartyRole.BORROWER);
+//        Venue borrowerVenueParty = new Venue().party(new Party().partyId(PartyRole.BORROWER.getValue()));
+//        Venues venues = new Venues();
+//        venues.add(lenderVenueParty);
+//        venues.add(borrowerVenueParty);
+
+		Venues venues = new Venues();
+
+		Venue venue = new Venue();
+		venue.setType(VenueType.OFFPLATFORM);
+		venue.setTransactionDatetime(OffsetDateTime.now());
+		venue.setVenueRefKey("SIMULATOR" + System.currentTimeMillis());
+
+		venues.add(venue);
 
         Instrument instrument = security;
 
@@ -79,10 +93,13 @@ public class TradeService {
 //        RebateRate rebate = new RebateRate(floating);
 //        Rate rate = new Rate(rebate);
 
+        LocalDate tradeDate = LocalDate.now();
+        
 		FloatingRateDef floatingRateDef = new FloatingRateDef();
 		floatingRateDef.setSpread(Double.valueOf(".15"));
+		floatingRateDef.setBaseRate(Double.valueOf(".0533"));
 		floatingRateDef.setCutoffTime("18:00");
-		floatingRateDef.setEffectiveDate(LocalDate.now());
+		floatingRateDef.setEffectiveDate(tradeDate);
 		floatingRateDef.setBenchmark(BenchmarkCd.OBFR);
 		floatingRateDef.setIsAutoRerate(false);
 
@@ -103,10 +120,12 @@ public class TradeService {
         SettlementType settlementType = SettlementType.DVP;
 
         Collateral collateral;
+        Double contractPrice = 25d;
         if (partyRole == PartyRole.LENDER) {
             collateral = new Collateral()
-                .contractValue(Double.valueOf(8758750))
-                .collateralValue(Double.valueOf(8933925))
+            	.contractPrice(contractPrice)
+                .contractValue(desiredQuantity * contractPrice)
+                .collateralValue(desiredQuantity * contractPrice * 1.02)
                 .currency(CurrencyCd.USD)
                 .type(CollateralType.CASH)
                 .roundingRule(10)
@@ -114,8 +133,9 @@ public class TradeService {
                 .margin(Double.valueOf(102));
         } else {
             collateral = new Collateral()
-                .contractValue(Double.valueOf(8758750))
-                .collateralValue(Double.valueOf(8933925))
+               	.contractPrice(contractPrice)
+                .contractValue(desiredQuantity * contractPrice)
+                .collateralValue(desiredQuantity * contractPrice * 1.02)
                 .currency(CurrencyCd.USD)
                 .type(CollateralType.CASH)
                 .margin(Double.valueOf(102));
@@ -125,6 +145,11 @@ public class TradeService {
         TransactingParty botTransactingParty = new TransactingParty();
         botTransactingParty.setPartyRole(partyRole);
         botTransactingParty.setParty(party);
+		InternalReference botInternalRef = new InternalReference();
+		botInternalRef.setAccountId(null);
+		botInternalRef.setBrokerCd(null);
+		botInternalRef.setInternalRefId(UUID.randomUUID().toString());
+        botTransactingParty.setInternalRef(botInternalRef);
         transactingParties.add(botTransactingParty);
         TransactingParty counterTransactingParty = new TransactingParty();
         PartyRole counterpartyRole = partyRole == PartyRole.LENDER ? PartyRole.BORROWER : PartyRole.LENDER;
@@ -138,7 +163,8 @@ public class TradeService {
             .quantity(quantity)
             .billingCurrency(billingCurrency)
             .dividendRatePct(dividendRatePct)
-            .tradeDate(tPlus2)
+            .tradeDate(tradeDate)
+            .termType(TermType.OPEN)
             .settlementDate(tPlus2)
             .settlementType(settlementType)
             .collateral(collateral)
