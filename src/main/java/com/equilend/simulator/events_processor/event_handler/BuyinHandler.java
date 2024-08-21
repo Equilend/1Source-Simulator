@@ -49,11 +49,13 @@ public class BuyinHandler implements EventHandler {
             boolean isInitiator = ContractService.isInitiator(contract, botPartyId);
             switch (event.getEventType()) {
                 case BUYIN_PENDING:
-                    BuyinAcceptRule buyinAcceptRule = configurator.getBuyinRules()
-                        .getBuyinAcceptRule(buyin, contract, botPartyId);
-                    if (!isInitiator && buyinAcceptRule != null && buyinAcceptRule.shouldAccept()) {
-                        BuyinRuleProcessor.process(startTime, buyinAcceptRule, contract, buyin);
-                        return;
+                    if(!isInitiator) {
+                        BuyinAcceptRule buyinAcceptRule = configurator.getBuyinRules()
+                            .getBuyinAcceptRule(buyin, contract, botPartyId);
+                        if (buyinAcceptRule != null && buyinAcceptRule.shouldAccept()) {
+                            BuyinRuleProcessor.process(startTime, buyinAcceptRule, contract, buyin);
+                            return;
+                        }
                     }
                     break;
                 default:

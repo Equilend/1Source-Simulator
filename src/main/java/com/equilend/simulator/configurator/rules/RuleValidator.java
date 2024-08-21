@@ -198,4 +198,36 @@ public class RuleValidator {
         return false;
     }
 
+    public static boolean validDouble(String ruleRange, Double value) {
+        if (ruleRange.equals("*")) {
+            return true;
+        }
+        int delim = ruleRange.indexOf(",");
+        if (delim >= 0) {
+            String lowerStr = ruleRange.substring(1, delim).trim();
+            String upperStr = ruleRange.substring(delim + 1, ruleRange.length() - 1).trim().toUpperCase();
+
+            boolean lowerInclusive = ruleRange.charAt(0) == '[';
+            boolean upperInclusive = ruleRange.charAt(ruleRange.length() - 1) == ']';
+
+            Double lower = (upperStr.equals("-INF")) ? Double.MIN_VALUE : Double.parseDouble(upperStr);
+            Double upper = (upperStr.equals("INF")) ? Double.MAX_VALUE : Double.parseDouble(upperStr);
+
+            return (lowerInclusive && value >= lower || !lowerInclusive && value > lower)
+                && (upperInclusive && value <= upper || !upperInclusive && value < upper);
+        } else {
+            Double rulePrice = Double.parseDouble(ruleRange);
+            return rulePrice.equals(value);
+        }
+    }
+
+    public static boolean validDouble(Set<String> rates, Double value) {
+        for (String rateRange : rates) {
+            if (validDouble(rateRange, value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

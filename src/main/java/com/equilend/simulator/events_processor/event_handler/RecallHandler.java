@@ -5,9 +5,11 @@ import static com.equilend.simulator.service.RecallService.getRecallById;
 
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.recall.Recall;
+import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
 import com.equilend.simulator.service.ContractService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +41,20 @@ public class RecallHandler implements EventHandler {
             }
             Contract contract = getContractById(recall.getContractId());
             boolean isInitiator = ContractService.isInitiator(contract, botPartyId);
-
+            switch (event.getEventType()) {
+                case RECALL_OPENED:
+                    if (isInitiator) {
+                        BuyinProposeRule buyinProposeRule = configurator.getBuyinRules()
+                            .getBuyinProposeRule(contract, botPartyId);
+                        if (buyinProposeRule != null && buyinProposeRule.shouldSubmit()) {
+                            BuyinRuleProcessor.process(startTime, buyinProposeRule, contract, null);
+                            return;
+                        }
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("event type not supported");
+            }
         } catch (APIException e) {
             logger.error("Unable to process recall event", e);
         }

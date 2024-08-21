@@ -67,7 +67,6 @@ public class ReturnsHandler implements EventHandler {
                             oneSourceReturn);
                         return;
                     }
-
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

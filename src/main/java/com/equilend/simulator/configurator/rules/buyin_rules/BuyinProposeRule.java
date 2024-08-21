@@ -3,7 +3,6 @@ package com.equilend.simulator.configurator.rules.buyin_rules;
 import static com.equilend.simulator.configurator.rules.RulesParser.parseLogicalOr;
 
 import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.trade.TradeAgreement;
@@ -11,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BuyinAcceptRule implements BuyinRule {
+public class BuyinProposeRule implements BuyinRule {
 
     private final Set<String> counterparties = new HashSet<>();
     private final Set<String> securities = new HashSet<>();
@@ -20,7 +19,7 @@ public class BuyinAcceptRule implements BuyinRule {
     private String action;
     private Double delay;
 
-    public BuyinAcceptRule(String rule) {
+    public BuyinProposeRule(String rule) {
         loadRule(rule);
     }
 
@@ -34,16 +33,11 @@ public class BuyinAcceptRule implements BuyinRule {
         delay = Double.parseDouble(args.get(5));
     }
 
-    public boolean isApplicable(BuyinComplete buyin, Contract contract, String partyId) {
-        if (buyin == null) {
-            return false;
-        }
+    public boolean isApplicable(Contract contract, String partyId) {
         TradeAgreement trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         return RuleValidator.validCounterparty(counterparties, cpty) &&
-            RuleValidator.validSecurity(securities, trade.getInstrument())
-            && RuleValidator.validQuantity(buyinQuantity, buyin.getQuantity())
-            && RuleValidator.validDouble(price, buyin.getPrice().getValue());
+            RuleValidator.validSecurity(securities, trade.getInstrument());
     }
 
     private String getTradeCptyId(TradeAgreement trade, String partyId) {
@@ -56,14 +50,22 @@ public class BuyinAcceptRule implements BuyinRule {
     }
 
     public boolean isIgnored() {
-        return action.equals("I");
+        return "I".equals(action);
     }
 
-    public boolean shouldAccept() {
-        return "A".equals(action);
+    public boolean shouldSubmit() {
+        return "S".equals(action);
     }
 
     public Double getDelay() {
         return delay;
+    }
+
+    public Set<String> getBuyinQuantity() {
+        return buyinQuantity;
+    }
+
+    public String getPrice() {
+        return price;
     }
 }

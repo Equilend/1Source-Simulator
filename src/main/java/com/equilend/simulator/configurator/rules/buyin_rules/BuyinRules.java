@@ -1,11 +1,8 @@
 package com.equilend.simulator.configurator.rules.buyin_rules;
 
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
-import com.equilend.simulator.configurator.rules.return_rules.ReturnRule;
 import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.returns.Return;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +14,18 @@ public class BuyinRules implements Rules {
     private static final Logger logger = LogManager.getLogger(BuyinRules.class.getName());
 
     private final List<BuyinRule> acceptRules = new ArrayList<>();
+    private final List<BuyinRule> proposeRules = new ArrayList<>();
     private final boolean analysisMode;
 
     private enum BuyinRuleType {
-        ACCEPT
+        ACCEPT,
+        PROPOSE
     }
 
     public BuyinRules(Map<String, Map<String, String>> rulesMap) {
         analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("accept"), acceptRules, BuyinRuleType.ACCEPT);
+        addRules(rulesMap.get("initiator").get("submit"), proposeRules, BuyinRuleType.PROPOSE);
     }
 
     public void addRules(String rawRulesList, List<BuyinRule> buyinRules, BuyinRuleType type) {
@@ -46,7 +46,10 @@ public class BuyinRules implements Rules {
                 case ACCEPT:
                     rule = new BuyinAcceptRule(ruleStr);
                     break;
-                  default:
+                case PROPOSE:
+                    rule = new BuyinProposeRule(ruleStr);
+                    break;
+                default:
                     rule = null;
             }
             buyinRules.add(rule);
@@ -61,6 +64,17 @@ public class BuyinRules implements Rules {
             BuyinAcceptRule buyinAcceptRule = (BuyinAcceptRule) rule;
             if (buyinAcceptRule.isApplicable(buyinComplete, contract, botPartyId)) {
                 return buyinAcceptRule;
+            }
+        }
+        return null;
+    }
+
+    public BuyinProposeRule getBuyinProposeRule(Contract contract,
+        String botPartyId) {
+        for (BuyinRule rule : proposeRules) {
+            BuyinProposeRule buyinProposeRule = (BuyinProposeRule) rule;
+            if (buyinProposeRule.isApplicable(contract, botPartyId)) {
+                return buyinProposeRule;
             }
         }
         return null;

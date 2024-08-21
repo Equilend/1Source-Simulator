@@ -7,6 +7,7 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.event_handler.BuyinHandler;
 import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
+import com.equilend.simulator.events_processor.event_handler.RecallHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.ReturnsHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
@@ -102,11 +103,13 @@ public class EventsProcessor implements Runnable {
                         task = new RerateHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case RETURN_PENDING:
-                    case RECALL_OPENED:
                         task = new ReturnsHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case BUYIN_PENDING:
                         task = new BuyinHandler(event, configurator, System.currentTimeMillis());
+                        break;
+                    case RECALL_OPENED:
+                        task = new RecallHandler(event, configurator, System.currentTimeMillis());
                         break;
                 }
 
