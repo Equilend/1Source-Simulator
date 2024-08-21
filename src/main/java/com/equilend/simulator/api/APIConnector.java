@@ -223,7 +223,9 @@ public class APIConnector {
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(contractJson))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
+                .POST(BodyPublishers.ofString(contractJson))
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating contract proposal post request";

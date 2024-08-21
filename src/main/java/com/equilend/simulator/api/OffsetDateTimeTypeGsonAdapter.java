@@ -1,10 +1,14 @@
 package com.equilend.simulator.api;
 
 import java.lang.reflect.Type;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -15,6 +19,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 public class OffsetDateTimeTypeGsonAdapter implements JsonSerializer<OffsetDateTime>, JsonDeserializer<OffsetDateTime> {
+
+	private static final Logger logger = LogManager.getLogger(OffsetDateTimeTypeGsonAdapter.class.getName());
 
 	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
 			.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -37,9 +43,14 @@ public class OffsetDateTimeTypeGsonAdapter implements JsonSerializer<OffsetDateT
 			throw new JsonParseException("OffsetDateTime argument is null.");
 		}
 
-		if (dateAsString.endsWith("Z")) {
-			offsetDateTime = OffsetDateTime.parse(dateAsString,  DateTimeFormatter.ISO_INSTANT);
-		} else {
+		logger.debug("offsetDateTime: " + dateAsString);
+
+		try {
+
+			if (dateAsString.endsWith("Z")) {
+				dateAsString = dateAsString.substring(0, dateAsString.indexOf("Z"));
+			}
+
 			int milliSize = dateAsString.substring(dateAsString.indexOf(".") + 1).length();
 
 			for (int i = milliSize; i < 3; i++) {
@@ -49,6 +60,10 @@ public class OffsetDateTimeTypeGsonAdapter implements JsonSerializer<OffsetDateT
 			LocalDateTime dateTime = LocalDateTime.parse(dateAsString, DATE_TIME_FORMATTER);
 
 			offsetDateTime = OffsetDateTime.of(dateTime, ZoneOffset.UTC);
+
+		} catch (DateTimeException d) {
+			logger.warn("Could not parse offset date time: " + dateAsString);
+			offsetDateTime = OffsetDateTime.MIN;
 		}
 
 		return offsetDateTime;
