@@ -1,15 +1,16 @@
 package com.equilend.simulator.scheduler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.party.Party;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.service.ContractService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.ContractProposal;
+import com.os.client.model.Instrument;
+import com.os.client.model.Party;
+import com.os.client.model.PartyRole;
 
 public class ScheduledEventHandler implements Runnable {
 

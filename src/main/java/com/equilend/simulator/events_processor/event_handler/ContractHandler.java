@@ -1,7 +1,10 @@
 package com.equilend.simulator.events_processor.event_handler;
 
-import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
 import static com.equilend.simulator.service.ContractService.getContractById;
+import static com.os.client.model.RoundingMode.ALWAYSUP;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
@@ -9,17 +12,15 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeRule;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.contract.ContractProposalApproval;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
 import com.equilend.simulator.rules_processor.RerateRuleProcessor;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import com.equilend.simulator.service.ContractService;
 import com.equilend.simulator.service.SettlementService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Contract;
+import com.os.client.model.ContractProposalApproval;
+import com.os.client.model.Event;
+import com.os.client.model.PartyRole;
+import com.os.client.model.PartySettlementInstruction;
 
 public class ContractHandler implements EventHandler {
 
@@ -55,7 +56,8 @@ public class ContractHandler implements EventHandler {
         ContractProposalApproval contractProposalApproval = new ContractProposalApproval()
             .settlement(partySettlementInstruction);
         if (role == PartyRole.LENDER) {
-            contractProposalApproval = contractProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);
+            contractProposalApproval.setRoundingRule(10d);
+            contractProposalApproval.setRoundingMode(ALWAYSUP);
         }
 
         long delayMillis = Math.round(1000 * delay);

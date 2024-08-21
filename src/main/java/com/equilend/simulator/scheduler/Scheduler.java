@@ -1,11 +1,5 @@
 package com.equilend.simulator.scheduler;
 
-import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractGenerativeRule;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractRule;
-import com.equilend.simulator.model.party.Party;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.instrument.Instrument;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -13,6 +7,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+
+import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractGenerativeRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractRule;
+import com.os.client.model.Instrument;
+import com.os.client.model.Party;
+import com.os.client.model.PartyRole;
 
 public class Scheduler implements Runnable {
 

@@ -1,5 +1,10 @@
 package com.equilend.simulator;
 
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -8,10 +13,6 @@ import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
 import com.equilend.simulator.scheduler.Scheduler;
 import com.equilend.simulator.utils.PropertiesUtil;
-import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 public class Simulator {
 

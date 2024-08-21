@@ -1,11 +1,12 @@
 package com.equilend.simulator.configurator.rules.contract_rules;
 
-import com.equilend.simulator.api.APIConnector;
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.contract.Contract;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.equilend.simulator.api.APIConnector;
+import com.equilend.simulator.configurator.rules.Rules;
+import com.os.client.model.Contract;
 
 public class ContractRules implements Rules {
 

@@ -2,14 +2,15 @@ package com.equilend.simulator.configurator.rules.return_rules;
 
 import static com.equilend.simulator.configurator.rules.RulesParser.parseLogicalOr;
 
-import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.returns.Return;
-import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.os.client.model.Contract;
+import com.os.client.model.ModelReturn;
+import com.os.client.model.TradeAgreement;
+import com.os.client.model.TransactingParty;
 
 public class ReturnSettlementStatusUpdateRule implements ReturnRule {
 
@@ -34,7 +35,7 @@ public class ReturnSettlementStatusUpdateRule implements ReturnRule {
         delay = Double.parseDouble(args.get(5));
     }
 
-    public boolean isApplicable(Return oneSourceReturn, Contract contract, String partyId) {
+    public boolean isApplicable(ModelReturn oneSourceReturn, Contract contract, String partyId) {
         if (oneSourceReturn == null) {
             return false;
         }

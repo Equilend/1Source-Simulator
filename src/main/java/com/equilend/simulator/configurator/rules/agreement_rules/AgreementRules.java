@@ -1,10 +1,11 @@
 package com.equilend.simulator.configurator.rules.agreement_rules;
 
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.venue.VenueTradeAgreement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.equilend.simulator.configurator.rules.Rules;
+import com.os.client.model.VenueTradeAgreement;
 
 public class AgreementRules implements Rules {
 

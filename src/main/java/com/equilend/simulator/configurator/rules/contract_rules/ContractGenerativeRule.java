@@ -1,9 +1,10 @@
 package com.equilend.simulator.configurator.rules.contract_rules;
 
-import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.party.PartyRole;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.os.client.model.PartyRole;
 
 public class ContractGenerativeRule implements ContractRule {
 

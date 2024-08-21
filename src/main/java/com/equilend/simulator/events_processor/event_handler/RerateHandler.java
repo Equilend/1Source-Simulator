@@ -1,25 +1,27 @@
 package com.equilend.simulator.events_processor.event_handler;
 
-import static com.equilend.simulator.model.event.EventType.RERATE_PENDING;
-import static com.equilend.simulator.model.event.EventType.RERATE_PROPOSED;
 import static com.equilend.simulator.rules_processor.RerateRuleProcessor.process;
 import static com.equilend.simulator.service.ContractService.getContractById;
 import static com.equilend.simulator.service.ContractService.getTransactingPartyById;
 import static com.equilend.simulator.service.RerateService.getRerateById;
+import static com.os.client.model.EventType.RERATE_PENDING;
+import static com.os.client.model.EventType.RERATE_PROPOSED;
+
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.ReratePendingCancelRule;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.rerate.Rerate;
-import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Contract;
+import com.os.client.model.Event;
+import com.os.client.model.PartyRole;
+import com.os.client.model.Rerate;
+import com.os.client.model.TransactingParty;
 
 public class RerateHandler implements EventHandler {
 

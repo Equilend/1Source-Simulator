@@ -3,16 +3,17 @@ package com.equilend.simulator.events_processor.event_handler;
 import static com.equilend.simulator.service.BuyinService.getBuyinById;
 import static com.equilend.simulator.service.ContractService.getContractById;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
-import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
 import com.equilend.simulator.service.ContractService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.BuyinComplete;
+import com.os.client.model.Contract;
+import com.os.client.model.Event;
 
 public class BuyinHandler implements EventHandler {
 

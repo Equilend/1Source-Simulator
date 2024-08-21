@@ -1,14 +1,15 @@
 package com.equilend.simulator.configurator.rules.return_rules;
 
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.returns.Return;
-import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.configurator.rules.Rules;
+import com.os.client.model.Contract;
+import com.os.client.model.ModelReturn;
 
 public class ReturnRules implements Rules {
 
@@ -71,7 +72,7 @@ public class ReturnRules implements Rules {
         }
     }
 
-    public ReturnAcknowledgeRule getReturnAcknowledgeRule(Return oneSourceReturn, Contract contract,
+    public ReturnAcknowledgeRule getReturnAcknowledgeRule(ModelReturn oneSourceReturn, Contract contract,
         String botPartyId) {
         for (ReturnRule rule : acknowledgeRules) {
             ReturnAcknowledgeRule acknowledgeRule = (ReturnAcknowledgeRule) rule;
@@ -82,7 +83,7 @@ public class ReturnRules implements Rules {
         return null;
     }
 
-    public ReturnCancelRule getReturnCancelRule(Return oneSourceReturn, Contract contract,
+    public ReturnCancelRule getReturnCancelRule(ModelReturn oneSourceReturn, Contract contract,
         String botPartyId) {
         for (ReturnRule rule : cancelRules) {
             ReturnCancelRule returnCancelRule = (ReturnCancelRule) rule;
@@ -104,7 +105,7 @@ public class ReturnRules implements Rules {
         return null;
     }
 
-    public ReturnSettlementStatusUpdateRule getReturnSettlementStatusUpdateRule(Return oneSourceReturn, Contract contract,
+    public ReturnSettlementStatusUpdateRule getReturnSettlementStatusUpdateRule(ModelReturn oneSourceReturn, Contract contract,
         String botPartyId) {
         for (ReturnRule rule : settlementStatusUpdateRules) {
             ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = (ReturnSettlementStatusUpdateRule) rule;

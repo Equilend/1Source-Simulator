@@ -1,14 +1,16 @@
 package com.equilend.simulator.configurator.rules.rerate_rules;
 
-import com.equilend.simulator.api.FedAPIException;
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.rerate.Rerate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.api.FedAPIException;
+import com.equilend.simulator.configurator.rules.Rules;
+import com.os.client.model.Contract;
+import com.os.client.model.Rerate;
 
 public class RerateRules implements Rules {
 

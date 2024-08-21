@@ -1,14 +1,16 @@
 package com.equilend.simulator.configurator.rules;
 
-import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.api.DatalendAPIConnector;
-import com.equilend.simulator.auth.DatalendToken;
-import com.equilend.simulator.model.instrument.Instrument;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.api.DatalendAPIConnector;
+import com.equilend.simulator.auth.DatalendToken;
+import com.os.client.model.Instrument;
 
 public class RuleValidator {
 

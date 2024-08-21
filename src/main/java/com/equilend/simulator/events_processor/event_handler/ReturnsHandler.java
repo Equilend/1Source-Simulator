@@ -3,18 +3,19 @@ package com.equilend.simulator.events_processor.event_handler;
 import static com.equilend.simulator.service.ContractService.getContractById;
 import static com.equilend.simulator.service.ReturnService.getReturnById;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.returns.Return;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import com.equilend.simulator.service.ContractService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Contract;
+import com.os.client.model.Event;
+import com.os.client.model.ModelReturn;
 
 public class ReturnsHandler implements EventHandler {
 
@@ -36,7 +37,7 @@ public class ReturnsHandler implements EventHandler {
         String[] arr = uri.split("/");
         String returnId = arr[arr.length - 1];
         try {
-            Return oneSourceReturn = getReturnById(returnId);
+            ModelReturn oneSourceReturn = getReturnById(returnId);
             if (oneSourceReturn == null) {
                 return;
             }

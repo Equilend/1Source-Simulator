@@ -1,13 +1,14 @@
 package com.equilend.simulator.service;
 
+import java.time.LocalDate;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.buyin.BuyinCompleteRequest;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.instrument.price.Price;
-import java.time.LocalDate;
+import com.os.client.model.BuyinComplete;
+import com.os.client.model.BuyinCompleteRequest;
+import com.os.client.model.Contract;
+import com.os.client.model.Price;
 
 public class BuyinService {
 

@@ -1,26 +1,27 @@
 package com.equilend.simulator.service;
 
-import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
 import static com.equilend.simulator.service.TradeService.createTrade;
+import static com.os.client.model.RoundingMode.ALWAYSUP;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.party.Party;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
-import com.equilend.simulator.model.trade.TradeAgreement;
-import com.equilend.simulator.model.instrument.Instrument;
-import com.equilend.simulator.model.venue.VenueTradeAgreement;
-import java.util.List;
-import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Contract;
+import com.os.client.model.ContractProposal;
+import com.os.client.model.Instrument;
+import com.os.client.model.Party;
+import com.os.client.model.PartyRole;
+import com.os.client.model.PartySettlementInstruction;
+import com.os.client.model.TradeAgreement;
+import com.os.client.model.TransactingParty;
 
 public class ContractService {
 

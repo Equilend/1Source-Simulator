@@ -1,5 +1,12 @@
 package com.equilend.simulator.rules_processor;
 
+import java.time.LocalDate;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -9,25 +16,20 @@ import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.returns.AcknowledgementType;
-import com.equilend.simulator.model.returns.Return;
-import com.equilend.simulator.model.returns.ReturnAcknowledgement;
-import com.equilend.simulator.model.returns.ReturnProposal;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
-import com.equilend.simulator.model.settlement.SettlementStatus;
-import java.time.LocalDate;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.AcknowledgementType;
+import com.os.client.model.Contract;
+import com.os.client.model.ModelReturn;
+import com.os.client.model.PartyRole;
+import com.os.client.model.PartySettlementInstruction;
+import com.os.client.model.ReturnAcknowledgement;
+import com.os.client.model.ReturnProposal;
+import com.os.client.model.SettlementStatus;
 
 public class ReturnRuleProcessor {
 
     private static final Logger logger = LogManager.getLogger(ReturnRuleProcessor.class.getName());
 
-    public static void process(Long startTime, ReturnRule rule, Contract contract, Return oneSourceReturn)
+    public static void process(Long startTime, ReturnRule rule, Contract contract, ModelReturn oneSourceReturn)
         throws APIException {
 
         if (rule instanceof ReturnAcknowledgeRule) {

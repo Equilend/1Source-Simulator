@@ -1,14 +1,21 @@
 package com.equilend.simulator.configurator.rules.rerate_rules;
 
-import com.equilend.simulator.api.FedAPIException;
-import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.equilend.simulator.api.FedAPIException;
+import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.os.client.model.Contract;
+import com.os.client.model.FeeRate;
+import com.os.client.model.FixedRate;
+import com.os.client.model.FloatingRate;
+import com.os.client.model.OneOfRebateRateRebate;
+import com.os.client.model.Rate;
+import com.os.client.model.RebateRate;
+import com.os.client.model.Rerate;
+import com.os.client.model.TradeAgreement;
+import com.os.client.model.TransactingParty;
 
 public class RerateApproveRule implements RerateRule {
 
@@ -78,10 +85,30 @@ public class RerateApproveRule implements RerateRule {
         }
         TradeAgreement trade = contract.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
-        boolean rebate = trade.getRate().getRebate() != null;
+        
+        boolean rebate = true;
+        
+        Rate loanRate = trade.getRate();
+        Double rate = null;
+		Double effectiveRate = null;
+		if (loanRate instanceof RebateRate) {
+			OneOfRebateRateRebate oneOfRebateRateRebate = ((RebateRate) loanRate).getRebate();
+			if (oneOfRebateRateRebate instanceof FloatingRate) {
+				rate = ((FloatingRate) oneOfRebateRateRebate).getFloating().getSpread();
+				effectiveRate = ((FloatingRate) oneOfRebateRateRebate).getFloating().getEffectiveRate();
+			} else if (oneOfRebateRateRebate instanceof FixedRate) {
+				rate = ((FixedRate) oneOfRebateRateRebate).getFixed().getBaseRate();
+				effectiveRate = ((FloatingRate) oneOfRebateRateRebate).getFloating().getEffectiveRate();
+			}
+		} else if (loanRate instanceof FeeRate) {
+			rebate = false;
+			rate = ((FeeRate) loanRate).getFee().getBaseRate();
+			effectiveRate = ((FeeRate) loanRate).getFee().getEffectiveRate();
+		}
+
         return RuleValidator.validCounterparty(counterparties, cpty) &&
             RuleValidator.validSecurity(securities, trade.getInstrument())
-            && RuleValidator.validRate(rates, trade.getRate().getEffectiveRate(), trade.getInstrument().getSedol(),
+            && RuleValidator.validRate(rates, effectiveRate, trade.getInstrument().getSedol(),
             rebate);
     }
 

@@ -1,13 +1,15 @@
 package com.equilend.simulator.configurator.rules.buyin_rules;
 
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.contract.Contract;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.configurator.rules.Rules;
+import com.os.client.model.BuyinComplete;
+import com.os.client.model.Contract;
 
 public class BuyinRules implements Rules {
 

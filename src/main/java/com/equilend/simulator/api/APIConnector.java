@@ -1,28 +1,5 @@
 package com.equilend.simulator.api;
 
-import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.agreement.Agreement;
-import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.buyin.BuyinCompleteRequest;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.contract.ContractProposalApproval;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.instrument.Instrument;
-import com.equilend.simulator.model.recall.Recall;
-import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.rerate.RerateProposal;
-import com.equilend.simulator.model.returns.Return;
-import com.equilend.simulator.model.returns.ReturnAcknowledgement;
-import com.equilend.simulator.model.returns.ReturnProposal;
-import com.equilend.simulator.model.settlement.SettlementStatus;
-import com.equilend.simulator.model.settlement.SettlementStatusUpdate;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
@@ -41,8 +18,33 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.auth.OneSourceToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+import com.os.client.model.Agreement;
+import com.os.client.model.BuyinComplete;
+import com.os.client.model.BuyinCompleteRequest;
+import com.os.client.model.Contract;
+import com.os.client.model.ContractProposal;
+import com.os.client.model.ContractProposalApproval;
+import com.os.client.model.Event;
+import com.os.client.model.Instrument;
+import com.os.client.model.ModelReturn;
+import com.os.client.model.Recall;
+import com.os.client.model.Rerate;
+import com.os.client.model.RerateProposal;
+import com.os.client.model.ReturnAcknowledgement;
+import com.os.client.model.ReturnProposal;
+import com.os.client.model.SettlementStatus;
+import com.os.client.model.SettlementStatusUpdate;
 
 public class APIConnector {
 
@@ -632,7 +634,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static Return getReturnById(OneSourceToken token, String id) throws APIException {
+    public static ModelReturn getReturnById(OneSourceToken token, String id) throws APIException {
         validateAPISetting(token);
 
         HttpRequest getRequest;
@@ -658,7 +660,7 @@ public class APIConnector {
 
         isSuccess(getResponse);
 
-        Return oneSourceReturn = gson.fromJson(getResponse.body(), Return.class);
+        ModelReturn oneSourceReturn = gson.fromJson(getResponse.body(), ModelReturn.class);
         return oneSourceReturn;
     }
 

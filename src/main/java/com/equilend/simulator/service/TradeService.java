@@ -1,26 +1,27 @@
 package com.equilend.simulator.service;
 
-import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
+import static com.os.client.model.RoundingMode.ALWAYSUP;
 
-import com.equilend.simulator.model.party.Party;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.party.TransactingParties;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.trade.SettlementType;
-import com.equilend.simulator.model.trade.TradeAgreement;
-import com.equilend.simulator.model.collateral.Collateral;
-import com.equilend.simulator.model.collateral.CollateralType;
-import com.equilend.simulator.model.instrument.Instrument;
-import com.equilend.simulator.model.instrument.price.CurrencyCd;
-import com.equilend.simulator.model.rate.BenchmarkCd;
-import com.equilend.simulator.model.rate.FloatingRateDef;
-import com.equilend.simulator.model.rate.Rate;
-import com.equilend.simulator.model.rate.RebateRate;
-import com.equilend.simulator.model.venue.Venue;
-import com.equilend.simulator.model.venue.VenueTradeAgreement;
-import com.equilend.simulator.model.venue.Venues;
 import java.time.LocalDate;
 import java.util.Optional;
+
+import com.os.client.model.BenchmarkCd;
+import com.os.client.model.Collateral;
+import com.os.client.model.CollateralType;
+import com.os.client.model.CurrencyCd;
+import com.os.client.model.FloatingRate;
+import com.os.client.model.FloatingRateDef;
+import com.os.client.model.Instrument;
+import com.os.client.model.Party;
+import com.os.client.model.PartyRole;
+import com.os.client.model.RebateRate;
+import com.os.client.model.SettlementType;
+import com.os.client.model.TradeAgreement;
+import com.os.client.model.TransactingParties;
+import com.os.client.model.TransactingParty;
+import com.os.client.model.Venue;
+import com.os.client.model.VenueTradeAgreement;
+import com.os.client.model.Venues;
 
 public class TradeService {
 
@@ -66,17 +67,30 @@ public class TradeService {
 
         Instrument instrument = security;
 
-        FloatingRateDef floating = new FloatingRateDef()
-            .benchmark(BenchmarkCd.OBFR)
-            .baseRate(null)
-            .spread(Double.valueOf(".15"))
-            .effectiveRate(Double.valueOf(".15"))
-            .effectiveDate(LocalDate.now())
-            .cutoffTime("18:00:00")
-            .isAutoRerate(false);
+//        FloatingRateDef floating = new FloatingRateDef()
+//            .benchmark(BenchmarkCd.OBFR)
+//            .baseRate(null)
+//            .spread(Double.valueOf(".15"))
+//            .effectiveRate(Double.valueOf(".15"))
+//            .effectiveDate(LocalDate.now())
+//            .cutoffTime("18:00:00")
+//            .isAutoRerate(false);
+//
+//        RebateRate rebate = new RebateRate(floating);
+//        Rate rate = new Rate(rebate);
 
-        RebateRate rebate = new RebateRate(floating);
-        Rate rate = new Rate(rebate);
+		FloatingRateDef floatingRateDef = new FloatingRateDef();
+		floatingRateDef.setSpread(Double.valueOf(".15"));
+		floatingRateDef.setCutoffTime("18:00");
+		floatingRateDef.setEffectiveDate(LocalDate.now());
+		floatingRateDef.setBenchmark(BenchmarkCd.OBFR);
+		floatingRateDef.setIsAutoRerate(false);
+
+		FloatingRate floatingRate = new FloatingRate();
+		floatingRate.setFloating(floatingRateDef);
+
+		RebateRate rebateRate = new RebateRate();
+		rebateRate.setRebate(floatingRate);
 
         Integer quantity = desiredQuantity;
 
@@ -128,6 +142,7 @@ public class TradeService {
             .settlementDate(tPlus2)
             .settlementType(settlementType)
             .collateral(collateral)
+            .rate(rebateRate)
             .transactingParties(transactingParties);
 
         return tradeAgreement;

@@ -1,5 +1,15 @@
 package com.equilend.simulator.events_processor;
 
+import java.math.BigInteger;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -11,16 +21,8 @@ import com.equilend.simulator.events_processor.event_handler.RecallHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.ReturnsHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.event.EventType;
-import java.math.BigInteger;
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Event;
+import com.os.client.model.EventType;
 
 public class EventsProcessor implements Runnable {
 

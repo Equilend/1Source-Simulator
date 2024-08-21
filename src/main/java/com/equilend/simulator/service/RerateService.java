@@ -1,38 +1,90 @@
 package com.equilend.simulator.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.rate.FixedRateDef;
-import com.equilend.simulator.model.rate.Rate;
-import com.equilend.simulator.model.rate.RebateRate;
-import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.rerate.RerateProposal;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Contract;
+import com.os.client.model.FeeRate;
+import com.os.client.model.FixedRate;
+import com.os.client.model.FixedRateDef;
+import com.os.client.model.FloatingRate;
+import com.os.client.model.FloatingRateDef;
+import com.os.client.model.RebateRate;
+import com.os.client.model.Rerate;
+import com.os.client.model.RerateProposal;
+import com.os.client.model.Venue;
+import com.os.client.model.VenueType;
 
 public class RerateService {
 
     private static final Logger logger = LogManager.getLogger(RerateService.class.getName());
 
     public static int postRerateProposal(Contract contract, Double delta) throws APIException {
-        Rate rate = contract.getTrade().getRate();
-        FixedRateDef fee = rate.getFee();
-        RebateRate rebate = rate.getRebate();
+		RerateProposal proposal = new RerateProposal();
 
-        if (fee != null) {
-            fee.setBaseRate(Math.max(fee.getBaseRate() + delta, 0.01));
-        } else if (rebate != null) {
-            if (rebate.getFixed() != null) {
-                rebate.getFixed().setBaseRate(rebate.getFixed().getBaseRate() + delta);
-            } else if (rebate.getFloating() != null) {
-                rebate.getFloating().setSpread(rebate.getFloating().getSpread() + delta);
-            }
-        }
+		Venue venue = new Venue();
+		venue.setType(VenueType.OFFPLATFORM);
+		venue.setVenueRefKey("CONSOLE" + System.currentTimeMillis());
+
+		proposal.setExecutionVenue(venue);
+
+		LocalDate rerateDate = LocalDate.now(ZoneId.of("UTC"));
+		
+		if (contract.getTrade().getRate() instanceof FeeRate) {
+			
+			FeeRate feeRate = new FeeRate();
+			
+			FixedRateDef fixedRateDef = new FixedRateDef();
+			fixedRateDef.setBaseRate(delta);
+			fixedRateDef.setEffectiveDate(rerateDate);
+			feeRate.setFee(fixedRateDef);
+			
+			proposal.setRate(feeRate);
+
+		} else if (contract.getTrade().getRate() instanceof RebateRate) {
+
+			RebateRate rebateRate = new RebateRate();
+
+			if (((RebateRate) contract.getTrade().getRate()).getRebate() instanceof FixedRate) {
+			
+				FixedRate fixedRate = new FixedRate();
+				FixedRateDef fixedRateDef = new FixedRateDef();
+				fixedRateDef.setBaseRate(delta);
+				fixedRateDef.setEffectiveDate(rerateDate);
+				fixedRate.setFixed(fixedRateDef);
+				
+				rebateRate.setRebate(fixedRate);
+				
+			} else if (((RebateRate) contract.getTrade().getRate()).getRebate() instanceof FloatingRate) {
+				
+				FloatingRateDef origRate = ((FloatingRate)((RebateRate) contract.getTrade().getRate()).getRebate()).getFloating();
+				
+				FloatingRate floatingRate = new FloatingRate();
+				FloatingRateDef floatingRateDef = new FloatingRateDef();
+				floatingRateDef.setBenchmark(origRate.getBenchmark());
+				floatingRateDef.setIsAutoRerate(origRate.isIsAutoRerate());
+				if (!floatingRateDef.isIsAutoRerate()) {
+					floatingRateDef.setBaseRate(origRate.getBaseRate());
+				}
+				floatingRateDef.setSpread(delta);
+				floatingRateDef.setEffectiveDate(rerateDate);
+				floatingRate.setFloating(floatingRateDef);
+				
+				rebateRate.setRebate(floatingRate);
+			}
+
+			proposal.setRate(rebateRate);
+		}
+		
         int responseCode = APIConnector.postRerateProposal(EventHandler.getToken(), contract.getContractId(),
-            new RerateProposal().rate(rate));
+        		proposal);
         return responseCode;
     }
 

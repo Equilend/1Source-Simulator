@@ -1,8 +1,8 @@
 package com.equilend.simulator.service;
 
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
-import com.equilend.simulator.model.settlement.instruction.SettlementInstruction;
+import com.os.client.model.PartyRole;
+import com.os.client.model.PartySettlementInstruction;
+import com.os.client.model.SettlementInstruction;
 
 public class SettlementService {
 

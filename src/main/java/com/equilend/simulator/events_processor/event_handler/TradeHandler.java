@@ -1,21 +1,23 @@
 package com.equilend.simulator.events_processor.event_handler;
 
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRule;
-import com.equilend.simulator.model.agreement.Agreement;
-import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.trade.TradeAgreement;
-import com.equilend.simulator.model.venue.VenueTradeAgreement;
 import com.equilend.simulator.service.ContractService;
 import com.equilend.simulator.service.TradeService;
-import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Agreement;
+import com.os.client.model.ContractProposal;
+import com.os.client.model.Event;
+import com.os.client.model.PartyRole;
+import com.os.client.model.TradeAgreement;
+import com.os.client.model.TransactingParty;
+import com.os.client.model.VenueTradeAgreement;
 
 public class TradeHandler implements EventHandler {
 

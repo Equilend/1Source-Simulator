@@ -1,16 +1,18 @@
 package com.equilend.simulator.rules_processor;
 
+import java.util.NoSuchElementException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.rules.RuleException;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRule;
-import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.service.BuyinService;
-import java.util.NoSuchElementException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.BuyinComplete;
+import com.os.client.model.Contract;
 
 public class BuyinRuleProcessor {
 
