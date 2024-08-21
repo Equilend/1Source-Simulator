@@ -47,10 +47,10 @@ import org.apache.logging.log4j.Logger;
 public class APIConnector {
 
     private static final Logger logger = LogManager.getLogger(APIConnector.class.getName());
-    private static DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
+    private static DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static HttpClient httpClient = HttpClient.newHttpClient();
     private static Gson gson = new GsonBuilder().registerTypeAdapter(OffsetDateTime.class,
-            (JsonDeserializer<OffsetDateTime>) (json, typeOfT, context) -> OffsetDateTime.parse(json.getAsString()))
+            (JsonDeserializer<OffsetDateTime>) (json, typeOfT, context) -> OffsetDateTime.parse(json.getAsString(), formatter))
         .registerTypeAdapter(OffsetDateTime.class,
             (JsonSerializer<OffsetDateTime>) (offsetDateTime, type, jsonSerializationContext) -> new JsonPrimitive(
                 offsetDateTime.format(formatter))).registerTypeAdapter(LocalDate.class,
