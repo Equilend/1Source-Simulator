@@ -2,11 +2,14 @@ package com.equilend.simulator.api;
 
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.agreement.Agreement;
+import com.equilend.simulator.model.buyin.BuyinComplete;
+import com.equilend.simulator.model.buyin.BuyinCompleteRequest;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposal;
 import com.equilend.simulator.model.contract.ContractProposalApproval;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.instrument.Instrument;
+import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.returns.Return;
@@ -798,6 +801,88 @@ public class APIConnector {
         return patchResponse.statusCode();
     }
 
+    public static BuyinComplete getBuyinById(OneSourceToken token, String buyinId) throws APIException {
+        validateAPISetting(token);
+
+        HttpResponse<String> getResponse;
+        try {
+            HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/buyins/completes/" + buyinId))
+                .header("Authorization", "Bearer " + token.getAccessToken()).build();
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending buyin get request for buyin " + buyinId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(getResponse);
+
+        return gson.fromJson(getResponse.body(), BuyinComplete.class);
+    }
+
+    public static int acceptBuyin(OneSourceToken token, String contractId, String buyinId) throws APIException {
+        validateAPISetting(token);
+
+        HttpResponse<String> postResponse;
+        try {
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/buyins/completes/" + buyinId + "/accept"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message =
+                "Error with sending approve buyin post request for contract " + contractId + " buyin " + buyinId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
+    }
+
+    public static int proposeBuyin(OneSourceToken token, String contractId, BuyinCompleteRequest buyinCompleteRequest) throws APIException {
+        validateAPISetting(token);
+
+        HttpResponse<String> postResponse;
+        try {
+            String body = gson.toJson(buyinCompleteRequest);
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/buyins/completes"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message =
+                "Error with sending propose buyin post request for contract " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
+    }
+
+    public static Recall getRecallById(OneSourceToken token, String recallId) throws APIException {
+        HttpResponse<String> getResponse;
+        try {
+            HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/recalls/" + recallId))
+                .header("Authorization", "Bearer " + token.getAccessToken()).build();
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending recall get request for buyin " + recallId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(getResponse);
+
+        return gson.fromJson(getResponse.body(), Recall.class);
+    }
 
     private static void validateAPISetting(OneSourceToken token) throws APIException {
         if (token == null) {
@@ -816,5 +901,4 @@ public class APIConnector {
             throw new APIException(String.valueOf(response.body()));
         }
     }
-
 }

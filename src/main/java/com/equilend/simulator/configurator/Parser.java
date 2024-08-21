@@ -2,6 +2,7 @@ package com.equilend.simulator.configurator;
 
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
+import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
@@ -175,6 +176,9 @@ public class Parser {
                     break;
                 case "RETURNS":
                     rules.put(header, new ReturnRules(sectionRulesMap));
+                    break;
+                case "BUYINS":
+                    rules.put(header, new BuyinRules(sectionRulesMap));
                     break;
                 default:
                     logger.error("Error reading rules file, unrecognized section header");
