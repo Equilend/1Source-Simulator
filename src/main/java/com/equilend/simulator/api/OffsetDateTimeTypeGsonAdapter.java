@@ -46,24 +46,32 @@ public class OffsetDateTimeTypeGsonAdapter implements JsonSerializer<OffsetDateT
 		logger.debug("offsetDateTime: " + dateAsString);
 
 		try {
-
-			if (dateAsString.endsWith("Z")) {
-				dateAsString = dateAsString.substring(0, dateAsString.indexOf("Z"));
-			}
-
-			int milliSize = dateAsString.substring(dateAsString.indexOf(".") + 1).length();
-
-			for (int i = milliSize; i < 3; i++) {
-				dateAsString = dateAsString + "0";
-			}
-
-			LocalDateTime dateTime = LocalDateTime.parse(dateAsString, DATE_TIME_FORMATTER);
-
-			offsetDateTime = OffsetDateTime.of(dateTime, ZoneOffset.UTC);
-
+			offsetDateTime = OffsetDateTime.parse(json.getAsString(), DateTimeFormatter.ISO_INSTANT);
 		} catch (DateTimeException d) {
-			logger.warn("Could not parse offset date time: " + dateAsString);
-			offsetDateTime = OffsetDateTime.MIN;
+			logger.warn("Could not parse offset date time as ISO_INSTANT: " + dateAsString);
+		}
+
+		if (offsetDateTime == null) {
+			try {
+
+				if (dateAsString.endsWith("Z")) {
+					dateAsString = dateAsString.substring(0, dateAsString.indexOf("Z"));
+				}
+
+				int milliSize = dateAsString.substring(dateAsString.indexOf(".") + 1).length();
+
+				for (int i = milliSize; i < 3; i++) {
+					dateAsString = dateAsString + "0";
+				}
+
+				LocalDateTime dateTime = LocalDateTime.parse(dateAsString, DATE_TIME_FORMATTER);
+
+				offsetDateTime = OffsetDateTime.of(dateTime, ZoneOffset.UTC);
+
+			} catch (DateTimeException d) {
+				logger.warn("Could not parse offset date time: " + dateAsString);
+				offsetDateTime = OffsetDateTime.MIN;
+			}
 		}
 
 		return offsetDateTime;
