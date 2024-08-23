@@ -2,12 +2,12 @@
 incoming = {
     (event_type: TRADE, action: I)
     (event_type: CONTRACT, action: I)
-    (event_type: CONTRACT_OPENED, action: I)
+    (event_type: CONTRACT_OPENED, action: D)
     (event_type: CONTRACT_APPROVE, action: I)
     (event_type: RERATE, action: I)
     (event_type: RERATE_PENDING, action: I)
     (event_type: RETURN_PENDING, action: I)
-    (event_type: BUYIN_PENDING, action: D)
+    (event_type: BUYIN_PENDING, action: I)
     (event_type: RECALL_OPENED, action: I)
     (event_type: *, action: I)
 }
@@ -71,27 +71,40 @@ cancel_pending = {
 analysis_mode = 0
 <recipient>
 acknowledge = {
-    (cpty: *, security: *, open quantity: *, return quantity: *, action: I, delay: 0)
+    (cpty: *, security: *, open quantity: *, return_quantity: *, action: I, delay: 0)
 }
 <initiator>
 cancel = {
-    (cpty: *, security: *, open quantity: *, return quantity:*, action: I, delay: 0)
+    (cpty: *, security: *, open quantity: *, return_quantity:*, action: I, delay: 0)
 }
 return = {
-    (cpty: *, security: *, open quantity: *, return quantity:500, action: R, delay: 0)
+    (cpty: *, security: *, open quantity: *, return_quantity:500, action: I, delay: 0)
+}
+return_from_recall = {
+    (cpty: *, security: *, open_quantity: *, recall_quantity:500, action: I, delay: 0)
 }
 <common>
 update_settlement = {
-    (cpty: *, security: *, open quantity: *, return quantity: *, action: I, delay: 0)
+    (cpty: *, security: *, open quantity: *, return_quantity: *, action: I, delay: 0)
+}
+
+[[RECALLS]]
+analysis_mode = 0
+<initiator>
+recall = {
+    (cpty: *, security: *, open_quantity: *, recall_quantity:500, action: R, delay: 0)
+}
+cancel = {
+    (cpty: *, security: *, open_quantity: *, recall_quantity:*, action: C, delay: 0)
 }
 
 [[BUYINS]]
 analysis_mode = 0
 <recipient>
 accept = {
-    (cpty: *, security: *, buyin_quantity:*, price:*, action: A, delay: 0)
+    (cpty: *, security: *, buyin_quantity:*, price:*, action: I, delay: 0)
 }
 <initiator>
 submit = {
-    (cpty: *, security: *, buyin_quantity: 100, price: 100, action: S, delay: 0)
+    (cpty: *, security: *, buyin_quantity: 100, price: 100, action: I, delay: 0)
 }

@@ -5,6 +5,7 @@ import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
+import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
 import java.io.BufferedReader;
@@ -176,6 +177,9 @@ public class Parser {
                     break;
                 case "RETURNS":
                     rules.put(header, new ReturnRules(sectionRulesMap));
+                    break;
+                case "RECALLS":
+                    rules.put(header, new RecallRules(sectionRulesMap));
                     break;
                 case "BUYINS":
                     rules.put(header, new BuyinRules(sectionRulesMap));

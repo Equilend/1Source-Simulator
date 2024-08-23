@@ -1,5 +1,7 @@
 package com.equilend.simulator.rules_processor;
 
+import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.rules.RuleException;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
@@ -8,6 +10,7 @@ import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRule;
 import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.service.BuyinService;
+import com.equilend.simulator.utils.RuleProcessorUtil;
 import java.util.NoSuchElementException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,21 +23,21 @@ public class BuyinRuleProcessor {
         throws APIException {
 
         if (rule instanceof BuyinAcceptRule) {
-            acceptBuyin(startTime, (BuyinAcceptRule) rule, buyin);
+            processByAcceptRule(startTime, (BuyinAcceptRule) rule, buyin);
         }
 
         if (rule instanceof BuyinProposeRule) {
-            proposeBuying(startTime, (BuyinProposeRule) rule, contract);
+            processByProposeRule(startTime, (BuyinProposeRule) rule, contract);
         }
     }
 
-    private static void acceptBuyin(Long startTime, BuyinAcceptRule rule, BuyinComplete buyin)
+    private static void processByAcceptRule(Long startTime, BuyinAcceptRule rule, BuyinComplete buyin)
         throws APIException {
         waitForDelay(startTime, rule.getDelay());
         BuyinService.acceptBuyin(buyin);
     }
 
-    private static void proposeBuying(Long startTime, BuyinProposeRule rule, Contract contract)
+    private static void processByProposeRule(Long startTime, BuyinProposeRule rule, Contract contract)
         throws APIException {
         waitForDelay(startTime, rule.getDelay());
         Integer quantity;
@@ -48,13 +51,6 @@ public class BuyinRuleProcessor {
 
         Double priceValue = Double.parseDouble(rule.getPrice());
         BuyinService.proposeBuyin(contract, quantity, priceValue);
-    }
-
-    private static void waitForDelay(Long startTime, Double delay) {
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
     }
 
 }

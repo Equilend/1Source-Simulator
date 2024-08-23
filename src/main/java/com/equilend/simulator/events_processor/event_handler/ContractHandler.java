@@ -7,13 +7,15 @@ import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
+import com.equilend.simulator.configurator.rules.recall_rules.RecallProposeRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
-import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeRule;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromContractRule;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposalApproval;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.settlement.PartySettlementInstruction;
+import com.equilend.simulator.rules_processor.RecallRuleProcessor;
 import com.equilend.simulator.rules_processor.RerateRuleProcessor;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import com.equilend.simulator.service.ContractService;
@@ -131,10 +133,17 @@ public class ContractHandler implements EventHandler {
                             return;
                         }
 
-                        ReturnProposeRule returnProposeRule = configurator.getReturnRules()
-                            .getReturnProposeRule(contract, botPartyId);
+                        ReturnProposeFromContractRule returnProposeRule = configurator.getReturnRules()
+                            .getReturnProposeFromContractRule(contract, botPartyId);
                         if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
                             ReturnRuleProcessor.process(startTime, returnProposeRule, contract, null);
+                            return;
+                        }
+
+                        RecallProposeRule recallProposeRule = configurator.getRecallRules()
+                            .getRecallProposeRule(contract, botPartyId);
+                        if (recallProposeRule != null && recallProposeRule.shouldPropose()) {
+                            RecallRuleProcessor.process(startTime, recallProposeRule, contract, null);
                             return;
                         }
                     }

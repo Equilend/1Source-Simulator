@@ -10,6 +10,7 @@ import com.equilend.simulator.model.contract.ContractProposalApproval;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.recall.Recall;
+import com.equilend.simulator.model.recall.RecallProposal;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
 import com.equilend.simulator.model.returns.Return;
@@ -874,7 +875,7 @@ public class APIConnector {
                 .header("Authorization", "Bearer " + token.getAccessToken()).build();
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            String message = "Error with sending recall get request for buyin " + recallId;
+            String message = "Error with sending recall get request for recallId " + recallId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -882,6 +883,47 @@ public class APIConnector {
         isSuccess(getResponse);
 
         return gson.fromJson(getResponse.body(), Recall.class);
+    }
+
+    public static int proposeRecall(OneSourceToken token, String contractId, RecallProposal recallProposal) throws APIException {
+        validateAPISetting(token);
+        HttpResponse<String> postResponse;
+        try {
+            String body = gson.toJson(recallProposal);
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/recalls"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending recall post request for contractId " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
+    }
+
+    public static int cancelRecall(OneSourceToken token, String contractId, String recallId) throws APIException {
+        validateAPISetting(token);
+        HttpResponse<String> postResponse;
+        try {
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/recalls/" + recallId + "/cancel"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending cancel recall post request for recallId " + recallId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
     }
 
     private static void validateAPISetting(OneSourceToken token) throws APIException {

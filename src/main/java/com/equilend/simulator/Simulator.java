@@ -29,14 +29,6 @@ public class Simulator {
         " |  __/| | | (_) | (_|  __/\\__ \\__ \\ |  __/\\ V /  __/ | | | |_\\__ \\\n" + //
         " |_|   |_|  \\___/ \\___\\___||___/___/  \\___| \\_/ \\___|_| |_|\\__|___/\n\n";
 
-    public static void warmUp() {
-        try {
-            APIConnector.getContractById(OneSourceToken.getToken(), "DEAD-BEEF");
-        } catch (APIException e) {
-            System.out.println("Exception in warmUp(): " + e.getMessage());
-        }
-    }
-
     private static class EventProcessorThread implements ThreadFactory {
 
         public Thread newThread(Runnable r) {
@@ -54,8 +46,6 @@ public class Simulator {
     public static void main(String[] args) {
         Properties props = PropertiesUtil.loadProperties(args);
         Configurator configurator = new Configurator(props);
-
-        warmUp();
 
         String fence = "=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$";
         if (configurator.getRerateRules().getAnalysisMode() || configurator.getContractRules().getAnalysisMode()) {
