@@ -3,7 +3,6 @@ package com.equilend.simulator.configurator.rules.return_rules;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.returns.Return;
-import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,8 @@ public class ReturnRules implements Rules {
     private static final Logger logger = LogManager.getLogger(ReturnRules.class.getName());
     private final List<ReturnRule> acknowledgeRules = new ArrayList<>();
     private final List<ReturnRule> cancelRules = new ArrayList<>();
-    private final List<ReturnRule> proposeRules = new ArrayList<>();
+    private final List<ReturnRule> proposeFromContractRules = new ArrayList<>();
+    private final List<ReturnRule> proposeFromReturnRules = new ArrayList<>();
     private final List<ReturnRule> settlementStatusUpdateRules = new ArrayList<>();
     private final boolean analysisMode;
 
@@ -24,14 +24,16 @@ public class ReturnRules implements Rules {
     private enum ReturnRuleType {
         ACKNOWLEDGE,
         CANCEL,
-        PROPOSE,
+        PROPOSE_FROM_CONTRACT,
+        PROPOSE_FROM_RECALL,
         UPDATE;
     }
     public ReturnRules(Map<String, Map<String, String>> rulesMap) {
         analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
         addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
-        addRules(rulesMap.get("initiator").get("return"), proposeRules, ReturnRuleType.PROPOSE);
+        addRules(rulesMap.get("initiator").get("return"), proposeFromContractRules, ReturnRuleType.PROPOSE_FROM_CONTRACT);
+        addRules(rulesMap.get("initiator").get("return_from_recall"), proposeFromReturnRules, ReturnRuleType.PROPOSE_FROM_RECALL);
         addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
     }
 
@@ -56,8 +58,11 @@ public class ReturnRules implements Rules {
                 case CANCEL:
                     rule = new ReturnCancelRule(ruleStr);
                     break;
-                case PROPOSE:
-                    rule = new ReturnProposeRule(ruleStr);
+                case PROPOSE_FROM_CONTRACT:
+                    rule = new ReturnProposeFromContractRule(ruleStr);
+                    break;
+                case PROPOSE_FROM_RECALL:
+                    rule = new ReturnProposeFromRecallRule(ruleStr);
                     break;
                 case UPDATE:
                     rule = new ReturnSettlementStatusUpdateRule(ruleStr);
@@ -93,10 +98,21 @@ public class ReturnRules implements Rules {
         return null;
     }
 
-    public ReturnProposeRule getReturnProposeRule(Contract contract,
+    public ReturnProposeFromContractRule getReturnProposeFromContractRule(Contract contract,
         String botPartyId) {
-        for (ReturnRule rule : proposeRules) {
-            ReturnProposeRule returnProposeRule = (ReturnProposeRule) rule;
+        for (ReturnRule rule : proposeFromContractRules) {
+            ReturnProposeFromContractRule returnProposeRule = (ReturnProposeFromContractRule) rule;
+            if (returnProposeRule.isApplicable(contract, botPartyId)) {
+                return returnProposeRule;
+            }
+        }
+        return null;
+    }
+
+    public ReturnProposeFromRecallRule getReturnProposeFromRecallRule(Contract contract,
+        String botPartyId) {
+        for (ReturnRule rule : proposeFromReturnRules) {
+            ReturnProposeFromRecallRule returnProposeRule = (ReturnProposeFromRecallRule) rule;
             if (returnProposeRule.isApplicable(contract, botPartyId)) {
                 return returnProposeRule;
             }

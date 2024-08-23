@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ReturnProposeRule implements ReturnRule {
+public class ReturnProposeFromContractRule implements ReturnRule {
 
     private final Set<String> counterparties = new HashSet<>();
     private final Set<String> securities = new HashSet<>();
@@ -20,7 +20,7 @@ public class ReturnProposeRule implements ReturnRule {
     private String action;
     private Double delay;
 
-    public ReturnProposeRule(String rule) {
+    public ReturnProposeFromContractRule(String rule) {
         loadRule(rule);
     }
 
@@ -42,8 +42,7 @@ public class ReturnProposeRule implements ReturnRule {
         String cpty = getTradeCptyId(trade, partyId);
         return RuleValidator.validCounterparty(counterparties, cpty) &&
             RuleValidator.validSecurity(securities, trade.getInstrument())
-            && RuleValidator.validQuantity(openQuantities, trade.getOpenQuantity())
-            && RuleValidator.validQuantity(returnQuantity, oneSourceReturn.getQuantity());
+            && RuleValidator.validQuantity(openQuantities, trade.getOpenQuantity());
     }
 
     public boolean isApplicable(Contract contract, String partyId) {

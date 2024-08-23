@@ -6,10 +6,15 @@ import static com.equilend.simulator.service.RecallService.getRecallById;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
+import com.equilend.simulator.configurator.rules.recall_rules.RecallCancelRule;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromContractRule;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromRecallRule;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
+import com.equilend.simulator.rules_processor.RecallRuleProcessor;
+import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import com.equilend.simulator.service.ContractService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,6 +53,19 @@ public class RecallHandler implements EventHandler {
                             .getBuyinProposeRule(contract, botPartyId);
                         if (buyinProposeRule != null && buyinProposeRule.shouldSubmit()) {
                             BuyinRuleProcessor.process(startTime, buyinProposeRule, contract, null);
+                            return;
+                        }
+
+                        ReturnProposeFromRecallRule returnProposeRule = configurator.getReturnRules()
+                            .getReturnProposeFromRecallRule(contract, botPartyId);
+                        if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
+                            ReturnRuleProcessor.process(startTime, returnProposeRule, contract, null);
+                            return;
+                        }
+
+                        RecallCancelRule recallCancelRule = configurator.getRecallRules().getRecallCancelRule(recall, contract, botPartyId);
+                        if (recallCancelRule != null && recallCancelRule.shouldCancel()) {
+                            RecallRuleProcessor.process(startTime, recallCancelRule, contract, recall);
                             return;
                         }
                     }

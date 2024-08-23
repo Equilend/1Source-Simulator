@@ -1,12 +1,15 @@
 package com.equilend.simulator.rules_processor;
 
+import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.rules.RuleException;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
-import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeRule;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromContractRule;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromRecallRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
 import com.equilend.simulator.model.contract.Contract;
@@ -39,8 +42,12 @@ public class ReturnRuleProcessor {
                 oneSourceReturn.getReturnId());
         }
 
-        if (rule instanceof ReturnProposeRule) {
-            processConractByProposeRule(startTime, (ReturnProposeRule) rule, contract);
+        if (rule instanceof ReturnProposeFromContractRule) {
+            processByProposeRule(startTime, (ReturnProposeFromContractRule) rule, contract);
+        }
+
+        if (rule instanceof ReturnProposeFromRecallRule) {
+            processByProposeRule(startTime, (ReturnProposeFromRecallRule) rule, contract);
         }
 
         if (rule instanceof ReturnSettlementStatusUpdateRule) {
@@ -90,34 +97,52 @@ public class ReturnRuleProcessor {
 
     private static void processReturnByCancelRule(Long startTime, ReturnCancelRule rule, String contractId,
         String returnId) throws APIException {
-        Double delay = rule.getDelay();
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
+        waitForDelay(startTime, rule.getDelay());
         APIConnector.cancelReturn(OneSourceToken.getToken(), contractId, returnId);
     }
 
-    private static void processConractByProposeRule(Long startTime, ReturnProposeRule rule, Contract contract)
+    private static void processByProposeRule(Long startTime, ReturnProposeFromContractRule rule, Contract contract)
         throws APIException {
-        Double delay = rule.getDelay();
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
+        waitForDelay(startTime, rule.getDelay());
         ReturnProposal returnProposal = buildReturnProposal(contract, rule);
         APIConnector.proposeReturn(OneSourceToken.getToken(), contract.getContractId(), returnProposal);
     }
 
-    private static ReturnProposal buildReturnProposal(Contract contract, ReturnProposeRule rule) throws RuleException {
+    private static ReturnProposal buildReturnProposal(Contract contract, ReturnProposeFromContractRule rule) throws RuleException {
         Set<String> ruleReturnQuantity = rule.getReturnQuantity();
         Integer quantity;
         try {
             quantity = Integer.parseInt(ruleReturnQuantity.stream().findFirst().get());
         } catch (NumberFormatException | NoSuchElementException e) {
-            logger.error("Return Propose Rule must contain 'return quantity' as number for new Return Propose");
+            logger.error("Return Propose Rule (from CONTRACT_OPENED event) must contain 'return_quantity' as number for new Return Propose");
             throw new RuleException(
-                "Return Propose Rule must contain 'return quantity' as number for new Return Propose");
+                "Return Propose Rule (from CONTRACT_OPENED event) must contain 'return_quantity' as number for new Return Propose");
+        }
+        ReturnProposal returnProposal = new ReturnProposal();
+        returnProposal.quantity(quantity)
+            .returnDate(LocalDate.now())
+            .returnSettlementDate(LocalDate.now())
+            .collateralValue(contract.getTrade().getCollateral().getCollateralValue())
+            .settlementType(contract.getTrade().getSettlementType());
+        return returnProposal;
+    }
+
+    private static void processByProposeRule(Long startTime, ReturnProposeFromRecallRule rule, Contract contract)
+        throws APIException {
+        waitForDelay(startTime, rule.getDelay());
+        ReturnProposal returnProposal = buildReturnProposal(contract, rule);
+        APIConnector.proposeReturn(OneSourceToken.getToken(), contract.getContractId(), returnProposal);
+    }
+
+    private static ReturnProposal buildReturnProposal(Contract contract, ReturnProposeFromRecallRule rule) {
+        Set<String> ruleReturnQuantity = rule.getRecallQuantity();
+        Integer quantity;
+        try {
+            quantity = Integer.parseInt(ruleReturnQuantity.stream().findFirst().get());
+        } catch (NumberFormatException | NoSuchElementException e) {
+            logger.error("Return Propose Rule (from RECALL_OPENED event) must contain 'recall_quantity' as number for new Return Propose");
+            throw new RuleException(
+                "Return Propose Rule (from RECALL_OPENED event) must contain 'recall_quantity' as number for new Return Propose");
         }
         ReturnProposal returnProposal = new ReturnProposal();
         returnProposal.quantity(quantity)
@@ -130,11 +155,7 @@ public class ReturnRuleProcessor {
 
     private static void processReturnBySettlementStatusUpdateRule(Long startTime, ReturnSettlementStatusUpdateRule rule,
         String contractId, String returnId) throws APIException {
-        Double delay = rule.getDelay();
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
+        waitForDelay(startTime, rule.getDelay());
         APIConnector.instructReturnSettlementStatus(OneSourceToken.getToken(), contractId, returnId,
             SettlementStatus.SETTLED);
     }
