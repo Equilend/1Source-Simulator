@@ -39,7 +39,7 @@ public class Scheduler implements Runnable {
 
     public void run() {
         // Get generative contract rules/instructions from configurator
-        List<ContractRule> rules = configurator.getContractRules().getSchedulerRules();
+        List<ContractRule> rules = configurator.getContractRules().getContractProposeRules();
         if (rules == null || rules.size() == 0) {
             return;
         }

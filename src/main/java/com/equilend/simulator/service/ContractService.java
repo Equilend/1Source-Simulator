@@ -7,16 +7,18 @@ import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
+import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.model.contract.Contract;
 import com.equilend.simulator.model.contract.ContractProposal;
+import com.equilend.simulator.model.contract.ContractProposalApproval;
+import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.party.Party;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.settlement.PartySettlementInstruction;
+import com.equilend.simulator.model.settlement.SettlementStatus;
 import com.equilend.simulator.model.trade.TradeAgreement;
-import com.equilend.simulator.model.instrument.Instrument;
-import com.equilend.simulator.model.venue.VenueTradeAgreement;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -107,7 +109,8 @@ public class ContractService {
         // Currently, lender only provides its settlement info it only has lender settlement on contract
         //But borrower creates both lender and borrower settlement, even if lender is empty
         boolean lenderInitiated = contract.getSettlement().size() == 1;
-        Optional<TransactingParty> transactingPartyOptional = ContractService.getTransactingPartyById(contract, botPartyId);
+        Optional<TransactingParty> transactingPartyOptional = ContractService.getTransactingPartyById(contract,
+            botPartyId);
         if (lenderInitiated) {
             return transactingPartyOptional.isPresent()
                 && transactingPartyOptional.get().getPartyRole() == PartyRole.LENDER;
@@ -122,4 +125,32 @@ public class ContractService {
         return APIConnector.getContractById(EventHandler.getToken(), contractId);
     }
 
+    public static void cancelContract(String contractId) throws APIException {
+        APIConnector.cancelContract(OneSourceToken.getToken(), contractId);
+    }
+
+    public static void acceptContract(String contractId, PartyRole role)
+        throws APIException {
+        PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
+            role);
+        ContractProposalApproval contractProposalApproval = new ContractProposalApproval()
+            .settlement(partySettlementInstruction);
+        if (role == PartyRole.LENDER) {
+            contractProposalApproval = contractProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);
+        }
+        APIConnector.acceptContract(OneSourceToken.getToken(), contractId, contractProposalApproval);
+    }
+
+    public static void declineContract(String contractId) throws APIException {
+        APIConnector.declineContract(OneSourceToken.getToken(), contractId);
+    }
+
+    public static void cancelPendingContract(String contractId) throws APIException {
+        APIConnector.cancelPendingContract(OneSourceToken.getToken(), contractId);
+    }
+
+    public static void updateContractSettlementStatus(String contractId, SettlementStatus settlementStatus)
+        throws APIException {
+        APIConnector.instructContractSettlementStatus(OneSourceToken.getToken(), contractId, settlementStatus);
+    }
 }

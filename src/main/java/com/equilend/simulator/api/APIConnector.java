@@ -18,6 +18,9 @@ import com.equilend.simulator.model.returns.ReturnAcknowledgement;
 import com.equilend.simulator.model.returns.ReturnProposal;
 import com.equilend.simulator.model.settlement.SettlementStatus;
 import com.equilend.simulator.model.settlement.SettlementStatusUpdate;
+import com.equilend.simulator.model.split.ContractSplit;
+import com.equilend.simulator.model.split.ContractSplitLot;
+import com.equilend.simulator.model.split.ContractSplitLotAppoval;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -258,7 +261,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int cancelContractProposal(OneSourceToken token, String contractId) throws APIException {
+    public static int cancelContract(OneSourceToken token, String contractId) throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
@@ -290,7 +293,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int acceptContractProposal(OneSourceToken token, String contractId,
+    public static int acceptContract(OneSourceToken token, String contractId,
         ContractProposalApproval contractProposalApproval) throws APIException {
         validateAPISetting(token);
 
@@ -327,7 +330,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int declineContractProposal(OneSourceToken token, String contractId) throws APIException {
+    public static int declineContract(OneSourceToken token, String contractId) throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
@@ -358,6 +361,53 @@ public class APIConnector {
         }
         return postResponse.statusCode();
     }
+
+    public static int cancelPendingContract(OneSourceToken token, String contractId) throws APIException {
+        validateAPISetting(token);
+        HttpResponse<String> postResponse;
+        try {
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/cancelpending"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending cancel pending contract post request for contractId " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
+    }
+
+    public static int instructContractSettlementStatus(OneSourceToken token, String contractId,
+        SettlementStatus status) throws APIException {
+        validateAPISetting(token);
+
+        SettlementStatusUpdate settlementStatusUpdate = new SettlementStatusUpdate().settlementStatus(
+            status);
+        HttpResponse<String> patchResponse;
+        try {
+            String body = gson.toJson(settlementStatusUpdate);
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
+                .build();
+            patchResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending settlement contract status update post request for contractId " + contractId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(patchResponse);
+
+        return patchResponse.statusCode();
+    }
+
 
     public static List<Rerate> getAllRerates(OneSourceToken token) throws APIException {
         validateAPISetting(token);
@@ -844,7 +894,8 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int proposeBuyin(OneSourceToken token, String contractId, BuyinCompleteRequest buyinCompleteRequest) throws APIException {
+    public static int proposeBuyin(OneSourceToken token, String contractId, BuyinCompleteRequest buyinCompleteRequest)
+        throws APIException {
         validateAPISetting(token);
 
         HttpResponse<String> postResponse;
@@ -852,7 +903,8 @@ public class APIConnector {
             String body = gson.toJson(buyinCompleteRequest);
             HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/contracts/" + contractId + "/buyins/completes"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.ofString(body))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -885,14 +937,16 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), Recall.class);
     }
 
-    public static int proposeRecall(OneSourceToken token, String contractId, RecallProposal recallProposal) throws APIException {
+    public static int proposeRecall(OneSourceToken token, String contractId, RecallProposal recallProposal)
+        throws APIException {
         validateAPISetting(token);
         HttpResponse<String> postResponse;
         try {
             String body = gson.toJson(recallProposal);
             HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/contracts/" + contractId + "/recalls"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.ofString(body))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -917,6 +971,69 @@ public class APIConnector {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             String message = "Error with sending cancel recall post request for recallId " + recallId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
+    }
+
+    public static ContractSplit getSplit(OneSourceToken token, String contractId, String splitId)
+        throws APIException {
+        HttpResponse<String> getResponse;
+        try {
+            HttpRequest getRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/split/" + splitId))
+                .header("Authorization", "Bearer " + token.getAccessToken()).build();
+            getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending split get request for splitId " + splitId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(getResponse);
+
+        return gson.fromJson(getResponse.body(), ContractSplit.class);
+    }
+
+    public static int approveSplit(OneSourceToken token, String contractId, String splitId, List<ContractSplitLotAppoval> splitLotAppovals) throws APIException {
+        validateAPISetting(token);
+        HttpResponse<String> postResponse;
+        try {
+            String body = gson.toJson(splitLotAppovals);
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/split/" + splitId + "/approve"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending approve split post request for splitId " + splitId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        isSuccess(postResponse);
+
+        return postResponse.statusCode();
+    }
+
+    public static int proposeSplit(OneSourceToken token, String contractId, List<ContractSplitLot> splitLots)
+        throws APIException {
+        validateAPISetting(token);
+        HttpResponse<String> postResponse;
+        try {
+            String body = gson.toJson(splitLots);
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/split"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending split post request for contractId " + contractId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }

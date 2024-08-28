@@ -4,11 +4,13 @@ incoming = {
     (event_type: CONTRACT, action: I)
     (event_type: CONTRACT_OPENED, action: D)
     (event_type: CONTRACT_APPROVE, action: I)
+    (event_type: CONTRACT_PENDING, action: D)
     (event_type: RERATE, action: I)
     (event_type: RERATE_PENDING, action: I)
     (event_type: RETURN_PENDING, action: I)
     (event_type: BUYIN_PENDING, action: I)
     (event_type: RECALL_OPENED, action: I)
+    (event_type: CONTRACT_SPLIT_PROPOSED, action: D)
     (event_type: *, action: I)
 }
 
@@ -45,17 +47,24 @@ outgoing = {
     (bot_party_role: LENDER, cpty: TBORR-US, security: AMZN | GOOG, quantity: 1000, delay: 10, period: 5, duration: 0)
     (bot_party_role: LENDER, cpty: TBORR-US, security: JPM | IBM, quantity: 1000, delay: 10, period: 5, duration: 0)
 }
+<common>
+cancel_pending = {
+    (cpty: *, security: *, quantity: *, action: I, delay: 0)
+}
+update_settlement = {
+    (cpty: *, security: *, quantity: *, action: US, delay: 0)
+}
 
 [[RERATES]]
 analysis_mode = 0
 <recipient>
 approve = {
-    (cpty: *, security: *, rate: (-inf, AVG), action: A, delay: 0)
-    (cpty: *, security: *, rate: [AVG, inf], action: R, delay: 0)
+    (cpty: *, security: *, rate: (-inf, AVG), action: I, delay: 0)
+    (cpty: *, security: *, rate: [AVG, inf], action: I, delay: 0)
 }
 <initiator>
 cancel = {
-    (cpty: *, security: *, rate: *, action: C, delay: 0)
+    (cpty: *, security: *, rate: *, action: I, delay: 0)
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
 }
 propose = {
@@ -63,7 +72,7 @@ propose = {
 }
 <common>
 cancel_pending = {
-    (cpty: *, security: *, rate: *, action: CP, delay: 0)
+    (cpty: *, security: *, rate: *, action: I, delay: 0)
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
 }
 
@@ -92,10 +101,10 @@ update_settlement = {
 analysis_mode = 0
 <initiator>
 recall = {
-    (cpty: *, security: *, open_quantity: *, recall_quantity:500, action: R, delay: 0)
+    (cpty: *, security: *, open_quantity: *, recall_quantity:500, action: I, delay: 0)
 }
 cancel = {
-    (cpty: *, security: *, open_quantity: *, recall_quantity:*, action: C, delay: 0)
+    (cpty: *, security: *, open_quantity: *, recall_quantity:*, action: I, delay: 0)
 }
 
 [[BUYINS]]
@@ -107,4 +116,15 @@ accept = {
 <initiator>
 submit = {
     (cpty: *, security: *, buyin_quantity: 100, price: 100, action: I, delay: 0)
+}
+
+[[SPLITS]]
+analysis_mode = 0
+<recipient>
+approve = {
+    (cpty: *, security: *, open_quantity: *, action: I, delay: 0)
+}
+<initiator>
+split = {
+    (cpty: *, security: *, open_quantity: *, split_lot: 500|200|100, action: P, delay: 0)
 }

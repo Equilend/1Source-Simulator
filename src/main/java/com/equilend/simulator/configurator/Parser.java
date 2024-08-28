@@ -8,6 +8,7 @@ import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
+import com.equilend.simulator.configurator.rules.split_rules.SplitRules;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -183,6 +184,9 @@ public class Parser {
                     break;
                 case "BUYINS":
                     rules.put(header, new BuyinRules(sectionRulesMap));
+                    break;
+                case "SPLITS":
+                    rules.put(header, new SplitRules(sectionRulesMap));
                     break;
                 default:
                     logger.error("Error reading rules file, unrecognized section header");
