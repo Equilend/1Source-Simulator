@@ -60,12 +60,10 @@ public class ReturnRuleProcessor {
     private static void processReturnByAcknowledgeRule(Long startTime, ReturnAcknowledgeRule rule, Contract contract,
         String returnId) throws APIException {
         if (rule.shouldAcknowledgePositively()) {
-            //TODO Send positive ack
             Double delay = rule.getDelay();
             postReturnAcknowledgement(contract, returnId, startTime, delay, AcknowledgementType.POSITIVE);
         }
         if (rule.shouldAcknowledgeNegatively()) {
-            //TODO Send negative ack
             Double delay = rule.getDelay();
             postReturnAcknowledgement(contract, returnId, startTime, delay, AcknowledgementType.NEGATIVE);
         }

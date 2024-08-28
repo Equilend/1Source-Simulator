@@ -9,10 +9,10 @@ import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
 import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
-import com.equilend.simulator.configurator.rules.recall_rules.RecallRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
+import com.equilend.simulator.configurator.rules.split_rules.SplitRules;
 import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.party.Party;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -38,6 +38,7 @@ public class Configurator {
     private ReturnRules returnRules;
     private RecallRules recallRules;
     private BuyinRules buyinRules;
+    private SplitRules splitRules;
     private Properties properties;
 
     public Configurator(Properties props) {
@@ -153,6 +154,9 @@ public class Configurator {
                 case "BUYINS":
                     buyinRules = (BuyinRules) rules.get(section);
                     break;
+                case "SPLITS":
+                    splitRules = (SplitRules) rules.get(section);
+                    break;
                 default:
                     logger.error("Unrecognized rules section header");
             }
@@ -196,11 +200,15 @@ public class Configurator {
         return buyinRules;
     }
 
+    public SplitRules getSplitRules() {
+        return splitRules;
+    }
+
     public String getBotPartyId() {
         return properties.getProperty("bot_party_id");
     }
 
     public long getEventFetchIntervalMillis() {
-        return Long.parseLong(properties.getProperty("event_fetch_interval_secs"))*1000;
+        return Long.parseLong(properties.getProperty("event_fetch_interval_secs")) * 1000;
     }
 }

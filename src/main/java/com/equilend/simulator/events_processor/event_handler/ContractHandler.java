@@ -1,25 +1,30 @@
 package com.equilend.simulator.events_processor.event_handler;
 
-import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
+import static com.equilend.simulator.service.ContractService.acceptContract;
+import static com.equilend.simulator.service.ContractService.cancelContract;
+import static com.equilend.simulator.service.ContractService.declineContract;
 import static com.equilend.simulator.service.ContractService.getContractById;
+import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 
-import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractApproveRejectRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractCancelRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractPendingCancelRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractPendingUpdateRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallProposeRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromContractRule;
+import com.equilend.simulator.configurator.rules.split_rules.SplitProposeRule;
 import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.contract.ContractProposalApproval;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
+import com.equilend.simulator.rules_processor.ContractRuleProcessor;
 import com.equilend.simulator.rules_processor.RecallRuleProcessor;
 import com.equilend.simulator.rules_processor.RerateRuleProcessor;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
+import com.equilend.simulator.rules_processor.SplitRuleProcessor;
 import com.equilend.simulator.service.ContractService;
-import com.equilend.simulator.service.SettlementService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,52 +43,6 @@ public class ContractHandler implements EventHandler {
         this.startTime = startTime;
     }
 
-    public static void cancelContractProposal(String contractId, Long startTime, Double delay) {
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
-
-        try {
-            APIConnector.cancelContractProposal(EventHandler.getToken(), contractId);
-        } catch (APIException e) {
-            logger.debug("Unable to process contract event");
-        }
-    }
-
-    public static void acceptContractProposal(String contractId, PartyRole role, Long startTime, Double delay) {
-        PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
-            role);
-        ContractProposalApproval contractProposalApproval = new ContractProposalApproval()
-            .settlement(partySettlementInstruction);
-        if (role == PartyRole.LENDER) {
-            contractProposalApproval = contractProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);
-        }
-
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
-
-        try {
-            APIConnector.acceptContractProposal(EventHandler.getToken(), contractId, contractProposalApproval);
-        } catch (APIException e) {
-            logger.debug("Unable to process contract event");
-        }
-    }
-
-    public static void declineContractProposal(String contractId, Long startTime, Double delay) {
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
-
-        try {
-            APIConnector.declineContractProposal(EventHandler.getToken(), contractId);
-        } catch (APIException e) {
-            logger.debug("Unable to process contract event");
-        }
-    }
 
     public void run() {
         //Parse contract id
@@ -102,25 +61,16 @@ public class ContractHandler implements EventHandler {
             switch (event.getEventType()) {
                 case CONTRACT_PROPOSED:
                     if (isInitiator) {
-                        Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
-                        if (delay == -1) {
-                            return;
-                        }
-                        cancelContractProposal(contractId, startTime, delay);
+                        ContractCancelRule contractCancelRule = configurator.getContractRules()
+                            .getContractCancelRule(contract, botPartyId);
+                        if (contractCancelRule != null && contractCancelRule.shouldCancel()) {
+                            ContractRuleProcessor.process(startTime, contractCancelRule, contract);
+                          }
                     } else {
-                        //Analyze contract to decide whether to accept or decline based on configurator
-                        ContractResponsiveRule rule = configurator.getContractRules()
-                            .getApproveOrRejectApplicableRule(contract, botPartyId);
-                        if (rule != null) {
-                            if (rule.isShouldApprove()) {
-                                PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId)
-                                    .get()
-                                    .getPartyRole();
-                                acceptContractProposal(contractId, partyRole, startTime,
-                                    rule.getDelay());
-                            } else {
-                                declineContractProposal(contractId, startTime, rule.getDelay());
-                            }
+                        ContractApproveRejectRule contractApproveRejectRule = configurator.getContractRules()
+                            .getContractApproveRejectRule(contract, botPartyId);
+                        if (contractApproveRejectRule != null && !contractApproveRejectRule.shouldIgnore()) {
+                            ContractRuleProcessor.process(startTime, contractApproveRejectRule, contract, botPartyId);
                         }
                     }
                     break;
@@ -146,12 +96,35 @@ public class ContractHandler implements EventHandler {
                             RecallRuleProcessor.process(startTime, recallProposeRule, contract, null);
                             return;
                         }
+
+                        SplitProposeRule splitProposeRule = configurator.getSplitRules()
+                            .getSplitProposeRule(contract, botPartyId);
+                        if (splitProposeRule != null && splitProposeRule.shouldPropose()) {
+                            SplitRuleProcessor.process(startTime, splitProposeRule, contract, null);
+                            return;
+                        }
+                    }
+                    break;
+
+                case CONTRACT_PENDING:
+                    ContractPendingCancelRule contractPendingCancelRule = configurator.getContractRules()
+                        .getContractPendingCancelRule(contract, botPartyId);
+                    if (contractPendingCancelRule != null && contractPendingCancelRule.shouldCancel()) {
+                        ContractRuleProcessor.process(startTime, contractPendingCancelRule, contract);
+                        return;
+                    }
+
+                    ContractPendingUpdateRule contractPendingUpdateRule = configurator.getContractRules()
+                        .getContractPendingUpdateRule(contract, botPartyId);
+                    if (contractPendingUpdateRule != null && contractPendingUpdateRule.shouldUpdate()) {
+                        ContractRuleProcessor.process(startTime, contractPendingUpdateRule, contract);
+                        return;
                     }
                     break;
                 default:
                     throw new RuntimeException("event type not supported");
             }
-        }catch (APIException e){
+        } catch (APIException e) {
             logger.debug("Unable to process contract event", e);
         }
 

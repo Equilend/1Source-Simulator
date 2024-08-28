@@ -1,12 +1,16 @@
 package com.equilend.simulator.record_analyzer;
 
+import static com.equilend.simulator.service.ContractService.acceptContract;
+import static com.equilend.simulator.service.ContractService.cancelContract;
+import static com.equilend.simulator.service.ContractService.declineContract;
 import static com.equilend.simulator.service.RerateService.postRerateProposal;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractResponsiveRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractApproveRejectRule;
+import com.equilend.simulator.configurator.rules.contract_rules.ContractCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
@@ -146,26 +150,29 @@ public class RecordAnalyzer {
             if (contracts != null) {
                 for (Contract contract : contracts) {
                     //determine whether will consider as initiator or as recipient
+                    try {
                     if (ContractService.isInitiator(contract, botPartyId)) {
-                        Double delay = configurator.getContractRules().shouldIgnoreTrade(contract, botPartyId);
-                        if (delay == -1.0) {
-                            continue;
+                        ContractCancelRule contractCancelRule = configurator.getContractRules()
+                            .getContractCancelRule(contract, botPartyId);
+                        if (contractCancelRule != null && contractCancelRule.shouldCancel()) {
+                            cancelContract(contract.getContractId());
                         }
-                        ContractHandler.cancelContractProposal(contract.getContractId(), 0L, 0.0);
                     } else {
-                        ContractResponsiveRule rule = configurator.getContractRules()
-                            .getApproveOrRejectApplicableRule(contract, botPartyId);
+                        ContractApproveRejectRule rule = configurator.getContractRules()
+                            .getContractApproveRejectRule(contract, botPartyId);
                         if (rule == null) {
                             continue;
                         }
-                        if (rule.isShouldApprove()) {
+                        if (rule.shouldApprove()) {
                             PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId).get()
                                 .getPartyRole();
-                            ContractHandler.acceptContractProposal(contract.getContractId(),
-                                partyRole, 0L, 0.0);
+                            acceptContract(contract.getContractId(), partyRole);
                         } else {
-                            ContractHandler.declineContractProposal(contract.getContractId(), 0L, 0.0);
+                            declineContract(contract.getContractId());
                         }
+                    }
+                    } catch (APIException e) {
+                        logger.error("Unable to process contract", e);
                     }
                 }
             }

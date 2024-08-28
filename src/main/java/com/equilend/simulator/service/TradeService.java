@@ -2,6 +2,7 @@ package com.equilend.simulator.service;
 
 import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
 
+import com.equilend.simulator.model.party.InternalReference;
 import com.equilend.simulator.model.party.Party;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.party.TransactingParties;
@@ -21,6 +22,7 @@ import com.equilend.simulator.model.venue.VenueTradeAgreement;
 import com.equilend.simulator.model.venue.Venues;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 public class TradeService {
 
@@ -111,11 +113,13 @@ public class TradeService {
         TransactingParty botTransactingParty = new TransactingParty();
         botTransactingParty.setPartyRole(partyRole);
         botTransactingParty.setParty(party);
+        botTransactingParty.setInternalRef(new InternalReference().internalRefId(UUID.randomUUID().toString()));
         transactingParties.add(botTransactingParty);
         TransactingParty counterTransactingParty = new TransactingParty();
         PartyRole counterpartyRole = partyRole == PartyRole.LENDER ? PartyRole.BORROWER : PartyRole.LENDER;
         counterTransactingParty.setPartyRole(counterpartyRole);
         counterTransactingParty.setParty(counterparty);
+        counterTransactingParty.setInternalRef(new InternalReference().internalRefId(UUID.randomUUID().toString()));
         transactingParties.add(counterTransactingParty);
 
         TradeAgreement tradeAgreement = new TradeAgreement()

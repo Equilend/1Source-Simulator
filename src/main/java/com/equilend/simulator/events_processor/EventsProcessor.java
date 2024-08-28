@@ -10,6 +10,7 @@ import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.events_processor.event_handler.RecallHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.ReturnsHandler;
+import com.equilend.simulator.events_processor.event_handler.SplitHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.event.EventType;
@@ -96,6 +97,7 @@ public class EventsProcessor implements Runnable {
                         break;
                     case CONTRACT_OPENED:
                     case CONTRACT_PROPOSED:
+                    case CONTRACT_PENDING:
                         task = new ContractHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case RERATE_PROPOSED:
@@ -110,6 +112,9 @@ public class EventsProcessor implements Runnable {
                         break;
                     case RECALL_OPENED:
                         task = new RecallHandler(event, configurator, System.currentTimeMillis());
+                        break;
+                    case CONTRACT_SPLIT_PROPOSED:
+                        task = new SplitHandler(event, configurator, System.currentTimeMillis());
                         break;
                 }
 
