@@ -1,8 +1,8 @@
 package com.equilend.simulator.configurator.rules.return_rules;
 
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.returns.Return;
+import com.equilend.simulator.model.loan.Loan;
+import com.equilend.simulator.model.returns.ModelReturn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ public class ReturnRules implements Rules {
     private static final Logger logger = LogManager.getLogger(ReturnRules.class.getName());
     private final List<ReturnRule> acknowledgeRules = new ArrayList<>();
     private final List<ReturnRule> cancelRules = new ArrayList<>();
-    private final List<ReturnRule> proposeFromContractRules = new ArrayList<>();
+    private final List<ReturnRule> proposeFromLoanRules = new ArrayList<>();
     private final List<ReturnRule> proposeFromReturnRules = new ArrayList<>();
     private final List<ReturnRule> settlementStatusUpdateRules = new ArrayList<>();
     private final boolean analysisMode;
@@ -24,7 +24,7 @@ public class ReturnRules implements Rules {
     private enum ReturnRuleType {
         ACKNOWLEDGE,
         CANCEL,
-        PROPOSE_FROM_CONTRACT,
+        PROPOSE_FROM_LOAN,
         PROPOSE_FROM_RECALL,
         UPDATE;
     }
@@ -32,7 +32,7 @@ public class ReturnRules implements Rules {
         analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         addRules(rulesMap.get("recipient").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
         addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
-        addRules(rulesMap.get("initiator").get("return"), proposeFromContractRules, ReturnRuleType.PROPOSE_FROM_CONTRACT);
+        addRules(rulesMap.get("initiator").get("return"), proposeFromLoanRules, ReturnRuleType.PROPOSE_FROM_LOAN);
         addRules(rulesMap.get("initiator").get("return_from_recall"), proposeFromReturnRules, ReturnRuleType.PROPOSE_FROM_RECALL);
         addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
     }
@@ -58,8 +58,8 @@ public class ReturnRules implements Rules {
                 case CANCEL:
                     rule = new ReturnCancelRule(ruleStr);
                     break;
-                case PROPOSE_FROM_CONTRACT:
-                    rule = new ReturnProposeFromContractRule(ruleStr);
+                case PROPOSE_FROM_LOAN:
+                    rule = new ReturnProposeFromLoanRule(ruleStr);
                     break;
                 case PROPOSE_FROM_RECALL:
                     rule = new ReturnProposeFromRecallRule(ruleStr);
@@ -76,55 +76,55 @@ public class ReturnRules implements Rules {
         }
     }
 
-    public ReturnAcknowledgeRule getReturnAcknowledgeRule(Return oneSourceReturn, Contract contract,
+    public ReturnAcknowledgeRule getReturnAcknowledgeRule(ModelReturn oneSourceReturn, Loan loan,
         String botPartyId) {
         for (ReturnRule rule : acknowledgeRules) {
             ReturnAcknowledgeRule acknowledgeRule = (ReturnAcknowledgeRule) rule;
-            if (acknowledgeRule.isApplicable(oneSourceReturn, contract, botPartyId)) {
+            if (acknowledgeRule.isApplicable(oneSourceReturn, loan, botPartyId)) {
                 return acknowledgeRule;
             }
         }
         return null;
     }
 
-    public ReturnCancelRule getReturnCancelRule(Return oneSourceReturn, Contract contract,
+    public ReturnCancelRule getReturnCancelRule(ModelReturn oneSourceReturn, Loan loan,
         String botPartyId) {
         for (ReturnRule rule : cancelRules) {
             ReturnCancelRule returnCancelRule = (ReturnCancelRule) rule;
-            if (returnCancelRule.isApplicable(oneSourceReturn, contract, botPartyId)) {
+            if (returnCancelRule.isApplicable(oneSourceReturn, loan, botPartyId)) {
                 return returnCancelRule;
             }
         }
         return null;
     }
 
-    public ReturnProposeFromContractRule getReturnProposeFromContractRule(Contract contract,
+    public ReturnProposeFromLoanRule getReturnProposeFromLoanRule(Loan loan,
         String botPartyId) {
-        for (ReturnRule rule : proposeFromContractRules) {
-            ReturnProposeFromContractRule returnProposeRule = (ReturnProposeFromContractRule) rule;
-            if (returnProposeRule.isApplicable(contract, botPartyId)) {
+        for (ReturnRule rule : proposeFromLoanRules) {
+            ReturnProposeFromLoanRule returnProposeRule = (ReturnProposeFromLoanRule) rule;
+            if (returnProposeRule.isApplicable(loan, botPartyId)) {
                 return returnProposeRule;
             }
         }
         return null;
     }
 
-    public ReturnProposeFromRecallRule getReturnProposeFromRecallRule(Contract contract,
+    public ReturnProposeFromRecallRule getReturnProposeFromRecallRule(Loan loan,
         String botPartyId) {
         for (ReturnRule rule : proposeFromReturnRules) {
             ReturnProposeFromRecallRule returnProposeRule = (ReturnProposeFromRecallRule) rule;
-            if (returnProposeRule.isApplicable(contract, botPartyId)) {
+            if (returnProposeRule.isApplicable(loan, botPartyId)) {
                 return returnProposeRule;
             }
         }
         return null;
     }
 
-    public ReturnSettlementStatusUpdateRule getReturnSettlementStatusUpdateRule(Return oneSourceReturn, Contract contract,
+    public ReturnSettlementStatusUpdateRule getReturnSettlementStatusUpdateRule(ModelReturn oneSourceReturn, Loan loan,
         String botPartyId) {
         for (ReturnRule rule : settlementStatusUpdateRules) {
             ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = (ReturnSettlementStatusUpdateRule) rule;
-            if (returnSettlementStatusUpdateRule.isApplicable(oneSourceReturn, contract, botPartyId)) {
+            if (returnSettlementStatusUpdateRule.isApplicable(oneSourceReturn, loan, botPartyId)) {
                 return returnSettlementStatusUpdateRule;
             }
         }

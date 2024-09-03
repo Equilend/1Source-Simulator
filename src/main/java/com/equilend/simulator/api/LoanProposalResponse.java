@@ -1,6 +1,6 @@
 package com.equilend.simulator.api;
 
-public class ContractProposalResponse {
+public class LoanProposalResponse {
 
     private String resourceUri;
 
@@ -12,7 +12,7 @@ public class ContractProposalResponse {
         this.resourceUri = resourceUri;
     }
 
-    public String getContractId() {
+    public String getLoanId() {
         String uri = resourceUri;
         String[] arr = uri.split("/");
 

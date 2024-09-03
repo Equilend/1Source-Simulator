@@ -3,11 +3,11 @@ package com.equilend.simulator.scheduler;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.contract.ContractProposal;
+import com.equilend.simulator.model.loan.LoanProposal;
 import com.equilend.simulator.model.party.Party;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.instrument.Instrument;
-import com.equilend.simulator.service.ContractService;
+import com.equilend.simulator.service.LoanService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +37,7 @@ public class ScheduledEventHandler implements Runnable {
         try {
             token = OneSourceToken.getToken();
         } catch (APIException e) {
-            logger.error("Unable to propose scheduled contract proposal due to error with token");
+            logger.error("Unable to propose scheduled loan proposal due to error with token");
             return;
         }
 
@@ -49,11 +49,11 @@ public class ScheduledEventHandler implements Runnable {
         }
 
         try {
-            ContractProposal proposal = ContractService.createContractProposal(botPartyRole, botParty, counterparty,
+            LoanProposal proposal = LoanService.createLoanProposal(botPartyRole, botParty, counterparty,
                 security, quantity, idType);
-            APIConnector.postContractProposal(token, proposal);
+            APIConnector.postLoanProposal(token, proposal);
         } catch (APIException e) {
-            logger.info("Unable to propose scheduled contract proposal: " + e.getMessage());
+            logger.info("Unable to propose scheduled loan proposal: " + e.getMessage());
         }
     }
 

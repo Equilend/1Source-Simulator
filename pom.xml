@@ -164,7 +164,7 @@
         <configuration>
           <language>java</language>
           <library>resttemplate</library>
-          <inputSpec>https://api.swaggerhub.com/apis/1SOURCE/1SOURCE-LEDGER-API/1.0.5</inputSpec>
+          <inputSpec>https://api.swaggerhub.com/apis/1SOURCE/1SOURCE-LEDGER-API/1.1.0</inputSpec>
           <output>${project.build.directory}/generated-sources/swagger</output>
           <modelPackage>${project.groupId}.dto</modelPackage>
 <!--          <modelNameSuffix>DTO</modelNameSuffix>-->

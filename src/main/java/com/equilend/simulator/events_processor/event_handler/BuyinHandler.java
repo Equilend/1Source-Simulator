@@ -1,16 +1,16 @@
 package com.equilend.simulator.events_processor.event_handler;
 
 import static com.equilend.simulator.service.BuyinService.getBuyinById;
-import static com.equilend.simulator.service.ContractService.getContractById;
+import static com.equilend.simulator.service.LoanService.getLoanById;
 
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
 import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
-import com.equilend.simulator.service.ContractService;
+import com.equilend.simulator.service.LoanService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +30,7 @@ public class BuyinHandler implements EventHandler {
     }
 
     public void run() {
-        //Parse contract id
+        //Parse loan id
         String uri = event.getResourceUri();
         String[] arr = uri.split("/");
         String buyinId = arr[arr.length - 1];
@@ -41,19 +41,19 @@ public class BuyinHandler implements EventHandler {
                 logger.warn("Buyin with id " + buyinId + " not found");
                 return;
             }
-            Contract contract = getContractById(buyin.getContractId());
-            if (contract == null) {
-                logger.warn("Contract with id " + buyin.getContractId() + " not found");
+            Loan loan = getLoanById(buyin.getLoanId());
+            if (loan == null) {
+                logger.warn("Loan with id " + buyin.getLoanId() + " not found");
                 return;
             }
-            boolean isInitiator = ContractService.isInitiator(contract, botPartyId);
+            boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
             switch (event.getEventType()) {
                 case BUYIN_PENDING:
                     if(!isInitiator) {
                         BuyinAcceptRule buyinAcceptRule = configurator.getBuyinRules()
-                            .getBuyinAcceptRule(buyin, contract, botPartyId);
+                            .getBuyinAcceptRule(buyin, loan, botPartyId);
                         if (buyinAcceptRule != null && buyinAcceptRule.shouldAccept()) {
-                            BuyinRuleProcessor.process(startTime, buyinAcceptRule, contract, buyin);
+                            BuyinRuleProcessor.process(startTime, buyinAcceptRule, loan, buyin);
                             return;
                         }
                     }

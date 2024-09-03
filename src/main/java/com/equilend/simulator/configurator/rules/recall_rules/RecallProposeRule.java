@@ -4,9 +4,8 @@ import static com.equilend.simulator.configurator.rules.RulesParser.parseLogical
 
 import com.equilend.simulator.configurator.rules.RuleException;
 import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
 import java.util.List;
@@ -36,8 +35,8 @@ public class RecallProposeRule implements RecallRule {
         delay = Double.parseDouble(args.get(5));
     }
 
-    public boolean isApplicable(Contract contract, String partyId) {
-        TradeAgreement trade = contract.getTrade();
+    public boolean isApplicable(Loan loan, String partyId) {
+        TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         return RuleValidator.validCounterparty(counterparties, cpty) &&
             RuleValidator.validSecurity(securities, trade.getInstrument())

@@ -1,6 +1,6 @@
 package com.equilend.simulator.events_processor.event_handler;
 
-import static com.equilend.simulator.service.ContractService.getContractById;
+import static com.equilend.simulator.service.LoanService.getLoanById;
 import static com.equilend.simulator.service.ReturnService.getReturnById;
 
 import com.equilend.simulator.api.APIException;
@@ -8,11 +8,11 @@ import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.returns.Return;
+import com.equilend.simulator.model.returns.ModelReturn;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
-import com.equilend.simulator.service.ContractService;
+import com.equilend.simulator.service.LoanService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,34 +36,34 @@ public class ReturnsHandler implements EventHandler {
         String[] arr = uri.split("/");
         String returnId = arr[arr.length - 1];
         try {
-            Return oneSourceReturn = getReturnById(returnId);
+            ModelReturn oneSourceReturn = getReturnById(returnId);
             if (oneSourceReturn == null) {
                 return;
             }
-            Contract contract = getContractById(oneSourceReturn.getContractId());
-            boolean isInitiator = ContractService.isInitiator(contract, botPartyId);
+            Loan loan = getLoanById(oneSourceReturn.getLoanId());
+            boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
 
             switch (event.getEventType()) {
                 case RETURN_PENDING:
 
                     ReturnAcknowledgeRule acknowledgeRule = configurator.getReturnRules()
-                        .getReturnAcknowledgeRule(oneSourceReturn, contract, botPartyId);
+                        .getReturnAcknowledgeRule(oneSourceReturn, loan, botPartyId);
                     if (!isInitiator && acknowledgeRule != null && !acknowledgeRule.isIgnored()) {
-                        ReturnRuleProcessor.process(startTime, acknowledgeRule, contract, oneSourceReturn);
+                        ReturnRuleProcessor.process(startTime, acknowledgeRule, loan, oneSourceReturn);
                         return;
                     }
 
                     ReturnCancelRule cancelRule = configurator.getReturnRules()
-                        .getReturnCancelRule(oneSourceReturn, contract, botPartyId);
+                        .getReturnCancelRule(oneSourceReturn, loan, botPartyId);
                     if (isInitiator && cancelRule != null && !cancelRule.isIgnored()) {
-                        ReturnRuleProcessor.process(startTime, cancelRule, contract, oneSourceReturn);
+                        ReturnRuleProcessor.process(startTime, cancelRule, loan, oneSourceReturn);
                         return;
                     }
 
                     ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = configurator.getReturnRules()
-                        .getReturnSettlementStatusUpdateRule(oneSourceReturn, contract, botPartyId);
+                        .getReturnSettlementStatusUpdateRule(oneSourceReturn, loan, botPartyId);
                     if (returnSettlementStatusUpdateRule != null && !returnSettlementStatusUpdateRule.isIgnored()) {
-                        ReturnRuleProcessor.process(startTime, returnSettlementStatusUpdateRule, contract,
+                        ReturnRuleProcessor.process(startTime, returnSettlementStatusUpdateRule, loan,
                             oneSourceReturn);
                         return;
                     }

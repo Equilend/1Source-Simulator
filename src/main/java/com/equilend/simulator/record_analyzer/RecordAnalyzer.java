@@ -1,24 +1,23 @@
 package com.equilend.simulator.record_analyzer;
 
-import static com.equilend.simulator.service.ContractService.acceptContract;
-import static com.equilend.simulator.service.ContractService.cancelContract;
-import static com.equilend.simulator.service.ContractService.declineContract;
+import static com.equilend.simulator.service.LoanService.acceptLoan;
+import static com.equilend.simulator.service.LoanService.cancelLoan;
+import static com.equilend.simulator.service.LoanService.declineLoan;
 import static com.equilend.simulator.service.RerateService.postRerateProposal;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractApproveRejectRule;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractCancelRule;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanApproveRejectRule;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
-import com.equilend.simulator.events_processor.event_handler.ContractHandler;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.service.ContractService;
+import com.equilend.simulator.service.LoanService;
 import com.equilend.simulator.service.RerateService;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -30,43 +29,43 @@ public class RecordAnalyzer {
     private Configurator configurator;
     private String botPartyId;
     private boolean rerateAnalysisMode;
-    private boolean contractAnalysisMode;
-    private String contractStartDate;
+    private boolean loanAnalysisMode;
+    private String loanStartDate;
 
     public RecordAnalyzer(Configurator configurator) {
         this.configurator = configurator;
         this.botPartyId = configurator.getBotPartyId();
         this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
-        this.contractAnalysisMode = configurator.getContractRules().getAnalysisMode();
-        this.contractStartDate = configurator.getContractRules().getAnalysisStartDate();
+        this.loanAnalysisMode = configurator.getLoanRules().getAnalysisMode();
+        this.loanStartDate = configurator.getLoanRules().getAnalysisStartDate();
     }
 
-    private Contract getContractById(String contractId) {
-        Contract contract = null;
+    private Loan getLoanById(String loanId) {
+        Loan loan = null;
         try {
-            contract = APIConnector.getContractById(OneSourceToken.getToken(), contractId);
+            loan = APIConnector.getLoanById(OneSourceToken.getToken(), loanId);
         } catch (APIException e) {
-            logger.error("Analyzer unable to retrieve contract {}", contractId);
+            logger.error("Analyzer unable to retrieve loan {}", loanId);
         }
-        return contract;
+        return loan;
     }
 
-    private List<Contract> getContracts(String status) {
-        List<Contract> contracts = null;
+    private List<Loan> getLoans(String status) {
+        List<Loan> loans = null;
         try {
-            contracts = APIConnector.getAllContracts(OneSourceToken.getToken(), status, contractStartDate);
+            loans = APIConnector.getAllLoans(OneSourceToken.getToken(), status, loanStartDate);
         } catch (APIException e) {
-            logger.error("Analyzer unable to retrieve approved contracts");
+            logger.error("Analyzer unable to retrieve approved loans");
         }
-        return contracts;
+        return loans;
     }
 
-    private List<Rerate> getOpenReratesOnContract(String contractId) {
+    private List<Rerate> getOpenReratesOnLoan(String loanId) {
         List<Rerate> rerates = null;
         try {
-            rerates = APIConnector.getAllReratesOnContract(OneSourceToken.getToken(), contractId);
+            rerates = APIConnector.getAllReratesOnLoan(OneSourceToken.getToken(), loanId);
         } catch (APIException e) {
-            logger.error("Analyzer unable to retrieve open rerates on contract {}", contractId);
+            logger.error("Analyzer unable to retrieve open rerates on loan {}", loanId);
         }
 
         return rerates;
@@ -89,32 +88,32 @@ public class RecordAnalyzer {
             if (rerates != null) {
                 for (Rerate rerate : rerates) {
                     try {
-                        Contract contract = getContractById(rerate.getContractId());
-                        if (contract == null) {
+                        Loan loan = getLoanById(rerate.getLoanId());
+                        if (loan == null) {
                             continue;
                         }
 
-                        if (ContractService.getTransactingPartyById(contract, botPartyId).get().getPartyRole()
+                        if (LoanService.getTransactingPartyById(loan, botPartyId).get().getPartyRole()
                             == PartyRole.BORROWER) {
                             // if bot is lender => initiator => cancel/ignore rules
                             RerateCancelRule rule = configurator.getRerateRules()
-                                .getCancelRule(rerate, contract, botPartyId);
+                                .getCancelRule(rerate, loan, botPartyId);
                             if (rule == null || !rule.shouldCancel()) {
                                 continue;
                             }
 
-                            RerateService.cancelRerateProposal(contract, rerate);
+                            RerateService.cancelRerateProposal(loan, rerate);
                         } else {
                             // if bot is borrower => recipient => approve/reject rules
                             RerateApproveRule rule = configurator.getRerateRules()
-                                .getApproveRule(rerate, contract, botPartyId);
+                                .getApproveRule(rerate, loan, botPartyId);
                             if (rule == null) {
                                 continue;
                             }
                             if (rule.shouldApprove()) {
-                                RerateService.approveRerateProposal(contract, rerate);
+                                RerateService.approveRerateProposal(loan, rerate);
                             } else {
-                                RerateService.declineRerateProposal(contract, rerate);
+                                RerateService.declineRerateProposal(loan, rerate);
                             }
                         }
                     } catch (APIException e) {
@@ -122,57 +121,57 @@ public class RecordAnalyzer {
                     }
                 }
             }
-            // Get approved contracts to consider proposing rerates
-            List<Contract> contracts = getContracts("APPROVED");
-            if (contracts != null) {
-                for (Contract contract : contracts) {
-                    List<Rerate> reratesOnContract = getOpenReratesOnContract(contract.getContractId());
-                    if (reratesOnContract.size() > 0) {
+            // Get approved loans to consider proposing rerates
+            List<Loan> loans = getLoans("APPROVED");
+            if (loans != null) {
+                for (Loan loan : loans) {
+                    List<Rerate> reratesOnLoan = getOpenReratesOnLoan(loan.getLoanId());
+                    if (reratesOnLoan.size() > 0) {
                         continue;
                     }
 
                     RerateProposeRule rule = configurator.getRerateRules()
-                        .getProposeRule(contract, configurator.getBotPartyId());
+                        .getProposeRule(loan, configurator.getBotPartyId());
                     if (rule == null || !rule.shouldPropose()) {
                         continue;
                     }
                     try {
-                        postRerateProposal(contract, 0.0);
+                        postRerateProposal(loan, 0.0);
                     } catch (APIException e) {
                         logger.error("Unable to post rerate proposal", e);
                     }
                 }
             }
         }
-        if (contractAnalysisMode) {
-            //get all proposed contracts to consider accepting/declining/cancelling
-            List<Contract> contracts = getContracts("PROPOSED");
-            if (contracts != null) {
-                for (Contract contract : contracts) {
+        if (loanAnalysisMode) {
+            //get all proposed loans to consider accepting/declining/cancelling
+            List<Loan> loans = getLoans("PROPOSED");
+            if (loans != null) {
+                for (Loan loan : loans) {
                     //determine whether will consider as initiator or as recipient
                     try {
-                    if (ContractService.isInitiator(contract, botPartyId)) {
-                        ContractCancelRule contractCancelRule = configurator.getContractRules()
-                            .getContractCancelRule(contract, botPartyId);
-                        if (contractCancelRule != null && contractCancelRule.shouldCancel()) {
-                            cancelContract(contract.getContractId());
+                    if (LoanService.isInitiator(loan, botPartyId)) {
+                        LoanCancelRule loanCancelRule = configurator.getLoanRules()
+                            .getLoanCancelRule(loan, botPartyId);
+                        if (loanCancelRule != null && loanCancelRule.shouldCancel()) {
+                            cancelLoan(loan.getLoanId());
                         }
                     } else {
-                        ContractApproveRejectRule rule = configurator.getContractRules()
-                            .getContractApproveRejectRule(contract, botPartyId);
+                        LoanApproveRejectRule rule = configurator.getLoanRules()
+                            .getLoanApproveRejectRule(loan, botPartyId);
                         if (rule == null) {
                             continue;
                         }
                         if (rule.shouldApprove()) {
-                            PartyRole partyRole = ContractService.getTransactingPartyById(contract, botPartyId).get()
+                            PartyRole partyRole = LoanService.getTransactingPartyById(loan, botPartyId).get()
                                 .getPartyRole();
-                            acceptContract(contract.getContractId(), partyRole);
+                            acceptLoan(loan.getLoanId(), partyRole);
                         } else {
-                            declineContract(contract.getContractId());
+                            declineLoan(loan.getLoanId());
                         }
                     }
                     } catch (APIException e) {
-                        logger.error("Unable to process contract", e);
+                        logger.error("Unable to process loan", e);
                     }
                 }
             }

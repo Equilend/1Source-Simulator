@@ -4,7 +4,7 @@ import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.rate.FixedRateDef;
 import com.equilend.simulator.model.rate.Rate;
 import com.equilend.simulator.model.rate.RebateRate;
@@ -17,8 +17,8 @@ public class RerateService {
 
     private static final Logger logger = LogManager.getLogger(RerateService.class.getName());
 
-    public static int postRerateProposal(Contract contract, Double delta) throws APIException {
-        Rate rate = contract.getTrade().getRate();
+    public static int postRerateProposal(Loan loan, Double delta) throws APIException {
+        Rate rate = loan.getTrade().getRate();
         FixedRateDef fee = rate.getFee();
         RebateRate rebate = rate.getRebate();
 
@@ -31,7 +31,7 @@ public class RerateService {
                 rebate.getFloating().setSpread(rebate.getFloating().getSpread() + delta);
             }
         }
-        int responseCode = APIConnector.postRerateProposal(EventHandler.getToken(), contract.getContractId(),
+        int responseCode = APIConnector.postRerateProposal(EventHandler.getToken(), loan.getLoanId(),
             new RerateProposal().rate(rate));
         return responseCode;
     }
@@ -40,18 +40,18 @@ public class RerateService {
         return APIConnector.getRerateById(EventHandler.getToken(), rerateId);
     }
 
-    public static int cancelRerateProposal(Contract contract, Rerate rerate) throws APIException {
-        return APIConnector.cancelReratePending(OneSourceToken.getToken(), contract.getContractId(),
+    public static int cancelRerateProposal(Loan loan, Rerate rerate) throws APIException {
+        return APIConnector.cancelReratePending(OneSourceToken.getToken(), loan.getLoanId(),
             rerate.getRerateId());
     }
 
-    public static int approveRerateProposal(Contract contract, Rerate rerate) throws APIException {
-        return APIConnector.approveRerateProposal(OneSourceToken.getToken(), contract.getContractId(),
+    public static int approveRerateProposal(Loan loan, Rerate rerate) throws APIException {
+        return APIConnector.approveRerateProposal(OneSourceToken.getToken(), loan.getLoanId(),
             rerate.getRerateId());
     }
 
-    public static int declineRerateProposal(Contract contract, Rerate rerate) throws APIException {
-        return APIConnector.declineRerateProposal(OneSourceToken.getToken(), contract.getContractId(),
+    public static int declineRerateProposal(Loan loan, Rerate rerate) throws APIException {
+        return APIConnector.declineRerateProposal(OneSourceToken.getToken(), loan.getLoanId(),
             rerate.getRerateId());
     }
 

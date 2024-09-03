@@ -2,7 +2,7 @@ package com.equilend.simulator.configurator.rules.rerate_rules;
 
 import com.equilend.simulator.api.FedAPIException;
 import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
@@ -68,8 +68,8 @@ public class RerateProposeRule implements RerateRule {
         return "";
     }
 
-    public boolean isApplicable(Contract contract, String partyId) throws FedAPIException {
-        TradeAgreement trade = contract.getTrade();
+    public boolean isApplicable(Loan loan, String partyId) throws FedAPIException {
+        TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         boolean rebate = trade.getRate().getRebate() != null;
         return RuleValidator.validCounterparty(counterparties, cpty) &&

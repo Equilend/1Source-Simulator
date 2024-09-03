@@ -4,7 +4,7 @@ import static com.equilend.simulator.configurator.rules.RulesParser.parseLogical
 
 import com.equilend.simulator.configurator.rules.RuleException;
 import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
@@ -36,8 +36,8 @@ public class SplitProposeRule implements SplitRule {
         delay = Double.parseDouble(args.get(5));
     }
 
-    public boolean isApplicable(Contract contract, String partyId) {
-        TradeAgreement trade = contract.getTrade();
+    public boolean isApplicable(Loan loan, String partyId) {
+        TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         return RuleValidator.validCounterparty(counterparties, cpty) &&
             RuleValidator.validSecurity(securities, trade.getInstrument())
@@ -70,7 +70,7 @@ public class SplitProposeRule implements SplitRule {
             return splitLot.stream().map(splitLotStr -> Integer.parseInt(splitLotStr)).collect(Collectors.toList());
         } catch (NumberFormatException | NoSuchElementException e) {
             throw new RuleException(
-                "Split Propose Rule must contain 'split_lot' as number for new Contract Split");
+                "Split Propose Rule must contain 'split_lot' as number for new Loan Split");
         }
     }
 }

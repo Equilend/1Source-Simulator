@@ -2,7 +2,7 @@ package com.equilend.simulator.configurator.rules.buyin_rules;
 
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,22 +58,22 @@ public class BuyinRules implements Rules {
         }
     }
 
-    public BuyinAcceptRule getBuyinAcceptRule(BuyinComplete buyinComplete, Contract contract,
+    public BuyinAcceptRule getBuyinAcceptRule(BuyinComplete buyinComplete, Loan loan,
         String botPartyId) {
         for (BuyinRule rule : acceptRules) {
             BuyinAcceptRule buyinAcceptRule = (BuyinAcceptRule) rule;
-            if (buyinAcceptRule.isApplicable(buyinComplete, contract, botPartyId)) {
+            if (buyinAcceptRule.isApplicable(buyinComplete, loan, botPartyId)) {
                 return buyinAcceptRule;
             }
         }
         return null;
     }
 
-    public BuyinProposeRule getBuyinProposeRule(Contract contract,
+    public BuyinProposeRule getBuyinProposeRule(Loan loan,
         String botPartyId) {
         for (BuyinRule rule : proposeRules) {
             BuyinProposeRule buyinProposeRule = (BuyinProposeRule) rule;
-            if (buyinProposeRule.isApplicable(contract, botPartyId)) {
+            if (buyinProposeRule.isApplicable(loan, botPartyId)) {
                 return buyinProposeRule;
             }
         }

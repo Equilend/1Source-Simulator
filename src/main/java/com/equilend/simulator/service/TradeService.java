@@ -7,7 +7,7 @@ import com.equilend.simulator.model.party.Party;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.party.TransactingParties;
 import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.trade.SettlementType;
+import com.equilend.simulator.model.settlement.SettlementType;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import com.equilend.simulator.model.collateral.Collateral;
 import com.equilend.simulator.model.collateral.CollateralType;
