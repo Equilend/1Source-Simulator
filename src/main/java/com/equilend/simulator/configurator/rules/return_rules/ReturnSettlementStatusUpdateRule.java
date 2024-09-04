@@ -5,6 +5,7 @@ import static com.equilend.simulator.configurator.rules.RulesParser.parseLogical
 import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
+import com.equilend.simulator.model.returns.AcknowledgementType;
 import com.equilend.simulator.model.returns.ModelReturn;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
@@ -40,8 +41,9 @@ public class ReturnSettlementStatusUpdateRule implements ReturnRule {
         }
         TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
-        return RuleValidator.validCounterparty(counterparties, cpty) &&
-            RuleValidator.validSecurity(securities, trade.getInstrument())
+        return AcknowledgementType.POSITIVE.equals(oneSourceReturn.getAcknowledgementType())
+            && RuleValidator.validCounterparty(counterparties, cpty)
+            && RuleValidator.validSecurity(securities, trade.getInstrument())
             && RuleValidator.validQuantity(openQuantities, trade.getOpenQuantity())
             && RuleValidator.validQuantity(returnQuantity, oneSourceReturn.getQuantity());
     }

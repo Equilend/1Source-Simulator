@@ -32,20 +32,17 @@ public class Rate {
         this.fee = fee;
     }
 
-    public Double getEffectiveRate() throws FedAPIException {
+    public Double getEffectiveRate() {
         if (fee != null) {
-            return fee.getBaseRate();
+            return fee.getEffectiveRate();
         } else if (rebate != null) {
             if (rebate.getFixed() != null) {
-                return rebate.getFixed().getBaseRate();
+                return rebate.getFixed().getEffectiveRate();
             } else if (rebate.getFloating() != null) {
-                String benchmarkStr = rebate.getFloating().getBenchmark().name();
-                Double benchmarkRate = FedAPIConnector.getRefRate(benchmarkStr).getPercentRate();
-                return benchmarkRate + rebate.getFloating().getSpread();
+            return rebate.getFloating().getEffectiveRate();
             }
         }
         return -1.0;
-
     }
 
 }

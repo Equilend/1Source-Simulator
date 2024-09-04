@@ -104,12 +104,14 @@ public class EventsProcessor implements Runnable {
                         task = new RerateHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case RETURN_PENDING:
+                    case RETURN_ACKNOWLEDGED:
                         task = new ReturnsHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case BUYIN_PENDING:
                         task = new BuyinHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case RECALL_OPENED:
+                    case RECALL_ACKNOWLEDGED:
                         task = new RecallHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case LOAN_SPLIT_PROPOSED:

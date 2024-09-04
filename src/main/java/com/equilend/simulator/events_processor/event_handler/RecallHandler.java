@@ -61,15 +61,18 @@ public class RecallHandler implements EventHandler {
                             ReturnRuleProcessor.process(startTime, returnProposeRule, loan, null);
                             return;
                         }
-
-                        RecallCancelRule recallCancelRule = configurator.getRecallRules().getRecallCancelRule(recall,
-                            loan, botPartyId);
-                        if (recallCancelRule != null && recallCancelRule.shouldCancel()) {
-                            RecallRuleProcessor.process(startTime, recallCancelRule, loan, recall);
-                            return;
-                        }
                     }
                     break;
+                case RECALL_ACKNOWLEDGED:
+                   if (isInitiator) {
+                       RecallCancelRule recallCancelRule = configurator.getRecallRules().getRecallCancelRule(recall,
+                           loan, botPartyId);
+                       if (recallCancelRule != null && recallCancelRule.shouldCancel()) {
+                           RecallRuleProcessor.process(startTime, recallCancelRule, loan, recall);
+                           return;
+                       }
+                   }
+                   break;
                 default:
                     throw new RuntimeException("event type not supported");
             }
