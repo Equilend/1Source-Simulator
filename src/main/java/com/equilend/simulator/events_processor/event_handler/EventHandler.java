@@ -15,7 +15,7 @@ public interface EventHandler extends Runnable {
         try {
             token = OneSourceToken.getToken();
         } catch (APIException e) {
-            logger.error("Unable to process contract event due to error with token");
+            logger.error("Unable to process loan event due to error with token");
             return null;
         }
 

@@ -1,8 +1,8 @@
 package com.equilend.simulator.scheduler;
 
 import com.equilend.simulator.configurator.Configurator;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractGenerativeRule;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractRule;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanGenerativeRule;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanRule;
 import com.equilend.simulator.model.party.Party;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.instrument.Instrument;
@@ -38,8 +38,8 @@ public class Scheduler implements Runnable {
     }
 
     public void run() {
-        // Get generative contract rules/instructions from configurator
-        List<ContractRule> rules = configurator.getContractRules().getContractProposeRules();
+        // Get generative loan rules/instructions from configurator
+        List<LoanRule> rules = configurator.getLoanRules().getLoanProposeRules();
         if (rules == null || rules.size() == 0) {
             return;
         }
@@ -47,8 +47,8 @@ public class Scheduler implements Runnable {
         ScheduledExecutorService exec = Executors.newScheduledThreadPool(8, new GeneratedEventThread());
 
         // For each instruction, create a thread that handles this task.
-        for (ContractRule rule : rules) {
-            ContractGenerativeRule instruction = (ContractGenerativeRule) rule;
+        for (LoanRule rule : rules) {
+            LoanGenerativeRule instruction = (LoanGenerativeRule) rule;
             for (String counterpartyId : instruction.getCounterparties()) {
                 for (String security : instruction.getSecurities()) {
                     PartyRole partyRole = instruction.getPartyRole();

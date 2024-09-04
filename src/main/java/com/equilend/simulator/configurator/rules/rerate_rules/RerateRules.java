@@ -2,7 +2,7 @@ package com.equilend.simulator.configurator.rules.rerate_rules;
 
 import com.equilend.simulator.api.FedAPIException;
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.rerate.Rerate;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,11 +75,11 @@ public class RerateRules implements Rules {
     }
 
     //returns first applicable approve/reject rule
-    public RerateApproveRule getApproveRule(Rerate rerate, Contract contract, String partyId) {
+    public RerateApproveRule getApproveRule(Rerate rerate, Loan loan, String partyId) {
         for (RerateRule rule : approveRules) {
             RerateApproveRule approveRule = (RerateApproveRule) rule;
             try {
-                if (approveRule.isApplicable(rerate, contract, partyId)) {
+                if (approveRule.isApplicable(rerate, loan, partyId)) {
                     return approveRule;
                 }
             } catch (FedAPIException e) {
@@ -91,11 +91,11 @@ public class RerateRules implements Rules {
     }
 
     //returns first applicable cancel/ignore rule
-    public RerateCancelRule getCancelRule(Rerate rerate, Contract contract, String partyId) {
+    public RerateCancelRule getCancelRule(Rerate rerate, Loan loan, String partyId) {
         for (RerateRule rule : cancelRules) {
             RerateCancelRule cancelRule = (RerateCancelRule) rule;
             try {
-                if (cancelRule.isApplicable(rerate, contract, partyId)) {
+                if (cancelRule.isApplicable(rerate, loan, partyId)) {
                     return cancelRule;
                 }
             } catch (FedAPIException e) {
@@ -107,11 +107,11 @@ public class RerateRules implements Rules {
     }
 
     //returns first applicable propose/ignore rule    
-    public RerateProposeRule getProposeRule(Contract contract, String partyId) {
+    public RerateProposeRule getProposeRule(Loan loan, String partyId) {
         for (RerateRule rule : proposeRules) {
             RerateProposeRule proposeRule = (RerateProposeRule) rule;
             try {
-                if (proposeRule.isApplicable(contract, partyId)) {
+                if (proposeRule.isApplicable(loan, partyId)) {
                     return proposeRule;
                 }
             } catch (FedAPIException e) {
@@ -123,11 +123,11 @@ public class RerateRules implements Rules {
     }
 
     //returns first applicable propose/ignore rule
-    public ReratePendingCancelRule getPendingCancelRule(Rerate rerate, Contract contract, String partyId) {
+    public ReratePendingCancelRule getPendingCancelRule(Rerate rerate, Loan loan, String partyId) {
         for (RerateRule rule : pendingCancelRules) {
             ReratePendingCancelRule reratePendingCancelRule = (ReratePendingCancelRule) rule;
             try {
-                if (reratePendingCancelRule.isApplicable(rerate, contract, partyId)) {
+                if (reratePendingCancelRule.isApplicable(rerate, loan, partyId)) {
                     return reratePendingCancelRule;
                 }
             } catch (FedAPIException e) {

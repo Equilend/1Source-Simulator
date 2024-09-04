@@ -9,9 +9,9 @@ import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.contract.ContractProposalApproval;
+import com.equilend.simulator.model.loan.Loan;
+import com.equilend.simulator.model.loan.LoanProposal;
+import com.equilend.simulator.model.loan.LoanProposalApproval;
 import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.party.Party;
 import com.equilend.simulator.model.party.PartyRole;
@@ -24,15 +24,15 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ContractService {
+public class LoanService {
 
-    private static final Logger logger = LogManager.getLogger(ContractService.class.getName());
+    private static final Logger logger = LogManager.getLogger(LoanService.class.getName());
 
-    public static Optional<TransactingParty> getTransactingPartyById(Contract contract, String botPartyId) {
-        return TradeService.getTransactingPartyById(contract.getTrade(), botPartyId);
+    public static Optional<TransactingParty> getTransactingPartyById(Loan loan, String botPartyId) {
+        return TradeService.getTransactingPartyById(loan.getTrade(), botPartyId);
     }
 
-    public static ContractProposal createContractProposal(TradeAgreement trade, PartyRole partyRole) {
+    public static LoanProposal createLoanProposal(TradeAgreement trade, PartyRole partyRole) {
         trade.setDividendRatePct(Double.valueOf(100));
 
         if (partyRole == PartyRole.LENDER) {
@@ -47,12 +47,12 @@ public class ContractService {
         PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
             partyRole);
 
-        ContractProposal contractProposal = new ContractProposal().trade(trade)
+        LoanProposal loanProposal = new LoanProposal().trade(trade)
             .settlement(List.of(partySettlementInstruction));
-        return contractProposal;
+        return loanProposal;
     }
 
-    public static ContractProposal createContractProposal(PartyRole partyRole, Party party, Party counterparty,
+    public static LoanProposal createLoanProposal(PartyRole partyRole, Party party, Party counterparty,
         Instrument security, Integer desiredQuantity, String idType) {
         TradeAgreement trade = createTrade(partyRole, party, counterparty, security, desiredQuantity);
         updateTradePrice(trade, idType);
@@ -60,9 +60,9 @@ public class ContractService {
         PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
             partyRole);
 
-        ContractProposal contractProposal = new ContractProposal().trade(trade)
+        LoanProposal loanProposal = new LoanProposal().trade(trade)
             .settlement(List.of(partySettlementInstruction));
-        return contractProposal;
+        return loanProposal;
     }
 
     private static void updateTradePrice(TradeAgreement trade, String idType) {
@@ -105,11 +105,11 @@ public class ContractService {
         trade.getCollateral().setCollateralValue(Double.valueOf(collateralValue));
     }
 
-    public static boolean isInitiator(Contract contract, String botPartyId) {
+    public static boolean isInitiator(Loan loan, String botPartyId) {
         // Currently, lender only provides its settlement info it only has lender settlement on contract
         //But borrower creates both lender and borrower settlement, even if lender is empty
-        boolean lenderInitiated = contract.getSettlement().size() == 1;
-        Optional<TransactingParty> transactingPartyOptional = ContractService.getTransactingPartyById(contract,
+        boolean lenderInitiated = loan.getSettlement().size() == 1;
+        Optional<TransactingParty> transactingPartyOptional = LoanService.getTransactingPartyById(loan,
             botPartyId);
         if (lenderInitiated) {
             return transactingPartyOptional.isPresent()
@@ -121,36 +121,36 @@ public class ContractService {
             && transactingPartyOptional.get().getPartyRole() == PartyRole.BORROWER;
     }
 
-    public static Contract getContractById(String contractId) throws APIException {
-        return APIConnector.getContractById(EventHandler.getToken(), contractId);
+    public static Loan getLoanById(String loanId) throws APIException {
+        return APIConnector.getLoanById(EventHandler.getToken(), loanId);
     }
 
-    public static void cancelContract(String contractId) throws APIException {
-        APIConnector.cancelContract(OneSourceToken.getToken(), contractId);
+    public static void cancelLoan(String loanId) throws APIException {
+        APIConnector.cancelLoan(OneSourceToken.getToken(), loanId);
     }
 
-    public static void acceptContract(String contractId, PartyRole role)
+    public static void acceptLoan(String loanId, PartyRole role)
         throws APIException {
         PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
             role);
-        ContractProposalApproval contractProposalApproval = new ContractProposalApproval()
+        LoanProposalApproval loanProposalApproval = new LoanProposalApproval()
             .settlement(partySettlementInstruction);
         if (role == PartyRole.LENDER) {
-            contractProposalApproval = contractProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);
+            loanProposalApproval = loanProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);
         }
-        APIConnector.acceptContract(OneSourceToken.getToken(), contractId, contractProposalApproval);
+        APIConnector.acceptLoan(OneSourceToken.getToken(), loanId, loanProposalApproval);
     }
 
-    public static void declineContract(String contractId) throws APIException {
-        APIConnector.declineContract(OneSourceToken.getToken(), contractId);
+    public static void declineLoan(String loanId) throws APIException {
+        APIConnector.declineLoan(OneSourceToken.getToken(), loanId);
     }
 
-    public static void cancelPendingContract(String contractId) throws APIException {
-        APIConnector.cancelPendingContract(OneSourceToken.getToken(), contractId);
+    public static void cancelPendingLoan(String loanId) throws APIException {
+        APIConnector.cancelPendingLoan(OneSourceToken.getToken(), loanId);
     }
 
-    public static void updateContractSettlementStatus(String contractId, SettlementStatus settlementStatus)
+    public static void updateLoanSettlementStatus(String loanId, SettlementStatus settlementStatus)
         throws APIException {
-        APIConnector.instructContractSettlementStatus(OneSourceToken.getToken(), contractId, settlementStatus);
+        APIConnector.instructLoanSettlementStatus(OneSourceToken.getToken(), loanId, settlementStatus);
     }
 }

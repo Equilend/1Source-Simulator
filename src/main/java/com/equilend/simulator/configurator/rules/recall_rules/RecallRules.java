@@ -1,7 +1,7 @@
 package com.equilend.simulator.configurator.rules.recall_rules;
 
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.recall.Recall;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,22 +57,22 @@ public class RecallRules implements Rules {
         }
     }
 
-    public RecallCancelRule getRecallCancelRule(Recall recall, Contract contract,
+    public RecallCancelRule getRecallCancelRule(Recall recall, Loan loan,
         String botPartyId) {
         for (RecallRule rule : cancelRules) {
             RecallCancelRule recallCancelRule = (RecallCancelRule) rule;
-            if (recallCancelRule.isApplicable(recall, contract, botPartyId)) {
+            if (recallCancelRule.isApplicable(recall, loan, botPartyId)) {
                 return recallCancelRule;
             }
         }
         return null;
     }
 
-    public RecallProposeRule getRecallProposeRule(Contract contract,
+    public RecallProposeRule getRecallProposeRule(Loan loan,
         String botPartyId) {
         for (RecallRule rule : proposeRules) {
             RecallProposeRule recallProposeRule = (RecallProposeRule) rule;
-            if (recallProposeRule.isApplicable(contract, botPartyId)) {
+            if (recallProposeRule.isApplicable(loan, botPartyId)) {
                 return recallProposeRule;
             }
         }

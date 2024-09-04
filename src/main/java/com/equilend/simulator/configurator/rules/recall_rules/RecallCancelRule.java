@@ -3,7 +3,7 @@ package com.equilend.simulator.configurator.rules.recall_rules;
 import static com.equilend.simulator.configurator.rules.RulesParser.parseLogicalOr;
 
 import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.model.trade.TradeAgreement;
@@ -34,11 +34,11 @@ public class RecallCancelRule implements RecallRule {
         delay = Double.parseDouble(args.get(5));
     }
 
-    public boolean isApplicable(Recall recall, Contract contract, String partyId) {
+    public boolean isApplicable(Recall recall, Loan loan, String partyId) {
         if (recall == null) {
             return false;
         }
-        TradeAgreement trade = contract.getTrade();
+        TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         return RuleValidator.validCounterparty(counterparties, cpty) &&
             RuleValidator.validSecurity(securities, trade.getInstrument())

@@ -3,52 +3,52 @@ package com.equilend.simulator.service;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.InternalReference;
-import com.equilend.simulator.model.split.ContractSplit;
-import com.equilend.simulator.model.split.ContractSplitLot;
-import com.equilend.simulator.model.split.ContractSplitLotAppoval;
+import com.equilend.simulator.model.split.LoanSplit;
+import com.equilend.simulator.model.split.LoanSplitLot;
+import com.equilend.simulator.model.split.LoanSplitLotAppoval;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class SplitService {
 
-    public static ContractSplit getSplit(String contractId, String splitId) throws APIException {
-        return APIConnector.getSplit(OneSourceToken.getToken(), contractId, splitId);
+    public static LoanSplit getSplit(String loanId, String splitId) throws APIException {
+        return APIConnector.getSplit(OneSourceToken.getToken(), loanId, splitId);
     }
 
-    public static int approveSplit(Contract contract, ContractSplit split) throws APIException {
-        List<ContractSplitLotAppoval> splitLotAppovals = buildSplitLotAppovals(split);
-        return APIConnector.approveSplit(OneSourceToken.getToken(), contract.getContractId(),
-            split.getContractSplitId(), splitLotAppovals);
+    public static int approveSplit(Loan loan, LoanSplit split) throws APIException {
+        List<LoanSplitLotAppoval> splitLotAppovals = buildSplitLotAppovals(split);
+        return APIConnector.approveSplit(OneSourceToken.getToken(), loan.getLoanId(),
+            split.getLoanSplitId(), splitLotAppovals);
     }
 
-    private static List<ContractSplitLotAppoval> buildSplitLotAppovals(ContractSplit split) {
-        List<ContractSplitLotAppoval> contractSplitLotAppovals = new ArrayList<>();
-        for (ContractSplitLot splitLot : split.getSplitLots()) {
-            ContractSplitLotAppoval contractSplitLotAppoval = new ContractSplitLotAppoval();
-            contractSplitLotAppoval.setInternalRef(splitLot.getInternalRef());
-            contractSplitLotAppoval.setContractId(splitLot.getContractId());
-            contractSplitLotAppovals.add(contractSplitLotAppoval);
+    private static List<LoanSplitLotAppoval> buildSplitLotAppovals(LoanSplit split) {
+        List<LoanSplitLotAppoval> loanSplitLotAppovals = new ArrayList<>();
+        for (LoanSplitLot splitLot : split.getSplitLots()) {
+            LoanSplitLotAppoval loanSplitLotAppoval = new LoanSplitLotAppoval();
+            loanSplitLotAppoval.setInternalRef(splitLot.getInternalRef());
+            loanSplitLotAppoval.setLoanId(splitLot.getLoanId());
+            loanSplitLotAppovals.add(loanSplitLotAppoval);
         }
-        return contractSplitLotAppovals;
+        return loanSplitLotAppovals;
     }
 
-    public static int proposeSplit(Contract contract, List<Integer> quantityList) throws APIException {
-        List<ContractSplitLot> splitLots = buildSplitLots(contract, quantityList);
-        return APIConnector.proposeSplit(OneSourceToken.getToken(), contract.getContractId(), splitLots);
+    public static int proposeSplit(Loan loan, List<Integer> quantityList) throws APIException {
+        List<LoanSplitLot> splitLots = buildSplitLots(loan, quantityList);
+        return APIConnector.proposeSplit(OneSourceToken.getToken(), loan.getLoanId(), splitLots);
     }
 
-    private static List<ContractSplitLot> buildSplitLots(Contract contract, List<Integer> quantityList) {
-        List<ContractSplitLot> contractSplitLots = new ArrayList<>();
+    private static List<LoanSplitLot> buildSplitLots(Loan loan, List<Integer> quantityList) {
+        List<LoanSplitLot> loanSplitLots = new ArrayList<>();
         for(Integer quantity : quantityList) {
-            ContractSplitLot contractSplitLot = new ContractSplitLot();
-            contractSplitLot.setContractId(contract.getContractId());
-            contractSplitLot.setQuantity(quantity);
-            contractSplitLot.setInternalRef(new InternalReference().internalRefId(UUID.randomUUID().toString()));
-            contractSplitLots.add(contractSplitLot);
+            LoanSplitLot loanSplitLot = new LoanSplitLot();
+            loanSplitLot.setLoanId(loan.getLoanId());
+            loanSplitLot.setQuantity(quantity);
+            loanSplitLot.setInternalRef(new InternalReference().internalRefId(UUID.randomUUID().toString()));
+            loanSplitLots.add(loanSplitLot);
         }
-        return contractSplitLots;
+        return loanSplitLots;
     }
 }

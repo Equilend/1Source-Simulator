@@ -17,6 +17,7 @@ import com.equilend.simulator.model.collateral.Collateral;
 import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.instrument.price.CurrencyCd;
 import com.equilend.simulator.model.rate.Rate;
+import com.equilend.simulator.model.settlement.SettlementType;
 import com.equilend.simulator.model.venue.Venues;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

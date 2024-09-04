@@ -1,11 +1,11 @@
-package com.equilend.simulator.configurator.rules.contract_rules;
+package com.equilend.simulator.configurator.rules.loan_rules;
 
 import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.model.party.PartyRole;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContractGenerativeRule implements ContractRule {
+public class LoanGenerativeRule implements LoanRule {
 
     private String partyRoleExp;
     private final PartyRole partyRole;
@@ -18,7 +18,7 @@ public class ContractGenerativeRule implements ContractRule {
     private Double periodSecs;
     private Double totalDurationSecs;
 
-    public ContractGenerativeRule(String rule) {
+    public LoanGenerativeRule(String rule) {
         loadRule(rule);
         partyRole = (partyRoleExp.equalsIgnoreCase("LENDER")) ? PartyRole.LENDER : PartyRole.BORROWER;
         splitExpressionAndLoad(counterpartyExp, counterparties);

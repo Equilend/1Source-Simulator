@@ -3,9 +3,9 @@ package com.equilend.simulator.configurator.rules.split_rules;
 import static com.equilend.simulator.configurator.rules.RulesParser.parseLogicalOr;
 
 import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.split.ContractSplit;
+import com.equilend.simulator.model.split.LoanSplit;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
 import java.util.List;
@@ -32,11 +32,11 @@ public class SplitApproveRule implements SplitRule {
         delay = Double.parseDouble(args.get(4));
     }
 
-    public boolean isApplicable(ContractSplit contractSplit, Contract contract, String partyId) {
-        if (contractSplit == null) {
+    public boolean isApplicable(LoanSplit loanSplit, Loan loan, String partyId) {
+        if (loanSplit == null) {
             return false;
         }
-        TradeAgreement trade = contract.getTrade();
+        TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
         return RuleValidator.validCounterparty(counterparties, cpty) &&
             RuleValidator.validSecurity(securities, trade.getInstrument())

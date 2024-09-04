@@ -1,11 +1,8 @@
 package com.equilend.simulator.configurator.rules.split_rules;
 
 import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
-import com.equilend.simulator.configurator.rules.return_rules.ReturnRule;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.returns.Return;
-import com.equilend.simulator.model.split.ContractSplit;
+import com.equilend.simulator.model.loan.Loan;
+import com.equilend.simulator.model.split.LoanSplit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,22 +58,22 @@ public class SplitRules implements Rules {
         }
     }
 
-    public SplitApproveRule getSplitApproveRule(ContractSplit contractSplit, Contract contract,
+    public SplitApproveRule getSplitApproveRule(LoanSplit loanSplit, Loan loan,
         String botPartyId) {
         for (SplitRule rule : approveRules) {
             SplitApproveRule splitApproveRule = (SplitApproveRule) rule;
-            if (splitApproveRule.isApplicable(contractSplit, contract, botPartyId)) {
+            if (splitApproveRule.isApplicable(loanSplit, loan, botPartyId)) {
                 return splitApproveRule;
             }
         }
         return null;
     }
 
-    public SplitProposeRule getSplitProposeRule(Contract contract,
+    public SplitProposeRule getSplitProposeRule(Loan loan,
         String botPartyId) {
         for (SplitRule rule : proposeRules) {
             SplitProposeRule splitProposeRule = (SplitProposeRule) rule;
-            if (splitProposeRule.isApplicable(contract, botPartyId)) {
+            if (splitProposeRule.isApplicable(loan, botPartyId)) {
                 return splitProposeRule;
             }
         }

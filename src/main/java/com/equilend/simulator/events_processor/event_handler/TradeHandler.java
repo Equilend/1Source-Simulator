@@ -5,13 +5,13 @@ import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRule;
 import com.equilend.simulator.model.agreement.Agreement;
-import com.equilend.simulator.model.contract.ContractProposal;
+import com.equilend.simulator.model.loan.LoanProposal;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import com.equilend.simulator.model.venue.VenueTradeAgreement;
-import com.equilend.simulator.service.ContractService;
+import com.equilend.simulator.service.LoanService;
 import com.equilend.simulator.service.TradeService;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -43,16 +43,16 @@ public class TradeHandler implements EventHandler {
         return agreement != null;
     }
 
-    public void postContractProposal(VenueTradeAgreement venueTradeAgreement, PartyRole botPartyRole) {
+    public void postLoanProposal(VenueTradeAgreement venueTradeAgreement, PartyRole botPartyRole) {
         TradeAgreement tradeAgreement = TradeService.buildTradeAgreement(venueTradeAgreement);
-        postContractProposal(tradeAgreement, botPartyRole);
+        postLoanProposal(tradeAgreement, botPartyRole);
     }
 
-    public void postContractProposal(TradeAgreement trade, PartyRole botPartyRole) {
-        ContractProposal contractProposal = ContractService.createContractProposal(trade, botPartyRole);
+    public void postLoanProposal(TradeAgreement trade, PartyRole botPartyRole) {
+        LoanProposal loanProposal = LoanService.createLoanProposal(trade, botPartyRole);
 
         try {
-            APIConnector.postContractProposal(EventHandler.getToken(), contractProposal);
+            APIConnector.postLoanProposal(EventHandler.getToken(), loanProposal);
         } catch (APIException e) {
             logger.debug("Unable to process trade event");
         }
@@ -72,7 +72,7 @@ public class TradeHandler implements EventHandler {
 
         Optional<TransactingParty> transactingPartyById = TradeService.getTransactingPartyById(trade, botPartyId);
         if (transactingPartyById.isEmpty()) {
-            logger.info("Unable to propose contract due to error retrieving bot party id and/or bot party role");
+            logger.info("Unable to propose loan due to error retrieving bot party id and/or bot party role");
             return;
         }
 
@@ -89,6 +89,6 @@ public class TradeHandler implements EventHandler {
             Thread.yield();
         }
 
-        postContractProposal(trade, botPartyRole);
+        postLoanProposal(trade, botPartyRole);
     }
 }

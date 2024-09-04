@@ -5,8 +5,8 @@ import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.event_handler.BuyinHandler;
-import com.equilend.simulator.events_processor.event_handler.ContractHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
+import com.equilend.simulator.events_processor.event_handler.LoanHandler;
 import com.equilend.simulator.events_processor.event_handler.RecallHandler;
 import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.ReturnsHandler;
@@ -14,7 +14,6 @@ import com.equilend.simulator.events_processor.event_handler.SplitHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.event.EventType;
-import java.math.BigInteger;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -56,7 +55,7 @@ public class EventsProcessor implements Runnable {
         }
 
         OffsetDateTime since = APIConnector.getCurrentTime();
-        BigInteger fromEventId = null;
+        Long fromEventId = null;
 
         while (true) {
             try {
@@ -78,7 +77,7 @@ public class EventsProcessor implements Runnable {
                 continue; //Back to sleep
             }
 
-            fromEventId = new BigInteger(events.get(0).getEventId()).add(BigInteger.ONE);
+            fromEventId = events.get(0).getEventId() + 1;
 
             for (Event event : events) {
                 boolean shouldIgnore = configurator.getEventRules().shouldIgnoreEvent(event);
@@ -95,25 +94,27 @@ public class EventsProcessor implements Runnable {
                     case TRADE_AGREED:
                         task = new TradeHandler(event, configurator, System.currentTimeMillis());
                         break;
-                    case CONTRACT_OPENED:
-                    case CONTRACT_PROPOSED:
-                    case CONTRACT_PENDING:
-                        task = new ContractHandler(event, configurator, System.currentTimeMillis());
+                    case LOAN_OPENED:
+                    case LOAN_PROPOSED:
+                    case LOAN_PENDING:
+                        task = new LoanHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case RERATE_PROPOSED:
                     case RERATE_PENDING:
                         task = new RerateHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case RETURN_PENDING:
+                    case RETURN_ACKNOWLEDGED:
                         task = new ReturnsHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case BUYIN_PENDING:
                         task = new BuyinHandler(event, configurator, System.currentTimeMillis());
                         break;
                     case RECALL_OPENED:
+                    case RECALL_ACKNOWLEDGED:
                         task = new RecallHandler(event, configurator, System.currentTimeMillis());
                         break;
-                    case CONTRACT_SPLIT_PROPOSED:
+                    case LOAN_SPLIT_PROPOSED:
                         task = new SplitHandler(event, configurator, System.currentTimeMillis());
                         break;
                 }

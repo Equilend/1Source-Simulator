@@ -1,8 +1,5 @@
 package com.equilend.simulator;
 
-import com.equilend.simulator.api.APIConnector;
-import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Configurator;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
@@ -48,7 +45,7 @@ public class Simulator {
         Configurator configurator = new Configurator(props);
 
         String fence = "=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$";
-        if (configurator.getRerateRules().getAnalysisMode() || configurator.getContractRules().getAnalysisMode()) {
+        if (configurator.getRerateRules().getAnalysisMode() || configurator.getLoanRules().getAnalysisMode()) {
             System.out.println(fence);
             System.out.println(analyzeRecordsMsg);
             System.out.println(fence);
@@ -56,20 +53,20 @@ public class Simulator {
             analyzer.run();
         }
         ExecutorService execOutgoing;
-        if (configurator.getContractRules().schedulerMode()) {
+        if (configurator.getLoanRules().schedulerMode()) {
             System.out.println(fence);
             //
             //
             //
             //
             //
-            String generateContractsMsg = "\n" + //
+            String generateLoansMsg = "\n" + //
                 "   ____                           _                         _                  _       \n" + //
                 "  / ___| ___ _ __   ___ _ __ __ _| |_ ___    ___ ___  _ __ | |_ _ __ __ _  ___| |_ ___ \n" + //
                 " | |  _ / _ \\ '_ \\ / _ \\ '__/ _` | __/ _ \\  / __/ _ \\| '_ \\| __| '__/ _` |/ __| __/ __|\n" + //
                 " | |_| |  __/ | | |  __/ | | (_| | ||  __/ | (_| (_) | | | | |_| | | (_| | (__| |_\\__ \\\n" + //
                 "  \\____|\\___|_| |_|\\___|_|  \\__,_|\\__\\___|  \\___\\___/|_| |_|\\__|_|  \\__,_|\\___|\\__|___/\n\n";
-            System.out.println(generateContractsMsg);
+            System.out.println(generateLoansMsg);
             System.out.println(fence);
             execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());
             execOutgoing.execute(new Scheduler(configurator));

@@ -8,9 +8,8 @@ import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRule;
 import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.service.BuyinService;
-import com.equilend.simulator.utils.RuleProcessorUtil;
 import java.util.NoSuchElementException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +18,7 @@ public class BuyinRuleProcessor {
 
     private static final Logger logger = LogManager.getLogger(BuyinRuleProcessor.class.getName());
 
-    public static void process(Long startTime, BuyinRule rule, Contract contract, BuyinComplete buyin)
+    public static void process(Long startTime, BuyinRule rule, Loan loan, BuyinComplete buyin)
         throws APIException {
 
         if (rule instanceof BuyinAcceptRule) {
@@ -27,7 +26,7 @@ public class BuyinRuleProcessor {
         }
 
         if (rule instanceof BuyinProposeRule) {
-            processByProposeRule(startTime, (BuyinProposeRule) rule, contract);
+            processByProposeRule(startTime, (BuyinProposeRule) rule, loan);
         }
     }
 
@@ -37,7 +36,7 @@ public class BuyinRuleProcessor {
         BuyinService.acceptBuyin(buyin);
     }
 
-    private static void processByProposeRule(Long startTime, BuyinProposeRule rule, Contract contract)
+    private static void processByProposeRule(Long startTime, BuyinProposeRule rule, Loan loan)
         throws APIException {
         waitForDelay(startTime, rule.getDelay());
         Integer quantity;
@@ -50,7 +49,7 @@ public class BuyinRuleProcessor {
         }
 
         Double priceValue = Double.parseDouble(rule.getPrice());
-        BuyinService.proposeBuyin(contract, quantity, priceValue);
+        BuyinService.proposeBuyin(loan, quantity, priceValue);
     }
 
 }

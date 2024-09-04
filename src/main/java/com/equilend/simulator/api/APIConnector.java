@@ -4,23 +4,23 @@ import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.agreement.Agreement;
 import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.buyin.BuyinCompleteRequest;
-import com.equilend.simulator.model.contract.Contract;
-import com.equilend.simulator.model.contract.ContractProposal;
-import com.equilend.simulator.model.contract.ContractProposalApproval;
+import com.equilend.simulator.model.loan.Loan;
+import com.equilend.simulator.model.loan.LoanProposal;
+import com.equilend.simulator.model.loan.LoanProposalApproval;
 import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.model.recall.RecallProposal;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
-import com.equilend.simulator.model.returns.Return;
+import com.equilend.simulator.model.returns.ModelReturn;
 import com.equilend.simulator.model.returns.ReturnAcknowledgement;
 import com.equilend.simulator.model.returns.ReturnProposal;
 import com.equilend.simulator.model.settlement.SettlementStatus;
 import com.equilend.simulator.model.settlement.SettlementStatusUpdate;
-import com.equilend.simulator.model.split.ContractSplit;
-import com.equilend.simulator.model.split.ContractSplitLot;
-import com.equilend.simulator.model.split.ContractSplitLotAppoval;
+import com.equilend.simulator.model.split.LoanSplit;
+import com.equilend.simulator.model.split.LoanSplitLot;
+import com.equilend.simulator.model.split.LoanSplitLotAppoval;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -29,7 +29,6 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -76,7 +75,7 @@ public class APIConnector {
         return time.format(formatter);
     }
 
-    public static List<Event> getAllEvents(OneSourceToken token, OffsetDateTime since, BigInteger eventId)
+    public static List<Event> getAllEvents(OneSourceToken token, OffsetDateTime since, Long eventId)
         throws APIException {
         validateAPISetting(token);
 
@@ -149,12 +148,12 @@ public class APIConnector {
         }
     }
 
-    public static List<Contract> getAllContracts(OneSourceToken token, String status, String since)
+    public static List<Loan> getAllLoans(OneSourceToken token, String status, String since)
         throws APIException {
         validateAPISetting(token);
 
         StringBuilder uri = new StringBuilder(restAPIURL);
-        uri.append("/contracts?size=2147483647&contractStatus=");
+        uri.append("/loans?size=2147483647&loanStatus=");
         uri.append(status);
         uri.append("&since=");
         uri.append(since);
@@ -164,7 +163,7 @@ public class APIConnector {
             getRequest = HttpRequest.newBuilder().uri(new URI(uri.toString()))
                 .header("Authorization", "Bearer " + token.getAccessToken()).build();
         } catch (URISyntaxException e) {
-            String message = "Error with creating contracts get request";
+            String message = "Error with creating loans get request";
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -173,31 +172,31 @@ public class APIConnector {
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending contracts get request";
+            String message = "Error with sending loans get request";
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        logger.debug("Get All Contracts: Status Code {}", getResponse.statusCode());
+        logger.debug("Get All Loans: Status Code {}", getResponse.statusCode());
 
         if (getResponse.statusCode() / 100 != 2) {
             throw new APIException(getResponse.body());
         }
 
-        Type contractListType = new TypeToken<ArrayList<Contract>>() {
+        Type loanListType = new TypeToken<ArrayList<Loan>>() {
         }.getType();
-        return gson.fromJson(getResponse.body(), contractListType);
+        return gson.fromJson(getResponse.body(), loanListType);
     }
 
-    public static Contract getContractById(OneSourceToken token, String id) throws APIException {
+    public static Loan getLoanById(OneSourceToken token, String id) throws APIException {
         validateAPISetting(token);
 
         HttpRequest getRequest;
         try {
-            getRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + id))
+            getRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + id))
                 .header("Authorization", "Bearer " + token.getAccessToken()).build();
         } catch (URISyntaxException e) {
-            String message = "Error creating get request for contract " + id;
+            String message = "Error creating get request for loan " + id;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -206,33 +205,33 @@ public class APIConnector {
         try {
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error creating get request for contract " + id;
+            String message = "Error creating get request for loan " + id;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        logger.debug("Get Contract By Id: Status Code {}", getResponse.statusCode());
+        logger.debug("Get Loan By Id: Status Code {}", getResponse.statusCode());
 
         if (getResponse.statusCode() / 100 != 2) {
             throw new APIException(getResponse.body());
         }
 
-        Contract contract = gson.fromJson(getResponse.body(), Contract.class);
-        return contract;
+        Loan loan = gson.fromJson(getResponse.body(), Loan.class);
+        return loan;
     }
 
-    public static int postContractProposal(OneSourceToken token, ContractProposal contract) throws APIException {
+    public static int postLoanProposal(OneSourceToken token, LoanProposal loan) throws APIException {
         validateAPISetting(token);
 
-        String contractJson = gson.toJson(contract);
+        String loanJson = gson.toJson(loan);
 
         HttpRequest postRequest;
         try {
-            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(contractJson))
+            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans"))
+                .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(loanJson))
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with creating contract proposal post request";
+            String message = "Error with creating loan proposal post request";
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -241,19 +240,19 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending contract proposal post request";
+            String message = "Error with sending loan proposal post request";
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        Instrument instrument = contract.getTrade().getInstrument();
+        Instrument instrument = loan.getTrade().getInstrument();
         String identifier = (instrument.getTicker() == null) ? instrument.getFigi() : instrument.getTicker();
         if (postResponse.statusCode() == 201) {
-            ContractProposalResponse response = gson.fromJson(postResponse.body(), ContractProposalResponse.class);
-            logger.info("Propose Contract {} with {} shares of {}", response.getContractId(),
-                contract.getTrade().getQuantity(), identifier);
+            LoanProposalResponse response = gson.fromJson(postResponse.body(), LoanProposalResponse.class);
+            logger.info("Propose Loan {} with {} shares of {}", response.getLoanId(),
+                loan.getTrade().getQuantity(), identifier);
         } else {
-            logger.trace("Propose Contract with {} shares of {}: Status Code = {}", contract.getTrade().getQuantity(),
+            logger.trace("Propose Loan with {} shares of {}: Status Code = {}", loan.getTrade().getQuantity(),
                 identifier, postResponse.statusCode());
             logger.trace("POST response body: {}", postResponse.body());
             throw new APIException(postResponse.body());
@@ -261,16 +260,16 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int cancelContract(OneSourceToken token, String contractId) throws APIException {
+    public static int cancelLoan(OneSourceToken token, String loanId) throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
         try {
-            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + contractId + "/cancel"))
+            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/cancel"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with sending cancel contract proposal post request for contract " + contractId;
+            String message = "Error with sending cancel loan proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -279,34 +278,34 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending cancel contract proposal post request for contract " + contractId;
+            String message = "Error with sending cancel loan proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
         if (postResponse.statusCode() == 200) {
-            logger.info("Cancel Contract {}", contractId);
+            logger.info("Cancel Loan {}", loanId);
         } else {
-            logger.trace("Cancel Contract {}: Status Code = {}", contractId, postResponse.statusCode());
+            logger.trace("Cancel Loan {}: Status Code = {}", loanId, postResponse.statusCode());
             throw new APIException(postResponse.body());
         }
         return postResponse.statusCode();
     }
 
-    public static int acceptContract(OneSourceToken token, String contractId,
-        ContractProposalApproval contractProposalApproval) throws APIException {
+    public static int acceptLoan(OneSourceToken token, String loanId,
+        LoanProposalApproval loanProposalApproval) throws APIException {
         validateAPISetting(token);
 
-        String settlementJson = gson.toJson(contractProposalApproval);
+        String settlementJson = gson.toJson(loanProposalApproval);
         logger.trace(settlementJson);
 
         HttpRequest postRequest;
         try {
-            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + contractId + "/approve"))
+            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/approve"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(BodyPublishers.ofString(settlementJson)).build();
         } catch (URISyntaxException e) {
-            String message = "Error with creating accept contract proposal post request for contract " + contractId;
+            String message = "Error with creating accept loan proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -315,31 +314,31 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending accept contract proposal post request for contract " + contractId;
+            String message = "Error with sending accept loan proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
         if (postResponse.statusCode() == 200) {
-            logger.info("Accept Contract {}", contractId);
+            logger.info("Accept Loan {}", loanId);
         } else {
-            logger.trace("Accept Contract {}: Status Code = {}", contractId, postResponse.statusCode());
+            logger.trace("Accept Loan {}: Status Code = {}", loanId, postResponse.statusCode());
             logger.trace(postResponse.body());
             throw new APIException(postResponse.body());
         }
         return postResponse.statusCode();
     }
 
-    public static int declineContract(OneSourceToken token, String contractId) throws APIException {
+    public static int declineLoan(OneSourceToken token, String loanId) throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
         try {
-            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + contractId + "/decline"))
+            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/decline"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with creating decline contract proposal post request for contract " + contractId;
+            String message = "Error with creating decline loan proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -348,31 +347,31 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending decline contract proposal post request for contract " + contractId;
+            String message = "Error with sending decline loan proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
         if (postResponse.statusCode() == 200) {
-            logger.info("Decline Contract {}", contractId);
+            logger.info("Decline Loan {}", loanId);
         } else {
-            logger.trace("Decline Contract {}: Status Code = {}", contractId, postResponse.statusCode());
+            logger.trace("Decline Loan {}: Status Code = {}", loanId, postResponse.statusCode());
             throw new APIException(postResponse.body());
         }
         return postResponse.statusCode();
     }
 
-    public static int cancelPendingContract(OneSourceToken token, String contractId) throws APIException {
+    public static int cancelPendingLoan(OneSourceToken token, String loanId) throws APIException {
         validateAPISetting(token);
         HttpResponse<String> postResponse;
         try {
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/cancelpending"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/cancelpending"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            String message = "Error with sending cancel pending contract post request for contractId " + contractId;
+            String message = "Error with sending cancel pending loan post request for loanId " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -382,7 +381,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int instructContractSettlementStatus(OneSourceToken token, String contractId,
+    public static int instructLoanSettlementStatus(OneSourceToken token, String loanId,
         SettlementStatus status) throws APIException {
         validateAPISetting(token);
 
@@ -392,13 +391,13 @@ public class APIConnector {
         try {
             String body = gson.toJson(settlementStatusUpdate);
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId))
+                .uri(new URI(restAPIURL + "/loans/" + loanId))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
                 .build();
             patchResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            String message = "Error with sending settlement contract status update post request for contractId " + contractId;
+            String message = "Error with sending settlement loan status update post request for loanId " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -442,12 +441,12 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), rerateListType);
     }
 
-    public static List<Rerate> getAllReratesOnContract(OneSourceToken token, String contractId) throws APIException {
+    public static List<Rerate> getAllReratesOnLoan(OneSourceToken token, String loanId) throws APIException {
         validateAPISetting(token);
 
         HttpRequest getRequest;
         try {
-            getRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates"))
+            getRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/rerates"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).build();
         } catch (URISyntaxException e) {
             String message = "Error with creating rerates get request";
@@ -507,7 +506,7 @@ public class APIConnector {
         return rerate;
     }
 
-    public static int postRerateProposal(OneSourceToken token, String contractId, RerateProposal rerate)
+    public static int postRerateProposal(OneSourceToken token, String loanId, RerateProposal rerate)
         throws APIException {
         validateAPISetting(token);
 
@@ -515,7 +514,7 @@ public class APIConnector {
 
         HttpRequest postRequest;
         try {
-            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates"))
+            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/rerates"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(rerateJson))
                 .build();
         } catch (URISyntaxException e) {
@@ -543,18 +542,18 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int cancelRerateProposal(OneSourceToken token, String contractId, String rerateId)
+    public static int cancelRerateProposal(OneSourceToken token, String loanId, String rerateId)
         throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/cancel"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/rerates/" + rerateId + "/cancel"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with sending cancel rerate proposal post request for contract " + contractId;
+            String message = "Error with sending cancel rerate proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -563,7 +562,7 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending cancel rerate proposal post request for contract " + contractId;
+            String message = "Error with sending cancel rerate proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -578,18 +577,18 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int cancelReratePending(OneSourceToken token, String contractId, String rerateId)
+    public static int cancelReratePending(OneSourceToken token, String loanId, String rerateId)
         throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/cancelpending"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/rerates/" + rerateId + "/cancelpending"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with sending cancel rerate pending post request for contract " + contractId;
+            String message = "Error with sending cancel rerate pending post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -598,7 +597,7 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending cancel rerate pending post request for contract " + contractId;
+            String message = "Error with sending cancel rerate pending post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -613,18 +612,18 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int approveRerateProposal(OneSourceToken token, String contractId, String rerateId)
+    public static int approveRerateProposal(OneSourceToken token, String loanId, String rerateId)
         throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/approve"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/rerates/" + rerateId + "/approve"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with sending approve rerate proposal post request for contract " + contractId;
+            String message = "Error with sending approve rerate proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -633,7 +632,7 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending approve rerate proposal post request for contract " + contractId;
+            String message = "Error with sending approve rerate proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -648,18 +647,18 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int declineRerateProposal(OneSourceToken token, String contractId, String rerateId)
+    public static int declineRerateProposal(OneSourceToken token, String loanId, String rerateId)
         throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/rerates/" + rerateId + "/decline"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/rerates/" + rerateId + "/decline"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error with sending decline rerate proposal post request for contract " + contractId;
+            String message = "Error with sending decline rerate proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -668,7 +667,7 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error with sending decline rerate proposal post request for contract " + contractId;
+            String message = "Error with sending decline rerate proposal post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -683,7 +682,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static Return getReturnById(OneSourceToken token, String id) throws APIException {
+    public static ModelReturn getReturnById(OneSourceToken token, String id) throws APIException {
         validateAPISetting(token);
 
         HttpRequest getRequest;
@@ -709,11 +708,11 @@ public class APIConnector {
 
         isSuccess(getResponse);
 
-        Return oneSourceReturn = gson.fromJson(getResponse.body(), Return.class);
+        ModelReturn oneSourceReturn = gson.fromJson(getResponse.body(), ModelReturn.class);
         return oneSourceReturn;
     }
 
-    public static int postReturnAck(OneSourceToken token, String contractId, String returnId,
+    public static int postReturnAck(OneSourceToken token, String loanId, String returnId,
         ReturnAcknowledgement returnAcknowledgement) throws APIException {
         validateAPISetting(token);
 
@@ -723,7 +722,7 @@ public class APIConnector {
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/returns/" + returnId + "/acknowledge"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/returns/" + returnId + "/acknowledge"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.ofString(returnAcknowledgementJson)).build();
         } catch (URISyntaxException e) {
@@ -748,13 +747,13 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int cancelReturn(OneSourceToken token, String contractId, String returnId) throws APIException {
+    public static int cancelReturn(OneSourceToken token, String loanId, String returnId) throws APIException {
         validateAPISetting(token);
 
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/returns/" + returnId + "/cancel"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/returns/" + returnId + "/cancel"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
@@ -779,7 +778,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int proposeReturn(OneSourceToken token, String contractId, ReturnProposal returnProposal)
+    public static int proposeReturn(OneSourceToken token, String loanId, ReturnProposal returnProposal)
         throws APIException {
         validateAPISetting(token);
 
@@ -787,7 +786,7 @@ public class APIConnector {
 
         HttpRequest postRequest;
         try {
-            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/contracts/" + contractId + "/returns"))
+            postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/returns"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(returnJson))
                 .build();
         } catch (URISyntaxException e) {
@@ -815,7 +814,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int instructReturnSettlementStatus(OneSourceToken token, String contractId, String returnId,
+    public static int instructReturnSettlementStatus(OneSourceToken token, String loanId, String returnId,
         SettlementStatus status) throws APIException {
         validateAPISetting(token);
 
@@ -826,7 +825,7 @@ public class APIConnector {
         try {
             String body = gson.toJson(settlementStatusUpdate);
             postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/returns/" + returnId))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/returns/" + returnId))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
                 .build();
@@ -872,19 +871,19 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), BuyinComplete.class);
     }
 
-    public static int acceptBuyin(OneSourceToken token, String contractId, String buyinId) throws APIException {
+    public static int acceptBuyin(OneSourceToken token, String loanId, String buyinId) throws APIException {
         validateAPISetting(token);
 
         HttpResponse<String> postResponse;
         try {
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/buyins/completes/" + buyinId + "/accept"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/buyins/completes/" + buyinId + "/accept"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             String message =
-                "Error with sending approve buyin post request for contract " + contractId + " buyin " + buyinId;
+                "Error with sending approve buyin post request for loan " + loanId + " buyin " + buyinId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -894,7 +893,7 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int proposeBuyin(OneSourceToken token, String contractId, BuyinCompleteRequest buyinCompleteRequest)
+    public static int proposeBuyin(OneSourceToken token, String loanId, BuyinCompleteRequest buyinCompleteRequest)
         throws APIException {
         validateAPISetting(token);
 
@@ -902,14 +901,14 @@ public class APIConnector {
         try {
             String body = gson.toJson(buyinCompleteRequest);
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/buyins/completes"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/buyins/completes"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             String message =
-                "Error with sending propose buyin post request for contract " + contractId;
+                "Error with sending propose buyin post request for loan " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -937,20 +936,20 @@ public class APIConnector {
         return gson.fromJson(getResponse.body(), Recall.class);
     }
 
-    public static int proposeRecall(OneSourceToken token, String contractId, RecallProposal recallProposal)
+    public static int proposeRecall(OneSourceToken token, String loanId, RecallProposal recallProposal)
         throws APIException {
         validateAPISetting(token);
         HttpResponse<String> postResponse;
         try {
             String body = gson.toJson(recallProposal);
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/recalls"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/recalls"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            String message = "Error with sending recall post request for contractId " + contractId;
+            String message = "Error with sending recall post request for loanId " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -960,12 +959,12 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int cancelRecall(OneSourceToken token, String contractId, String recallId) throws APIException {
+    public static int cancelRecall(OneSourceToken token, String loanId, String recallId) throws APIException {
         validateAPISetting(token);
         HttpResponse<String> postResponse;
         try {
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/recalls/" + recallId + "/cancel"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/recalls/" + recallId + "/cancel"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -980,12 +979,12 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static ContractSplit getSplit(OneSourceToken token, String contractId, String splitId)
+    public static LoanSplit getSplit(OneSourceToken token, String loanId, String splitId)
         throws APIException {
         HttpResponse<String> getResponse;
         try {
             HttpRequest getRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/split/" + splitId))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/split/" + splitId))
                 .header("Authorization", "Bearer " + token.getAccessToken()).build();
             getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -996,16 +995,16 @@ public class APIConnector {
 
         isSuccess(getResponse);
 
-        return gson.fromJson(getResponse.body(), ContractSplit.class);
+        return gson.fromJson(getResponse.body(), LoanSplit.class);
     }
 
-    public static int approveSplit(OneSourceToken token, String contractId, String splitId, List<ContractSplitLotAppoval> splitLotAppovals) throws APIException {
+    public static int approveSplit(OneSourceToken token, String loanId, String splitId, List<LoanSplitLotAppoval> splitLotAppovals) throws APIException {
         validateAPISetting(token);
         HttpResponse<String> postResponse;
         try {
             String body = gson.toJson(splitLotAppovals);
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/split/" + splitId + "/approve"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/split/" + splitId + "/approve"))
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -1020,20 +1019,20 @@ public class APIConnector {
         return postResponse.statusCode();
     }
 
-    public static int proposeSplit(OneSourceToken token, String contractId, List<ContractSplitLot> splitLots)
+    public static int proposeSplit(OneSourceToken token, String loanId, List<LoanSplitLot> splitLots)
         throws APIException {
         validateAPISetting(token);
         HttpResponse<String> postResponse;
         try {
             String body = gson.toJson(splitLots);
             HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(new URI(restAPIURL + "/contracts/" + contractId + "/split"))
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/split"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            String message = "Error with sending split post request for contractId " + contractId;
+            String message = "Error with sending split post request for loanId " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }

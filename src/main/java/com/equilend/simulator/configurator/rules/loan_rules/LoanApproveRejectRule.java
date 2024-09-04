@@ -1,16 +1,16 @@
-package com.equilend.simulator.configurator.rules.contract_rules;
+package com.equilend.simulator.configurator.rules.loan_rules;
 
 import static com.equilend.simulator.configurator.rules.RulesParser.parseLogicalOr;
 
 import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.contract.Contract;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ContractPendingCancelRule implements ContractRule {
+public class LoanApproveRejectRule implements LoanRule {
 
     private final Set<String> counterparties = new HashSet<>();
     private final Set<String> securities = new HashSet<>();
@@ -18,7 +18,7 @@ public class ContractPendingCancelRule implements ContractRule {
     private String action;
     private Double delay;
 
-    public ContractPendingCancelRule(String rule) {
+    public LoanApproveRejectRule(String rule) {
         loadRule(rule);
     }
 
@@ -31,15 +31,20 @@ public class ContractPendingCancelRule implements ContractRule {
         delay = Double.parseDouble(args.get(4));
     }
 
-    public boolean isApplicable(Contract contract, String partyId) {
-        if (contract == null) {
-            return false;
-        }
-        TradeAgreement trade = contract.getTrade();
-        String cpty = getTradeCptyId(trade, partyId);
-        return RuleValidator.validCounterparty(counterparties, cpty) &&
-            RuleValidator.validSecurity(securities, trade.getInstrument())
-            && RuleValidator.validQuantity(quantities, trade.getQuantity());
+    public Double getDelay() {
+        return delay;
+    }
+
+    public boolean shouldApprove() {
+        return "A".equals(action);
+    }
+
+    public boolean shouldReject() {
+        return "R".equals(action);
+    }
+
+    public boolean shouldIgnore() {
+        return "I".equals(action);
     }
 
     private String getTradeCptyId(TradeAgreement trade, String partyId) {
@@ -51,15 +56,15 @@ public class ContractPendingCancelRule implements ContractRule {
         return "";
     }
 
-    public boolean shouldCancel() {
-        return "CP".equals(action);
+    public boolean isApplicable(Loan loan, String partyId) {
+        if (loan == null) {
+            return false;
+        }
+        TradeAgreement trade = loan.getTrade();
+        String cpty = getTradeCptyId(trade, partyId);
+        return RuleValidator.validCounterparty(counterparties, cpty) &&
+            RuleValidator.validSecurity(securities, trade.getInstrument())
+            && RuleValidator.validQuantity(quantities, trade.getQuantity());
     }
 
-    public boolean isIgnored() {
-        return "I".equals(action);
-    }
-
-    public Double getDelay() {
-        return delay;
-    }
 }

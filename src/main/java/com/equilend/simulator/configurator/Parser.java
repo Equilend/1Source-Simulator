@@ -3,7 +3,7 @@ package com.equilend.simulator.configurator;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
-import com.equilend.simulator.configurator.rules.contract_rules.ContractRules;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
@@ -170,8 +170,8 @@ public class Parser {
                 case "AGREEMENTS":
                     rules.put(header, new AgreementRules(sectionRulesMap));
                     break;
-                case "CONTRACTS":
-                    rules.put(header, new ContractRules(sectionRulesMap));
+                case "LOANS":
+                    rules.put(header, new LoanRules(sectionRulesMap));
                     break;
                 case "RERATES":
                     rules.put(header, new RerateRules(sectionRulesMap));

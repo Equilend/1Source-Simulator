@@ -1,16 +1,18 @@
 [[EVENTS]]
 incoming = {
     (event_type: TRADE, action: I)
-    (event_type: CONTRACT, action: I)
-    (event_type: CONTRACT_OPENED, action: D)
-    (event_type: CONTRACT_APPROVE, action: I)
-    (event_type: CONTRACT_PENDING, action: D)
+    (event_type: LOAN, action: I)
+    (event_type: LOAN_OPENED, action: I)
+    (event_type: LOAN_APPROVE, action: I)
+    (event_type: LOAN_PENDING, action: I)
     (event_type: RERATE, action: I)
     (event_type: RERATE_PENDING, action: I)
     (event_type: RETURN_PENDING, action: I)
+    (event_type: RETURN_ACKNOWLEDGED, action: D)
     (event_type: BUYIN_PENDING, action: I)
     (event_type: RECALL_OPENED, action: I)
-    (event_type: CONTRACT_SPLIT_PROPOSED, action: D)
+    (event_type: RECALL_ACKNOWLEDGED, action: I)
+    (event_type: LOAN_SPLIT_PROPOSED, action: I)
     (event_type: *, action: I)
 }
 
@@ -26,7 +28,7 @@ incoming = {
     (cpty: *, security: c! 931427108, quantity: *, action: P, delay: 0)
 }           
 
-[[CONTRACTS]]
+[[LOANS]]
 analysis_mode = 1
 analysis_start_date = 2023-10-27
 <recipient>
@@ -94,7 +96,7 @@ return_from_recall = {
 }
 <common>
 update_settlement = {
-    (cpty: *, security: *, open quantity: *, return_quantity: *, action: I, delay: 0)
+    (cpty: *, security: *, open quantity: *, return_quantity: *, action: US, delay: 0)
 }
 
 [[RECALLS]]
