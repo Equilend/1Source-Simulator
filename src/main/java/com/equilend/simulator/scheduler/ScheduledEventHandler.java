@@ -37,7 +37,7 @@ public class ScheduledEventHandler implements Runnable {
         try {
             token = OneSourceToken.getToken();
         } catch (APIException e) {
-            logger.error("Unable to propose scheduled loan proposal due to error with token");
+            logger.error("Unable to propose scheduled loan proposal due to error with token", e);
             return;
         }
 
@@ -53,7 +53,7 @@ public class ScheduledEventHandler implements Runnable {
                 security, quantity, idType);
             APIConnector.postLoanProposal(token, proposal);
         } catch (APIException e) {
-            logger.info("Unable to propose scheduled loan proposal: " + e.getMessage());
+            logger.debug("Unable to propose scheduled loan proposal", e);
         }
     }
 
