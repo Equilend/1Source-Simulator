@@ -17,14 +17,22 @@ public class RerateRules implements Rules {
     private final List<RerateRule> cancelRules = new ArrayList<>();
     private final List<RerateRule> proposeRules = new ArrayList<>();
     private final List<RerateRule> pendingCancelRules = new ArrayList<>();
-    private final boolean analysisMode;
+    private boolean analysisMode;
 
     public RerateRules(Map<String, Map<String, String>> rulesMap) {
-        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
-        addRules(rulesMap.get("recipient").get("approve"), approveRules, RerateRuleType.APPROVE);
-        addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RerateRuleType.CANCEL);
-        addRules(rulesMap.get("initiator").get("propose"), proposeRules, RerateRuleType.PROPOSE);
-        addRules(rulesMap.get("common").get("cancel_pending"), pendingCancelRules, RerateRuleType.PENDING_CANCEL);
+        if (rulesMap.containsKey("general")) {
+            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        }
+        if(rulesMap.containsKey("recipient")) {
+            addRules(rulesMap.get("recipient").get("approve"), approveRules, RerateRuleType.APPROVE);
+        }
+        if(rulesMap.containsKey("initiator")) {
+            addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RerateRuleType.CANCEL);
+            addRules(rulesMap.get("initiator").get("propose"), proposeRules, RerateRuleType.PROPOSE);
+        }
+        if(rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("cancel_pending"), pendingCancelRules, RerateRuleType.PENDING_CANCEL);
+        }
     }
 
     private enum RerateRuleType {

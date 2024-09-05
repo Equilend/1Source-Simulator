@@ -17,7 +17,7 @@ public class ReturnRules implements Rules {
     private final List<ReturnRule> proposeFromLoanRules = new ArrayList<>();
     private final List<ReturnRule> proposeFromReturnRules = new ArrayList<>();
     private final List<ReturnRule> settlementStatusUpdateRules = new ArrayList<>();
-    private final boolean analysisMode;
+    private boolean analysisMode;
 
 
 
@@ -29,12 +29,20 @@ public class ReturnRules implements Rules {
         UPDATE;
     }
     public ReturnRules(Map<String, Map<String, String>> rulesMap) {
-        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
-        addRules(rulesMap.get("recipient").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
-        addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
-        addRules(rulesMap.get("initiator").get("return"), proposeFromLoanRules, ReturnRuleType.PROPOSE_FROM_LOAN);
-        addRules(rulesMap.get("initiator").get("return_from_recall"), proposeFromReturnRules, ReturnRuleType.PROPOSE_FROM_RECALL);
-        addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
+        if(rulesMap.containsKey("general")) {
+            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        }
+        if(rulesMap.containsKey("recipient")) {
+            addRules(rulesMap.get("recipient").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
+        }
+        if(rulesMap.containsKey("initiator")) {
+            addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
+            addRules(rulesMap.get("initiator").get("return"), proposeFromLoanRules, ReturnRuleType.PROPOSE_FROM_LOAN);
+            addRules(rulesMap.get("initiator").get("return_from_recall"), proposeFromReturnRules, ReturnRuleType.PROPOSE_FROM_RECALL);
+        }
+        if(rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
+        }
     }
 
     public void addRules(String rawRulesList, List<ReturnRule> returnRules, ReturnRuleType type) {

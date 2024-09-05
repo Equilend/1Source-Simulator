@@ -22,6 +22,7 @@ public class OneSourceToken {
         try {
             tokenResponse = KeycloakConnector.getBearerToken(loginInfo, url);
             accessToken = tokenResponse.getAccess_token();
+            logger.debug("1Source auth token: " + accessToken);
         } catch (APIException e) {
             logger.error("Error retrieving 1Source auth token");
             throw new RuntimeException(e);
@@ -33,6 +34,7 @@ public class OneSourceToken {
                 try {
                     tokenResponse = KeycloakConnector.getBearerToken(loginInfo, url);
                     accessToken = tokenResponse.getAccess_token();
+                    logger.debug("1Source auth token: " + accessToken);
                 } catch (APIException e) {
                     logger.error("Error retrieving 1Source auth token");
                 }

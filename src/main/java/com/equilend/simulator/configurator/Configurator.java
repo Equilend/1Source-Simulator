@@ -7,8 +7,8 @@ import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
-import com.equilend.simulator.configurator.rules.loan_rules.LoanRules;
 import com.equilend.simulator.configurator.rules.event_rules.EventRules;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanRules;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
@@ -210,5 +210,14 @@ public class Configurator {
 
     public long getEventFetchIntervalMillis() {
         return Long.parseLong(properties.getProperty("event_fetch_interval_secs")) * 1000;
+    }
+
+    public boolean isAnalysisModeEnable() {
+        return Boolean.parseBoolean(properties.getProperty("analysis_mode.enable"));
+    }
+
+    public boolean isScheduledProducerEnable() {
+        return getLoanRules() != null && getLoanRules().getLoanProposeRules() != null
+            && !getLoanRules().getLoanProposeRules().isEmpty();
     }
 }
