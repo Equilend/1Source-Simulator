@@ -10,11 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SplitRules implements Rules {
+
     private static final Logger logger = LogManager.getLogger(SplitRules.class.getName());
     private final List<SplitRule> approveRules = new ArrayList<>();
     private final List<SplitRule> proposeRules = new ArrayList<>();
-    private final boolean analysisMode;
-
+    private boolean analysisMode;
 
 
     private enum SplitRuleType {
@@ -23,9 +23,15 @@ public class SplitRules implements Rules {
     }
 
     public SplitRules(Map<String, Map<String, String>> rulesMap) {
-        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
-        addRules(rulesMap.get("recipient").get("approve"), approveRules, SplitRuleType.APPROVE);
-        addRules(rulesMap.get("initiator").get("split"), proposeRules, SplitRuleType.PROPOSE);
+        if (rulesMap.containsKey("general")) {
+            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        }
+        if (rulesMap.containsKey("recipient")) {
+            addRules(rulesMap.get("recipient").get("approve"), approveRules, SplitRuleType.APPROVE);
+        }
+        if (rulesMap.containsKey("initiator")) {
+            addRules(rulesMap.get("initiator").get("split"), proposeRules, SplitRuleType.PROPOSE);
+        }
     }
 
     public void addRules(String rawRulesList, List<SplitRule> splitRules, SplitRuleType type) {

@@ -18,6 +18,7 @@ public class DatalendToken {
         try {
             Token tokenResponse = KeycloakConnector.getBearerToken(login, url);
             this.accessToken = tokenResponse.getAccess_token();
+            logger.debug("Datalend auth token: " + accessToken);
         } catch (APIException e) {
             logger.error("Error retrieving Datalend auth token");
             throw new RuntimeException(e);

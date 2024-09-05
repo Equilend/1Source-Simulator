@@ -14,7 +14,7 @@ public class LoanRules implements Rules {
     private final List<LoanRule> loanProposeRules = new ArrayList<>();
     private final List<LoanRule> loanPendingCancelRules = new ArrayList<>();
     private final List<LoanRule> loanPendingUpdateRules = new ArrayList<>();
-    private final boolean analysisMode;
+    private boolean analysisMode;
     private String analysisStartDate = APIConnector.formatTime(APIConnector.getCurrentTime()).substring(0, 10);
 
     private enum LoanRuleType {
@@ -26,16 +26,24 @@ public class LoanRules implements Rules {
     }
 
     public LoanRules(Map<String, Map<String, String>> rulesMap) {
-        addRules(rulesMap.get("recipient").get("incoming"), loanApproveRejectRules,
-            LoanRuleType.APPROVE_REJECT);
-        addRules(rulesMap.get("initiator").get("incoming"), loanCancelRules, LoanRuleType.CANCEL);
-        addRules(rulesMap.get("initiator").get("outgoing"), loanProposeRules, LoanRuleType.PROPOSE);
-        addRules(rulesMap.get("common").get("cancel_pending"), loanPendingCancelRules,
-            LoanRuleType.PENDING_CANCEL);
-        addRules(rulesMap.get("common").get("update_settlement"), loanPendingUpdateRules,
-            LoanRuleType.PENDING_UPDATE);
-        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
-        analysisStartDate = rulesMap.get("general").get("analysis_start_date");
+        if(rulesMap.containsKey("recipient")) {
+            addRules(rulesMap.get("recipient").get("incoming"), loanApproveRejectRules,
+                LoanRuleType.APPROVE_REJECT);
+        }
+        if(rulesMap.containsKey("initiator")) {
+            addRules(rulesMap.get("initiator").get("incoming"), loanCancelRules, LoanRuleType.CANCEL);
+            addRules(rulesMap.get("initiator").get("outgoing"), loanProposeRules, LoanRuleType.PROPOSE);
+        }
+        if(rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("cancel_pending"), loanPendingCancelRules,
+                LoanRuleType.PENDING_CANCEL);
+            addRules(rulesMap.get("common").get("update_settlement"), loanPendingUpdateRules,
+                LoanRuleType.PENDING_UPDATE);
+        }
+        if(rulesMap.containsKey("general")) {
+            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisStartDate = rulesMap.get("general").get("analysis_start_date");
+        }
     }
 
     public void addRules(String rawRulesList, List<LoanRule> loanRulesList, LoanRuleType type) {

@@ -9,22 +9,12 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Simulator {
 
-    private static final String analyzeRecordsMsg = "\n" + //
-        "     _                _                                            _     \n" + //
-        "    / \\   _ __   __ _| |_   _ _______   _ __ ___  ___ ___  _ __ __| |___ \n" + //
-        "   / _ \\ | '_ \\ / _` | | | | |_  / _ \\ | '__/ _ \\/ __/ _ \\| '__/ _` / __|\n" + //
-        "  / ___ \\| | | | (_| | | |_| |/ /  __/ | | |  __/ (_| (_) | | | (_| \\__ \\\n" + //
-        " /_/   \\_\\_| |_|\\__,_|_|\\__, /___\\___| |_|  \\___|\\___\\___/|_|  \\__,_|___/\n" + //
-        "                        |___/                                            \n";
-    private static final String processEventsMsg = "\n" + //
-        "  ____                                                     _       \n" + //
-        " |  _ \\ _ __ ___   ___ ___  ___ ___    _____   _____ _ __ | |_ ___ \n" + //
-        " | |_) | '__/ _ \\ / __/ _ \\/ __/ __|  / _ \\ \\ / / _ \\ '_ \\| __/ __|\n" + //
-        " |  __/| | | (_) | (_|  __/\\__ \\__ \\ |  __/\\ V /  __/ | | | |_\\__ \\\n" + //
-        " |_|   |_|  \\___/ \\___\\___||___/___/  \\___| \\_/ \\___|_| |_|\\__|___/\n\n";
+    private static final Logger logger = LogManager.getLogger(Simulator.class.getName());
 
     private static class EventProcessorThread implements ThreadFactory {
 
@@ -44,39 +34,21 @@ public class Simulator {
         Properties props = PropertiesUtil.loadProperties(args);
         Configurator configurator = new Configurator(props);
 
-        String fence = "=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$=+=$";
-        if (configurator.getRerateRules().getAnalysisMode() || configurator.getLoanRules().getAnalysisMode()) {
-            System.out.println(fence);
-            System.out.println(analyzeRecordsMsg);
-            System.out.println(fence);
-            RecordAnalyzer analyzer = new RecordAnalyzer(configurator);
-            analyzer.run();
+        if (configurator.isAnalysisModeEnable()) {
+            logger.info("Start analysis mode");
+            new RecordAnalyzer(configurator).run();
+            logger.info("Finish analysis mode");
         }
-        ExecutorService execOutgoing;
-        if (configurator.getLoanRules().schedulerMode()) {
-            System.out.println(fence);
-            //
-            //
-            //
-            //
-            //
-            String generateLoansMsg = "\n" + //
-                "   ____                           _                         _                  _       \n" + //
-                "  / ___| ___ _ __   ___ _ __ __ _| |_ ___    ___ ___  _ __ | |_ _ __ __ _  ___| |_ ___ \n" + //
-                " | |  _ / _ \\ '_ \\ / _ \\ '__/ _` | __/ _ \\  / __/ _ \\| '_ \\| __| '__/ _` |/ __| __/ __|\n" + //
-                " | |_| |  __/ | | |  __/ | | (_| | ||  __/ | (_| (_) | | | | |_| | | (_| | (__| |_\\__ \\\n" + //
-                "  \\____|\\___|_| |_|\\___|_|  \\__,_|\\__\\___|  \\___\\___/|_| |_|\\__|_|  \\__,_|\\___|\\__|___/\n\n";
-            System.out.println(generateLoansMsg);
-            System.out.println(fence);
-            execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());
+
+        if (configurator.isScheduledProducerEnable()) {
+            logger.info("Start scheduled producer");
+            ExecutorService execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());
             execOutgoing.execute(new Scheduler(configurator));
         }
 
+        logger.info("Start event listener");
         ExecutorService execIncoming = Executors.newSingleThreadExecutor(new EventProcessorThread());
         execIncoming.execute(new EventsProcessor(configurator));
-        System.out.println(fence);
-        System.out.println(processEventsMsg);
-        System.out.println(fence);
 
         while (true) {
             Thread.yield();

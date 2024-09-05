@@ -15,7 +15,7 @@ public class BuyinRules implements Rules {
 
     private final List<BuyinRule> acceptRules = new ArrayList<>();
     private final List<BuyinRule> proposeRules = new ArrayList<>();
-    private final boolean analysisMode;
+    private boolean analysisMode;
 
     private enum BuyinRuleType {
         ACCEPT,
@@ -23,9 +23,15 @@ public class BuyinRules implements Rules {
     }
 
     public BuyinRules(Map<String, Map<String, String>> rulesMap) {
-        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
-        addRules(rulesMap.get("recipient").get("accept"), acceptRules, BuyinRuleType.ACCEPT);
-        addRules(rulesMap.get("initiator").get("submit"), proposeRules, BuyinRuleType.PROPOSE);
+        if (rulesMap.containsKey("general")) {
+            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        }
+        if (rulesMap.containsKey("recipient")) {
+            addRules(rulesMap.get("recipient").get("accept"), acceptRules, BuyinRuleType.ACCEPT);
+        }
+        if (rulesMap.containsKey("initiator")) {
+            addRules(rulesMap.get("initiator").get("submit"), proposeRules, BuyinRuleType.PROPOSE);
+        }
     }
 
     public void addRules(String rawRulesList, List<BuyinRule> buyinRules, BuyinRuleType type) {

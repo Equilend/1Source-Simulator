@@ -14,7 +14,7 @@ public class RecallRules implements Rules {
     private static final Logger logger = LogManager.getLogger(RecallRules.class.getName());
     private final List<RecallRule> cancelRules = new ArrayList<>();
     private final List<RecallRule> proposeRules = new ArrayList<>();
-    private final boolean analysisMode;
+    private boolean analysisMode;
 
     private enum RecallRuleType {
         PROPOSE,
@@ -22,9 +22,13 @@ public class RecallRules implements Rules {
     }
 
     public RecallRules(Map<String, Map<String, String>> rulesMap) {
-        analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
-        addRules(rulesMap.get("initiator").get("recall"), proposeRules, RecallRuleType.PROPOSE);
-        addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RecallRuleType.CANCEL);
+        if (rulesMap.containsKey("general")) {
+            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        }
+        if (rulesMap.containsKey("initiator")) {
+            addRules(rulesMap.get("initiator").get("recall"), proposeRules, RecallRuleType.PROPOSE);
+            addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RecallRuleType.CANCEL);
+        }
     }
 
     public void addRules(String rawRulesList, List<RecallRule> returnRules, RecallRuleType type) {

@@ -35,9 +35,13 @@ public class RecordAnalyzer {
     public RecordAnalyzer(Configurator configurator) {
         this.configurator = configurator;
         this.botPartyId = configurator.getBotPartyId();
-        this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
-        this.loanAnalysisMode = configurator.getLoanRules().getAnalysisMode();
-        this.loanStartDate = configurator.getLoanRules().getAnalysisStartDate();
+        if (configurator.getRerateRules() != null) {
+            this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
+        }
+        if (configurator.getLoanRules() != null) {
+            this.loanAnalysisMode = configurator.getLoanRules().getAnalysisMode();
+            this.loanStartDate = configurator.getLoanRules().getAnalysisStartDate();
+        }
     }
 
     private Loan getLoanById(String loanId) {
@@ -150,26 +154,26 @@ public class RecordAnalyzer {
                 for (Loan loan : loans) {
                     //determine whether will consider as initiator or as recipient
                     try {
-                    if (LoanService.isInitiator(loan, botPartyId)) {
-                        LoanCancelRule loanCancelRule = configurator.getLoanRules()
-                            .getLoanCancelRule(loan, botPartyId);
-                        if (loanCancelRule != null && loanCancelRule.shouldCancel()) {
-                            cancelLoan(loan.getLoanId());
-                        }
-                    } else {
-                        LoanApproveRejectRule rule = configurator.getLoanRules()
-                            .getLoanApproveRejectRule(loan, botPartyId);
-                        if (rule == null) {
-                            continue;
-                        }
-                        if (rule.shouldApprove()) {
-                            PartyRole partyRole = LoanService.getTransactingPartyById(loan, botPartyId).get()
-                                .getPartyRole();
-                            acceptLoan(loan.getLoanId(), partyRole);
+                        if (LoanService.isInitiator(loan, botPartyId)) {
+                            LoanCancelRule loanCancelRule = configurator.getLoanRules()
+                                .getLoanCancelRule(loan, botPartyId);
+                            if (loanCancelRule != null && loanCancelRule.shouldCancel()) {
+                                cancelLoan(loan.getLoanId());
+                            }
                         } else {
-                            declineLoan(loan.getLoanId());
+                            LoanApproveRejectRule rule = configurator.getLoanRules()
+                                .getLoanApproveRejectRule(loan, botPartyId);
+                            if (rule == null) {
+                                continue;
+                            }
+                            if (rule.shouldApprove()) {
+                                PartyRole partyRole = LoanService.getTransactingPartyById(loan, botPartyId).get()
+                                    .getPartyRole();
+                                acceptLoan(loan.getLoanId(), partyRole);
+                            } else {
+                                declineLoan(loan.getLoanId());
+                            }
                         }
-                    }
                     } catch (APIException e) {
                         logger.error("Unable to process loan", e);
                     }

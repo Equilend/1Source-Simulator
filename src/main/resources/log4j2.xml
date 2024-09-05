@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="WARN">
+<configuration>
   <appenders>
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level - %msg%n"/>
@@ -23,9 +23,9 @@
   </appenders>
 
   <loggers>     
-    <root level="trace">
-      <appender-ref ref="Console" level="info"/>
-      <appender-ref ref="RollingFile" level="trace"/>
+    <root level="${env:ROOT_LOG_LVL:-DEBUG}">
+      <appender-ref ref="Console" level="${env:CONSOLE_LOG_LVL:-INFO}"/>
+      <appender-ref ref="RollingFile" level="${env:FILE_LOG_LVL:-INFO}"/>
     </root>    
   </loggers>
 </configuration>

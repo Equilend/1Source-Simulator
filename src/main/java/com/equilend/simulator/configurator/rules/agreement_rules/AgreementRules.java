@@ -11,7 +11,9 @@ public class AgreementRules implements Rules {
     private final List<AgreementRule> rules = new ArrayList<>();
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap) {
-        addRules(rulesMap.get("initiator").get("incoming"));
+        if (rulesMap.containsKey("initiator")) {
+            addRules(rulesMap.get("initiator").get("incoming"));
+        }
     }
 
     public void addRules(String rulesList) {
