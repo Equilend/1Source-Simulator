@@ -1,13 +1,9 @@
 package com.equilend.simulator.scheduler;
 
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanGenerativeRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanRule;
-import com.equilend.simulator.model.party.Party;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.instrument.Instrument;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -16,16 +12,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Scheduler implements Runnable {
 
-    private Configurator configurator;
+    private Config config;
     private String botPartyId;
-    private Map<String, Party> parties;
-    private Map<String, Instrument> instruments;
 
-    public Scheduler(Configurator configurator) {
-        this.configurator = configurator;
-        this.botPartyId = configurator.getBotPartyId();
-        this.parties = configurator.getParties();
-        this.instruments = configurator.getInstruments();
+    public Scheduler() {
+        this.config = Config.getInstance();
+        this.botPartyId = config.getBotPartyId();
     }
 
     private static class GeneratedEventThread implements ThreadFactory {
@@ -39,7 +31,7 @@ public class Scheduler implements Runnable {
 
     public void run() {
         // Get generative loan rules/instructions from configurator
-        List<LoanRule> rules = configurator.getLoanRules().getLoanProposeRules();
+        List<LoanRule> rules = config.getLoanRules().getLoanProposeRules();
         if (rules == null || rules.size() == 0) {
             return;
         }
@@ -48,29 +40,21 @@ public class Scheduler implements Runnable {
 
         // For each instruction, create a thread that handles this task.
         for (LoanRule rule : rules) {
-            LoanGenerativeRule instruction = (LoanGenerativeRule) rule;
-            for (String counterpartyId : instruction.getCounterparties()) {
-                for (String security : instruction.getSecurities()) {
-                    PartyRole partyRole = instruction.getPartyRole();
-                    Party party = parties.get(botPartyId);
-                    Party counterparty = parties.get(counterpartyId);
-                    int bang = security.indexOf("!");
-                    Instrument instrument;
-                    String idType = "";
-                    if (bang == -1) {
-                        instrument = instruments.get(security);
-                    } else {
-                        idType = security.substring(0, bang).trim();
-                        String idValue = security.substring(bang + 1).trim();
-                        instrument = new Instrument().figi(idValue).description("Security LLC");
-                    }
-                    String quantity = instruction.getQuantity();
-                    ScheduledEventHandler task = new ScheduledEventHandler(partyRole, party, counterparty, instrument,
-                        quantity, idType);
+            LoanGenerativeRule loanGenerativeRule = (LoanGenerativeRule) rule;
+            for (String counterpartyId : loanGenerativeRule.getCounterparties()) {
+                for (String security : loanGenerativeRule.getSecurities()) {
+                    String partyRole = loanGenerativeRule.getPartyRole();
+                    Integer quantity = loanGenerativeRule.getQuantity();
+                    Double rate = loanGenerativeRule.getRate();
+                    Double price = loanGenerativeRule.getPrice();
+                    String termType = loanGenerativeRule.getTermType();
+                    ScheduledLoanProducer task = new ScheduledLoanProducer(partyRole, botPartyId, counterpartyId,
+                        security,
+                        quantity, rate, price, termType);
 
-                    Long delayMillis = Math.round(1000 * instruction.getDelaySecs());
-                    Long periodMillis = Math.round(1000 * instruction.getPeriodSecs());
-                    Long durationMillis = Math.round(1000 * instruction.getTotalDurationSecs());
+                    Long delayMillis = Math.round(1000 * loanGenerativeRule.getDelaySecs());
+                    Long periodMillis = Math.round(1000 * loanGenerativeRule.getPeriodSecs());
+                    Long durationMillis = Math.round(1000 * loanGenerativeRule.getTotalDurationSecs());
                     ScheduledFuture<?> taskFuture = exec.scheduleAtFixedRate(task, delayMillis, periodMillis,
                         TimeUnit.MILLISECONDS);
                     exec.schedule(new Runnable() {

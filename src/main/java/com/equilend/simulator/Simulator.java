@@ -1,6 +1,6 @@
 package com.equilend.simulator;
 
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
 import com.equilend.simulator.scheduler.Scheduler;
@@ -32,23 +32,25 @@ public class Simulator {
 
     public static void main(String[] args) {
         Properties props = PropertiesUtil.loadProperties(args);
-        Configurator configurator = new Configurator(props);
+        logger.info("Initializing Simulator...");
+        Config config = Config.getInstance();
+        config.init(props);
 
-        if (configurator.isAnalysisModeEnable()) {
+        if (config.isAnalysisModeEnable()) {
             logger.info("Start analysis mode");
-            new RecordAnalyzer(configurator).run();
+            new RecordAnalyzer().run();
             logger.info("Finish analysis mode");
         }
 
-        if (configurator.isScheduledProducerEnable()) {
+        if (config.isScheduledProducerEnable()) {
             logger.info("Start scheduled producer");
             ExecutorService execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());
-            execOutgoing.execute(new Scheduler(configurator));
+            execOutgoing.execute(new Scheduler());
         }
 
         logger.info("Start event listener");
         ExecutorService execIncoming = Executors.newSingleThreadExecutor(new EventProcessorThread());
-        execIncoming.execute(new EventsProcessor(configurator));
+        execIncoming.execute(new EventsProcessor());
 
         while (true) {
             Thread.yield();

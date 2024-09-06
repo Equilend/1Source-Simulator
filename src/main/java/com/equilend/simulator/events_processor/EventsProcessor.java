@@ -3,7 +3,7 @@ package com.equilend.simulator.events_processor;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.event_handler.BuyinHandler;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.events_processor.event_handler.LoanHandler;
@@ -25,13 +25,13 @@ import org.apache.logging.log4j.Logger;
 public class EventsProcessor implements Runnable {
 
     private static final Logger logger = LogManager.getLogger(EventsProcessor.class.getName());
-    private final Configurator configurator;
+    private final Config config;
     private final long waitInterval;
 
 
-    public EventsProcessor(Configurator configurator) {
-        this.configurator = configurator;
-        this.waitInterval = configurator.getEventFetchIntervalMillis();
+    public EventsProcessor() {
+        this.config = Config.getInstance();
+        this.waitInterval = config.getEventFetchIntervalMillis();
     }
 
     private static class EventHandlerThread implements ThreadFactory {
@@ -80,7 +80,7 @@ public class EventsProcessor implements Runnable {
             fromEventId = events.get(0).getEventId() + 1;
 
             for (Event event : events) {
-                boolean shouldIgnore = configurator.getEventRules().shouldIgnoreEvent(event);
+                boolean shouldIgnore = config.getEventRules().shouldIgnoreEvent(event);
                 if (shouldIgnore) {
                     logger.debug("Ignoring event of type {}", event.getEventType());
                     continue;
@@ -92,30 +92,30 @@ public class EventsProcessor implements Runnable {
                 EventType type = event.getEventType();
                 switch (type) {
                     case TRADE_AGREED:
-                        task = new TradeHandler(event, configurator, System.currentTimeMillis());
+                        task = new TradeHandler(event, config, System.currentTimeMillis());
                         break;
                     case LOAN_OPENED:
                     case LOAN_PROPOSED:
                     case LOAN_PENDING:
-                        task = new LoanHandler(event, configurator, System.currentTimeMillis());
+                        task = new LoanHandler(event, config, System.currentTimeMillis());
                         break;
                     case RERATE_PROPOSED:
                     case RERATE_PENDING:
-                        task = new RerateHandler(event, configurator, System.currentTimeMillis());
+                        task = new RerateHandler(event, config, System.currentTimeMillis());
                         break;
                     case RETURN_PENDING:
                     case RETURN_ACKNOWLEDGED:
-                        task = new ReturnsHandler(event, configurator, System.currentTimeMillis());
+                        task = new ReturnsHandler(event, config, System.currentTimeMillis());
                         break;
                     case BUYIN_PENDING:
-                        task = new BuyinHandler(event, configurator, System.currentTimeMillis());
+                        task = new BuyinHandler(event, config, System.currentTimeMillis());
                         break;
                     case RECALL_OPENED:
                     case RECALL_ACKNOWLEDGED:
-                        task = new RecallHandler(event, configurator, System.currentTimeMillis());
+                        task = new RecallHandler(event, config, System.currentTimeMillis());
                         break;
                     case LOAN_SPLIT_PROPOSED:
-                        task = new SplitHandler(event, configurator, System.currentTimeMillis());
+                        task = new SplitHandler(event, config, System.currentTimeMillis());
                         break;
                 }
 

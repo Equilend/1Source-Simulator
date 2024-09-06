@@ -3,7 +3,7 @@ package com.equilend.simulator.events_processor.event_handler;
 import static com.equilend.simulator.service.LoanService.getLoanById;
 
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanApproveRejectRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanCancelRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanPendingCancelRule;
@@ -27,14 +27,14 @@ public class LoanHandler implements EventHandler {
 
     private static final Logger logger = LogManager.getLogger(LoanHandler.class.getName());
     private final Event event;
-    private final Configurator configurator;
+    private final Config config;
     private final String botPartyId;
     private final Long startTime;
 
-    public LoanHandler(Event e, Configurator configurator, Long startTime) {
+    public LoanHandler(Event e, Config config, Long startTime) {
         this.event = e;
-        this.configurator = configurator;
-        this.botPartyId = configurator.getBotPartyId();
+        this.config = config;
+        this.botPartyId = config.getBotPartyId();
         this.startTime = startTime;
     }
 
@@ -56,13 +56,13 @@ public class LoanHandler implements EventHandler {
             switch (event.getEventType()) {
                 case LOAN_PROPOSED:
                     if (isInitiator) {
-                        LoanCancelRule loanCancelRule = configurator.getLoanRules()
+                        LoanCancelRule loanCancelRule = config.getLoanRules()
                             .getLoanCancelRule(loan, botPartyId);
                         if (loanCancelRule != null && loanCancelRule.shouldCancel()) {
                             LoanRuleProcessor.process(startTime, loanCancelRule, loan);
                           }
                     } else {
-                        LoanApproveRejectRule loanApproveRejectRule = configurator.getLoanRules()
+                        LoanApproveRejectRule loanApproveRejectRule = config.getLoanRules()
                             .getLoanApproveRejectRule(loan, botPartyId);
                         if (loanApproveRejectRule != null && !loanApproveRejectRule.shouldIgnore()) {
                             LoanRuleProcessor.process(startTime, loanApproveRejectRule, loan, botPartyId);
@@ -71,28 +71,28 @@ public class LoanHandler implements EventHandler {
                     break;
                 case LOAN_OPENED:
                     if (isInitiator) {
-                        RerateProposeRule rerateProposeRule = configurator.getRerateRules()
+                        RerateProposeRule rerateProposeRule = config.getRerateRules()
                             .getProposeRule(loan, botPartyId);
                         if (rerateProposeRule != null && rerateProposeRule.shouldPropose()) {
                             RerateRuleProcessor.process(startTime, rerateProposeRule, loan, null);
                             return;
                         }
 
-                        ReturnProposeFromLoanRule returnProposeRule = configurator.getReturnRules()
+                        ReturnProposeFromLoanRule returnProposeRule = config.getReturnRules()
                             .getReturnProposeFromLoanRule(loan, botPartyId);
                         if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
                             ReturnRuleProcessor.process(startTime, returnProposeRule, loan, null);
                             return;
                         }
 
-                        RecallProposeRule recallProposeRule = configurator.getRecallRules()
+                        RecallProposeRule recallProposeRule = config.getRecallRules()
                             .getRecallProposeRule(loan, botPartyId);
                         if (recallProposeRule != null && recallProposeRule.shouldPropose()) {
                             RecallRuleProcessor.process(startTime, recallProposeRule, loan, null);
                             return;
                         }
 
-                        SplitProposeRule splitProposeRule = configurator.getSplitRules()
+                        SplitProposeRule splitProposeRule = config.getSplitRules()
                             .getSplitProposeRule(loan, botPartyId);
                         if (splitProposeRule != null && splitProposeRule.shouldPropose()) {
                             SplitRuleProcessor.process(startTime, splitProposeRule, loan, null);
@@ -102,14 +102,14 @@ public class LoanHandler implements EventHandler {
                     break;
 
                 case LOAN_PENDING:
-                    LoanPendingCancelRule loanPendingCancelRule = configurator.getLoanRules()
+                    LoanPendingCancelRule loanPendingCancelRule = config.getLoanRules()
                         .getLoanPendingCancelRule(loan, botPartyId);
                     if (loanPendingCancelRule != null && loanPendingCancelRule.shouldCancel()) {
                         LoanRuleProcessor.process(startTime, loanPendingCancelRule, loan);
                         return;
                     }
 
-                    LoanPendingUpdateRule loanPendingUpdateRule = configurator.getLoanRules()
+                    LoanPendingUpdateRule loanPendingUpdateRule = config.getLoanRules()
                         .getLoanPendingUpdateRule(loan, botPartyId);
                     if (loanPendingUpdateRule != null && loanPendingUpdateRule.shouldUpdate()) {
                         LoanRuleProcessor.process(startTime, loanPendingUpdateRule, loan);

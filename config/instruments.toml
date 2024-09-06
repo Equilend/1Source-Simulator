@@ -10,7 +10,7 @@ description = "AMAZON COM INC COM"
 
 [[instruments]]
 ticker = "AAPL"
-figi = "BBG001S5N8V8"
+figi = "BBG000B9XRY4"
 description = "APPLE INC COM"
 
 [[instruments]]

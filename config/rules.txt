@@ -44,10 +44,7 @@ incoming = {
     (cpty: *, security: *, quantity: *, action: I, delay: 0)
 }
 outgoing = {
-    (bot_party_role: BORROWER, cpty: MSCO LLC, security: TSLA, quantity: 1000, delay: 0, period: 5, duration: 60)
-    (bot_party_role: LENDER, cpty: TBORR-US, security: AAPL | MSFT, quantity: 1000, delay: 10, period: 5, duration: 0)
-    (bot_party_role: LENDER, cpty: TBORR-US, security: AMZN | GOOG, quantity: 1000, delay: 10, period: 5, duration: 0)
-    (bot_party_role: LENDER, cpty: TBORR-US, security: JPM | IBM, quantity: 1000, delay: 10, period: 5, duration: 0)
+    (bot_party_role: LENDER, cpty: TBORR-US, security: AAPL | MSFT, quantity: 1000, rate: 2, price: 100, term_type: OPEN, delay: 10, period: 5, duration: 100)
 }
 <common>
 cancel_pending = {

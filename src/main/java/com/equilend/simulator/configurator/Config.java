@@ -26,9 +26,9 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Configurator {
-
-    private static final Logger logger = LogManager.getLogger(Configurator.class.getName());
+public final class Config {
+    private static final Logger logger = LogManager.getLogger(Config.class.getName());
+    private static Config INSTANCE;
     private final Map<String, Party> parties = new HashMap<>();
     private final Map<String, Instrument> instruments = new HashMap<>();
     private EventRules eventRules;
@@ -41,7 +41,17 @@ public class Configurator {
     private SplitRules splitRules;
     private Properties properties;
 
-    public Configurator(Properties props) {
+    private Config(){
+    }
+
+    public static Config getInstance() {
+        if(INSTANCE == null) {
+            INSTANCE = new Config();
+        }
+        return INSTANCE;
+    }
+
+    public void init(Properties props) {
         properties = props;
         List<Party> partiesList = loadPartiesTomlFile();
 
@@ -163,6 +173,9 @@ public class Configurator {
         }
     }
 
+    public Properties getProperties(){
+        return properties;
+    }
 
     public Map<String, Party> getParties() {
         return parties;
@@ -205,7 +218,7 @@ public class Configurator {
     }
 
     public String getBotPartyId() {
-        return properties.getProperty("bot_party_id");
+        return properties.getProperty("bot.party_id");
     }
 
     public long getEventFetchIntervalMillis() {

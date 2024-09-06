@@ -4,7 +4,7 @@ import static com.equilend.simulator.service.LoanService.getLoanById;
 import static com.equilend.simulator.service.SplitService.getSplit;
 
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.split_rules.SplitApproveRule;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
@@ -17,14 +17,14 @@ import org.apache.logging.log4j.Logger;
 public class SplitHandler implements EventHandler{
     private static final Logger logger = LogManager.getLogger(SplitHandler.class.getName());
     private final Event event;
-    private final Configurator configurator;
+    private final Config config;
     private final String botPartyId;
     private final Long startTime;
 
-    public SplitHandler(Event e, Configurator configurator, Long startTime) {
+    public SplitHandler(Event e, Config config, Long startTime) {
         this.event = e;
-        this.configurator = configurator;
-        this.botPartyId = configurator.getBotPartyId();
+        this.config = config;
+        this.botPartyId = config.getBotPartyId();
         this.startTime = startTime;
     }
     @Override
@@ -47,7 +47,7 @@ public class SplitHandler implements EventHandler{
             switch (event.getEventType()) {
                 case LOAN_SPLIT_PROPOSED:
                     if (!isInitiator) {
-                        SplitApproveRule splitApproveRule = configurator.getSplitRules()
+                        SplitApproveRule splitApproveRule = config.getSplitRules()
                             .getSplitApproveRule(loanSplit, loan, botPartyId);
                         if (splitApproveRule != null && splitApproveRule.shouldApprove()) {
                             SplitRuleProcessor.process(startTime, splitApproveRule, loan, loanSplit);
