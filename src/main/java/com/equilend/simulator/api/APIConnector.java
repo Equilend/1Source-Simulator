@@ -228,7 +228,9 @@ public class APIConnector {
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(loanJson))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
+                .POST(BodyPublishers.ofString(loanJson))
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating loan proposal post request";
@@ -303,6 +305,7 @@ public class APIConnector {
         try {
             postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/approve"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
                 .POST(BodyPublishers.ofString(settlementJson)).build();
         } catch (URISyntaxException e) {
             String message = "Error with creating accept loan proposal post request for loan " + loanId;
@@ -393,6 +396,7 @@ public class APIConnector {
             HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId))
                 .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
                 .build();
             patchResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -515,7 +519,9 @@ public class APIConnector {
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/rerates"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(rerateJson))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
+                .POST(BodyPublishers.ofString(rerateJson))
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating rerate proposal post request";
@@ -724,6 +730,7 @@ public class APIConnector {
             postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId + "/returns/" + returnId + "/acknowledge"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(returnAcknowledgementJson)).build();
         } catch (URISyntaxException e) {
             String message = "Error creating post Return Acknowledgement " + returnId;
@@ -787,7 +794,9 @@ public class APIConnector {
         HttpRequest postRequest;
         try {
             postRequest = HttpRequest.newBuilder().uri(new URI(restAPIURL + "/loans/" + loanId + "/returns"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(BodyPublishers.ofString(returnJson))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
+                .POST(BodyPublishers.ofString(returnJson))
                 .build();
         } catch (URISyntaxException e) {
             String message = "Error with creating return proposal post request";
@@ -827,6 +836,7 @@ public class APIConnector {
             postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId + "/returns/" + returnId))
                 .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
                 .build();
         } catch (URISyntaxException e) {
@@ -903,6 +913,7 @@ public class APIConnector {
             HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId + "/buyins/completes"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -945,6 +956,7 @@ public class APIConnector {
             HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId + "/recalls"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
@@ -1005,7 +1017,9 @@ public class APIConnector {
             String body = gson.toJson(splitLotAppovals);
             HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId + "/split/" + splitId + "/approve"))
-                .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.ofString(body))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
@@ -1028,6 +1042,7 @@ public class APIConnector {
             HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId + "/split"))
                 .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());

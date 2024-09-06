@@ -17,7 +17,7 @@ public class SettlementService {
             .localAgentAcct(props.getProperty("bot.local_agent_acct"))
             .dtcParticipantNumber(props.getProperty("bot.dtc_partipant_number"));
         PartySettlementInstruction partySettlementInstruction = new PartySettlementInstruction().instruction(
-            settlementInstruction).partyRole(role);
+            settlementInstruction).partyRole(role).internalAcctCd("internalAcctCd");
         return partySettlementInstruction;
     }
 

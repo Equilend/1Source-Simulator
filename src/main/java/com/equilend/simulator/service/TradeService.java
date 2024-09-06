@@ -17,6 +17,7 @@ import com.equilend.simulator.model.party.TransactingParties;
 import com.equilend.simulator.model.party.TransactingParty;
 import com.equilend.simulator.model.rate.FixedRateDef;
 import com.equilend.simulator.model.rate.Rate;
+import com.equilend.simulator.model.rate.RebateRate;
 import com.equilend.simulator.model.settlement.SettlementType;
 import com.equilend.simulator.model.trade.TermType;
 import com.equilend.simulator.model.trade.TradeAgreement;
@@ -86,7 +87,8 @@ public class TradeService {
 
         FixedRateDef fixedRateDef = new FixedRateDef().baseRate(rate).effectiveRate(rate).effectiveDate(LocalDate.now())
             .cutoffTime("18:00:00");
-        Rate fixedRate = new Rate(fixedRateDef);
+        RebateRate rebateRate = new RebateRate(fixedRateDef);
+        Rate fixedRate = new Rate(rebateRate);
 
         Double collateralMargin = Double.valueOf(102);
         Double contractValue = price * quantity;
