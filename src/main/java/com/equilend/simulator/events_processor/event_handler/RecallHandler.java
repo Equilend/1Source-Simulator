@@ -4,7 +4,7 @@ import static com.equilend.simulator.service.LoanService.getLoanById;
 import static com.equilend.simulator.service.RecallService.getRecallById;
 
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromRecallRule;
@@ -22,14 +22,14 @@ public class RecallHandler implements EventHandler {
 
     private static final Logger logger = LogManager.getLogger(RecallHandler.class.getName());
     private final Event event;
-    private final Configurator configurator;
+    private final Config config;
     private final String botPartyId;
     private final Long startTime;
 
-    public RecallHandler(Event event, Configurator configurator, Long startTime) {
+    public RecallHandler(Event event, Config config, Long startTime) {
         this.event = event;
-        this.configurator = configurator;
-        this.botPartyId = configurator.getBotPartyId();
+        this.config = config;
+        this.botPartyId = config.getBotPartyId();
         this.startTime = startTime;
     }
 
@@ -48,14 +48,14 @@ public class RecallHandler implements EventHandler {
             switch (event.getEventType()) {
                 case RECALL_OPENED:
                     if (isInitiator) {
-                        BuyinProposeRule buyinProposeRule = configurator.getBuyinRules()
+                        BuyinProposeRule buyinProposeRule = config.getBuyinRules()
                             .getBuyinProposeRule(loan, botPartyId);
                         if (buyinProposeRule != null && buyinProposeRule.shouldSubmit()) {
                             BuyinRuleProcessor.process(startTime, buyinProposeRule, loan, null);
                             return;
                         }
 
-                        ReturnProposeFromRecallRule returnProposeRule = configurator.getReturnRules()
+                        ReturnProposeFromRecallRule returnProposeRule = config.getReturnRules()
                             .getReturnProposeFromRecallRule(loan, botPartyId);
                         if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
                             ReturnRuleProcessor.process(startTime, returnProposeRule, loan, null);
@@ -65,7 +65,7 @@ public class RecallHandler implements EventHandler {
                     break;
                 case RECALL_ACKNOWLEDGED:
                    if (isInitiator) {
-                       RecallCancelRule recallCancelRule = configurator.getRecallRules().getRecallCancelRule(recall,
+                       RecallCancelRule recallCancelRule = config.getRecallRules().getRecallCancelRule(recall,
                            loan, botPartyId);
                        if (recallCancelRule != null && recallCancelRule.shouldCancel()) {
                            RecallRuleProcessor.process(startTime, recallCancelRule, loan, recall);

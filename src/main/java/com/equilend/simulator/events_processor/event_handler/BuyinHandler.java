@@ -4,7 +4,7 @@ import static com.equilend.simulator.service.BuyinService.getBuyinById;
 import static com.equilend.simulator.service.LoanService.getLoanById;
 
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
 import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.loan.Loan;
@@ -18,14 +18,14 @@ public class BuyinHandler implements EventHandler {
 
     private static final Logger logger = LogManager.getLogger(BuyinHandler.class.getName());
     private final Event event;
-    private final Configurator configurator;
+    private final Config config;
     private final String botPartyId;
     private final Long startTime;
 
-    public BuyinHandler(Event event, Configurator configurator, Long startTime) {
+    public BuyinHandler(Event event, Config config, Long startTime) {
         this.event = event;
-        this.configurator = configurator;
-        this.botPartyId = configurator.getBotPartyId();
+        this.config = config;
+        this.botPartyId = config.getBotPartyId();
         this.startTime = startTime;
     }
 
@@ -50,7 +50,7 @@ public class BuyinHandler implements EventHandler {
             switch (event.getEventType()) {
                 case BUYIN_PENDING:
                     if(!isInitiator) {
-                        BuyinAcceptRule buyinAcceptRule = configurator.getBuyinRules()
+                        BuyinAcceptRule buyinAcceptRule = config.getBuyinRules()
                             .getBuyinAcceptRule(buyin, loan, botPartyId);
                         if (buyinAcceptRule != null && buyinAcceptRule.shouldAccept()) {
                             BuyinRuleProcessor.process(startTime, buyinAcceptRule, loan, buyin);

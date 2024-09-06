@@ -4,7 +4,7 @@ import static com.equilend.simulator.service.LoanService.getLoanById;
 import static com.equilend.simulator.service.ReturnService.getReturnById;
 
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
@@ -20,14 +20,14 @@ public class ReturnsHandler implements EventHandler {
 
     private static final Logger logger = LogManager.getLogger(ReturnsHandler.class.getName());
     private final Event event;
-    private final Configurator configurator;
+    private final Config config;
     private final String botPartyId;
     private final Long startTime;
 
-    public ReturnsHandler(Event e, Configurator configurator, Long startTime) {
+    public ReturnsHandler(Event e, Config config, Long startTime) {
         this.event = e;
-        this.configurator = configurator;
-        this.botPartyId = configurator.getBotPartyId();
+        this.config = config;
+        this.botPartyId = config.getBotPartyId();
         this.startTime = startTime;
     }
 
@@ -46,7 +46,7 @@ public class ReturnsHandler implements EventHandler {
             switch (event.getEventType()) {
                 case RETURN_PENDING:
                     if (!isInitiator) {
-                        ReturnAcknowledgeRule acknowledgeRule = configurator.getReturnRules()
+                        ReturnAcknowledgeRule acknowledgeRule = config.getReturnRules()
                             .getReturnAcknowledgeRule(oneSourceReturn, loan, botPartyId);
                         if (acknowledgeRule != null && !acknowledgeRule.isIgnored()) {
                             ReturnRuleProcessor.process(startTime, acknowledgeRule, loan, oneSourceReturn);
@@ -56,7 +56,7 @@ public class ReturnsHandler implements EventHandler {
                     break;
                 case RETURN_ACKNOWLEDGED:
                     if (isInitiator) {
-                        ReturnCancelRule cancelRule = configurator.getReturnRules()
+                        ReturnCancelRule cancelRule = config.getReturnRules()
                             .getReturnCancelRule(oneSourceReturn, loan, botPartyId);
                         if (cancelRule != null && !cancelRule.isIgnored()) {
                             ReturnRuleProcessor.process(startTime, cancelRule, loan, oneSourceReturn);
@@ -64,7 +64,7 @@ public class ReturnsHandler implements EventHandler {
                         }
                     }
 
-                    ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = configurator.getReturnRules()
+                    ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = config.getReturnRules()
                         .getReturnSettlementStatusUpdateRule(oneSourceReturn, loan, botPartyId);
                     if (returnSettlementStatusUpdateRule != null && !returnSettlementStatusUpdateRule.isIgnored()) {
                         ReturnRuleProcessor.process(startTime, returnSettlementStatusUpdateRule, loan,

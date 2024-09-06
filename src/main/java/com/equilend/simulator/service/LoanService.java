@@ -1,6 +1,7 @@
 package com.equilend.simulator.service;
 
 import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
+import static com.equilend.simulator.service.SettlementService.createPartySettlementInstruction;
 import static com.equilend.simulator.service.TradeService.createTrade;
 
 import com.equilend.simulator.api.APIConnector;
@@ -8,19 +9,24 @@ import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
 import com.equilend.simulator.auth.OneSourceToken;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
+import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.loan.LoanProposal;
 import com.equilend.simulator.model.loan.LoanProposalApproval;
-import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.party.Party;
 import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.model.party.TransactingParty;
+import com.equilend.simulator.model.rate.FixedRateDef;
+import com.equilend.simulator.model.rate.Rate;
 import com.equilend.simulator.model.settlement.PartySettlementInstruction;
 import com.equilend.simulator.model.settlement.SettlementStatus;
 import com.equilend.simulator.model.trade.TradeAgreement;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +50,7 @@ public class LoanService {
         trade.getCollateral().setMargin(Double.valueOf(102));
         updateTradePrice(trade, "S");
 
-        PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
+        PartySettlementInstruction partySettlementInstruction = createPartySettlementInstruction(
             partyRole);
 
         LoanProposal loanProposal = new LoanProposal().trade(trade)
@@ -52,12 +58,12 @@ public class LoanService {
         return loanProposal;
     }
 
-    public static LoanProposal createLoanProposal(PartyRole partyRole, Party party, Party counterparty,
-        Instrument security, Integer desiredQuantity, String idType) {
-        TradeAgreement trade = createTrade(partyRole, party, counterparty, security, desiredQuantity);
-        updateTradePrice(trade, idType);
+    public static LoanProposal createLoanProposal(PartyRole partyRole, String partyId, String counterPartyId,
+        String security, Integer quantity, Double rate, Double price, String termType) {
 
-        PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
+        TradeAgreement trade = createTrade(partyRole, partyId, counterPartyId, security, quantity, rate, price, termType);
+
+        PartySettlementInstruction partySettlementInstruction = createPartySettlementInstruction(
             partyRole);
 
         LoanProposal loanProposal = new LoanProposal().trade(trade)
@@ -131,9 +137,10 @@ public class LoanService {
 
     public static void acceptLoan(String loanId, PartyRole role)
         throws APIException {
-        PartySettlementInstruction partySettlementInstruction = SettlementService.createPartySettlementInstruction(
+        PartySettlementInstruction partySettlementInstruction = createPartySettlementInstruction(
             role);
         LoanProposalApproval loanProposalApproval = new LoanProposalApproval()
+            .internalRefId(UUID.randomUUID().toString())
             .settlement(partySettlementInstruction);
         if (role == PartyRole.LENDER) {
             loanProposalApproval = loanProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);

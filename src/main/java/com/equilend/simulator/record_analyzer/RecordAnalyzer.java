@@ -8,7 +8,7 @@ import static com.equilend.simulator.service.RerateService.postRerateProposal;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanApproveRejectRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
@@ -26,21 +26,21 @@ import org.apache.logging.log4j.Logger;
 public class RecordAnalyzer {
 
     private static final Logger logger = LogManager.getLogger(RecordAnalyzer.class.getName());
-    private Configurator configurator;
+    private Config config;
     private String botPartyId;
     private boolean rerateAnalysisMode;
     private boolean loanAnalysisMode;
     private String loanStartDate;
 
-    public RecordAnalyzer(Configurator configurator) {
-        this.configurator = configurator;
-        this.botPartyId = configurator.getBotPartyId();
-        if (configurator.getRerateRules() != null) {
-            this.rerateAnalysisMode = configurator.getRerateRules().getAnalysisMode();
+    public RecordAnalyzer() {
+        this.config = Config.getInstance();
+        this.botPartyId = config.getBotPartyId();
+        if (config.getRerateRules() != null) {
+            this.rerateAnalysisMode = config.getRerateRules().getAnalysisMode();
         }
-        if (configurator.getLoanRules() != null) {
-            this.loanAnalysisMode = configurator.getLoanRules().getAnalysisMode();
-            this.loanStartDate = configurator.getLoanRules().getAnalysisStartDate();
+        if (config.getLoanRules() != null) {
+            this.loanAnalysisMode = config.getLoanRules().getAnalysisMode();
+            this.loanStartDate = config.getLoanRules().getAnalysisStartDate();
         }
     }
 
@@ -100,7 +100,7 @@ public class RecordAnalyzer {
                         if (LoanService.getTransactingPartyById(loan, botPartyId).get().getPartyRole()
                             == PartyRole.BORROWER) {
                             // if bot is lender => initiator => cancel/ignore rules
-                            RerateCancelRule rule = configurator.getRerateRules()
+                            RerateCancelRule rule = config.getRerateRules()
                                 .getCancelRule(rerate, loan, botPartyId);
                             if (rule == null || !rule.shouldCancel()) {
                                 continue;
@@ -109,7 +109,7 @@ public class RecordAnalyzer {
                             RerateService.cancelRerateProposal(loan, rerate);
                         } else {
                             // if bot is borrower => recipient => approve/reject rules
-                            RerateApproveRule rule = configurator.getRerateRules()
+                            RerateApproveRule rule = config.getRerateRules()
                                 .getApproveRule(rerate, loan, botPartyId);
                             if (rule == null) {
                                 continue;
@@ -134,8 +134,8 @@ public class RecordAnalyzer {
                         continue;
                     }
 
-                    RerateProposeRule rule = configurator.getRerateRules()
-                        .getProposeRule(loan, configurator.getBotPartyId());
+                    RerateProposeRule rule = config.getRerateRules()
+                        .getProposeRule(loan, config.getBotPartyId());
                     if (rule == null || !rule.shouldPropose()) {
                         continue;
                     }
@@ -155,13 +155,13 @@ public class RecordAnalyzer {
                     //determine whether will consider as initiator or as recipient
                     try {
                         if (LoanService.isInitiator(loan, botPartyId)) {
-                            LoanCancelRule loanCancelRule = configurator.getLoanRules()
+                            LoanCancelRule loanCancelRule = config.getLoanRules()
                                 .getLoanCancelRule(loan, botPartyId);
                             if (loanCancelRule != null && loanCancelRule.shouldCancel()) {
                                 cancelLoan(loan.getLoanId());
                             }
                         } else {
-                            LoanApproveRejectRule rule = configurator.getLoanRules()
+                            LoanApproveRejectRule rule = config.getLoanRules()
                                 .getLoanApproveRejectRule(loan, botPartyId);
                             if (rule == null) {
                                 continue;

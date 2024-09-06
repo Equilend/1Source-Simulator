@@ -2,7 +2,7 @@ package com.equilend.simulator.events_processor.event_handler;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.configurator.Configurator;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRule;
 import com.equilend.simulator.model.agreement.Agreement;
 import com.equilend.simulator.model.loan.LoanProposal;
@@ -22,12 +22,12 @@ public class TradeHandler implements EventHandler {
     private static final Logger logger = LogManager.getLogger(TradeHandler.class.getName());
     private final Event event;
     private Agreement agreement;
-    private final Configurator configurator;
+    private final Config config;
     private final Long startTime;
 
-    public TradeHandler(Event e, Configurator configurator, Long startTime) {
+    public TradeHandler(Event e, Config config, Long startTime) {
         this.event = e;
-        this.configurator = configurator;
+        this.config = config;
         this.startTime = startTime;
     }
 
@@ -68,7 +68,7 @@ public class TradeHandler implements EventHandler {
         getAgreementById(agreementId);
         VenueTradeAgreement trade = agreement.getTrade();
 
-        String botPartyId = configurator.getBotPartyId();
+        String botPartyId = config.getBotPartyId();
 
         Optional<TransactingParty> transactingPartyById = TradeService.getTransactingPartyById(trade, botPartyId);
         if (transactingPartyById.isEmpty()) {
@@ -78,7 +78,7 @@ public class TradeHandler implements EventHandler {
 
         PartyRole botPartyRole = transactingPartyById.get().getPartyRole();
 
-        AgreementRule rule = configurator.getAgreementRules().getFirstApplicableRule(trade, botPartyId);
+        AgreementRule rule = config.getAgreementRules().getFirstApplicableRule(trade, botPartyId);
         if (rule != null && rule.shouldIgnore()) {
             return;
         }
