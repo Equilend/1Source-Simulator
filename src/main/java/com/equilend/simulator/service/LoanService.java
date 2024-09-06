@@ -26,6 +26,7 @@ import com.equilend.simulator.model.trade.TradeAgreement;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -139,6 +140,7 @@ public class LoanService {
         PartySettlementInstruction partySettlementInstruction = createPartySettlementInstruction(
             role);
         LoanProposalApproval loanProposalApproval = new LoanProposalApproval()
+            .internalRefId(UUID.randomUUID().toString())
             .settlement(partySettlementInstruction);
         if (role == PartyRole.LENDER) {
             loanProposalApproval = loanProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);
