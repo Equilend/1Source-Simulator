@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-package com.equilend.simulator.model.returns;
+package com.equilend.simulator.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

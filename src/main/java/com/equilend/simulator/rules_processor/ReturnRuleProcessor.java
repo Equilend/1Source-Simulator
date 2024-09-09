@@ -14,7 +14,7 @@ import com.equilend.simulator.configurator.rules.return_rules.ReturnRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.returns.AcknowledgementType;
+import com.equilend.simulator.model.AcknowledgementType;
 import com.equilend.simulator.model.returns.ModelReturn;
 import com.equilend.simulator.model.returns.ReturnAcknowledgement;
 import com.equilend.simulator.model.returns.ReturnProposal;

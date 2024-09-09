@@ -12,6 +12,7 @@
 
 package com.equilend.simulator.model.returns;
 
+import com.equilend.simulator.model.AcknowledgementType;
 import com.equilend.simulator.model.settlement.PartySettlementInstruction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
