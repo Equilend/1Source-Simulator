@@ -19,10 +19,12 @@ public class RecallRuleProcessor {
     public static void process(Long startTime, RecallRule rule, Loan loan, Recall recall) throws APIException {
 
         if (rule instanceof RecallProposeRule) {
+            logger.debug("Processing RecallProposeRule. Loan:  " + loan.getLoanId());
             processByProposeRule(startTime, (RecallProposeRule) rule, loan);
         }
 
         if (rule instanceof RecallCancelRule) {
+            logger.debug("Processing RecallCancelRule. Loan: " + loan.getLoanId());
             processByCancelRule(startTime, (RecallCancelRule) rule, loan, recall);
         }
 

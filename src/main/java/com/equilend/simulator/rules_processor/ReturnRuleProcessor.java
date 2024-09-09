@@ -34,23 +34,28 @@ public class ReturnRuleProcessor {
         throws APIException {
 
         if (rule instanceof ReturnAcknowledgeRule) {
+            logger.debug("Processing ReturnAcknowledgeRule. Loan: " + loan.getLoanId());
             processReturnByAcknowledgeRule(startTime, (ReturnAcknowledgeRule) rule, loan,
                 oneSourceReturn.getReturnId());
         }
         if (rule instanceof ReturnCancelRule) {
+            logger.debug("Processing ReturnCancelRule. Loan: " + loan.getLoanId());
             processReturnByCancelRule(startTime, (ReturnCancelRule) rule, loan.getLoanId(),
                 oneSourceReturn.getReturnId());
         }
 
         if (rule instanceof ReturnProposeFromLoanRule) {
+            logger.debug("Processing ReturnProposeFromLoanRule. Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (ReturnProposeFromLoanRule) rule, loan);
         }
 
         if (rule instanceof ReturnProposeFromRecallRule) {
+            logger.debug("Processing ReturnProposeFromRecallRule. Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (ReturnProposeFromRecallRule) rule, loan);
         }
 
         if (rule instanceof ReturnSettlementStatusUpdateRule) {
+            logger.debug("Processing ReturnSettlementStatusUpdateRule. Loan: " + loan.getLoanId());
             processReturnBySettlementStatusUpdateRule(startTime, (ReturnSettlementStatusUpdateRule) rule,
                 loan.getLoanId(), oneSourceReturn.getReturnId());
         }

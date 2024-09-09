@@ -6,15 +6,16 @@ import static com.equilend.simulator.service.SplitService.getSplit;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.split_rules.SplitApproveRule;
-import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.split.LoanSplit;
 import com.equilend.simulator.rules_processor.SplitRuleProcessor;
 import com.equilend.simulator.service.LoanService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SplitHandler implements EventHandler{
+public class SplitHandler implements EventHandler {
+
     private static final Logger logger = LogManager.getLogger(SplitHandler.class.getName());
     private final Event event;
     private final Config config;
@@ -27,6 +28,7 @@ public class SplitHandler implements EventHandler{
         this.botPartyId = config.getBotPartyId();
         this.startTime = startTime;
     }
+
     @Override
     public void run() {
         String uri = event.getResourceUri();
@@ -44,15 +46,14 @@ public class SplitHandler implements EventHandler{
                 throw new APIException("Invalid loan id");
             }
             boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
+            logger.debug("Is initiator?: " + isInitiator);
             switch (event.getEventType()) {
                 case LOAN_SPLIT_PROPOSED:
-                    if (!isInitiator) {
-                        SplitApproveRule splitApproveRule = config.getSplitRules()
-                            .getSplitApproveRule(loanSplit, loan, botPartyId);
-                        if (splitApproveRule != null && splitApproveRule.shouldApprove()) {
-                            SplitRuleProcessor.process(startTime, splitApproveRule, loan, loanSplit);
-                            return;
-                        }
+                    SplitApproveRule splitApproveRule = config.getSplitRules()
+                        .getSplitApproveRule(loanSplit, loan, botPartyId);
+                    if (splitApproveRule != null && splitApproveRule.shouldApprove()) {
+                        SplitRuleProcessor.process(startTime, splitApproveRule, loan, loanSplit);
+                        return;
                     }
                     break;
                 default:

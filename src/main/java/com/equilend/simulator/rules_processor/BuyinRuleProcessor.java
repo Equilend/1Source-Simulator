@@ -22,10 +22,12 @@ public class BuyinRuleProcessor {
         throws APIException {
 
         if (rule instanceof BuyinAcceptRule) {
+            logger.debug("Processing BuyinAcceptRule. Loan: " + loan.getLoanId());
             processByAcceptRule(startTime, (BuyinAcceptRule) rule, buyin);
         }
 
         if (rule instanceof BuyinProposeRule) {
+            logger.debug("Processing BuyinProposeRule. Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (BuyinProposeRule) rule, loan);
         }
     }

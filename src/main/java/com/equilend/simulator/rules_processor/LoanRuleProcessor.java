@@ -33,14 +33,17 @@ public class LoanRuleProcessor {
         throws APIException {
 
         if (rule instanceof LoanCancelRule) {
+            logger.debug("Processing LoanCancelRule. Loan: " + loan.getLoanId());
             processByLoanCancelRule(startTime, (LoanCancelRule) rule, loan);
         }
 
         if (rule instanceof LoanPendingCancelRule) {
+            logger.debug("Processing LoanPendingCancelRule. Loan: " + loan.getLoanId());
             processByLoanPendingCancelRule(startTime, (LoanPendingCancelRule) rule, loan);
         }
 
         if (rule instanceof LoanPendingUpdateRule) {
+            logger.debug("Processing LoanPendingUpdateRule. Loan: " + loan.getLoanId());
             processByLoanPendingUpdateRule(startTime, (LoanPendingUpdateRule) rule, loan);
         }
     }

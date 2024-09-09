@@ -52,7 +52,7 @@ public class LoanHandler implements EventHandler {
             }
 
             boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
-
+            logger.debug("Is initiator?: " + isInitiator);
             switch (event.getEventType()) {
                 case LOAN_PROPOSED:
                     if (isInitiator) {
@@ -92,13 +92,15 @@ public class LoanHandler implements EventHandler {
                             return;
                         }
 
-                        SplitProposeRule splitProposeRule = config.getSplitRules()
-                            .getSplitProposeRule(loan, botPartyId);
-                        if (splitProposeRule != null && splitProposeRule.shouldPropose()) {
-                            SplitRuleProcessor.process(startTime, splitProposeRule, loan, null);
-                            return;
-                        }
                     }
+
+                    SplitProposeRule splitProposeRule = config.getSplitRules()
+                        .getSplitProposeRule(loan, botPartyId);
+                    if (splitProposeRule != null && splitProposeRule.shouldPropose()) {
+                        SplitRuleProcessor.process(startTime, splitProposeRule, loan, null);
+                        return;
+                    }
+
                     break;
 
                 case LOAN_PENDING:

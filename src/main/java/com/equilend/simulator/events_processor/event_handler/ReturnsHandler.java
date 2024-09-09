@@ -42,7 +42,7 @@ public class ReturnsHandler implements EventHandler {
             }
             Loan loan = getLoanById(oneSourceReturn.getLoanId());
             boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
-
+            logger.debug("Is initiator?: " + isInitiator);
             switch (event.getEventType()) {
                 case RETURN_PENDING:
                     if (!isInitiator) {

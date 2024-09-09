@@ -26,11 +26,11 @@ public class SplitRules implements Rules {
         if (rulesMap.containsKey("general")) {
             analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         }
-        if (rulesMap.containsKey("recipient")) {
-            addRules(rulesMap.get("recipient").get("approve"), approveRules, SplitRuleType.APPROVE);
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("approve"), approveRules, SplitRuleType.APPROVE);
         }
-        if (rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("split"), proposeRules, SplitRuleType.PROPOSE);
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("split"), proposeRules, SplitRuleType.PROPOSE);
         }
     }
 

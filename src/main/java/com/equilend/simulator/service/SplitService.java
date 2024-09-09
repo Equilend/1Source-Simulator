@@ -35,14 +35,14 @@ public class SplitService {
         return loanSplitLotAppovals;
     }
 
-    public static int proposeSplit(Loan loan, List<Integer> quantityList) throws APIException {
-        List<LoanSplitLot> splitLots = buildSplitLots(loan, quantityList);
+    public static int proposeSplit(Loan loan, List<Integer> splitLotQuantity) throws APIException {
+        List<LoanSplitLot> splitLots = buildSplitLots(loan, splitLotQuantity);
         return APIConnector.proposeSplit(OneSourceToken.getToken(), loan.getLoanId(), splitLots);
     }
 
     private static List<LoanSplitLot> buildSplitLots(Loan loan, List<Integer> quantityList) {
         List<LoanSplitLot> loanSplitLots = new ArrayList<>();
-        for(Integer quantity : quantityList) {
+        for (Integer quantity : quantityList) {
             LoanSplitLot loanSplitLot = new LoanSplitLot();
             loanSplitLot.setLoanId(loan.getLoanId());
             loanSplitLot.setQuantity(quantity);

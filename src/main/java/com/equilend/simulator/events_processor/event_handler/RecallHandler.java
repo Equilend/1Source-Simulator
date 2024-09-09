@@ -45,6 +45,7 @@ public class RecallHandler implements EventHandler {
             }
             Loan loan = getLoanById(recall.getLoanId());
             boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
+            logger.debug("Is initiator?: " + isInitiator);
             switch (event.getEventType()) {
                 case RECALL_OPENED:
                     if (isInitiator) {

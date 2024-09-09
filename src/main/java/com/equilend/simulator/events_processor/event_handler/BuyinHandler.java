@@ -47,6 +47,7 @@ public class BuyinHandler implements EventHandler {
                 return;
             }
             boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
+            logger.debug("Is initiator?: " + isInitiator);
             switch (event.getEventType()) {
                 case BUYIN_PENDING:
                     if(!isInitiator) {
