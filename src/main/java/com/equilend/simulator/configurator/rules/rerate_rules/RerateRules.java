@@ -19,6 +19,9 @@ public class RerateRules implements Rules {
     private final List<RerateRule> pendingCancelRules = new ArrayList<>();
     private boolean analysisMode;
 
+    public RerateRules() {
+    }
+
     public RerateRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
             analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");

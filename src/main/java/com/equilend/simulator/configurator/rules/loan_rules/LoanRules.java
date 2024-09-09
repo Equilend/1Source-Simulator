@@ -22,7 +22,10 @@ public class LoanRules implements Rules {
         CANCEL,
         PROPOSE,
         PENDING_CANCEL,
-        PENDING_UPDATE,
+        PENDING_UPDATE;
+    }
+
+    public LoanRules() {
     }
 
     public LoanRules(Map<String, Map<String, String>> rulesMap) {
@@ -46,7 +49,7 @@ public class LoanRules implements Rules {
         }
     }
 
-    public void addRules(String rawRulesList, List<LoanRule> loanRulesList, LoanRuleType type) {
+    private void addRules(String rawRulesList, List<LoanRule> loanRulesList, LoanRuleType type) {
         if (rawRulesList == null) {
             return;
         }

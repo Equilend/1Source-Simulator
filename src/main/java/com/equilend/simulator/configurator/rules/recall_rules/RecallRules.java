@@ -21,6 +21,9 @@ public class RecallRules implements Rules {
         CANCEL
     }
 
+    public RecallRules() {
+    }
+
     public RecallRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
             analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");

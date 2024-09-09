@@ -22,6 +22,9 @@ public class BuyinRules implements Rules {
         PROPOSE
     }
 
+    public BuyinRules() {
+    }
+
     public BuyinRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
             analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");

@@ -31,14 +31,14 @@ public final class Config {
     private static Config INSTANCE;
     private final Map<String, Party> parties = new HashMap<>();
     private final Map<String, Instrument> instruments = new HashMap<>();
-    private EventRules eventRules;
-    private AgreementRules agreementRules;
-    private LoanRules loanRules;
-    private RerateRules rerateRules;
-    private ReturnRules returnRules;
-    private RecallRules recallRules;
-    private BuyinRules buyinRules;
-    private SplitRules splitRules;
+    private EventRules eventRules = new EventRules();
+    private AgreementRules agreementRules = new AgreementRules();
+    private LoanRules loanRules = new LoanRules();
+    private RerateRules rerateRules = new RerateRules();
+    private ReturnRules returnRules = new ReturnRules();
+    private RecallRules recallRules = new RecallRules();
+    private BuyinRules buyinRules = new BuyinRules();
+    private SplitRules splitRules = new SplitRules();
     private Properties properties;
 
     private Config(){

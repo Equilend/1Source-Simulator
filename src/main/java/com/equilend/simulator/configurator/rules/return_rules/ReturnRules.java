@@ -19,8 +19,6 @@ public class ReturnRules implements Rules {
     private final List<ReturnRule> settlementStatusUpdateRules = new ArrayList<>();
     private boolean analysisMode;
 
-
-
     private enum ReturnRuleType {
         ACKNOWLEDGE,
         CANCEL,
@@ -28,6 +26,10 @@ public class ReturnRules implements Rules {
         PROPOSE_FROM_RECALL,
         UPDATE;
     }
+
+    public ReturnRules() {
+    }
+
     public ReturnRules(Map<String, Map<String, String>> rulesMap) {
         if(rulesMap.containsKey("general")) {
             analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");

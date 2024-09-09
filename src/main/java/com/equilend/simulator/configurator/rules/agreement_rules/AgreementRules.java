@@ -10,13 +10,16 @@ public class AgreementRules implements Rules {
 
     private final List<AgreementRule> rules = new ArrayList<>();
 
+    public AgreementRules() {
+    }
+
     public AgreementRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("initiator")) {
             addRules(rulesMap.get("initiator").get("incoming"));
         }
     }
 
-    public void addRules(String rulesList) {
+    private void addRules(String rulesList) {
         if (rulesList == null) {
             return;
         }

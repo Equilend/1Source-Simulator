@@ -16,10 +16,12 @@ public class SplitRules implements Rules {
     private final List<SplitRule> proposeRules = new ArrayList<>();
     private boolean analysisMode;
 
-
     private enum SplitRuleType {
         APPROVE,
         PROPOSE
+    }
+
+    public SplitRules() {
     }
 
     public SplitRules(Map<String, Map<String, String>> rulesMap) {
