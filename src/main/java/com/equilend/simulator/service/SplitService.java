@@ -28,7 +28,7 @@ public class SplitService {
         List<LoanSplitLotAppoval> loanSplitLotAppovals = new ArrayList<>();
         for (LoanSplitLot splitLot : split.getSplitLots()) {
             LoanSplitLotAppoval loanSplitLotAppoval = new LoanSplitLotAppoval();
-            loanSplitLotAppoval.setInternalRef(splitLot.getInternalRef());
+            loanSplitLotAppoval.setInternalRef(new InternalReference().internalRefId(UUID.randomUUID().toString()));
             loanSplitLotAppoval.setLoanId(splitLot.getLoanId());
             loanSplitLotAppovals.add(loanSplitLotAppoval);
         }
