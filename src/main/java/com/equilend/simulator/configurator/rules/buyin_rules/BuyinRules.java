@@ -27,13 +27,11 @@ public class BuyinRules implements Rules {
 
     public BuyinRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisMode = "1".equals(rulesMap.get("general").get("analysis_mode"));
         }
-        if (rulesMap.containsKey("recipient")) {
-            addRules(rulesMap.get("recipient").get("accept"), acceptRules, BuyinRuleType.ACCEPT);
-        }
-        if (rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("submit"), proposeRules, BuyinRuleType.PROPOSE);
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("accept"), acceptRules, BuyinRuleType.ACCEPT);
+            addRules(rulesMap.get("common").get("submit"), proposeRules, BuyinRuleType.PROPOSE);
         }
     }
 

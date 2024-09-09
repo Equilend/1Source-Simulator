@@ -31,19 +31,17 @@ public class ReturnRules implements Rules {
     }
 
     public ReturnRules(Map<String, Map<String, String>> rulesMap) {
-        if(rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+        if (rulesMap.containsKey("general")) {
+            analysisMode = "1".equals(rulesMap.get("general").get("analysis_mode"));
         }
-        if(rulesMap.containsKey("recipient")) {
-            addRules(rulesMap.get("recipient").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
-        }
-        if(rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
-            addRules(rulesMap.get("initiator").get("return_from_recall"), proposeFromReturnRules, ReturnRuleType.PROPOSE_FROM_RECALL);
-        }
-        if(rulesMap.containsKey("common")) {
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("acknowledge"), acknowledgeRules, ReturnRuleType.ACKNOWLEDGE);
+            addRules(rulesMap.get("common").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
+            addRules(rulesMap.get("common").get("return_from_recall"), proposeFromReturnRules,
+                ReturnRuleType.PROPOSE_FROM_RECALL);
             addRules(rulesMap.get("common").get("return"), proposeFromLoanRules, ReturnRuleType.PROPOSE_FROM_LOAN);
-            addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
+            addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules,
+                ReturnRuleType.UPDATE);
         }
     }
 

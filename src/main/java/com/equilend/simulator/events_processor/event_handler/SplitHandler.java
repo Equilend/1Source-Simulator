@@ -45,8 +45,6 @@ public class SplitHandler implements EventHandler {
             if (loan == null) {
                 throw new APIException("Invalid loan id");
             }
-            boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
-            logger.debug("Is initiator?: " + isInitiator);
             switch (event.getEventType()) {
                 case LOAN_SPLIT_PROPOSED:
                     SplitApproveRule splitApproveRule = config.getSplitRules()

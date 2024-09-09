@@ -8,13 +8,12 @@ import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromRecallRule;
-import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
 import com.equilend.simulator.rules_processor.RecallRuleProcessor;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
-import com.equilend.simulator.service.LoanService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,36 +43,32 @@ public class RecallHandler implements EventHandler {
                 return;
             }
             Loan loan = getLoanById(recall.getLoanId());
-            boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
-            logger.debug("Is initiator?: " + isInitiator);
             switch (event.getEventType()) {
                 case RECALL_OPENED:
-                    if (isInitiator) {
-                        BuyinProposeRule buyinProposeRule = config.getBuyinRules()
-                            .getBuyinProposeRule(loan, botPartyId);
-                        if (buyinProposeRule != null && buyinProposeRule.shouldSubmit()) {
-                            BuyinRuleProcessor.process(startTime, buyinProposeRule, loan, null);
-                            return;
-                        }
-
-                        ReturnProposeFromRecallRule returnProposeRule = config.getReturnRules()
-                            .getReturnProposeFromRecallRule(loan, botPartyId);
-                        if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
-                            ReturnRuleProcessor.process(startTime, returnProposeRule, loan, null);
-                            return;
-                        }
+                    BuyinProposeRule buyinProposeRule = config.getBuyinRules()
+                        .getBuyinProposeRule(loan, botPartyId);
+                    if (buyinProposeRule != null && buyinProposeRule.shouldSubmit()) {
+                        BuyinRuleProcessor.process(startTime, buyinProposeRule, loan, null);
+                        return;
                     }
+
+                    ReturnProposeFromRecallRule returnProposeRule = config.getReturnRules()
+                        .getReturnProposeFromRecallRule(loan, botPartyId);
+                    if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
+                        ReturnRuleProcessor.process(startTime, returnProposeRule, loan, null);
+                        return;
+                    }
+
                     break;
                 case RECALL_ACKNOWLEDGED:
-                   if (isInitiator) {
-                       RecallCancelRule recallCancelRule = config.getRecallRules().getRecallCancelRule(recall,
-                           loan, botPartyId);
-                       if (recallCancelRule != null && recallCancelRule.shouldCancel()) {
-                           RecallRuleProcessor.process(startTime, recallCancelRule, loan, recall);
-                           return;
-                       }
-                   }
-                   break;
+                    RecallCancelRule recallCancelRule = config.getRecallRules().getRecallCancelRule(recall,
+                        loan, botPartyId);
+                    if (recallCancelRule != null && recallCancelRule.shouldCancel()) {
+                        RecallRuleProcessor.process(startTime, recallCancelRule, loan, recall);
+                        return;
+                    }
+
+                    break;
                 default:
                     throw new RuntimeException("event type not supported");
             }

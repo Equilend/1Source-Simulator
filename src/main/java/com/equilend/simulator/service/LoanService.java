@@ -23,6 +23,7 @@ import com.equilend.simulator.model.rate.Rate;
 import com.equilend.simulator.model.settlement.PartySettlementInstruction;
 import com.equilend.simulator.model.settlement.SettlementStatus;
 import com.equilend.simulator.model.trade.TradeAgreement;
+import com.equilend.simulator.model.venue.VenueTradeAgreement;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,12 @@ public class LoanService {
 
     public static Optional<TransactingParty> getTransactingPartyById(Loan loan, String botPartyId) {
         return TradeService.getTransactingPartyById(loan.getTrade(), botPartyId);
+    }
+
+    public static void postLoanProposal(VenueTradeAgreement venueTradeAgreement, PartyRole botPartyRole) throws APIException {
+        TradeAgreement tradeAgreement = TradeService.buildTradeAgreement(venueTradeAgreement);
+        LoanProposal loanProposal = LoanService.createLoanProposal(tradeAgreement, botPartyRole);
+        APIConnector.postLoanProposal(EventHandler.getToken(), loanProposal);
     }
 
     public static LoanProposal createLoanProposal(TradeAgreement trade, PartyRole partyRole) {

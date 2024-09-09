@@ -26,12 +26,10 @@ public class SplitRules implements Rules {
 
     public SplitRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisMode = "1".equals(rulesMap.get("general").get("analysis_mode"));
         }
         if (rulesMap.containsKey("common")) {
             addRules(rulesMap.get("common").get("approve"), approveRules, SplitRuleType.APPROVE);
-        }
-        if (rulesMap.containsKey("common")) {
             addRules(rulesMap.get("common").get("split"), proposeRules, SplitRuleType.PROPOSE);
         }
     }

@@ -44,7 +44,7 @@ public class LoanRules implements Rules {
                 LoanRuleType.PENDING_UPDATE);
         }
         if(rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisMode ="1".equals(rulesMap.get("general").get("analysis_mode"));
             analysisStartDate = rulesMap.get("general").get("analysis_start_date");
         }
     }
