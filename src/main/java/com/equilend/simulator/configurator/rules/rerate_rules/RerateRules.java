@@ -31,9 +31,9 @@ public class RerateRules implements Rules {
         }
         if(rulesMap.containsKey("initiator")) {
             addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RerateRuleType.CANCEL);
-            addRules(rulesMap.get("initiator").get("propose"), proposeRules, RerateRuleType.PROPOSE);
         }
         if(rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("propose"), proposeRules, RerateRuleType.PROPOSE);
             addRules(rulesMap.get("common").get("cancel_pending"), pendingCancelRules, RerateRuleType.PENDING_CANCEL);
         }
     }

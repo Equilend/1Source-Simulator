@@ -12,8 +12,8 @@ import com.equilend.simulator.configurator.rules.recall_rules.RecallProposeRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromLoanRule;
 import com.equilend.simulator.configurator.rules.split_rules.SplitProposeRule;
-import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.rules_processor.LoanRuleProcessor;
 import com.equilend.simulator.rules_processor.RecallRuleProcessor;
 import com.equilend.simulator.rules_processor.RerateRuleProcessor;
@@ -60,7 +60,7 @@ public class LoanHandler implements EventHandler {
                             .getLoanCancelRule(loan, botPartyId);
                         if (loanCancelRule != null && loanCancelRule.shouldCancel()) {
                             LoanRuleProcessor.process(startTime, loanCancelRule, loan);
-                          }
+                        }
                     } else {
                         LoanApproveRejectRule loanApproveRejectRule = config.getLoanRules()
                             .getLoanApproveRejectRule(loan, botPartyId);
@@ -70,28 +70,25 @@ public class LoanHandler implements EventHandler {
                     }
                     break;
                 case LOAN_OPENED:
-                    if (isInitiator) {
-                        RerateProposeRule rerateProposeRule = config.getRerateRules()
-                            .getProposeRule(loan, botPartyId);
-                        if (rerateProposeRule != null && rerateProposeRule.shouldPropose()) {
-                            RerateRuleProcessor.process(startTime, rerateProposeRule, loan, null);
-                            return;
-                        }
+                    RerateProposeRule rerateProposeRule = config.getRerateRules()
+                        .getProposeRule(loan, botPartyId);
+                    if (rerateProposeRule != null && rerateProposeRule.shouldPropose()) {
+                        RerateRuleProcessor.process(startTime, rerateProposeRule, loan, null);
+                        return;
+                    }
 
-                        ReturnProposeFromLoanRule returnProposeRule = config.getReturnRules()
-                            .getReturnProposeFromLoanRule(loan, botPartyId);
-                        if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
-                            ReturnRuleProcessor.process(startTime, returnProposeRule, loan, null);
-                            return;
-                        }
+                    ReturnProposeFromLoanRule returnProposeRule = config.getReturnRules()
+                        .getReturnProposeFromLoanRule(loan, botPartyId);
+                    if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
+                        ReturnRuleProcessor.process(startTime, returnProposeRule, loan, null);
+                        return;
+                    }
 
-                        RecallProposeRule recallProposeRule = config.getRecallRules()
-                            .getRecallProposeRule(loan, botPartyId);
-                        if (recallProposeRule != null && recallProposeRule.shouldPropose()) {
-                            RecallRuleProcessor.process(startTime, recallProposeRule, loan, null);
-                            return;
-                        }
-
+                    RecallProposeRule recallProposeRule = config.getRecallRules()
+                        .getRecallProposeRule(loan, botPartyId);
+                    if (recallProposeRule != null && recallProposeRule.shouldPropose()) {
+                        RecallRuleProcessor.process(startTime, recallProposeRule, loan, null);
+                        return;
                     }
 
                     SplitProposeRule splitProposeRule = config.getSplitRules()

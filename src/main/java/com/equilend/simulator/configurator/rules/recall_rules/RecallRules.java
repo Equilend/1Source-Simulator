@@ -28,8 +28,10 @@ public class RecallRules implements Rules {
         if (rulesMap.containsKey("general")) {
             analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
         }
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("recall"), proposeRules, RecallRuleType.PROPOSE);
+        }
         if (rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("recall"), proposeRules, RecallRuleType.PROPOSE);
             addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RecallRuleType.CANCEL);
         }
     }

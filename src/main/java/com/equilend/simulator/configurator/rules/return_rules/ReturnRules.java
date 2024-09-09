@@ -39,10 +39,10 @@ public class ReturnRules implements Rules {
         }
         if(rulesMap.containsKey("initiator")) {
             addRules(rulesMap.get("initiator").get("cancel"), cancelRules, ReturnRuleType.CANCEL);
-            addRules(rulesMap.get("initiator").get("return"), proposeFromLoanRules, ReturnRuleType.PROPOSE_FROM_LOAN);
             addRules(rulesMap.get("initiator").get("return_from_recall"), proposeFromReturnRules, ReturnRuleType.PROPOSE_FROM_RECALL);
         }
         if(rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("return"), proposeFromLoanRules, ReturnRuleType.PROPOSE_FROM_LOAN);
             addRules(rulesMap.get("common").get("update_settlement"), settlementStatusUpdateRules, ReturnRuleType.UPDATE);
         }
     }

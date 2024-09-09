@@ -539,10 +539,10 @@ public class APIConnector {
         }
 
         if (postResponse.statusCode() == 201) {
-            logger.info("Rerate proposal posted successfully");
+            logger.debug("Rerate proposal posted successfully");
         } else {
-            logger.trace("Error posting rerate proposal");
-            logger.trace(postResponse.body());
+            logger.debug("Error posting rerate proposal");
+            logger.debug(postResponse.body());
             throw new APIException(postResponse.body());
         }
         return postResponse.statusCode();
