@@ -40,6 +40,7 @@ public class TradeHandler implements EventHandler {
                     if (agreementProposeRule != null && !agreementProposeRule.shouldIgnore()) {
                         TradeRuleProcessor.process(startTime, agreementProposeRule, agreement);
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

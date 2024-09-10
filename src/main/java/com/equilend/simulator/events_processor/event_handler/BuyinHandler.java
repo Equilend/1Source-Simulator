@@ -53,6 +53,7 @@ public class BuyinHandler implements EventHandler {
                         BuyinRuleProcessor.process(startTime, buyinAcceptRule, loan, buyin);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

@@ -53,6 +53,7 @@ public class SplitHandler implements EventHandler {
                         SplitRuleProcessor.process(startTime, splitApproveRule, loan, loanSplit);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

@@ -22,12 +22,12 @@ public class SplitRuleProcessor {
         throws APIException {
 
         if (rule instanceof SplitApproveRule) {
-            logger.info("Processing SplitApproveRule. Loan: " + loan.getLoanId());
+            logger.info("Processing Split Rule: Approve Contract Splits (SplitApproveRule). Loan: " + loan.getLoanId());
             processByApproveRule(startTime, (SplitApproveRule) rule, loan, loanSplit);
         }
 
         if (rule instanceof SplitProposeRule) {
-            logger.info("Processing SplitProposeRule. Loan: " + loan.getLoanId());
+            logger.info("Processing Split Rule: Propose Contract Splits (SplitProposeRule). Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (SplitProposeRule) rule, loan);
         }
 

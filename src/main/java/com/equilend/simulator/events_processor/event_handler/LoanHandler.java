@@ -68,6 +68,7 @@ public class LoanHandler implements EventHandler {
                             LoanRuleProcessor.process(startTime, loanApproveRejectRule, loan, botPartyId);
                         }
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 case LOAN_OPENED:
                     RerateProposeRule rerateProposeRule = config.getRerateRules()
@@ -97,9 +98,8 @@ public class LoanHandler implements EventHandler {
                         SplitRuleProcessor.process(startTime, splitProposeRule, loan, null);
                         return;
                     }
-
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
-
                 case LOAN_PENDING:
                     LoanPendingCancelRule loanPendingCancelRule = config.getLoanRules()
                         .getLoanPendingCancelRule(loan, botPartyId);
@@ -114,6 +114,7 @@ public class LoanHandler implements EventHandler {
                         LoanRuleProcessor.process(startTime, loanPendingUpdateRule, loan);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

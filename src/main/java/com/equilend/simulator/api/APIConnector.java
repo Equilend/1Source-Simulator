@@ -4,12 +4,12 @@ import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.agreement.Agreement;
 import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.buyin.BuyinCompleteRequest;
+import com.equilend.simulator.model.event.Event;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.loan.LoanProposal;
 import com.equilend.simulator.model.loan.LoanProposalApproval;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.model.recall.Recall;
+import com.equilend.simulator.model.recall.RecallAcknowledgement;
 import com.equilend.simulator.model.recall.RecallProposal;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
@@ -103,10 +103,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get All Events: Status Code {}", getResponse.statusCode());
-
-        if (getResponse.statusCode() / 100 != 2) {
-            throw new APIException(getResponse.body());
+        if (isSuccess(getResponse)) {
+            logger.debug("All Events requested successfully.");
         }
 
         Type eventListType = new TypeToken<ArrayList<Event>>() {
@@ -136,16 +134,11 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (getResponse.statusCode() == 200) {
-            Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
-            Instrument instrument = agreement.getTrade().getInstrument();
-            String identifier = (instrument.getTicker() == null) ? instrument.getFigi() : instrument.getTicker();
-            logger.info("Trade Agreement {} with {} shares of {}", id, agreement.getTrade().getQuantity(), identifier);
-            return agreement;
-        } else {
-            logger.debug("Get Agreement By Id: Status Code {}", getResponse.statusCode());
-            throw new APIException(getResponse.body());
+        if (isSuccess(getResponse)) {
+            logger.debug("Trade Agreement requested successfully. Trade Agreement: {}", id);
         }
+        Agreement agreement = gson.fromJson(getResponse.body(), Agreement.class);
+        return agreement;
     }
 
     public static List<Loan> getAllLoans(OneSourceToken token, String status, String since)
@@ -177,10 +170,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get All Loans: Status Code {}", getResponse.statusCode());
-
-        if (getResponse.statusCode() / 100 != 2) {
-            throw new APIException(getResponse.body());
+        if (isSuccess(getResponse)) {
+            logger.debug("All Loans requested successfully.");
         }
 
         Type loanListType = new TypeToken<ArrayList<Loan>>() {
@@ -210,10 +201,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get Loan By Id: Status Code {}", getResponse.statusCode());
-
-        if (getResponse.statusCode() / 100 != 2) {
-            throw new APIException(getResponse.body());
+        if (isSuccess(getResponse)) {
+            logger.debug("Loan requested successfully. Loan: {}", id);
         }
 
         Loan loan = gson.fromJson(getResponse.body(), Loan.class);
@@ -247,18 +236,11 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        Instrument instrument = loan.getTrade().getInstrument();
-        String identifier = (instrument.getTicker() == null) ? instrument.getFigi() : instrument.getTicker();
-        if (postResponse.statusCode() == 201) {
+        if (isSuccess(postResponse)) {
             LoanProposalResponse response = gson.fromJson(postResponse.body(), LoanProposalResponse.class);
-            logger.info("Propose Loan {} with {} shares of {}", response.getLoanId(),
-                loan.getTrade().getQuantity(), identifier);
-        } else {
-            logger.trace("Propose Loan with {} shares of {}: Status Code = {}", loan.getTrade().getQuantity(),
-                identifier, postResponse.statusCode());
-            logger.trace("POST response body: {}", postResponse.body());
-            throw new APIException(postResponse.body());
+            logger.debug("Loan proposed successfully. Loan: {}", response.getLoanId());
         }
+
         return postResponse.statusCode();
     }
 
@@ -285,11 +267,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200) {
-            logger.info("Cancel Loan {}", loanId);
-        } else {
-            logger.trace("Cancel Loan {}: Status Code = {}", loanId, postResponse.statusCode());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Loan canceled successfully. Loan: {}", loanId);
         }
         return postResponse.statusCode();
     }
@@ -322,12 +301,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200) {
-            logger.info("Accept Loan {}", loanId);
-        } else {
-            logger.trace("Accept Loan {}: Status Code = {}", loanId, postResponse.statusCode());
-            logger.trace(postResponse.body());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Loan accepted successfully. Loan: {}", loanId);
         }
         return postResponse.statusCode();
     }
@@ -355,11 +330,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200) {
-            logger.info("Decline Loan {}", loanId);
-        } else {
-            logger.trace("Decline Loan {}: Status Code = {}", loanId, postResponse.statusCode());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Loan declined successfully. Loan: {}", loanId);
         }
         return postResponse.statusCode();
     }
@@ -379,7 +351,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Pending loan canceled successfully. Loan: {}", loanId);
+        }
 
         return postResponse.statusCode();
     }
@@ -393,20 +367,22 @@ public class APIConnector {
         HttpResponse<String> patchResponse;
         try {
             String body = gson.toJson(settlementStatusUpdate);
-            HttpRequest postRequest = HttpRequest.newBuilder()
+            HttpRequest patchRequest = HttpRequest.newBuilder()
                 .uri(new URI(restAPIURL + "/loans/" + loanId))
                 .header("Authorization", "Bearer " + token.getAccessToken())
                 .header("Content-Type", "application/json")
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
                 .build();
-            patchResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+            patchResponse = httpClient.send(patchRequest, BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
             String message = "Error with sending settlement loan status update post request for loanId " + loanId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        isSuccess(patchResponse);
+        if (isSuccess(patchResponse)) {
+            logger.debug("Loan settlement status updated successfully. Loan: {}", loanId);
+        }
 
         return patchResponse.statusCode();
     }
@@ -434,10 +410,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get All Rerates: Status Code {}", getResponse.statusCode());
-
-        if (getResponse.statusCode() / 100 != 2) {
-            throw new APIException(getResponse.body());
+        if (isSuccess(getResponse)) {
+            logger.debug("All rerates requested successfully.");
         }
 
         Type rerateListType = new TypeToken<ArrayList<Rerate>>() {
@@ -467,10 +441,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get All Rerates: Status Code {}", getResponse.statusCode());
-
-        if (getResponse.statusCode() / 100 != 2) {
-            throw new APIException(getResponse.body());
+        if (isSuccess(getResponse)) {
+            logger.debug("Rerates requested successfully. Loans: {}", loanId);
         }
 
         Type rerateListType = new TypeToken<ArrayList<Rerate>>() {
@@ -500,10 +472,8 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get Rerate By Id: Status Code {}", getResponse.statusCode());
-
-        if (getResponse.statusCode() / 100 != 2) {
-            throw new APIException(getResponse.body());
+        if (isSuccess(getResponse)) {
+            logger.debug("Rerate requested successfully. Rerate: {}", id);
         }
 
         Rerate rerate = gson.fromJson(getResponse.body(), Rerate.class);
@@ -538,13 +508,10 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 201) {
-            logger.debug("Rerate proposal posted successfully");
-        } else {
-            logger.debug("Error posting rerate proposal");
-            logger.debug(postResponse.body());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Rerate proposal posted successfully. Loan: {}", loanId);
         }
+
         return postResponse.statusCode();
     }
 
@@ -573,13 +540,10 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200) {
-            logger.info("Rerate proposal cancelled successfully");
-        } else {
-            logger.trace("Error cancelling rerate proposal");
-            logger.trace(postResponse.body());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Rerate proposal cancelled successfully. Rerate: {}", rerateId);
         }
+
         return postResponse.statusCode();
     }
 
@@ -608,13 +572,10 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200) {
-            logger.info("Rerate pending cancelled successfully");
-        } else {
-            logger.trace("Error cancelling rerate pending");
-            logger.trace(postResponse.body());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Rerate pending cancelled successfully. Rerate: {}", rerateId);
         }
+
         return postResponse.statusCode();
     }
 
@@ -643,13 +604,10 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200) {
-            logger.info("Rerate proposal approved successfully");
-        } else {
-            logger.trace("Error approving rerate proposal");
-            logger.trace(postResponse.body());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Rerate proposal approved successfully. Rerate: {}", rerateId);
         }
+
         return postResponse.statusCode();
     }
 
@@ -678,13 +636,10 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 200) {
-            logger.info("Rerate proposal declined successfully");
-        } else {
-            logger.trace("Error declining rerate proposal");
-            logger.trace(postResponse.body());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Rerate proposal declined successfully. Rerate: {}", rerateId);
         }
+
         return postResponse.statusCode();
     }
 
@@ -710,9 +665,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Get Return By Id: Status Code {}", getResponse.statusCode());
-
-        isSuccess(getResponse);
+        if (isSuccess(getResponse)) {
+            logger.debug("Return requested successfully. Return: {}", id);
+        }
 
         ModelReturn oneSourceReturn = gson.fromJson(getResponse.body(), ModelReturn.class);
         return oneSourceReturn;
@@ -747,9 +702,10 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        logger.debug("Post Ack Return: Status Code {}", postResponse.statusCode());
-
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Return sent ack successfully. Return: {}. Ack: {}", returnId,
+                returnAcknowledgement.getAcknowledgementType());
+        }
 
         return postResponse.statusCode();
     }
@@ -764,7 +720,7 @@ public class APIConnector {
                 .header("Authorization", "Bearer " + token.getAccessToken()).POST(HttpRequest.BodyPublishers.noBody())
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error creating post Cancel Return " + returnId;
+            String message = "Error creating post Cancel Return. Return: " + returnId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -773,14 +729,14 @@ public class APIConnector {
         try {
             postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error creating post request for Cancel Return " + returnId;
+            String message = "Error creating post request for Cancel Return. Return: " + returnId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        logger.debug("Cancel Return: Status Code {}", postResponse.statusCode());
-
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Return canceled successfully. Return: {}", returnId);
+        }
 
         return postResponse.statusCode();
     }
@@ -813,13 +769,10 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        if (postResponse.statusCode() == 201) {
-            logger.info("Return proposal posted successfully");
-        } else {
-            logger.trace("Error posting return proposal");
-            logger.trace(postResponse.body());
-            throw new APIException(postResponse.body());
+        if (isSuccess(postResponse)) {
+            logger.debug("Return proposal posted successfully. Loan: {}", loanId);
         }
+
         return postResponse.statusCode();
     }
 
@@ -840,7 +793,7 @@ public class APIConnector {
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(body))
                 .build();
         } catch (URISyntaxException e) {
-            String message = "Error creating patch Return Settlement Status " + returnId;
+            String message = "Error creating patch Return Settlement Status. Return: " + returnId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
@@ -849,14 +802,14 @@ public class APIConnector {
         try {
             patchResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            String message = "Error creating patch request for Return Settlement Status " + returnId;
+            String message = "Error creating patch request for Return Settlement Status. Return: " + returnId;
             logger.debug(message, e);
             throw new APIException(message, e);
         }
 
-        logger.debug("Update Return Settlement Status : Status Code {}", patchResponse.statusCode());
-
-        isSuccess(patchResponse);
+        if (isSuccess(patchResponse)) {
+            logger.debug("Return Settlement Status updated successfully. Return: {}", returnId);
+        }
 
         return patchResponse.statusCode();
     }
@@ -876,7 +829,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(getResponse);
+        if (isSuccess(getResponse)) {
+            logger.debug("Buyin requested successfully. Buyin: {}", buyinId);
+        }
 
         return gson.fromJson(getResponse.body(), BuyinComplete.class);
     }
@@ -898,7 +853,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Buyin accepted successfully. Buyin: {}", buyinId);
+        }
 
         return postResponse.statusCode();
     }
@@ -924,7 +881,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Buyin proposed successfully. Loan: {}", loanId);
+        }
 
         return postResponse.statusCode();
     }
@@ -942,7 +901,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(getResponse);
+        if (isSuccess(getResponse)) {
+            logger.debug("Recall requested successfully. Recall: {}", recallId);
+        }
 
         return gson.fromJson(getResponse.body(), Recall.class);
     }
@@ -966,7 +927,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Recall proposed successfully. Loan: {}", loanId);
+        }
 
         return postResponse.statusCode();
     }
@@ -986,7 +949,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Recall canceled successfully. RecallId: {}", recallId);
+        }
 
         return postResponse.statusCode();
     }
@@ -1005,12 +970,15 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(getResponse);
+        if (isSuccess(getResponse)) {
+            logger.debug("Split requested successfully. Split: {}", splitId);
+        }
 
         return gson.fromJson(getResponse.body(), LoanSplit.class);
     }
 
-    public static int approveSplit(OneSourceToken token, String loanId, String splitId, List<LoanSplitLotAppoval> splitLotAppovals) throws APIException {
+    public static int approveSplit(OneSourceToken token, String loanId, String splitId,
+        List<LoanSplitLotAppoval> splitLotAppovals) throws APIException {
         validateAPISetting(token);
         HttpResponse<String> postResponse;
         try {
@@ -1028,7 +996,9 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Split approved successfully. Split: {}", splitId);
+        }
 
         return postResponse.statusCode();
     }
@@ -1052,7 +1022,37 @@ public class APIConnector {
             throw new APIException(message, e);
         }
 
-        isSuccess(postResponse);
+        if (isSuccess(postResponse)) {
+            logger.debug("Splits posted successfully. Loan: {}", loanId);
+        }
+
+        return postResponse.statusCode();
+    }
+
+    public static int postRecallAck(OneSourceToken token, String loanId, String recallId,
+        RecallAcknowledgement recallAcknowledgement)
+        throws APIException {
+        validateAPISetting(token);
+        HttpResponse<String> postResponse;
+        try {
+            String body = gson.toJson(recallAcknowledgement);
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                .uri(new URI(restAPIURL + "/loans/" + loanId + "/recalls/" + recallId + "/acknowledge"))
+                .header("Authorization", "Bearer " + token.getAccessToken())
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
+            postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            String message = "Error with sending acknowledge post request for recall " + recallId;
+            logger.debug(message, e);
+            throw new APIException(message, e);
+        }
+
+        if (isSuccess(postResponse)) {
+            logger.debug("Recall acknowledge posted successfully. Recall: {} Ack: {}", recallId,
+                recallAcknowledgement.getAcknowledgementType());
+        }
 
         return postResponse.statusCode();
     }
@@ -1069,9 +1069,10 @@ public class APIConnector {
         }
     }
 
-    private static void isSuccess(HttpResponse response) throws APIException {
+    private static boolean isSuccess(HttpResponse response) throws APIException {
         if (response.statusCode() / 100 != 2) {
             throw new APIException(String.valueOf(response.body()));
         }
+        return true;
     }
 }

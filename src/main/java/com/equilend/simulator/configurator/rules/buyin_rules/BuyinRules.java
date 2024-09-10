@@ -3,6 +3,7 @@ package com.equilend.simulator.configurator.rules.buyin_rules;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.loan.Loan;
+import com.equilend.simulator.model.recall.Recall;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,11 +77,11 @@ public class BuyinRules implements Rules {
         return null;
     }
 
-    public BuyinProposeRule getBuyinProposeRule(Loan loan,
+    public BuyinProposeRule getBuyinProposeRule(Recall recall, Loan loan,
         String botPartyId) {
         for (BuyinRule rule : proposeRules) {
             BuyinProposeRule buyinProposeRule = (BuyinProposeRule) rule;
-            if (buyinProposeRule.isApplicable(loan, botPartyId)) {
+            if (buyinProposeRule.isApplicable(recall, loan, botPartyId)) {
                 return buyinProposeRule;
             }
         }

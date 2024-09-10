@@ -36,28 +36,28 @@ public class ReturnRuleProcessor {
         throws APIException {
 
         if (rule instanceof ReturnAcknowledgeRule) {
-            logger.debug("Processing ReturnAcknowledgeRule. Loan: " + loan.getLoanId());
+            logger.debug("Processing Return Rule: Acknowledge Return (ReturnAcknowledgeRule). Loan: " + loan.getLoanId());
             processReturnByAcknowledgeRule(startTime, (ReturnAcknowledgeRule) rule, loan,
                 oneSourceReturn.getReturnId());
         }
         if (rule instanceof ReturnCancelRule) {
-            logger.debug("Processing ReturnCancelRule. Loan: " + loan.getLoanId());
+            logger.debug("Processing Return Rule: Cancel Return (ReturnCancelRule). Loan: " + loan.getLoanId());
             processReturnByCancelRule(startTime, (ReturnCancelRule) rule, loan.getLoanId(),
                 oneSourceReturn.getReturnId());
         }
 
         if (rule instanceof ReturnProposeFromLoanRule) {
-            logger.debug("Processing ReturnProposeFromLoanRule. Loan: " + loan.getLoanId());
+            logger.debug("Processing Return Rule: Propose Return (ReturnProposeFromLoanRule). Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (ReturnProposeFromLoanRule) rule, loan);
         }
 
         if (rule instanceof ReturnProposeFromRecallRule) {
-            logger.debug("Processing ReturnProposeFromRecallRule. Loan: " + loan.getLoanId());
+            logger.debug("Processing Return Rule: Propose Return (ReturnProposeFromRecallRule). Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (ReturnProposeFromRecallRule) rule, loan);
         }
 
         if (rule instanceof ReturnSettlementStatusUpdateRule) {
-            logger.debug("Processing ReturnSettlementStatusUpdateRule. Loan: " + loan.getLoanId());
+            logger.debug("Processing Return Rule: Update Settlement Status (ReturnSettlementStatusUpdateRule). Loan: " + loan.getLoanId());
             processReturnBySettlementStatusUpdateRule(startTime, (ReturnSettlementStatusUpdateRule) rule,
                 loan.getLoanId(), oneSourceReturn.getReturnId());
         }
@@ -78,10 +78,7 @@ public class ReturnRuleProcessor {
 
     private static void postReturnAcknowledgement(Loan loan, String returnId, Long startTime, Double delay,
         AcknowledgementType type) throws APIException {
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
+        waitForDelay(startTime, delay);
         ReturnAcknowledgement returnAcknowledgement = buildReturnAcknowledgement(type, loan);
         APIConnector.postReturnAck(OneSourceToken.getToken(), loan.getLoanId(), returnId,
             returnAcknowledgement);

@@ -49,6 +49,7 @@ public class ReturnsHandler implements EventHandler {
                         ReturnRuleProcessor.process(startTime, acknowledgeRule, loan, oneSourceReturn);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 case RETURN_ACKNOWLEDGED:
                     ReturnCancelRule cancelRule = config.getReturnRules()
@@ -64,6 +65,7 @@ public class ReturnsHandler implements EventHandler {
                             oneSourceReturn);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

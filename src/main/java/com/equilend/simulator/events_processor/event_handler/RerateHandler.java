@@ -49,12 +49,12 @@ public class RerateHandler implements EventHandler {
                         RerateRuleProcessor.process(startTime, cancelRule, loan, rerate);
                         return;
                     }
-
                     RerateApproveRule approveRule = config.getRerateRules().getApproveRule(rerate, loan, botPartyId);
                     if (approveRule != null && !approveRule.shouldIgnore()) {
                         RerateRuleProcessor.process(startTime, approveRule, loan, rerate);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 case RERATE_PENDING:
                     ReratePendingCancelRule pendingCancelRule = config.getRerateRules()
@@ -63,6 +63,7 @@ public class RerateHandler implements EventHandler {
                         RerateRuleProcessor.process(startTime, pendingCancelRule, loan, rerate);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

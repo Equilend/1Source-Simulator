@@ -5,8 +5,10 @@ import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
+import com.equilend.simulator.model.AcknowledgementType;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.recall.Recall;
+import com.equilend.simulator.model.recall.RecallAcknowledgement;
 import com.equilend.simulator.model.recall.RecallProposal;
 import com.equilend.simulator.model.venue.Venue;
 import java.time.LocalDate;
@@ -40,5 +42,12 @@ public class RecallService {
 
     public static int cancelRecall(String loanId, String recallId) throws APIException {
         return APIConnector.cancelRecall(OneSourceToken.getToken(), loanId, recallId);
+    }
+
+    public static int postRecallAck(Loan loan, Recall recall, AcknowledgementType acknowledgementType) throws APIException {
+        RecallAcknowledgement recallAcknowledgement = new RecallAcknowledgement().acknowledgementType(
+            acknowledgementType);
+        return APIConnector.postRecallAck(OneSourceToken.getToken(), loan.getLoanId(), recall.getRecallId(),
+            recallAcknowledgement);
     }
 }

@@ -6,6 +6,7 @@ import static com.equilend.simulator.service.RecallService.getRecallById;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
+import com.equilend.simulator.configurator.rules.recall_rules.RecallAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromRecallRule;
 import com.equilend.simulator.model.event.Event;
@@ -45,13 +46,6 @@ public class RecallHandler implements EventHandler {
             Loan loan = getLoanById(recall.getLoanId());
             switch (event.getEventType()) {
                 case RECALL_OPENED:
-                    BuyinProposeRule buyinProposeRule = config.getBuyinRules()
-                        .getBuyinProposeRule(loan, botPartyId);
-                    if (buyinProposeRule != null && buyinProposeRule.shouldSubmit()) {
-                        BuyinRuleProcessor.process(startTime, buyinProposeRule, loan, null);
-                        return;
-                    }
-
                     ReturnProposeFromRecallRule returnProposeRule = config.getReturnRules()
                         .getReturnProposeFromRecallRule(loan, botPartyId);
                     if (returnProposeRule != null && returnProposeRule.shouldPropose()) {
@@ -59,6 +53,12 @@ public class RecallHandler implements EventHandler {
                         return;
                     }
 
+                    RecallAcknowledgeRule recallAcknowledgeRule = config.getRecallRules().getRecallAcknowledgeRule(recall, loan, botPartyId);
+                    if(recallAcknowledgeRule != null && !recallAcknowledgeRule.isIgnored()) {
+                        RecallRuleProcessor.process(startTime, recallAcknowledgeRule, loan, recall);
+                        return;
+                    }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 case RECALL_ACKNOWLEDGED:
                     RecallCancelRule recallCancelRule = config.getRecallRules().getRecallCancelRule(recall,
@@ -68,6 +68,13 @@ public class RecallHandler implements EventHandler {
                         return;
                     }
 
+                    BuyinProposeRule buyinProposeRule = config.getBuyinRules()
+                        .getBuyinProposeRule(recall, loan, botPartyId);
+                    if (buyinProposeRule != null && buyinProposeRule.shouldSubmit()) {
+                        BuyinRuleProcessor.process(startTime, buyinProposeRule, loan, null);
+                        return;
+                    }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");
