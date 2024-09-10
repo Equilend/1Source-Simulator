@@ -33,7 +33,7 @@ public class RecallService {
         RecallProposal recallProposal = new RecallProposal()
             .quantity(quantity)
             .executionVenue(executionVenue)
-            .recallDueDate(LocalDate.now())
+            .recallDueDate(LocalDate.now().plusDays(1))
             .recallDate(LocalDate.now());
         return recallProposal;
     }
