@@ -62,6 +62,10 @@ public class RerateApproveRule implements RerateRule {
         return "R".equals(action);
     }
 
+    public boolean shouldIgnore() {
+        return "I".equals(action);
+    }
+
     private String getTradeCptyId(TradeAgreement trade, String partyId) {
         for (TransactingParty tp : trade.getTransactingParties()) {
             if (!tp.getParty().getPartyId().equals(partyId)) {

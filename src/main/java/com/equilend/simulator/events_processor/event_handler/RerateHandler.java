@@ -51,7 +51,7 @@ public class RerateHandler implements EventHandler {
                     }
 
                     RerateApproveRule approveRule = config.getRerateRules().getApproveRule(rerate, loan, botPartyId);
-                    if (approveRule != null && approveRule.shouldApprove()) {
+                    if (approveRule != null && !approveRule.shouldIgnore()) {
                         RerateRuleProcessor.process(startTime, approveRule, loan, rerate);
                         return;
                     }
