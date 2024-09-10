@@ -229,7 +229,7 @@ public final class Config {
         return Boolean.parseBoolean(properties.getProperty("analysis_mode.enable"));
     }
 
-    public boolean isScheduledProducerEnable() {
+    public boolean isGeneratorEnable() {
         return getLoanRules() != null && getLoanRules().getLoanProposeRules() != null
             && !getLoanRules().getLoanProposeRules().isEmpty();
     }

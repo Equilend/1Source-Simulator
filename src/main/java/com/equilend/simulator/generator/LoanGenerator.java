@@ -1,18 +1,17 @@
-package com.equilend.simulator.scheduler;
+package com.equilend.simulator.generator;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.model.loan.LoanProposal;
 import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.instrument.Instrument;
 import com.equilend.simulator.service.LoanService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ScheduledLoanProducer implements Runnable {
+public class LoanGenerator implements Runnable {
 
-    private static final Logger logger = LogManager.getLogger(ScheduledLoanProducer.class.getName());
+    private static final Logger logger = LogManager.getLogger(LoanGenerator.class.getName());
     private String botPartyRole;
     private String botPartyId;
     private String counterPartyId;
@@ -22,7 +21,7 @@ public class ScheduledLoanProducer implements Runnable {
     private Double price;
     private String termType;
 
-    public ScheduledLoanProducer(String botPartyRole, String botPartyId, String counterPartyId, String security,
+    public LoanGenerator(String botPartyRole, String botPartyId, String counterPartyId, String security,
         Integer quantity, Double rate, Double price, String termType) {
         this.botPartyRole = botPartyRole;
         this.botPartyId = botPartyId;
