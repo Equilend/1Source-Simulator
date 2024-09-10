@@ -5,6 +5,7 @@ import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.RuleException;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
@@ -20,6 +21,7 @@ import com.equilend.simulator.model.returns.ReturnAcknowledgement;
 import com.equilend.simulator.model.returns.ReturnProposal;
 import com.equilend.simulator.model.settlement.PartySettlementInstruction;
 import com.equilend.simulator.model.settlement.SettlementStatus;
+import com.equilend.simulator.model.venue.Venue;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -121,10 +123,15 @@ public class ReturnRuleProcessor {
             throw new RuleException(
                 "Return Propose Rule (from LOAN_OPENED event) must contain 'return_quantity' as number for new Return Propose");
         }
+        //TODO move next code to method
+        String botPartyId = Config.getInstance().getBotPartyId();
+        Venue executionVenue = loan.getTrade().getVenues().stream().filter(venue -> botPartyId.equals(venue.getParty().getPartyId())).findFirst().get();
         ReturnProposal returnProposal = new ReturnProposal();
-        returnProposal.quantity(quantity)
+        returnProposal
+            .quantity(quantity)
             .returnDate(LocalDate.now())
             .returnSettlementDate(LocalDate.now())
+            .executionVenue(executionVenue)
             .collateralValue(loan.getTrade().getCollateral().getCollateralValue())
             .settlementType(loan.getTrade().getSettlementType());
         return returnProposal;
@@ -147,10 +154,14 @@ public class ReturnRuleProcessor {
             throw new RuleException(
                 "Return Propose Rule (from RECALL_OPENED event) must contain 'recall_quantity' as number for new Return Propose");
         }
+        String botPartyId = Config.getInstance().getBotPartyId();
+        Venue executionVenue = loan.getTrade().getVenues().stream().filter(venue -> botPartyId.equals(venue.getParty().getPartyId())).findFirst().get();
+
         ReturnProposal returnProposal = new ReturnProposal();
         returnProposal.quantity(quantity)
             .returnDate(LocalDate.now())
             .returnSettlementDate(LocalDate.now())
+            .executionVenue(executionVenue)
             .collateralValue(loan.getTrade().getCollateral().getCollateralValue())
             .settlementType(loan.getTrade().getSettlementType());
         return returnProposal;
