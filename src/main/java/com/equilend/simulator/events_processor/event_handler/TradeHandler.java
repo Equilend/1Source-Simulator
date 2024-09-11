@@ -39,6 +39,7 @@ public class TradeHandler implements EventHandler {
                         .getAgreementProposeRule(agreement.getTrade(), botPartyId);
                     if (agreementProposeRule != null && !agreementProposeRule.shouldIgnore()) {
                         TradeRuleProcessor.process(startTime, agreementProposeRule, agreement);
+                        return;
                     }
                     logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;

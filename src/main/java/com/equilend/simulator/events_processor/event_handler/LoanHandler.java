@@ -60,12 +60,14 @@ public class LoanHandler implements EventHandler {
                             .getLoanCancelRule(loan, botPartyId);
                         if (loanCancelRule != null && loanCancelRule.shouldCancel()) {
                             LoanRuleProcessor.process(startTime, loanCancelRule, loan);
+                            return;
                         }
                     } else {
                         LoanApproveRejectRule loanApproveRejectRule = config.getLoanRules()
                             .getLoanApproveRejectRule(loan, botPartyId);
                         if (loanApproveRejectRule != null && !loanApproveRejectRule.shouldIgnore()) {
                             LoanRuleProcessor.process(startTime, loanApproveRejectRule, loan, botPartyId);
+                            return;
                         }
                     }
                     logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
