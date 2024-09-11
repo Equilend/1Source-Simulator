@@ -56,12 +56,11 @@ update_settlement = {
 
 [[RERATES]]
 analysis_mode = 0
-<recipient>
+<common>
 approve = {
     (cpty: *, security: *, rate: (-inf, AVG), action: I, delay: 0)
     (cpty: *, security: *, rate: [AVG, inf], action: I, delay: 0)
 }
-<initiator>
 cancel = {
     (cpty: *, security: *, rate: *, action: I, delay: 0)
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
@@ -69,7 +68,6 @@ cancel = {
 propose = {
     (cpty: *, security: *, rate: *, delta: 1.5, action: I, delay: 0)
 }
-<common>
 cancel_pending = {
     (cpty: *, security: *, rate: *, action: I, delay: 0)
     (cpty: *, security: *, rate: *, action: I, delay: 0 )
@@ -77,11 +75,10 @@ cancel_pending = {
 
 [[RETURNS]]
 analysis_mode = 0
-<recipient>
+<common>
 acknowledge = {
     (cpty: *, security: *, open quantity: *, return_quantity: *, action: I, delay: 0)
 }
-<initiator>
 cancel = {
     (cpty: *, security: *, open quantity: *, return_quantity:*, action: I, delay: 0)
 }
@@ -91,39 +88,39 @@ return = {
 return_from_recall = {
     (cpty: *, security: *, open_quantity: *, recall_quantity:500, action: I, delay: 0)
 }
-<common>
 update_settlement = {
     (cpty: *, security: *, open quantity: *, return_quantity: *, action: US, delay: 0)
 }
 
 [[RECALLS]]
 analysis_mode = 0
-<initiator>
+<common>
 recall = {
     (cpty: *, security: *, open_quantity: *, recall_quantity:500, action: I, delay: 0)
 }
 cancel = {
     (cpty: *, security: *, open_quantity: *, recall_quantity:*, action: I, delay: 0)
 }
+acknowledge = {
+    (cpty: *, security: *, open_quantity: *, recall_quantity:*, action: AP, delay: 0)
+}
 
 [[BUYINS]]
 analysis_mode = 0
-<recipient>
+<common>
 accept = {
     (cpty: *, security: *, buyin_quantity:*, price:*, action: I, delay: 0)
 }
-<initiator>
 submit = {
     (cpty: *, security: *, buyin_quantity: 100, price: 100, action: I, delay: 0)
 }
 
 [[SPLITS]]
 analysis_mode = 0
-<recipient>
+<common>
 approve = {
     (cpty: *, security: *, open_quantity: *, action: I, delay: 0)
 }
-<initiator>
 split = {
     (cpty: *, security: *, open_quantity: *, split_lot: 500|200|100, action: P, delay: 0)
 }

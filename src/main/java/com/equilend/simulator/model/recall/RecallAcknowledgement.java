@@ -10,30 +10,26 @@
  * Do not edit the class manually.
  */
 
-package com.equilend.simulator.model.returns;
+package com.equilend.simulator.model.recall;
 
 import com.equilend.simulator.model.AcknowledgementType;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 /**
- * ReturnAcknowledgement
+ * RecallAcknowledgement
  */
 
 
 
-public class ReturnAcknowledgement {
+public class RecallAcknowledgement {
   @JsonProperty("acknowledgementType")
   private AcknowledgementType acknowledgementType = null;
 
   @JsonProperty("description")
   private String description = null;
 
-  @JsonProperty("settlement")
-  private PartySettlementInstruction settlement = null;
-
-  public ReturnAcknowledgement acknowledgementType(AcknowledgementType acknowledgementType) {
+  public RecallAcknowledgement acknowledgementType(AcknowledgementType acknowledgementType) {
     this.acknowledgementType = acknowledgementType;
     return this;
   }
@@ -51,7 +47,7 @@ public class ReturnAcknowledgement {
     this.acknowledgementType = acknowledgementType;
   }
 
-  public ReturnAcknowledgement description(String description) {
+  public RecallAcknowledgement description(String description) {
     this.description = description;
     return this;
   }
@@ -69,24 +65,6 @@ public class ReturnAcknowledgement {
     this.description = description;
   }
 
-  public ReturnAcknowledgement settlement(PartySettlementInstruction settlement) {
-    this.settlement = settlement;
-    return this;
-  }
-
-   /**
-   * Get settlement
-   * @return settlement
-  **/
-  @Schema(description = "")
-  public PartySettlementInstruction getSettlement() {
-    return settlement;
-  }
-
-  public void setSettlement(PartySettlementInstruction settlement) {
-    this.settlement = settlement;
-  }
-
 
   @Override
   public boolean equals(Object o) {
@@ -96,26 +74,24 @@ public class ReturnAcknowledgement {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ReturnAcknowledgement returnAcknowledgement = (ReturnAcknowledgement) o;
-    return Objects.equals(this.acknowledgementType, returnAcknowledgement.acknowledgementType) &&
-        Objects.equals(this.description, returnAcknowledgement.description) &&
-        Objects.equals(this.settlement, returnAcknowledgement.settlement);
+    RecallAcknowledgement recallAcknowledgement = (RecallAcknowledgement) o;
+    return Objects.equals(this.acknowledgementType, recallAcknowledgement.acknowledgementType) &&
+        Objects.equals(this.description, recallAcknowledgement.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(acknowledgementType, description, settlement);
+    return Objects.hash(acknowledgementType, description);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ReturnAcknowledgement {\n");
+    sb.append("class RecallAcknowledgement {\n");
     
     sb.append("    acknowledgementType: ").append(toIndentedString(acknowledgementType)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    settlement: ").append(toIndentedString(settlement)).append("\n");
     sb.append("}");
     return sb.toString();
   }

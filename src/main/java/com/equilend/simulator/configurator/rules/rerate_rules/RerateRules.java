@@ -19,18 +19,17 @@ public class RerateRules implements Rules {
     private final List<RerateRule> pendingCancelRules = new ArrayList<>();
     private boolean analysisMode;
 
+    public RerateRules() {
+    }
+
     public RerateRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
-        }
-        if(rulesMap.containsKey("recipient")) {
-            addRules(rulesMap.get("recipient").get("approve"), approveRules, RerateRuleType.APPROVE);
-        }
-        if(rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RerateRuleType.CANCEL);
-            addRules(rulesMap.get("initiator").get("propose"), proposeRules, RerateRuleType.PROPOSE);
+            analysisMode = "1".equals(rulesMap.get("general").get("analysis_mode"));
         }
         if(rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("cancel"), cancelRules, RerateRuleType.CANCEL);
+            addRules(rulesMap.get("common").get("approve"), approveRules, RerateRuleType.APPROVE);
+            addRules(rulesMap.get("common").get("propose"), proposeRules, RerateRuleType.PROPOSE);
             addRules(rulesMap.get("common").get("cancel_pending"), pendingCancelRules, RerateRuleType.PENDING_CANCEL);
         }
     }

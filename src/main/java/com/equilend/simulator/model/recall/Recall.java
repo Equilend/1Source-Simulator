@@ -12,6 +12,7 @@
 
 package com.equilend.simulator.model.recall;
 
+import com.equilend.simulator.model.AcknowledgementType;
 import com.equilend.simulator.model.venue.Venue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,6 +52,9 @@ public class Recall {
 
   @JsonProperty("lastUpdateDatetime")
   private OffsetDateTime lastUpdateDatetime = null;
+
+  @JsonProperty("acknowledgementType")
+  private AcknowledgementType acknowledgementType = null;
 
   public Recall recallId(String recallId) {
     this.recallId = recallId;
@@ -214,6 +218,14 @@ public class Recall {
     this.lastUpdateDatetime = lastUpdateDatetime;
   }
 
+
+  public AcknowledgementType getAcknowledgementType() {
+    return acknowledgementType;
+  }
+
+  public void setAcknowledgementType(AcknowledgementType acknowledgementType) {
+    this.acknowledgementType = acknowledgementType;
+  }
 
   @Override
   public boolean equals(Object o) {

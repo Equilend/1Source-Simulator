@@ -3,8 +3,10 @@ package com.equilend.simulator.configurator.rules.buyin_rules;
 import static com.equilend.simulator.configurator.rules.RulesParser.parseLogicalOr;
 
 import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.equilend.simulator.model.AcknowledgementType;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
+import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;
 import java.util.List;
@@ -33,11 +35,12 @@ public class BuyinProposeRule implements BuyinRule {
         delay = Double.parseDouble(args.get(5));
     }
 
-    public boolean isApplicable(Loan loan, String partyId) {
+    public boolean isApplicable(Recall recall, Loan loan, String partyId) {
         TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
-        return RuleValidator.validCounterparty(counterparties, cpty) &&
-            RuleValidator.validSecurity(securities, trade.getInstrument());
+        return AcknowledgementType.NEGATIVE.equals(recall.getAcknowledgementType())
+            && RuleValidator.validCounterparty(counterparties, cpty)
+            && RuleValidator.validSecurity(securities, trade.getInstrument());
     }
 
     private String getTradeCptyId(TradeAgreement trade, String partyId) {

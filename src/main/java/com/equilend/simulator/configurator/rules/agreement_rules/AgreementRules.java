@@ -8,7 +8,10 @@ import java.util.Map;
 
 public class AgreementRules implements Rules {
 
-    private final List<AgreementRule> rules = new ArrayList<>();
+    private final List<AgreementProposeRule> rules = new ArrayList<>();
+
+    public AgreementRules() {
+    }
 
     public AgreementRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("initiator")) {
@@ -16,7 +19,7 @@ public class AgreementRules implements Rules {
         }
     }
 
-    public void addRules(String rulesList) {
+    private void addRules(String rulesList) {
         if (rulesList == null) {
             return;
         }
@@ -29,15 +32,15 @@ public class AgreementRules implements Rules {
             int end = rulesList.indexOf(");", start);
 
             String rule = rulesList.substring(start + 1, end + 1);
-            AgreementRule agreementRule = new AgreementRule(rule);
-            rules.add(agreementRule);
+            AgreementProposeRule agreementProposeRule = new AgreementProposeRule(rule);
+            rules.add(agreementProposeRule);
 
             start = rulesList.indexOf(";(", end);
         }
     }
 
-    public AgreementRule getFirstApplicableRule(VenueTradeAgreement venueTradeAgreement, String partyId) {
-        for (AgreementRule rule : rules) {
+    public AgreementProposeRule getAgreementProposeRule(VenueTradeAgreement venueTradeAgreement, String partyId) {
+        for (AgreementProposeRule rule : rules) {
             if (rule.isApplicable(venueTradeAgreement, partyId)) {
                 return rule;
             }

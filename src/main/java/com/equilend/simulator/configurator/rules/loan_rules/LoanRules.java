@@ -22,7 +22,10 @@ public class LoanRules implements Rules {
         CANCEL,
         PROPOSE,
         PENDING_CANCEL,
-        PENDING_UPDATE,
+        PENDING_UPDATE;
+    }
+
+    public LoanRules() {
     }
 
     public LoanRules(Map<String, Map<String, String>> rulesMap) {
@@ -41,12 +44,12 @@ public class LoanRules implements Rules {
                 LoanRuleType.PENDING_UPDATE);
         }
         if(rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisMode ="1".equals(rulesMap.get("general").get("analysis_mode"));
             analysisStartDate = rulesMap.get("general").get("analysis_start_date");
         }
     }
 
-    public void addRules(String rawRulesList, List<LoanRule> loanRulesList, LoanRuleType type) {
+    private void addRules(String rawRulesList, List<LoanRule> loanRulesList, LoanRuleType type) {
         if (rawRulesList == null) {
             return;
         }

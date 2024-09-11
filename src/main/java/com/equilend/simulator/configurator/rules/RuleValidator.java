@@ -98,23 +98,23 @@ public class RuleValidator {
         if (quantityRange.equals("*")) {
             return true;
         }
-
         int delim = quantityRange.indexOf(",");
-        if (delim == -1) {
-            return false;
+        if (delim > 0) {
+
+            String lowerStr = quantityRange.substring(1, delim).trim(); // first letter must be [ ot (
+            String upperStr = quantityRange.substring(delim + 1, quantityRange.length() - 1).trim().toUpperCase();
+
+            boolean lowerInclusive = quantityRange.charAt(0) == '[';
+            boolean upperInclusive = quantityRange.charAt(quantityRange.length() - 1) == ']';
+
+            long lower = lowerStr.equals("-INF") ? Long.MIN_VALUE : Long.parseLong(lowerStr);
+            long upper = upperStr.equals("INF") ? Long.MAX_VALUE : Long.parseLong(upperStr);
+
+            return (lowerInclusive && quantity >= lower || !lowerInclusive && quantity > lower)
+                && (upperInclusive && quantity <= upper || !upperInclusive && quantity < upper);
+        } else {
+            return Long.parseLong(quantityRange.trim()) == quantity;
         }
-
-        String lowerStr = quantityRange.substring(1, delim).trim();
-        String upperStr = quantityRange.substring(delim + 1, quantityRange.length() - 1).trim().toUpperCase();
-
-        boolean lowerInclusive = quantityRange.charAt(0) == '[';
-        boolean upperInclusive = quantityRange.charAt(quantityRange.length() - 1) == ']';
-
-        long lower = Long.parseLong(lowerStr);
-        long upper = (upperStr.equals("INF")) ? Long.MAX_VALUE : Long.parseLong(upperStr);
-
-        return (lowerInclusive && quantity >= lower || !lowerInclusive && quantity > lower)
-            && (upperInclusive && quantity <= upper || !upperInclusive && quantity < upper);
     }
 
     public static boolean validQuantity(Set<String> quantities, long quantity) {
@@ -132,61 +132,69 @@ public class RuleValidator {
         }
 
         int delim = rateRange.indexOf(",");
-        if (delim == -1) {
-            return false;
-        }
+        if (delim > 0) {
 
-        String lowerStr = rateRange.substring(1, delim).trim().toUpperCase();
-        String upperStr = rateRange.substring(delim + 1, rateRange.length() - 1).trim().toUpperCase();
+            String lowerStr = rateRange.substring(1, delim).trim().toUpperCase();
+            String upperStr = rateRange.substring(delim + 1, rateRange.length() - 1).trim().toUpperCase();
 
-        boolean lowerInclusive = rateRange.charAt(0) == '[';
-        boolean upperInclusive = rateRange.charAt(rateRange.length() - 1) == ']';
+            boolean lowerInclusive = rateRange.charAt(0) == '[';
+            boolean upperInclusive = rateRange.charAt(rateRange.length() - 1) == ']';
 
-        double lower = Double.MIN_VALUE;
-        if (lowerStr.equals("AVG")) {
-            if (rebate) {
-                try {
-                    lower =
-                        DatalendAPIConnector.getSecurityRebate(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
-                } catch (APIException e) {
-                    logger.debug("Unable to get avg rebate of sedol {}, defaulting to 5.00 effective rate", sedolValue);
+            double lower = Double.MIN_VALUE;
+            if (lowerStr.equals("AVG")) {
+                if (rebate) {
+                    try {
+                        lower =
+                            DatalendAPIConnector.getSecurityRebate(DatalendToken.getToken(), "sedol", sedolValue)
+                                / 100.0;
+                    } catch (APIException e) {
+                        logger.debug("Unable to get avg rebate of sedol {}, defaulting to 5.00 effective rate",
+                            sedolValue);
+                    }
+                } else {
+                    try {
+                        lower =
+                            DatalendAPIConnector.getSecurityFee(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
+                    } catch (APIException e) {
+                        logger.debug("Unable to get avg fee of sedol {}, defaulting to 5.00 effective rate",
+                            sedolValue);
+                    }
                 }
-            } else {
-                try {
-                    lower = DatalendAPIConnector.getSecurityFee(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
-                } catch (APIException e) {
-                    logger.debug("Unable to get avg fee of sedol {}, defaulting to 5.00 effective rate", sedolValue);
-                }
+            } else if (!lowerStr.equals("-INF")) {
+                lower = Double.parseDouble(lowerStr);
             }
-        } else if (!lowerStr.equals("-INF")) {
-            lower = Double.parseDouble(lowerStr);
-        }
 
-        double upper = Double.MAX_VALUE;
-        if (upperStr.equals("AVG")) {
-            if (rebate) {
-                try {
-                    upper =
-                        DatalendAPIConnector.getSecurityRebate(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
-                    logger.debug("Avg rebate of sedol {} is {} bps or {}%", sedolValue, upper * 100, upper);
-                } catch (APIException e) {
-                    logger.debug("Unable to get avg rebate of sedol {}, defaulting to 5.00 effective rate", sedolValue);
+            double upper = Double.MAX_VALUE;
+            if (upperStr.equals("AVG")) {
+                if (rebate) {
+                    try {
+                        upper =
+                            DatalendAPIConnector.getSecurityRebate(DatalendToken.getToken(), "sedol", sedolValue)
+                                / 100.0;
+                        logger.debug("Avg rebate of sedol {} is {} bps or {}%", sedolValue, upper * 100, upper);
+                    } catch (APIException e) {
+                        logger.debug("Unable to get avg rebate of sedol {}, defaulting to 5.00 effective rate",
+                            sedolValue);
+                    }
+                } else {
+                    try {
+                        upper =
+                            DatalendAPIConnector.getSecurityFee(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
+                        logger.debug("Avg fee of sedol {} is {} bps or {}%", sedolValue, upper * 100, upper);
+                    } catch (APIException e) {
+                        logger.debug("Unable to get avg fee of sedol {}, defaulting to 5.00 effective rate",
+                            sedolValue);
+                    }
                 }
-            } else {
-                try {
-                    upper = DatalendAPIConnector.getSecurityFee(DatalendToken.getToken(), "sedol", sedolValue) / 100.0;
-                    logger.debug("Avg fee of sedol {} is {} bps or {}%", sedolValue, upper * 100, upper);
-                } catch (APIException e) {
-                    logger.debug("Unable to get avg fee of sedol {}, defaulting to 5.00 effective rate", sedolValue);
-                }
+            } else if (!upperStr.equals("INF")) {
+                upper = Double.parseDouble(upperStr);
             }
-        } else if (!upperStr.equals("INF")) {
-            upper = Double.parseDouble(upperStr);
+
+            return (lowerInclusive && rate >= lower || !lowerInclusive && rate > lower)
+                && (upperInclusive && rate <= upper || !upperInclusive && rate < upper);
+        } else {
+            return Double.parseDouble(rateRange.trim()) == rate;
         }
-
-        return (lowerInclusive && rate >= lower || !lowerInclusive && rate > lower)
-            && (upperInclusive && rate <= upper || !upperInclusive && rate < upper);
-
     }
 
     public static boolean validRate(Set<String> rates, double rate, String sedolValue, boolean rebate) {
@@ -202,15 +210,16 @@ public class RuleValidator {
         if (ruleRange.equals("*")) {
             return true;
         }
+
         int delim = ruleRange.indexOf(",");
-        if (delim >= 0) {
+        if (delim > 0) {
             String lowerStr = ruleRange.substring(1, delim).trim();
             String upperStr = ruleRange.substring(delim + 1, ruleRange.length() - 1).trim().toUpperCase();
 
             boolean lowerInclusive = ruleRange.charAt(0) == '[';
             boolean upperInclusive = ruleRange.charAt(ruleRange.length() - 1) == ']';
 
-            Double lower = (upperStr.equals("-INF")) ? Double.MIN_VALUE : Double.parseDouble(upperStr);
+            Double lower = (lowerStr.equals("-INF")) ? Double.MIN_VALUE : Double.parseDouble(lowerStr);
             Double upper = (upperStr.equals("INF")) ? Double.MAX_VALUE : Double.parseDouble(upperStr);
 
             return (lowerInclusive && value >= lower || !lowerInclusive && value > lower)

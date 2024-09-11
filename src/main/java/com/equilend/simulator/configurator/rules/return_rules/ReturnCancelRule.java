@@ -5,7 +5,7 @@ import static com.equilend.simulator.configurator.rules.RulesParser.parseLogical
 import com.equilend.simulator.configurator.rules.RuleValidator;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.returns.AcknowledgementType;
+import com.equilend.simulator.model.AcknowledgementType;
 import com.equilend.simulator.model.returns.ModelReturn;
 import com.equilend.simulator.model.trade.TradeAgreement;
 import java.util.HashSet;

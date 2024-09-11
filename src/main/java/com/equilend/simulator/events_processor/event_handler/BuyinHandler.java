@@ -7,10 +7,9 @@ import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
 import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
-import com.equilend.simulator.service.LoanService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,17 +45,15 @@ public class BuyinHandler implements EventHandler {
                 logger.warn("Loan with id " + buyin.getLoanId() + " not found");
                 return;
             }
-            boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
             switch (event.getEventType()) {
                 case BUYIN_PENDING:
-                    if(!isInitiator) {
-                        BuyinAcceptRule buyinAcceptRule = config.getBuyinRules()
-                            .getBuyinAcceptRule(buyin, loan, botPartyId);
-                        if (buyinAcceptRule != null && buyinAcceptRule.shouldAccept()) {
-                            BuyinRuleProcessor.process(startTime, buyinAcceptRule, loan, buyin);
-                            return;
-                        }
+                    BuyinAcceptRule buyinAcceptRule = config.getBuyinRules()
+                        .getBuyinAcceptRule(buyin, loan, botPartyId);
+                    if (buyinAcceptRule != null && buyinAcceptRule.shouldAccept()) {
+                        BuyinRuleProcessor.process(startTime, buyinAcceptRule, loan, buyin);
+                        return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

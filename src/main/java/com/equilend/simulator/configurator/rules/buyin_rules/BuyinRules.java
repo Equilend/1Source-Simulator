@@ -3,6 +3,7 @@ package com.equilend.simulator.configurator.rules.buyin_rules;
 import com.equilend.simulator.configurator.rules.Rules;
 import com.equilend.simulator.model.buyin.BuyinComplete;
 import com.equilend.simulator.model.loan.Loan;
+import com.equilend.simulator.model.recall.Recall;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +23,16 @@ public class BuyinRules implements Rules {
         PROPOSE
     }
 
+    public BuyinRules() {
+    }
+
     public BuyinRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisMode = "1".equals(rulesMap.get("general").get("analysis_mode"));
         }
-        if (rulesMap.containsKey("recipient")) {
-            addRules(rulesMap.get("recipient").get("accept"), acceptRules, BuyinRuleType.ACCEPT);
-        }
-        if (rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("submit"), proposeRules, BuyinRuleType.PROPOSE);
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("accept"), acceptRules, BuyinRuleType.ACCEPT);
+            addRules(rulesMap.get("common").get("submit"), proposeRules, BuyinRuleType.PROPOSE);
         }
     }
 
@@ -75,11 +77,11 @@ public class BuyinRules implements Rules {
         return null;
     }
 
-    public BuyinProposeRule getBuyinProposeRule(Loan loan,
+    public BuyinProposeRule getBuyinProposeRule(Recall recall, Loan loan,
         String botPartyId) {
         for (BuyinRule rule : proposeRules) {
             BuyinProposeRule buyinProposeRule = (BuyinProposeRule) rule;
-            if (buyinProposeRule.isApplicable(loan, botPartyId)) {
+            if (buyinProposeRule.isApplicable(recall, loan, botPartyId)) {
                 return buyinProposeRule;
             }
         }

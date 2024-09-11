@@ -23,26 +23,29 @@ public class RerateRuleProcessor {
     public static void process(Long startTime, RerateRule rule, Loan loan, Rerate rerate) throws APIException {
 
         if (rule instanceof RerateProposeRule) {
+            logger.debug("Processing Rerate Rule: Propose Rerates on Approved Contracts (RerateProposeRule). Loan: " + loan.getLoanId());
             postRerateProposal(startTime, (RerateProposeRule) rule, loan);
         }
 
         if (rule instanceof RerateCancelRule) {
+            logger.debug("Processing Rerate Rule: Cancel Rerate Proposals (RerateCancelRule). Loan: " + loan.getLoanId());
             cancelRerateProposal(startTime, (RerateCancelRule) rule, loan, rerate);
         }
 
         if (rule instanceof RerateApproveRule) {
             RerateApproveRule rerateApproveRule = (RerateApproveRule) rule;
             if (rerateApproveRule.shouldApprove()) {
+                logger.debug("Processing Rerate Rule: Approve or Reject Rerate Proposals (RerateApproveRule. Approve). Loan: " + loan.getLoanId());
                 approveRerateProposal(startTime, rerateApproveRule, loan, rerate);
-            } else if (rerateApproveRule.shouldReject()) {
+            }
+            if (rerateApproveRule.shouldReject()) {
+                logger.debug("Processing Rerate Rule: Approve or Reject Rerate Proposals (RerateApproveRule. Reject). Loan: " + loan.getLoanId());
                 declineRerateProposal(startTime, rerateApproveRule, loan, rerate);
-            } else {
-                //default to approve w/o delay
-                approveRerateProposal(startTime, rerateApproveRule, loan, rerate);
             }
         }
 
         if (rule instanceof ReratePendingCancelRule) {
+            logger.debug("Processing Rerate Rule: Cancel Rerate Pending (ReratePendingCancelRule). Loan: " + loan.getLoanId());
             cancelReratePending(startTime, (ReratePendingCancelRule) rule, loan, rerate);
         }
     }

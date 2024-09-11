@@ -14,20 +14,26 @@ public class RecallRules implements Rules {
     private static final Logger logger = LogManager.getLogger(RecallRules.class.getName());
     private final List<RecallRule> cancelRules = new ArrayList<>();
     private final List<RecallRule> proposeRules = new ArrayList<>();
+    private final List<RecallRule> acknowledgeRule = new ArrayList<>();
     private boolean analysisMode;
 
     private enum RecallRuleType {
+        ACKNOWLEDGE,
         PROPOSE,
         CANCEL
     }
 
+    public RecallRules() {
+    }
+
     public RecallRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisMode = "1".equals(rulesMap.get("general").get("analysis_mode"));
         }
-        if (rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("recall"), proposeRules, RecallRuleType.PROPOSE);
-            addRules(rulesMap.get("initiator").get("cancel"), cancelRules, RecallRuleType.CANCEL);
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("recall"), proposeRules, RecallRuleType.PROPOSE);
+            addRules(rulesMap.get("common").get("cancel"), cancelRules, RecallRuleType.CANCEL);
+            addRules(rulesMap.get("common").get("acknowledge"), acknowledgeRule, RecallRuleType.ACKNOWLEDGE);
         }
     }
 
@@ -51,6 +57,9 @@ public class RecallRules implements Rules {
                     break;
                 case CANCEL:
                     rule = new RecallCancelRule(ruleStr);
+                    break;
+                case ACKNOWLEDGE:
+                    rule = new RecallAcknowledgeRule(ruleStr);
                     break;
                 default:
                     rule = null;
@@ -78,6 +87,17 @@ public class RecallRules implements Rules {
             RecallProposeRule recallProposeRule = (RecallProposeRule) rule;
             if (recallProposeRule.isApplicable(loan, botPartyId)) {
                 return recallProposeRule;
+            }
+        }
+        return null;
+    }
+
+    public RecallAcknowledgeRule getRecallAcknowledgeRule(Recall recall, Loan loan,
+        String botPartyId) {
+        for (RecallRule rule : acknowledgeRule) {
+            RecallAcknowledgeRule recallAcknowledgeRule = (RecallAcknowledgeRule) rule;
+            if (recallAcknowledgeRule.isApplicable(recall, loan, botPartyId)) {
+                return recallAcknowledgeRule;
             }
         }
         return null;

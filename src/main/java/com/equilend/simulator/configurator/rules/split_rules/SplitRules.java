@@ -16,21 +16,21 @@ public class SplitRules implements Rules {
     private final List<SplitRule> proposeRules = new ArrayList<>();
     private boolean analysisMode;
 
-
     private enum SplitRuleType {
         APPROVE,
         PROPOSE
     }
 
+    public SplitRules() {
+    }
+
     public SplitRules(Map<String, Map<String, String>> rulesMap) {
         if (rulesMap.containsKey("general")) {
-            analysisMode = rulesMap.get("general").get("analysis_mode").equals("1");
+            analysisMode = "1".equals(rulesMap.get("general").get("analysis_mode"));
         }
-        if (rulesMap.containsKey("recipient")) {
-            addRules(rulesMap.get("recipient").get("approve"), approveRules, SplitRuleType.APPROVE);
-        }
-        if (rulesMap.containsKey("initiator")) {
-            addRules(rulesMap.get("initiator").get("split"), proposeRules, SplitRuleType.PROPOSE);
+        if (rulesMap.containsKey("common")) {
+            addRules(rulesMap.get("common").get("approve"), approveRules, SplitRuleType.APPROVE);
+            addRules(rulesMap.get("common").get("split"), proposeRules, SplitRuleType.PROPOSE);
         }
     }
 

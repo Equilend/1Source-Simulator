@@ -25,6 +25,7 @@ public class LoanRuleProcessor {
     public static void process(Long startTime, LoanRule rule, Loan loan, String botPartyId)  throws APIException {
 
         if (rule instanceof LoanApproveRejectRule) {
+            logger.debug("Processing Loan Rule: Approve or Reject Contract Proposals (LoanApproveRejectRule). Loan: " + loan.getLoanId());
             processByLoanApproveRejectRule(startTime, (LoanApproveRejectRule) rule, loan, botPartyId);
         }
     }
@@ -33,14 +34,17 @@ public class LoanRuleProcessor {
         throws APIException {
 
         if (rule instanceof LoanCancelRule) {
+            logger.debug("Processing Loan Rule: Cancel Contract Proposals (LoanCancelRule). Loan: " + loan.getLoanId());
             processByLoanCancelRule(startTime, (LoanCancelRule) rule, loan);
         }
 
         if (rule instanceof LoanPendingCancelRule) {
+            logger.debug("Processing Loan Rule: Cancel Contract Pending (LoanPendingCancelRule). Loan: " + loan.getLoanId());
             processByLoanPendingCancelRule(startTime, (LoanPendingCancelRule) rule, loan);
         }
 
         if (rule instanceof LoanPendingUpdateRule) {
+            logger.debug("Processing Loan Rule: Update Contract Pending settl. status (LoanPendingUpdateRule). Loan: " + loan.getLoanId());
             processByLoanPendingUpdateRule(startTime, (LoanPendingUpdateRule) rule, loan);
         }
     }

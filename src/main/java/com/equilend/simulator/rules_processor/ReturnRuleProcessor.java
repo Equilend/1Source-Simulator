@@ -5,6 +5,7 @@ import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.RuleException;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
@@ -14,12 +15,13 @@ import com.equilend.simulator.configurator.rules.return_rules.ReturnRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.returns.AcknowledgementType;
+import com.equilend.simulator.model.AcknowledgementType;
 import com.equilend.simulator.model.returns.ModelReturn;
 import com.equilend.simulator.model.returns.ReturnAcknowledgement;
 import com.equilend.simulator.model.returns.ReturnProposal;
 import com.equilend.simulator.model.settlement.PartySettlementInstruction;
 import com.equilend.simulator.model.settlement.SettlementStatus;
+import com.equilend.simulator.model.venue.Venue;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -34,23 +36,28 @@ public class ReturnRuleProcessor {
         throws APIException {
 
         if (rule instanceof ReturnAcknowledgeRule) {
+            logger.debug("Processing Return Rule: Acknowledge Return (ReturnAcknowledgeRule). Loan: " + loan.getLoanId());
             processReturnByAcknowledgeRule(startTime, (ReturnAcknowledgeRule) rule, loan,
                 oneSourceReturn.getReturnId());
         }
         if (rule instanceof ReturnCancelRule) {
+            logger.debug("Processing Return Rule: Cancel Return (ReturnCancelRule). Loan: " + loan.getLoanId());
             processReturnByCancelRule(startTime, (ReturnCancelRule) rule, loan.getLoanId(),
                 oneSourceReturn.getReturnId());
         }
 
         if (rule instanceof ReturnProposeFromLoanRule) {
+            logger.debug("Processing Return Rule: Propose Return (ReturnProposeFromLoanRule). Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (ReturnProposeFromLoanRule) rule, loan);
         }
 
         if (rule instanceof ReturnProposeFromRecallRule) {
+            logger.debug("Processing Return Rule: Propose Return (ReturnProposeFromRecallRule). Loan: " + loan.getLoanId());
             processByProposeRule(startTime, (ReturnProposeFromRecallRule) rule, loan);
         }
 
         if (rule instanceof ReturnSettlementStatusUpdateRule) {
+            logger.debug("Processing Return Rule: Update Settlement Status (ReturnSettlementStatusUpdateRule). Loan: " + loan.getLoanId());
             processReturnBySettlementStatusUpdateRule(startTime, (ReturnSettlementStatusUpdateRule) rule,
                 loan.getLoanId(), oneSourceReturn.getReturnId());
         }
@@ -71,10 +78,7 @@ public class ReturnRuleProcessor {
 
     private static void postReturnAcknowledgement(Loan loan, String returnId, Long startTime, Double delay,
         AcknowledgementType type) throws APIException {
-        long delayMillis = Math.round(1000 * delay);
-        while (System.currentTimeMillis() - startTime < delayMillis) {
-            Thread.yield();
-        }
+        waitForDelay(startTime, delay);
         ReturnAcknowledgement returnAcknowledgement = buildReturnAcknowledgement(type, loan);
         APIConnector.postReturnAck(OneSourceToken.getToken(), loan.getLoanId(), returnId,
             returnAcknowledgement);
@@ -116,10 +120,15 @@ public class ReturnRuleProcessor {
             throw new RuleException(
                 "Return Propose Rule (from LOAN_OPENED event) must contain 'return_quantity' as number for new Return Propose");
         }
+        //TODO move next code to method
+        String botPartyId = Config.getInstance().getBotPartyId();
+        Venue executionVenue = loan.getTrade().getVenues().stream().filter(venue -> botPartyId.equals(venue.getParty().getPartyId())).findFirst().get();
         ReturnProposal returnProposal = new ReturnProposal();
-        returnProposal.quantity(quantity)
+        returnProposal
+            .quantity(quantity)
             .returnDate(LocalDate.now())
             .returnSettlementDate(LocalDate.now())
+            .executionVenue(executionVenue)
             .collateralValue(loan.getTrade().getCollateral().getCollateralValue())
             .settlementType(loan.getTrade().getSettlementType());
         return returnProposal;
@@ -142,10 +151,14 @@ public class ReturnRuleProcessor {
             throw new RuleException(
                 "Return Propose Rule (from RECALL_OPENED event) must contain 'recall_quantity' as number for new Return Propose");
         }
+        String botPartyId = Config.getInstance().getBotPartyId();
+        Venue executionVenue = loan.getTrade().getVenues().stream().filter(venue -> botPartyId.equals(venue.getParty().getPartyId())).findFirst().get();
+
         ReturnProposal returnProposal = new ReturnProposal();
         returnProposal.quantity(quantity)
             .returnDate(LocalDate.now())
             .returnSettlementDate(LocalDate.now())
+            .executionVenue(executionVenue)
             .collateralValue(loan.getTrade().getCollateral().getCollateralValue())
             .settlementType(loan.getTrade().getSettlementType());
         return returnProposal;

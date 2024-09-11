@@ -3,7 +3,7 @@ package com.equilend.simulator;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
-import com.equilend.simulator.scheduler.Scheduler;
+import com.equilend.simulator.generator.Generator;
 import com.equilend.simulator.utils.PropertiesUtil;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -42,10 +42,10 @@ public class Simulator {
             logger.info("Finish analysis mode");
         }
 
-        if (config.isScheduledProducerEnable()) {
-            logger.info("Start scheduled producer");
+        if (config.isGeneratorEnable()) {
+            logger.info("Start generator");
             ExecutorService execOutgoing = Executors.newSingleThreadExecutor(new SchedulerThread());
-            execOutgoing.execute(new Scheduler());
+            execOutgoing.execute(new Generator());
         }
 
         logger.info("Start event listener");

@@ -3,6 +3,7 @@ package com.equilend.simulator.service;
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
+import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
 import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.rate.FixedRateDef;
@@ -10,6 +11,7 @@ import com.equilend.simulator.model.rate.Rate;
 import com.equilend.simulator.model.rate.RebateRate;
 import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.model.rerate.RerateProposal;
+import com.equilend.simulator.model.venue.Venue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,8 +33,16 @@ public class RerateService {
                 rebate.getFloating().setSpread(rebate.getFloating().getSpread() + delta);
             }
         }
+
+        String botPartyId = Config.getInstance().getBotPartyId();
+
+        Venue executionVenue = loan.getTrade().getVenues().stream()
+            .filter(venue -> botPartyId.equals(venue.getParty().getPartyId())).findFirst().get();
+        RerateProposal rerateProposal = new RerateProposal()
+            .executionVenue(executionVenue)
+            .rate(rate);
         int responseCode = APIConnector.postRerateProposal(EventHandler.getToken(), loan.getLoanId(),
-            new RerateProposal().rate(rate));
+            rerateProposal);
         return responseCode;
     }
 

@@ -41,36 +41,31 @@ public class ReturnsHandler implements EventHandler {
                 return;
             }
             Loan loan = getLoanById(oneSourceReturn.getLoanId());
-            boolean isInitiator = LoanService.isInitiator(loan, botPartyId);
-
             switch (event.getEventType()) {
                 case RETURN_PENDING:
-                    if (!isInitiator) {
-                        ReturnAcknowledgeRule acknowledgeRule = config.getReturnRules()
-                            .getReturnAcknowledgeRule(oneSourceReturn, loan, botPartyId);
-                        if (acknowledgeRule != null && !acknowledgeRule.isIgnored()) {
-                            ReturnRuleProcessor.process(startTime, acknowledgeRule, loan, oneSourceReturn);
-                            return;
-                        }
+                    ReturnAcknowledgeRule acknowledgeRule = config.getReturnRules()
+                        .getReturnAcknowledgeRule(oneSourceReturn, loan, botPartyId);
+                    if (acknowledgeRule != null && !acknowledgeRule.isIgnored()) {
+                        ReturnRuleProcessor.process(startTime, acknowledgeRule, loan, oneSourceReturn);
+                        return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 case RETURN_ACKNOWLEDGED:
-                    if (isInitiator) {
-                        ReturnCancelRule cancelRule = config.getReturnRules()
-                            .getReturnCancelRule(oneSourceReturn, loan, botPartyId);
-                        if (cancelRule != null && !cancelRule.isIgnored()) {
-                            ReturnRuleProcessor.process(startTime, cancelRule, loan, oneSourceReturn);
-                            return;
-                        }
+                    ReturnCancelRule cancelRule = config.getReturnRules()
+                        .getReturnCancelRule(oneSourceReturn, loan, botPartyId);
+                    if (cancelRule != null && cancelRule.shouldCancel()) {
+                        ReturnRuleProcessor.process(startTime, cancelRule, loan, oneSourceReturn);
+                        return;
                     }
-
                     ReturnSettlementStatusUpdateRule returnSettlementStatusUpdateRule = config.getReturnRules()
                         .getReturnSettlementStatusUpdateRule(oneSourceReturn, loan, botPartyId);
-                    if (returnSettlementStatusUpdateRule != null && !returnSettlementStatusUpdateRule.isIgnored()) {
+                    if (returnSettlementStatusUpdateRule != null && returnSettlementStatusUpdateRule.shouldUpdateSettlementStatus()) {
                         ReturnRuleProcessor.process(startTime, returnSettlementStatusUpdateRule, loan,
                             oneSourceReturn);
                         return;
                     }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
                     break;
                 default:
                     throw new RuntimeException("event type not supported");

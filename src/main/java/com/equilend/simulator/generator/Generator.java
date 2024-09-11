@@ -1,4 +1,4 @@
-package com.equilend.simulator.scheduler;
+package com.equilend.simulator.generator;
 
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanGenerativeRule;
@@ -10,12 +10,12 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-public class Scheduler implements Runnable {
+public class Generator implements Runnable {
 
     private Config config;
     private String botPartyId;
 
-    public Scheduler() {
+    public Generator() {
         this.config = Config.getInstance();
         this.botPartyId = config.getBotPartyId();
     }
@@ -48,7 +48,7 @@ public class Scheduler implements Runnable {
                     Double rate = loanGenerativeRule.getRate();
                     Double price = loanGenerativeRule.getPrice();
                     String termType = loanGenerativeRule.getTermType();
-                    ScheduledLoanProducer task = new ScheduledLoanProducer(partyRole, botPartyId, counterpartyId,
+                    LoanGenerator task = new LoanGenerator(partyRole, botPartyId, counterpartyId,
                         security,
                         quantity, rate, price, termType);
 

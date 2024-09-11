@@ -1,10 +1,6 @@
 package com.equilend.simulator.events_processor.event_handler;
 
-import static com.equilend.simulator.model.event.EventType.RERATE_PENDING;
-import static com.equilend.simulator.model.event.EventType.RERATE_PROPOSED;
-import static com.equilend.simulator.rules_processor.RerateRuleProcessor.process;
 import static com.equilend.simulator.service.LoanService.getLoanById;
-import static com.equilend.simulator.service.LoanService.getTransactingPartyById;
 import static com.equilend.simulator.service.RerateService.getRerateById;
 
 import com.equilend.simulator.api.APIException;
@@ -12,12 +8,10 @@ import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.ReratePendingCancelRule;
-import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.party.TransactingParty;
+import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.model.rerate.Rerate;
-import java.util.Optional;
+import com.equilend.simulator.rules_processor.RerateRuleProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,50 +35,40 @@ public class RerateHandler implements EventHandler {
         String uri = event.getResourceUri();
         String[] arr = uri.split("/");
         try {
-            if (event.getEventType().equals(RERATE_PROPOSED)) {
-                String rerateId = arr[arr.length - 1];
-                Rerate rerate = getRerateById(rerateId);
-                if (rerate == null) {
-                    return;
-                }
-
-                String loanId = rerate.getLoanId();
-                Loan loan = getLoanById(loanId);
-
-                //For now, default to lender party being initiator and borrower party being recipient
-                Optional<TransactingParty> transactingParty = getTransactingPartyById(loan, botPartyId);
-                if (transactingParty.isPresent() && transactingParty.get().getPartyRole() == PartyRole.LENDER) {
-                    RerateCancelRule rule = config.getRerateRules().getCancelRule(rerate, loan, botPartyId);
-                    if (rule == null || !rule.shouldCancel()) {
-                        return; //default to ignore/ not cancelling
-                    }
-                    process(startTime, rule, loan, rerate);
-                } else {
-                    RerateApproveRule rule = config.getRerateRules().getApproveRule(rerate, loan, botPartyId);
-                    if (rule == null) {
-                        //no applicable rule, default to approve w/o delay
-                        process(startTime, new RerateApproveRule("A", 0.0), loan, rerate);
-                    } else {
-                        process(startTime, rule, loan, rerate);
-                    }
-                }
-            } else if (event.getEventType().equals(RERATE_PENDING)) {
-                String rerateId = arr[arr.length - 1];
-                Rerate rerate = getRerateById(rerateId);
-                if (rerate == null) {
-                    return;
-                }
-
-                String loanId = rerate.getLoanId();
-                Loan loan = getLoanById(loanId);
-
-                ReratePendingCancelRule rule = config.getRerateRules()
-                    .getPendingCancelRule(rerate, loan, botPartyId);
-                if (rule == null || !rule.shouldCancel()) {
-                    return; //default to ignore/ not cancelling
-                }
-                process(startTime, rule, loan, rerate);
+            String rerateId = arr[arr.length - 1];
+            Rerate rerate = getRerateById(rerateId);
+            if (rerate == null) {
+                return;
             }
+            String loanId = rerate.getLoanId();
+            Loan loan = getLoanById(loanId);
+            switch (event.getEventType()) {
+                case RERATE_PROPOSED:
+                    RerateCancelRule cancelRule = config.getRerateRules().getCancelRule(rerate, loan, botPartyId);
+                    if (cancelRule != null && cancelRule.shouldCancel()) {
+                        RerateRuleProcessor.process(startTime, cancelRule, loan, rerate);
+                        return;
+                    }
+                    RerateApproveRule approveRule = config.getRerateRules().getApproveRule(rerate, loan, botPartyId);
+                    if (approveRule != null && !approveRule.shouldIgnore()) {
+                        RerateRuleProcessor.process(startTime, approveRule, loan, rerate);
+                        return;
+                    }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
+                    break;
+                case RERATE_PENDING:
+                    ReratePendingCancelRule pendingCancelRule = config.getRerateRules()
+                        .getPendingCancelRule(rerate, loan, botPartyId);
+                    if (pendingCancelRule != null && pendingCancelRule.shouldCancel()) {
+                        RerateRuleProcessor.process(startTime, pendingCancelRule, loan, rerate);
+                        return;
+                    }
+                    logger.debug("Event {} with ResourceUri {} has not been processed by rules", event.getEventType(), event.getResourceUri());
+                    break;
+                default:
+                    throw new RuntimeException("event type not supported");
+            }
+
         } catch (APIException e) {
             logger.error("Unable to process rerate event", e);
         }
