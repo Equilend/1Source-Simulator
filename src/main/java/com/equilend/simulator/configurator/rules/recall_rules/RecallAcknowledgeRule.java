@@ -41,8 +41,7 @@ public class RecallAcknowledgeRule implements RecallRule {
         }
         TradeAgreement trade = loan.getTrade();
         String cpty = getTradeCptyId(trade, partyId);
-        return AcknowledgementType.NEGATIVE.equals(recall.getAcknowledgementType())
-            && RuleValidator.validCounterparty(counterparties, cpty)
+        return RuleValidator.validCounterparty(counterparties, cpty)
             && RuleValidator.validSecurity(securities, trade.getInstrument())
             && RuleValidator.validQuantity(openQuantities, trade.getOpenQuantity())
             && RuleValidator.validQuantity(recallQuantity, recall.getQuantity());
