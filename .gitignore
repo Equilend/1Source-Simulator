@@ -5,3 +5,9 @@ target/
 .vscode/
 
 .idea/
+
+/target/
+.settings
+.project
+.classpath
+/logs/
