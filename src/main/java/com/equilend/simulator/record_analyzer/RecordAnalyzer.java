@@ -61,7 +61,7 @@ public class RecordAnalyzer {
         try {
             loans = APIConnector.getAllLoans(OneSourceToken.getToken(), status, loanStartDate);
         } catch (APIException e) {
-            logger.error("Analyzer unable to retrieve approved loans");
+            logger.error("Analyzer unable to retrieve open loans");
         }
         return loans;
     }
@@ -127,8 +127,8 @@ public class RecordAnalyzer {
                     }
                 }
             }
-            // Get approved loans to consider proposing rerates
-            List<Loan> loans = getLoans("APPROVED");
+            // Get open loans to consider proposing rerates
+            List<Loan> loans = getLoans("OPEN");
             if (loans != null) {
                 for (Loan loan : loans) {
                     List<Rerate> reratesOnLoan = getOpenReratesOnLoan(loan.getLoanId());

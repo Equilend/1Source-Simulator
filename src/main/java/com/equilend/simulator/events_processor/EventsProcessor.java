@@ -26,121 +26,180 @@ import com.os.client.model.EventType;
 
 public class EventsProcessor implements Runnable {
 
-    private static final Logger logger = LogManager.getLogger(EventsProcessor.class.getName());
-    private final Config config;
-    private final long waitInterval;
+	private static final Logger logger = LogManager.getLogger(EventsProcessor.class.getName());
+	private final Config config;
+	private final long waitInterval;
 
+	public EventsProcessor() {
+		this.config = Config.getInstance();
+		this.waitInterval = config.getEventFetchIntervalMillis();
+	}
 
-    public EventsProcessor() {
-        this.config = Config.getInstance();
-        this.waitInterval = config.getEventFetchIntervalMillis();
-    }
+	private static class EventHandlerThread implements ThreadFactory {
 
-    private static class EventHandlerThread implements ThreadFactory {
+		private static int count = 0;
 
-        private static int count = 0;
+		public Thread newThread(Runnable r) {
+			return new Thread(r, "Event-Handler-Thread-" + count++);
+		}
+	}
 
-        public Thread newThread(Runnable r) {
-            return new Thread(r, "Event-Handler-Thread-" + count++);
-        }
-    }
+	public void run() {
+		ExecutorService exec = Executors.newCachedThreadPool(new EventHandlerThread());
 
-    public void run() {
-        ExecutorService exec = Executors.newCachedThreadPool(new EventHandlerThread());
+		if (config.isAnalysisModeEnable()) {
+			logger.info("Retrieving token");
+		}
 
-        if (config.isAnalysisModeEnable()) {
-        	logger.info("Retrieving token");
-        }
-        
-        OneSourceToken token;
-        try {
-            token = OneSourceToken.getToken();
-        } catch (APIException e) {
-            logger.error("Unable to listen for new events due to error with token");
-            return;
-        }
+		OneSourceToken token;
+		try {
+			token = OneSourceToken.getToken();
+		} catch (APIException e) {
+			logger.error("Unable to listen for new events due to error with token");
+			return;
+		}
 
-        OffsetDateTime since = APIConnector.getCurrentTime().minusHours(3);
-        Long fromEventId = null;
+		OffsetDateTime since = APIConnector.getCurrentTime().minusHours(3);
+		Long fromEventId = null;
 
-        while (true) {
-            try {
-                if (config.isAnalysisModeEnable()) {
-                	logger.info("Sleeping for: " + waitInterval);
-                }
-                Thread.sleep(waitInterval);
-            } catch (InterruptedException e) {
-                logger.debug("Unable to listen for new events due to thread sleep interruption", e);
-                return;
-            }
+		while (true) {
+			try {
+				if (config.isAnalysisModeEnable()) {
+					logger.info("Sleeping for: " + waitInterval);
+				}
+				Thread.sleep(waitInterval);
+			} catch (InterruptedException e) {
+				logger.debug("Unable to listen for new events due to thread sleep interruption", e);
+				return;
+			}
 
-            List<Event> events;
-            try {
-                if (config.isAnalysisModeEnable()) {
-                	logger.info("Polling for events from: " + fromEventId);
-                }
-                events = APIConnector.getAllEvents(token, since, fromEventId);
-            } catch (APIException e) {
-                logger.error("Unable to get new events", e);
-                return;
-            }
+			List<Event> events;
+			try {
+				if (config.isAnalysisModeEnable()) {
+					logger.info("Polling for events from: " + fromEventId);
+				}
+				events = APIConnector.getAllEvents(token, since, fromEventId);
+			} catch (APIException e) {
+				logger.error("Unable to get new events", e);
+				return;
+			}
 
-            if (events == null || events.isEmpty()) {
-                continue; //Back to sleep
-            }
+			if (events == null || events.isEmpty()) {
+				continue; // Back to sleep
+			}
 
-            fromEventId = events.get(0).getEventId() + 1;
+			fromEventId = events.get(0).getEventId() + 1;
 
-            for (Event event : events) {
-                boolean shouldIgnore = config.getEventRules().shouldIgnoreEvent(event);
-                if (shouldIgnore) {
-                    logger.debug("Ignoring event of type {}", event.getEventType());
-                    continue;
-                } else {
-                    logger.debug("Attempting to dispatch event of type {}", event.getEventType());
-                }
+			for (Event event : events) {
+				boolean shouldIgnore = config.getEventRules().shouldIgnoreEvent(event);
+				if (shouldIgnore) {
+					logger.debug("Ignoring event of type {}", event.getEventType());
+					continue;
+				} else {
+					logger.debug("Attempting to dispatch event of type {}", event.getEventType());
+				}
 
-                EventHandler task = null;
-                EventType type = event.getEventType();
+				EventHandler task = null;
+				EventType type = event.getEventType();
 
-                if (config.isAnalysisModeEnable()) {
-                	logger.info("Found " + type.toString() + " event");
-                }
+				if (config.isAnalysisModeEnable()) {
+					logger.info("Found " + type.toString() + " event");
+				}
 
-                switch (type) {
-                    case TRADE_AGREED:
-                        task = new TradeHandler(event, config, System.currentTimeMillis());
-                        break;
-                    case LOAN_OPENED:
-                    case LOAN_PROPOSED:
-                    case LOAN_PENDING:
-                        task = new LoanHandler(event, config, System.currentTimeMillis());
-                        break;
-                    case RERATE_PROPOSED:
-                    case RERATE_PENDING:
-                        task = new RerateHandler(event, config, System.currentTimeMillis());
-                        break;
-                    case RETURN_PENDING:
-                    case RETURN_ACKNOWLEDGED:
-                        task = new ReturnsHandler(event, config, System.currentTimeMillis());
-                        break;
-                    case BUYIN_PENDING:
-                        task = new BuyinHandler(event, config, System.currentTimeMillis());
-                        break;
-                    case RECALL_OPENED:
-                    case RECALL_ACKNOWLEDGED:
-                        task = new RecallHandler(event, config, System.currentTimeMillis());
-                        break;
-                    case LOAN_SPLIT_PROPOSED:
-                        task = new SplitHandler(event, config, System.currentTimeMillis());
-                        break;
-                }
+				switch (type) {
+				case TRADE_AGREED:
+					task = new TradeHandler(event, config, System.currentTimeMillis());
+					break;
+				case LOAN_OPENED:
+				case LOAN_PROPOSED:
+				case LOAN_PENDING:
+					task = new LoanHandler(event, config, System.currentTimeMillis());
+					break;
+				case RERATE_PROPOSED:
+				case RERATE_PENDING:
+					task = new RerateHandler(event, config, System.currentTimeMillis());
+					break;
+				case RETURN_PENDING:
+				case RETURN_ACKNOWLEDGED:
+					task = new ReturnsHandler(event, config, System.currentTimeMillis());
+					break;
+				case BUYIN_PENDING:
+					task = new BuyinHandler(event, config, System.currentTimeMillis());
+					break;
+				case RECALL_OPENED:
+				case RECALL_ACKNOWLEDGED:
+					task = new RecallHandler(event, config, System.currentTimeMillis());
+					break;
+				case LOAN_SPLIT_PROPOSED:
+					task = new SplitHandler(event, config, System.currentTimeMillis());
+					break;
+				case BUYIN_CANCELED:
+					break;
+				case BUYIN_CLOSED:
+					break;
+				case BUYIN_COMPLETED:
+					break;
+				case BUYIN_OPENED:
+					break;
+				case BUYIN_UPDATED:
+					break;
+				case DELEGATION_APPROVED:
+					break;
+				case DELEGATION_CANCELED:
+					break;
+				case DELEGATION_PROPOSED:
+					break;
+				case INTERNAL_REFID_UPDATE:
+					break;
+				case LOAN_CANCELED:
+					break;
+				case LOAN_CANCEL_PENDING:
+					break;
+				case LOAN_CLOSED:
+					break;
+				case LOAN_DECLINED:
+					break;
+				case LOAN_MARKTOMARKET:
+					break;
+				case LOAN_SPLIT_APPLIED:
+					break;
+				case RECALL_CANCELED:
+					break;
+				case RECALL_CLOSED:
+					break;
+				case RECALL_MODIFIED:
+					break;
+				case RECALL_UPDATED:
+					break;
+				case RERATE_APPLIED:
+					break;
+				case RERATE_CANCELED:
+					break;
+				case RERATE_CANCEL_PENDING:
+					break;
+				case RERATE_DECLINED:
+					break;
+				case RETURN_CANCELED:
+					break;
+				case RETURN_SETTLED:
+					break;
+				case SETTLEMENT_INSTRUCTION_UPDATE:
+					break;
+				case SETTLEMENT_STATUS_UPDATE:
+					break;
+				case TRADE_CANCELED:
+					break;
+				case VENUE_REFERENCE_UPDATE:
+					break;
+				default:
+					break;
+				}
 
-                if (task != null) {
-                    exec.execute(task);
-                }
-            }
-        }
-    }
+				if (task != null) {
+					exec.execute(task);
+				}
+			}
+		}
+	}
 
 }

@@ -24,7 +24,7 @@ public class RerateRuleProcessor {
     public static void process(Long startTime, RerateRule rule, Loan loan, Rerate rerate) throws APIException {
 
         if (rule instanceof RerateProposeRule) {
-            logger.debug("Processing Rerate Rule: Propose Rerates on Approved Contracts (RerateProposeRule). Loan: " + loan.getLoanId());
+            logger.debug("Processing Rerate Rule: Propose Rerates on OPEN Contracts (RerateProposeRule). Loan: " + loan.getLoanId());
             postRerateProposal(startTime, (RerateProposeRule) rule, loan);
         }
 

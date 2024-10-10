@@ -39,6 +39,7 @@ import com.os.client.model.LoanSplit;
 import com.os.client.model.LoanSplitLot;
 import com.os.client.model.LoanSplitLotAppoval;
 import com.os.client.model.ModelReturn;
+import com.os.client.model.Rate;
 import com.os.client.model.Recall;
 import com.os.client.model.RecallAcknowledgement;
 import com.os.client.model.RecallProposal;
@@ -62,7 +63,8 @@ public class APIConnector {
             (JsonDeserializer<LocalDate>) (json, typeOfT, context) -> LocalDate.parse(json.getAsString()))
         .registerTypeAdapter(LocalDate.class,
             (JsonSerializer<LocalDate>) (localDate, type, jsonSerializationContext) -> new JsonPrimitive(
-                localDate.format(DateTimeFormatter.ISO_LOCAL_DATE))).create();
+                localDate.format(DateTimeFormatter.ISO_LOCAL_DATE)))
+        .registerTypeAdapter(Rate.class, new RateGsonAdapter()).create();
     private static String restAPIURL = null;
 
     public static void setRestAPIURL(String url) {
@@ -1073,7 +1075,8 @@ public class APIConnector {
 
     private static boolean isSuccess(HttpResponse response) throws APIException {
         if (response.statusCode() / 100 != 2) {
-            throw new APIException(String.valueOf(response.body()));
+            logger.error(String.valueOf(response.body()));
+            return false;
         }
         return true;
     }
