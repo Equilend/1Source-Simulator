@@ -3,17 +3,18 @@ package com.equilend.simulator.events_processor.event_handler;
 import static com.equilend.simulator.service.LoanService.getLoanById;
 import static com.equilend.simulator.service.RerateService.getRerateById;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.ReratePendingCancelRule;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.rules_processor.RerateRuleProcessor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Event;
+import com.os.client.model.Loan;
+import com.os.client.model.Rerate;
 
 public class RerateHandler implements EventHandler {
 

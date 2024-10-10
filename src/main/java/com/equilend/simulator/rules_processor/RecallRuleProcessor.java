@@ -2,17 +2,18 @@ package com.equilend.simulator.rules_processor;
 
 import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallCancelRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallProposeRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallRule;
-import com.equilend.simulator.model.AcknowledgementType;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.service.RecallService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.AcknowledgementType;
+import com.os.client.model.Loan;
+import com.os.client.model.Recall;
 
 public class RecallRuleProcessor {
 

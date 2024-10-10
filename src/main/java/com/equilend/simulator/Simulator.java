@@ -1,16 +1,18 @@
 package com.equilend.simulator;
 
-import com.equilend.simulator.configurator.Config;
-import com.equilend.simulator.events_processor.EventsProcessor;
-import com.equilend.simulator.record_analyzer.RecordAnalyzer;
-import com.equilend.simulator.generator.Generator;
-import com.equilend.simulator.utils.PropertiesUtil;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.configurator.Config;
+import com.equilend.simulator.events_processor.EventsProcessor;
+import com.equilend.simulator.generator.Generator;
+import com.equilend.simulator.record_analyzer.RecordAnalyzer;
+import com.equilend.simulator.utils.PropertiesUtil;
 
 public class Simulator {
 

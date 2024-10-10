@@ -1,14 +1,5 @@
 package com.equilend.simulator.configurator;
 
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
-import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
-import com.equilend.simulator.configurator.rules.loan_rules.LoanRules;
-import com.equilend.simulator.configurator.rules.event_rules.EventRules;
-import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
-import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
-import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
-import com.equilend.simulator.configurator.rules.split_rules.SplitRules;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,8 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.configurator.rules.Rules;
+import com.equilend.simulator.configurator.rules.agreement_rules.AgreementRules;
+import com.equilend.simulator.configurator.rules.buyin_rules.BuyinRules;
+import com.equilend.simulator.configurator.rules.event_rules.EventRules;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanRules;
+import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
+import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
+import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
+import com.equilend.simulator.configurator.rules.split_rules.SplitRules;
 
 public class Parser {
 

@@ -1,8 +1,9 @@
 package com.equilend.simulator.configurator.rules.loan_rules;
 
-import com.equilend.simulator.configurator.rules.RuleValidator;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.equilend.simulator.configurator.rules.RuleValidator;
 
 public class LoanGenerativeRule implements LoanRule {
 

@@ -1,13 +1,14 @@
 package com.equilend.simulator.generator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.loan.LoanProposal;
-import com.equilend.simulator.model.party.PartyRole;
 import com.equilend.simulator.service.LoanService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.LoanProposal;
+import com.os.client.model.PartyRole;
 
 public class LoanGenerator implements Runnable {
 

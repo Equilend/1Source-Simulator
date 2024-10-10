@@ -1,35 +1,31 @@
 package com.equilend.simulator.service;
 
-import static com.equilend.simulator.model.collateral.RoundingMode.ALWAYSUP;
 import static com.equilend.simulator.service.SettlementService.createPartySettlementInstruction;
 import static com.equilend.simulator.service.TradeService.createTrade;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
 import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.instrument.Instrument;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.loan.LoanProposal;
-import com.equilend.simulator.model.loan.LoanProposalApproval;
-import com.equilend.simulator.model.party.Party;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.rate.FixedRateDef;
-import com.equilend.simulator.model.rate.Rate;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
-import com.equilend.simulator.model.settlement.SettlementStatus;
-import com.equilend.simulator.model.trade.TradeAgreement;
-import com.equilend.simulator.model.venue.VenueTradeAgreement;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Loan;
+import com.os.client.model.LoanProposal;
+import com.os.client.model.LoanProposalApproval;
+import com.os.client.model.PartyRole;
+import com.os.client.model.PartySettlementInstruction;
+import com.os.client.model.RoundingMode;
+import com.os.client.model.SettlementStatus;
+import com.os.client.model.TradeAgreement;
+import com.os.client.model.TransactingParty;
+import com.os.client.model.VenueTradeAgreement;
 
 public class LoanService {
 
@@ -52,7 +48,7 @@ public class LoanService {
             trade.getCollateral().setRoundingRule(10);
         }
         if (partyRole == PartyRole.LENDER) {
-            trade.getCollateral().setRoundingMode(ALWAYSUP);
+            trade.getCollateral().setRoundingMode(RoundingMode.ALWAYSUP);
         }
         trade.getCollateral().setMargin(Double.valueOf(102));
         updateTradePrice(trade, "S");
@@ -150,7 +146,7 @@ public class LoanService {
             .internalRefId(UUID.randomUUID().toString())
             .settlement(partySettlementInstruction);
         if (role == PartyRole.LENDER) {
-            loanProposalApproval = loanProposalApproval.roundingRule(10).roundingMode(ALWAYSUP);
+            loanProposalApproval = loanProposalApproval.roundingRule(10).roundingMode(RoundingMode.ALWAYSUP);
         }
         APIConnector.acceptLoan(OneSourceToken.getToken(), loanId, loanProposalApproval);
     }

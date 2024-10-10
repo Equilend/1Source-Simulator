@@ -1,10 +1,12 @@
 package com.equilend.simulator.auth;
 
-import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.api.KeycloakConnector;
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.api.KeycloakConnector;
 
 public class DatalendToken {
     private static final Logger logger = LogManager.getLogger(DatalendToken.class.getName());

@@ -2,6 +2,13 @@ package com.equilend.simulator.rules_processor;
 
 import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 
+import java.time.LocalDate;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -13,20 +20,15 @@ import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromL
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromRecallRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.AcknowledgementType;
-import com.equilend.simulator.model.returns.ModelReturn;
-import com.equilend.simulator.model.returns.ReturnAcknowledgement;
-import com.equilend.simulator.model.returns.ReturnProposal;
-import com.equilend.simulator.model.settlement.PartySettlementInstruction;
-import com.equilend.simulator.model.settlement.SettlementStatus;
-import com.equilend.simulator.model.venue.Venue;
-import java.time.LocalDate;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.AcknowledgementType;
+import com.os.client.model.Loan;
+import com.os.client.model.ModelReturn;
+import com.os.client.model.PartyRole;
+import com.os.client.model.PartySettlementInstruction;
+import com.os.client.model.ReturnAcknowledgement;
+import com.os.client.model.ReturnProposal;
+import com.os.client.model.SettlementStatus;
+import com.os.client.model.Venue;
 
 public class ReturnRuleProcessor {
 

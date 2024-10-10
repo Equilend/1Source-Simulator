@@ -1,13 +1,15 @@
 package com.equilend.simulator.configurator.rules.split_rules;
 
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.split.LoanSplit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.configurator.rules.Rules;
+import com.os.client.model.Loan;
+import com.os.client.model.LoanSplit;
 
 public class SplitRules implements Rules {
 

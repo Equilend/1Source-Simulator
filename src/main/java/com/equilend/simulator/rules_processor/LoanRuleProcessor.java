@@ -5,18 +5,19 @@ import static com.equilend.simulator.service.LoanService.cancelLoan;
 import static com.equilend.simulator.service.LoanService.declineLoan;
 import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanApproveRejectRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanCancelRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanPendingCancelRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanPendingUpdateRule;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanRule;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.settlement.SettlementStatus;
 import com.equilend.simulator.service.LoanService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Loan;
+import com.os.client.model.PartyRole;
+import com.os.client.model.SettlementStatus;
 
 public class LoanRuleProcessor {
 

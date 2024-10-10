@@ -1,37 +1,43 @@
 package com.equilend.simulator.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.rate.FixedRateDef;
-import com.equilend.simulator.model.rate.Rate;
-import com.equilend.simulator.model.rate.RebateRate;
-import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.rerate.RerateProposal;
-import com.equilend.simulator.model.venue.Venue;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.FeeRate;
+import com.os.client.model.FixedRate;
+import com.os.client.model.FloatingRate;
+import com.os.client.model.Loan;
+import com.os.client.model.Rate;
+import com.os.client.model.RebateRate;
+import com.os.client.model.Rerate;
+import com.os.client.model.RerateProposal;
+import com.os.client.model.Venue;
 
 public class RerateService {
 
     private static final Logger logger = LogManager.getLogger(RerateService.class.getName());
 
     public static int postRerateProposal(Loan loan, Double delta) throws APIException {
-        Rate rate = loan.getTrade().getRate();
-        FixedRateDef fee = rate.getFee();
-        RebateRate rebate = rate.getRebate();
-
-        if (fee != null) {
-            fee.setBaseRate(Math.max(fee.getBaseRate() + delta, 0.01));
-        } else if (rebate != null) {
-            if (rebate.getFixed() != null) {
-                rebate.getFixed().setBaseRate(rebate.getFixed().getBaseRate() + delta);
-            } else if (rebate.getFloating() != null) {
-                rebate.getFloating().setSpread(rebate.getFloating().getSpread() + delta);
-            }
+        
+    	Rate rate = loan.getTrade().getRate();
+        
+        if (rate instanceof FeeRate) {
+        	FeeRate feeRate = (FeeRate)rate;
+        	feeRate.getFee().setBaseRate(Math.max(feeRate.getFee().getBaseRate() + delta, 0.01));
+        } else if (rate instanceof RebateRate) {
+        	RebateRate rebateRate = (RebateRate)rate;
+        	if (rebateRate.getRebate() instanceof FixedRate) {
+        		FixedRate fixedRebateRate = (FixedRate)rebateRate.getRebate();
+        		fixedRebateRate.getFixed().setBaseRate(fixedRebateRate.getFixed().getBaseRate() + delta);
+        	} else if (rebateRate.getRebate() instanceof FloatingRate) {
+        		FloatingRate floatingRebateRate = (FloatingRate)rebateRate.getRebate();
+        		floatingRebateRate.getFloating().setSpread(floatingRebateRate.getFloating().getSpread() + delta);
+        	}
         }
 
         String botPartyId = Config.getInstance().getBotPartyId();

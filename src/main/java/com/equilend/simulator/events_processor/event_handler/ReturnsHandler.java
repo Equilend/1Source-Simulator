@@ -3,18 +3,18 @@ package com.equilend.simulator.events_processor.event_handler;
 import static com.equilend.simulator.service.LoanService.getLoanById;
 import static com.equilend.simulator.service.ReturnService.getReturnById;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnSettlementStatusUpdateRule;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.returns.ModelReturn;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
-import com.equilend.simulator.service.LoanService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Event;
+import com.os.client.model.Loan;
+import com.os.client.model.ModelReturn;
 
 public class ReturnsHandler implements EventHandler {
 

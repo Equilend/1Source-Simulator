@@ -1,11 +1,12 @@
 package com.equilend.simulator.configurator.rules.agreement_rules;
 
-import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.party.TransactingParty;
-import com.equilend.simulator.model.venue.VenueTradeAgreement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.os.client.model.TransactingParty;
+import com.os.client.model.VenueTradeAgreement;
 
 public class AgreementProposeRule implements AgreementRule {
 

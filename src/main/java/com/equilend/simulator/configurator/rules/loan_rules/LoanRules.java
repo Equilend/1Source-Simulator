@@ -1,11 +1,12 @@
 package com.equilend.simulator.configurator.rules.loan_rules;
 
-import com.equilend.simulator.api.APIConnector;
-import com.equilend.simulator.configurator.rules.Rules;
-import com.equilend.simulator.model.loan.Loan;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.equilend.simulator.api.APIConnector;
+import com.equilend.simulator.configurator.rules.Rules;
+import com.os.client.model.Loan;
 
 public class LoanRules implements Rules {
 

@@ -1,14 +1,15 @@
 package com.equilend.simulator.generator;
 
-import com.equilend.simulator.configurator.Config;
-import com.equilend.simulator.configurator.rules.loan_rules.LoanGenerativeRule;
-import com.equilend.simulator.configurator.rules.loan_rules.LoanRule;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+
+import com.equilend.simulator.configurator.Config;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanGenerativeRule;
+import com.equilend.simulator.configurator.rules.loan_rules.LoanRule;
 
 public class Generator implements Runnable {
 

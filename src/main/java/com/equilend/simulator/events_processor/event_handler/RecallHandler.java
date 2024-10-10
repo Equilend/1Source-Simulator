@@ -3,20 +3,21 @@ package com.equilend.simulator.events_processor.event_handler;
 import static com.equilend.simulator.service.LoanService.getLoanById;
 import static com.equilend.simulator.service.RecallService.getRecallById;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinProposeRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallAcknowledgeRule;
 import com.equilend.simulator.configurator.rules.recall_rules.RecallCancelRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromRecallRule;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.recall.Recall;
 import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
 import com.equilend.simulator.rules_processor.RecallRuleProcessor;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Event;
+import com.os.client.model.Loan;
+import com.os.client.model.Recall;
 
 public class RecallHandler implements EventHandler {
 

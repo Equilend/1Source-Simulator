@@ -5,6 +5,11 @@ import static com.equilend.simulator.service.LoanService.cancelLoan;
 import static com.equilend.simulator.service.LoanService.declineLoan;
 import static com.equilend.simulator.service.RerateService.postRerateProposal;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -14,14 +19,11 @@ import com.equilend.simulator.configurator.rules.loan_rules.LoanCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateCancelRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.party.PartyRole;
-import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.service.LoanService;
 import com.equilend.simulator.service.RerateService;
-import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Loan;
+import com.os.client.model.PartyRole;
+import com.os.client.model.Rerate;
 
 public class RecordAnalyzer {
 

@@ -1,5 +1,15 @@
 package com.equilend.simulator.configurator;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.DatalendAPIConnector;
 import com.equilend.simulator.auth.DatalendToken;
@@ -13,18 +23,10 @@ import com.equilend.simulator.configurator.rules.recall_rules.RecallRules;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRules;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnRules;
 import com.equilend.simulator.configurator.rules.split_rules.SplitRules;
-import com.equilend.simulator.model.instrument.Instrument;
-import com.equilend.simulator.model.party.Party;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Instrument;
+import com.os.client.model.Party;
 
 public final class Config {
     private static final Logger logger = LogManager.getLogger(Config.class.getName());

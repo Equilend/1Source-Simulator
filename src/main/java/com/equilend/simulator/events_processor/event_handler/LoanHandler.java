@@ -2,6 +2,9 @@ package com.equilend.simulator.events_processor.event_handler;
 
 import static com.equilend.simulator.service.LoanService.getLoanById;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.loan_rules.LoanApproveRejectRule;
@@ -12,16 +15,14 @@ import com.equilend.simulator.configurator.rules.recall_rules.RecallProposeRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.configurator.rules.return_rules.ReturnProposeFromLoanRule;
 import com.equilend.simulator.configurator.rules.split_rules.SplitProposeRule;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.rules_processor.LoanRuleProcessor;
 import com.equilend.simulator.rules_processor.RecallRuleProcessor;
 import com.equilend.simulator.rules_processor.RerateRuleProcessor;
 import com.equilend.simulator.rules_processor.ReturnRuleProcessor;
 import com.equilend.simulator.rules_processor.SplitRuleProcessor;
 import com.equilend.simulator.service.LoanService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Event;
+import com.os.client.model.Loan;
 
 public class LoanHandler implements EventHandler {
 

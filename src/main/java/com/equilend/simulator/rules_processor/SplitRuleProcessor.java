@@ -2,17 +2,19 @@ package com.equilend.simulator.rules_processor;
 
 import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.rules.split_rules.SplitApproveRule;
 import com.equilend.simulator.configurator.rules.split_rules.SplitProposeRule;
 import com.equilend.simulator.configurator.rules.split_rules.SplitRule;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.split.LoanSplit;
 import com.equilend.simulator.service.SplitService;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Loan;
+import com.os.client.model.LoanSplit;
 
 public class SplitRuleProcessor {
 

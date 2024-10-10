@@ -1,7 +1,5 @@
 package com.equilend.simulator.api;
 
-import com.equilend.simulator.auth.DatalendToken;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,8 +10,12 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.auth.DatalendToken;
+import com.google.gson.Gson;
 
 public class DatalendAPIConnector {
 

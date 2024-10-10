@@ -1,8 +1,9 @@
 package com.equilend.simulator.configurator.rules.event_rules;
 
-import com.equilend.simulator.configurator.rules.RuleValidator;
-import com.equilend.simulator.model.event.Event;
 import java.util.List;
+
+import com.equilend.simulator.configurator.rules.RuleValidator;
+import com.os.client.model.Event;
 
 public class EventRule {
 

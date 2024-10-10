@@ -1,16 +1,17 @@
 package com.equilend.simulator.service;
 
-import com.equilend.simulator.api.APIConnector;
-import com.equilend.simulator.api.APIException;
-import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.party.InternalReference;
-import com.equilend.simulator.model.split.LoanSplit;
-import com.equilend.simulator.model.split.LoanSplitLot;
-import com.equilend.simulator.model.split.LoanSplitLotAppoval;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.equilend.simulator.api.APIConnector;
+import com.equilend.simulator.api.APIException;
+import com.equilend.simulator.auth.OneSourceToken;
+import com.os.client.model.InternalReference;
+import com.os.client.model.Loan;
+import com.os.client.model.LoanSplit;
+import com.os.client.model.LoanSplitLot;
+import com.os.client.model.LoanSplitLotAppoval;
 
 public class SplitService {
 

@@ -2,6 +2,9 @@ package com.equilend.simulator.rules_processor;
 
 import static com.equilend.simulator.utils.RuleProcessorUtil.waitForDelay;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateApproveRule;
@@ -10,11 +13,9 @@ import com.equilend.simulator.configurator.rules.rerate_rules.ReratePendingCance
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateProposeRule;
 import com.equilend.simulator.configurator.rules.rerate_rules.RerateRule;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.rerate.Rerate;
 import com.equilend.simulator.service.RerateService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Loan;
+import com.os.client.model.Rerate;
 
 public class RerateRuleProcessor {
 

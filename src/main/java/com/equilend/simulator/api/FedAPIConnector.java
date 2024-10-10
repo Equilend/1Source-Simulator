@@ -1,6 +1,5 @@
 package com.equilend.simulator.api;
 
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,8 +10,11 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.gson.Gson;
 
 public class FedAPIConnector {
 

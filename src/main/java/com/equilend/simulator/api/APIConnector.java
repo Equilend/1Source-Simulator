@@ -1,32 +1,5 @@
 package com.equilend.simulator.api;
 
-import com.equilend.simulator.auth.OneSourceToken;
-import com.equilend.simulator.model.agreement.Agreement;
-import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.buyin.BuyinCompleteRequest;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.loan.LoanProposal;
-import com.equilend.simulator.model.loan.LoanProposalApproval;
-import com.equilend.simulator.model.recall.Recall;
-import com.equilend.simulator.model.recall.RecallAcknowledgement;
-import com.equilend.simulator.model.recall.RecallProposal;
-import com.equilend.simulator.model.rerate.Rerate;
-import com.equilend.simulator.model.rerate.RerateProposal;
-import com.equilend.simulator.model.returns.ModelReturn;
-import com.equilend.simulator.model.returns.ReturnAcknowledgement;
-import com.equilend.simulator.model.returns.ReturnProposal;
-import com.equilend.simulator.model.settlement.SettlementStatus;
-import com.equilend.simulator.model.settlement.SettlementStatusUpdate;
-import com.equilend.simulator.model.split.LoanSplit;
-import com.equilend.simulator.model.split.LoanSplitLot;
-import com.equilend.simulator.model.split.LoanSplitLotAppoval;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -44,8 +17,37 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.equilend.simulator.auth.OneSourceToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+import com.os.client.model.Agreement;
+import com.os.client.model.BuyinComplete;
+import com.os.client.model.BuyinCompleteRequest;
+import com.os.client.model.Event;
+import com.os.client.model.Loan;
+import com.os.client.model.LoanProposal;
+import com.os.client.model.LoanProposalApproval;
+import com.os.client.model.LoanSplit;
+import com.os.client.model.LoanSplitLot;
+import com.os.client.model.LoanSplitLotAppoval;
+import com.os.client.model.ModelReturn;
+import com.os.client.model.Recall;
+import com.os.client.model.RecallAcknowledgement;
+import com.os.client.model.RecallProposal;
+import com.os.client.model.Rerate;
+import com.os.client.model.RerateProposal;
+import com.os.client.model.ReturnAcknowledgement;
+import com.os.client.model.ReturnProposal;
+import com.os.client.model.SettlementStatus;
+import com.os.client.model.SettlementStatusUpdate;
 
 public class APIConnector {
 

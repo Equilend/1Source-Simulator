@@ -3,15 +3,16 @@ package com.equilend.simulator.events_processor.event_handler;
 import static com.equilend.simulator.service.BuyinService.getBuyinById;
 import static com.equilend.simulator.service.LoanService.getLoanById;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.configurator.rules.buyin_rules.BuyinAcceptRule;
-import com.equilend.simulator.model.buyin.BuyinComplete;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.loan.Loan;
 import com.equilend.simulator.rules_processor.BuyinRuleProcessor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.BuyinComplete;
+import com.os.client.model.Event;
+import com.os.client.model.Loan;
 
 public class BuyinHandler implements EventHandler {
 

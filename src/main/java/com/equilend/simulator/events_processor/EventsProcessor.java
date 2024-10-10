@@ -1,5 +1,14 @@
 package com.equilend.simulator.events_processor;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
@@ -12,15 +21,8 @@ import com.equilend.simulator.events_processor.event_handler.RerateHandler;
 import com.equilend.simulator.events_processor.event_handler.ReturnsHandler;
 import com.equilend.simulator.events_processor.event_handler.SplitHandler;
 import com.equilend.simulator.events_processor.event_handler.TradeHandler;
-import com.equilend.simulator.model.event.Event;
-import com.equilend.simulator.model.event.EventType;
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.Event;
+import com.os.client.model.EventType;
 
 public class EventsProcessor implements Runnable {
 
@@ -46,6 +48,10 @@ public class EventsProcessor implements Runnable {
     public void run() {
         ExecutorService exec = Executors.newCachedThreadPool(new EventHandlerThread());
 
+        if (config.isAnalysisModeEnable()) {
+        	logger.info("Retrieving token");
+        }
+        
         OneSourceToken token;
         try {
             token = OneSourceToken.getToken();
@@ -54,11 +60,14 @@ public class EventsProcessor implements Runnable {
             return;
         }
 
-        OffsetDateTime since = APIConnector.getCurrentTime();
+        OffsetDateTime since = APIConnector.getCurrentTime().minusHours(3);
         Long fromEventId = null;
 
         while (true) {
             try {
+                if (config.isAnalysisModeEnable()) {
+                	logger.info("Sleeping for: " + waitInterval);
+                }
                 Thread.sleep(waitInterval);
             } catch (InterruptedException e) {
                 logger.debug("Unable to listen for new events due to thread sleep interruption", e);
@@ -67,6 +76,9 @@ public class EventsProcessor implements Runnable {
 
             List<Event> events;
             try {
+                if (config.isAnalysisModeEnable()) {
+                	logger.info("Polling for events from: " + fromEventId);
+                }
                 events = APIConnector.getAllEvents(token, since, fromEventId);
             } catch (APIException e) {
                 logger.error("Unable to get new events", e);
@@ -90,6 +102,11 @@ public class EventsProcessor implements Runnable {
 
                 EventHandler task = null;
                 EventType type = event.getEventType();
+
+                if (config.isAnalysisModeEnable()) {
+                	logger.info("Found " + type.toString() + " event");
+                }
+
                 switch (type) {
                     case TRADE_AGREED:
                         task = new TradeHandler(event, config, System.currentTimeMillis());

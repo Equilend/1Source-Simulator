@@ -9,6 +9,16 @@ partyName = "TestBorrower1"
 gleifLei = "KTB500SKZSDI75VSFU40"
 
 [[parties]]
+partyId = "TLEN-US-2"
+partyName = "TestLender2"
+gleifLei = "KTB500SKZSDI75VSFU45"
+
+[[parties]]
+partyId = "TBORR-US-2"
+partyName = "TestBorrower2"
+gleifLei = "KTB500SKZSDI75VSFU45"
+
+[[parties]]
 partyId = "GSCO US"
 partyName = "Goldman Sachs and Co-US"
 gleifLei = "FOR8UP27PHTHYVLBNG30"

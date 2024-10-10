@@ -1,19 +1,21 @@
 package com.equilend.simulator.service;
 
+import java.time.LocalDate;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.equilend.simulator.api.APIConnector;
 import com.equilend.simulator.api.APIException;
 import com.equilend.simulator.auth.OneSourceToken;
 import com.equilend.simulator.configurator.Config;
 import com.equilend.simulator.events_processor.event_handler.EventHandler;
-import com.equilend.simulator.model.AcknowledgementType;
-import com.equilend.simulator.model.loan.Loan;
-import com.equilend.simulator.model.recall.Recall;
-import com.equilend.simulator.model.recall.RecallAcknowledgement;
-import com.equilend.simulator.model.recall.RecallProposal;
-import com.equilend.simulator.model.venue.Venue;
-import java.time.LocalDate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.os.client.model.AcknowledgementType;
+import com.os.client.model.Loan;
+import com.os.client.model.Recall;
+import com.os.client.model.RecallAcknowledgement;
+import com.os.client.model.RecallProposal;
+import com.os.client.model.Venue;
 
 public class RecallService {
 
