@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.equilend.simulator.configurator.Config;
+import com.equilend.simulator.configurator.ConfigurationServer;
 import com.equilend.simulator.events_processor.EventsProcessor;
 import com.equilend.simulator.generator.Generator;
 import com.equilend.simulator.record_analyzer.RecordAnalyzer;
@@ -29,6 +30,13 @@ public class Simulator {
 
         public Thread newThread(Runnable r) {
             return new Thread(r, "Scheduler-Thread");
+        }
+    }
+
+    private static class ConfigurationServerThread implements ThreadFactory {
+
+        public Thread newThread(Runnable r) {
+            return new Thread(r, "Configuration-Server-Thread");
         }
     }
 
@@ -53,6 +61,10 @@ public class Simulator {
         logger.info("Start event listener");
         ExecutorService execIncoming = Executors.newSingleThreadExecutor(new EventProcessorThread());
         execIncoming.execute(new EventsProcessor());
+
+        logger.info("Start config server");
+        ExecutorService execConfigServer = Executors.newSingleThreadExecutor(new ConfigurationServerThread());
+        execConfigServer.execute(new ConfigurationServer());
 
         while (true) {
             Thread.yield();

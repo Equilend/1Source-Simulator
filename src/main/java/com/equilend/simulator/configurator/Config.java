@@ -42,6 +42,7 @@ public final class Config {
     private BuyinRules buyinRules = new BuyinRules();
     private SplitRules splitRules = new SplitRules();
     private Properties properties;
+    private Integer serverPort;
 
     private Config(){
     }
@@ -81,6 +82,13 @@ public final class Config {
 
         DatalendToken.configureToken(getDatalendKeycloakLoginInfo(), properties.getProperty("datalend.keycloak.url"));
         DatalendAPIConnector.setRestAPIURL(properties.getProperty("datalend.api_url"));
+        
+        try {
+        	serverPort = Integer.valueOf(properties.getProperty("server.port"));
+        } catch (NumberFormatException n) {
+        	serverPort = 8881;
+        }
+        logger.info("Server configuration port set to " + serverPort);
     }
 
     private Map<String, String> get1SourceKeycloakLoginInfo() {
@@ -234,5 +242,9 @@ public final class Config {
     public boolean isGeneratorEnable() {
         return getLoanRules() != null && getLoanRules().getLoanProposeRules() != null
             && !getLoanRules().getLoanProposeRules().isEmpty();
+    }
+    
+    public Integer getServerPort() {
+    	return serverPort;
     }
 }
