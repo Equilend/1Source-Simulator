@@ -5,6 +5,7 @@ import static com.equilend.simulator.service.LoanService.cancelLoan;
 import static com.equilend.simulator.service.LoanService.declineLoan;
 import static com.equilend.simulator.service.RerateService.postRerateProposal;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -43,6 +44,10 @@ public class RecordAnalyzer {
         if (config.getLoanRules() != null) {
             this.loanAnalysisMode = config.getLoanRules().getAnalysisMode();
             this.loanStartDate = config.getLoanRules().getAnalysisStartDate();
+            if (this.loanStartDate == null || this.loanStartDate.trim().length() == 0) {
+            	loanStartDate = APIConnector.getCurrentTime().minusDays(1).format(DateTimeFormatter.ISO_LOCAL_DATE);
+            }
+            logger.debug("loanStartDate: " + loanStartDate);
         }
     }
 

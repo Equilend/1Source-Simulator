@@ -41,6 +41,7 @@ public class Simulator {
     }
 
     public static void main(String[] args) {
+    	
         Properties props = PropertiesUtil.loadProperties(args);
         logger.info("Initializing Simulator...");
         Config config = Config.getInstance();
